@@ -1,4 +1,4 @@
-package com.nutsplay.nopagesdk.network.beans;
+package com.nutsplay.nopagesdk.beans;
 
 import java.io.Serializable;
 
@@ -16,6 +16,7 @@ public class InitParameter implements Serializable {
     private String appsflyerId;
     private String dataeyeId;
     private String language;
+    private String customerServiceAddress="";
     private boolean isDebug=false;
 
     public String getClientId() {
@@ -80,5 +81,13 @@ public class InitParameter implements Serializable {
 
     public void setDebug(boolean debug) {
         isDebug = debug;
+    }
+
+    public String getCustomerServiceAddress() {
+        return customerServiceAddress;
+    }
+
+    public void setCustomerServiceAddress(String customerServiceAddress) {
+        this.customerServiceAddress = customerServiceAddress;
     }
 }

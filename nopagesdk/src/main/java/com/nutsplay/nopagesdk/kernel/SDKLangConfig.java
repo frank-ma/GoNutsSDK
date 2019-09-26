@@ -1,7 +1,7 @@
-package com.nutsplay.nopagesdk.utils;
+package com.nutsplay.nopagesdk.kernel;
 
 
-import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 
 import java.util.Properties;
 
@@ -24,7 +24,7 @@ public class SDKLangConfig {
     }
 
     public final String findMessage(String key) {
-        int value = SDKGameUtils.getLanguage(SDKManager.getInstance().getInitParameter().getLanguage()) - 1;
+        int value = SDKGameUtils.getLanguage(SDKKernel.getInstance().getLanguage()) - 1;
         if (value < 0) {
             value = 0;
         }

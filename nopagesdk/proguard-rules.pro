@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+#DataEye
+-libraryjars libs/DataEye*.jar
+-keep public class com.dataeye.** {*;}
+-keep public interface com.dataeye.** {*;}
+-keepattributes SourceFile,LineNumberTable
+#appsflyer
+-keep class com.appsflyer.** { *; }
+
+-keep class com.android.vending.billing.**

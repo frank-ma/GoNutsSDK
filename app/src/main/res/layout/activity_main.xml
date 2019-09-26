@@ -4,46 +4,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorPrimary"
         android:onClick="initSDK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="初始化"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/accountEt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:inputType="text"
+            android:text="test0012" />
+
+        <EditText
+            android:id="@+id/pwdEt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:inputType="textPassword"
+            android:text="test0012" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="register"
+            android:text="注册"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="login"
+            android:text="登录"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="switchAccount"
+            android:text="切换账号"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="logout"
+            android:text="注销"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="visitorLogin"
+            android:text="游客登录"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="fbLogin"
+            android:visibility="gone"
+            android:text="Facebook登录"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="googleLogin"
+            android:text="Google登录"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
 
     <Button
-        android:onClick="login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="登录"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorPrimary"/>
-
-    <Button
-        android:onClick="switchAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="切换账号"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorPrimary"/>
-
-    <Button
-        android:onClick="logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="注销"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorPrimary"/>
-
-    <Button
+        android:backgroundTint="@color/black"
         android:onClick="purchase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="支付"
-        android:textColor="@color/colorAccent"
-        android:backgroundTint="@color/black"/>
+        android:textColor="@color/colorAccent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="20dp" />
+    </ScrollView>
+
 
 </LinearLayout>

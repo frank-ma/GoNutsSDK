@@ -1,4 +1,4 @@
-package com.nutsplay.nopagesdk.network.callback;
+package com.nutsplay.nopagesdk.callback;
 
 /**
  * Created by frank-ma on 2019-09-18 20:54
@@ -7,7 +7,5 @@ package com.nutsplay.nopagesdk.network.callback;
  */
 public interface CallBack {
 
-    void success();
-
-    void failed(String msg);
+    void onFailure(String msg);
 }

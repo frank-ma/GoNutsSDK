@@ -5,10 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.CheckResult;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nutspower.nutssdk.utils.NutsResUtils;
+import androidx.annotation.CheckResult;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+
+import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 import java.lang.reflect.Field;
 
@@ -77,7 +78,7 @@ public class Toasty {
 
     public static @CheckResult
     Toast warning(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context, NutsResUtils.getResId(context,"nuts_logo_user","drawable")),
+        return custom(context, message, ToastyUtils.getDrawable(context, SDKResUtils.getResId(context,"icon_info","drawable")),
                 DEFAULT_TEXT_COLOR, WARNING_COLOR, duration, withIcon, true);
     }
 
@@ -93,7 +94,7 @@ public class Toasty {
 
     public static @CheckResult
     Toast info(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context, NutsResUtils.getResId(context,"nuts_logo_user","drawable")),
+        return custom(context, message, ToastyUtils.getDrawable(context, SDKResUtils.getResId(context,"icon_info","drawable")),
                 DEFAULT_TEXT_COLOR, INFO_COLOR, duration, withIcon, true);
     }
 
@@ -109,7 +110,7 @@ public class Toasty {
 
     public static @CheckResult
     Toast success(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context,NutsResUtils.getResId(context,"nuts_logo_user","drawable")),
+        return custom(context, message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
                 DEFAULT_TEXT_COLOR, SUCCESS_COLOR, duration, withIcon, true);
     }
 
@@ -125,7 +126,7 @@ public class Toasty {
 
     public static @CheckResult
     Toast error(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context,NutsResUtils.getResId(context,"nuts_logo_user","drawable")),
+        return custom(context, message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
                 DEFAULT_TEXT_COLOR, ERROR_COLOR, duration, withIcon, true);
     }
 
@@ -152,16 +153,16 @@ public class Toasty {
 
         }
         final View toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(NutsResUtils.getResId(context,"nuts_toast_layout","layout"), null);
+                .inflate(SDKResUtils.getResId(context,"toast_layout","layout"), null);
         currentToast.setGravity(Gravity.TOP,0,0);
-        final ImageView toastIcon =toastLayout.findViewById(NutsResUtils.getResId(context,"toast_icon","id"));
-        final TextView toastTextView = toastLayout.findViewById(NutsResUtils.getResId(context,"toast_text","id"));
+        final ImageView toastIcon =toastLayout.findViewById(SDKResUtils.getResId(context,"toast_icon","id"));
+        final TextView toastTextView = toastLayout.findViewById(SDKResUtils.getResId(context,"toast_text","id"));
         Drawable drawableFrame;
 
         if (shouldTint)
             drawableFrame = ToastyUtils.tint9PatchDrawableFrame(context, tintColor);
         else
-            drawableFrame = ToastyUtils.getDrawable(context,NutsResUtils.getResId(context,"toast_frame","drawable"));
+            drawableFrame = ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"toast_frame","drawable"));
         ToastyUtils.setBackground(toastLayout, drawableFrame);
 
         if (withIcon) {
@@ -185,7 +186,7 @@ public class Toasty {
                 if (mParams != null
                         && mParams instanceof WindowManager.LayoutParams) {
                     WindowManager.LayoutParams params = (WindowManager.LayoutParams) mParams;
-                    params.windowAnimations =NutsResUtils.getResId(context,"Nuts_Style","style");
+                    params.windowAnimations =SDKResUtils.getResId(context,"Nuts_Style","style");
                 }
             }
         } catch (Exception e) {

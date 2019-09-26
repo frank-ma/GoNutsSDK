@@ -1,8 +1,9 @@
-package com.nutsplay.nopagesdk.network.kernel;
+package com.nutsplay.nopagesdk.network;
 
-import com.nutsplay.nopagesdk.network.callback.NetCallBack;
+import com.nutsplay.nopagesdk.callback.NetCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKLangConfig;
-import com.nutsplay.nopagesdk.utils.toast.NutsToast;
+import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 import org.xutils.common.Callback;
@@ -75,7 +76,7 @@ public class NetClient {
             public void onError(Throwable ex, boolean isOnCallback) {
                 if (ex == null) return;
                 LogUtils.e(TAG, "onError: " + ex.getMessage());
-                NutsToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("check_your_network"), 3);
+                SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("check_your_network"), 3);
                 jsonReaderCallback.onFailure(ex.getMessage());
             }
 
@@ -129,7 +130,7 @@ public class NetClient {
             public void onError(Throwable ex, boolean isOnCallback) {
                 if (ex == null) return;
                 LogUtils.e(TAG, "onError: " + ex.getMessage());
-                NutsToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("check_your_network"), 3);
+                SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("check_your_network"), 3);
                 jsonReaderCallback.onFailure(ex.getMessage());
             }
 
