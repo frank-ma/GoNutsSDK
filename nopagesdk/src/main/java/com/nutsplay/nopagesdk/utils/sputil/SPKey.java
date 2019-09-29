@@ -25,5 +25,5 @@ public class SPKey {
     public static final String key_realNameState="key_realNameState";
     public static final String PUBLIC_KEY = "public_key";
     public static final String key_usage_stats_dialog_show_times = "key_usage_stats";
-    public static final String key_transactionId="key_transactionId";
+//    public static final String key_transactionId="key_transactionId";
 }

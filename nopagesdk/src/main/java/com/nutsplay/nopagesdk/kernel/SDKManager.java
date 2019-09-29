@@ -15,6 +15,9 @@ import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SwitchAccountCallBack;
+import com.nutsplay.nopagesdk.db.DBManager;
+import com.nutsplay.nopagesdk.db.PurchaseRecord;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
@@ -197,7 +200,6 @@ public class SDKManager {
         LogUtils.setIsDeBug(initParameter.isDebug());
 
         //向用户申请读取手机信息的权限
-        DeviceUtils.showDialog(activity);
         DeviceUtils.checkPermission(activity);
 
         //初始化bugly
@@ -213,6 +215,9 @@ public class SDKManager {
 
         //获取公钥
         getPublicKey(activity, initCallBack);
+
+        //获取keyHash
+        SDKGameUtils.getKeyHash(activity);
     }
 
     /**
@@ -338,7 +343,7 @@ public class SDKManager {
             }
 
             if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("初始化失败", 3);
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
                 registerCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
@@ -415,10 +420,79 @@ public class SDKManager {
             }
 
             if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("初始化失败", 3);
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
                 loginCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            showProgress(activity);
+            ApiManager.getInstance().SDKLoginGo(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+
+                    LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + result);
+                    if (result == null || result.isEmpty()) {
+                        loginCallBack.onFailure("result is null.");
+                        return;
+                    }
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
+                        if (loginModel == null) {
+                            loginCallBack.onFailure("loginModel is null.");
+                            return;
+                        }
+                        if (loginModel.getCode() == 1) {
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            setUser(user);
+                            loginCallBack.onSuccess(user);
+
+                            //登录追踪
+                            TrackingManager.loginTracking(loginModel.getData().getPassportId());
+
+                        } else {
+                            LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode());
+                            loginCallBack.onFailure(loginModel.getMessage());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "SDKLoginGo---onFailure:" + errorMsg);
+                    loginCallBack.onFailure(errorMsg);
+                }
+            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 切换账号登录
+     *
+     * @param activity
+     * @param userName
+     * @param pwd
+     * @param loginCallBack
+     */
+    private void sdkLogin(Activity activity, String userName, String pwd, final SwitchAccountCallBack loginCallBack) {
+
+        try {
 
             final String aesKey = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
@@ -494,6 +568,12 @@ public class SDKManager {
         LoginManager.getInstance().googleLogin(activity, loginCallBack);
     }
 
+    /**
+     * 游客登录
+     *
+     * @param activity
+     * @param loginCallBack
+     */
     public void sdkLoginWithVisitor(Activity activity, LoginCallBack loginCallBack) {
 
         if (activity == null) {
@@ -530,7 +610,7 @@ public class SDKManager {
             }
 
             if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("初始化失败", 3);
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
                 loginCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
@@ -591,10 +671,47 @@ public class SDKManager {
         }
     }
 
-    public void sdkSwitchAccount() {
+    /**
+     * 切换账号登录
+     *
+     * @param activity
+     * @param userName
+     * @param pwd
+     * @param switchAccountCallBack
+     */
+    public void sdkSwitchAccount(Activity activity, String userName, String pwd, final SwitchAccountCallBack switchAccountCallBack) {
+
+        if (activity == null) {
+            System.out.println("sdkSwitchAccount failed:Activity is null.");
+            return;
+        }
+        setActivity(activity);
+
+        if (switchAccountCallBack == null) {
+            System.out.println("switchAccountCallBack is null.");
+            return;
+        }
+
+        if (!isInitStatus()) {
+            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+            switchAccountCallBack.onFailure("The SDK is not initialized.");
+            return;
+        }
+
+        //先注销
+        User user = new User();
+        setUser(user);
+
+        sdkLogin(activity, userName, pwd, switchAccountCallBack);
 
     }
 
+    /**
+     * 注销账号
+     *
+     * @param activity
+     * @param logOutCallBack
+     */
     public void sdkLogout(Activity activity, LogOutCallBack logOutCallBack) {
 
         if (activity == null) {
@@ -609,7 +726,7 @@ public class SDKManager {
         }
 
         if (!isInitStatus()) {
-            SDKToast.getInstance().ToastShow("初始化失败", 3);
+            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
             logOutCallBack.onFailure("The SDK is not initialized.");
             return;
         }
@@ -621,7 +738,7 @@ public class SDKManager {
 
 
     /**
-     * SD下单接口
+     * SDK下单接口
      *
      * @param activity
      * @param purchaseCallBack
@@ -648,7 +765,7 @@ public class SDKManager {
             }
 
             if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("初始化失败", 3);
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
                 purchaseCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
@@ -683,8 +800,15 @@ public class SDKManager {
                             return;
                         }
                         if (orderModel.getCode() == 1) {
+                            //创建订单成功
                             String transactionId = orderModel.getData().getTransactionId();//订单号
-                            SPManager.getInstance(activity).putString(SPKey.key_transactionId, transactionId);
+
+                            //DB插入数据
+                            PurchaseRecord purchaseRecord=new PurchaseRecord();
+                            purchaseRecord.setTransactionId(transactionId);
+                            purchaseRecord.setSkuId(referenceId);
+                            purchaseRecord.setStatus(0);
+                            DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
                             String payUrl = orderModel.getData().getPayUrl();
@@ -695,7 +819,7 @@ public class SDKManager {
                                 AppManager.startActivityWithData(PayWebActivity.class, payUrl, transactionId);
                             } else {
                                 //使用Google内购
-                                PurchaseManager.getInstance().requestGoogleIAP(activity, referenceId);
+                                PurchaseManager.getInstance().requestGoogleIAP(activity, referenceId,transactionId);
                             }
 
                         } else {
@@ -756,14 +880,64 @@ public class SDKManager {
 
     }
 
+    /**
+     * 创角色追踪
+     *
+     * @param activity
+     * @param serverId
+     * @param roleId
+     * @param roleName
+     */
+    public void sdkCreateRoleTracking(Activity activity, String serverId, String roleId, String roleName) {
+        if (activity == null) {
+            System.out.println("activity is null.");
+            return;
+        }
+        setActivity(activity);
+
+        if (serverId == null || roleId == null || roleName == null) {
+            System.out.println("parameter is null.");
+            return;
+        }
+        if (!isInitStatus()) {
+            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+            System.out.println("The SDK is not initialized.");
+            return;
+        }
+        TrackingManager.createRoleTracking(activity, serverId, roleId, roleName);
+    }
+
+    /**
+     * 切换SDK语言
+     *
+     * @param language
+     */
+    public void sdkUpdateLanguage(String language) {
+
+        if (language == null || language.isEmpty()) {
+            System.out.println("language is null.");
+            return;
+        }
+        if (!isInitStatus()) {
+            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+            System.out.println("The SDK is not initialized.");
+            return;
+        }
+        SDKManager.getInstance().getInitParameter().setLanguage(language);
+    }
+
 
     /**
      * 在activity的onResume()方法中调用
      */
     public void sdkOnResume() {
 
+        if (!isInitStatus()) return;
+
         if (GooglePayHelp.getInstance().isConnected()) {
             GooglePayHelp.getInstance().queryPurchase(false);
+            GooglePayHelp.getInstance().resentOrderByDbRecord();
+
         }
     }
 }

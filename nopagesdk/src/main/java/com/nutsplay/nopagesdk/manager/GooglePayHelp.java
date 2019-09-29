@@ -20,6 +20,8 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
+import com.nutsplay.nopagesdk.db.DBManager;
+import com.nutsplay.nopagesdk.db.PurchaseRecord;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
@@ -45,12 +47,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
     private String skuId = "";
 
+    private String transactionId = "";//坚果订单ID
+
     private BillingClient billingClient;
 
     private volatile static GooglePayHelp INSTANCE;
 
     private boolean isConnected = false;
-
 
 
     public static GooglePayHelp getInstance() {
@@ -72,9 +75,10 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         isConnected = connected;
     }
 
-    public void initGoogleIAP(final Activity activity, final String skuId) {
+    public void initGoogleIAP(final Activity activity, final String skuId, String transactionId) {
 
         this.skuId = skuId;
+        this.transactionId = transactionId;
         billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
@@ -157,6 +161,24 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         if (purchase == null) return;
 
         notifyServer(purchase);
+    }
+
+    /**
+     * 通过数据库记录进行补单
+     */
+    public void resentOrderByDbRecord() {
+        try {
+            List<PurchaseRecord> records = DBManager.getInstance().query();
+            if (records != null && records.size() > 0) {
+                for (PurchaseRecord record : records) {
+                    String purchaseJson = record.getPurchaseJson();
+                    Purchase purchase = (Purchase) GsonUtils.json2Bean(purchaseJson, Purchase.class);
+                    notifyServer(purchase);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -299,16 +321,26 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             //支付成功
             for (Purchase purchase : purchases) {
 
+                //更新DB
+                PurchaseRecord purchaseRecord = new PurchaseRecord();
+                purchaseRecord.setTransactionId(transactionId);
+                purchaseRecord.setGoogleId(purchase.getOrderId());
+                purchaseRecord.setStatus(2);
+                purchaseRecord.setPurchaseJson(purchase.toString());
+                DBManager.getInstance().insertOrReplace(purchaseRecord);
+
                 notifyServer(purchase);
             }
 
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-            SDKManager.getInstance().getPurchaseCallBack().onCancel();
+            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                SDKManager.getInstance().getPurchaseCallBack().onCancel();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             //Item 已经拥有
             queryHistoryPurchase();
         } else {
-            SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getDebugMessage());
+            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getDebugMessage());
         }
 
     }
@@ -324,13 +356,24 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             final String aesKey = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-            String transactionId = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.key_transactionId, "");
-            ApiManager.getInstance().SDKPurchaseNotify(aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
+
+
+            com.nutsplay.nopagesdk.beans.Purchase pur = new com.nutsplay.nopagesdk.beans.Purchase();
+            pur.setOrderId(purchase.getOrderId());
+            pur.setPackageName(purchase.getPackageName());
+            pur.setProductId(purchase.getSku());
+            pur.setPurchaseTime(purchase.getPurchaseTime());
+            pur.setPurchaseState(purchase.getPurchaseState());
+            pur.setDeveloperPayload(transactionId);
+            pur.setPurchaseToken(purchase.getPurchaseToken());
+
+            ApiManager.getInstance().SDKPurchaseNotify(aesKey, aesKey16byRSA, transactionId, pur, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     LogUtils.d(TAG, "SDKPurchaseNotify---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        SDKManager.getInstance().getPurchaseCallBack().onFailure("result is null.");
+                        if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                            SDKManager.getInstance().getPurchaseCallBack().onFailure("result is null.");
                         return;
                     }
                     try {
@@ -338,11 +381,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         LogUtils.d(TAG, "Google IAP Notify:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure("orderModel is null.");
+                            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure("orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
 
+                            LogUtils.d(TAG, "通知服务器成功");
                             String orderId = orderModel.getData().getTransactionId();
                             double price = orderModel.getData().getPrice();
                             String currency = orderModel.getData().getCurrency();
@@ -357,7 +402,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         } else {
                             LogUtils.e(TAG, "SDKPurchaseNotify---onSuccess:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode());
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
+                            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -368,12 +414,15 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 @Override
                 public void onFailure(String msg) {
 
-                    SDKManager.getInstance().getPurchaseCallBack().onFailure(msg);
+                    LogUtils.e(TAG, "SDKPurchaseNotify:onFailure---" + msg);
+                    if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                        SDKManager.getInstance().getPurchaseCallBack().onFailure(msg);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            SDKManager.getInstance().getPurchaseCallBack().onFailure(e.getMessage());
+            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                SDKManager.getInstance().getPurchaseCallBack().onFailure(e.getMessage());
         }
     }
 
@@ -423,6 +472,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         payParams.setPrice(price);
         payParams.setPayType(type);
         payParams.setMessage("success_story");
+
+        //更新DB
+        PurchaseRecord purchaseRecord = new PurchaseRecord();
+        purchaseRecord.setTransactionId(transactionId);
+        purchaseRecord.setStatus(1);
+        DBManager.getInstance().insertOrReplace(purchaseRecord);
+
 
         if (SDKManager.getInstance().getPurchaseCallBack() != null) {
             SDKManager.getInstance().getPurchaseCallBack().onSuccess(payParams);

@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/rec_background_translate"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingLeft="50dp"

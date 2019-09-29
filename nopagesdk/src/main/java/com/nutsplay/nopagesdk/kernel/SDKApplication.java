@@ -2,6 +2,10 @@ package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Application;
 
+import com.nutsplay.nopagesdk.db.DaoMaster;
+import com.nutsplay.nopagesdk.db.DaoSession;
+
+import org.greenrobot.greendao.database.Database;
 import org.xutils.x;
 
 /**
@@ -11,11 +15,31 @@ import org.xutils.x;
  */
 public class SDKApplication extends Application {
 
+    private DaoSession daoSession;
+    private static SDKApplication context;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         x.Ext.init(this);
+        initGreenDao();
+        context = this;
     }
 
+    public static SDKApplication getInstance() {
+        return context;
+    }
+
+    private void initGreenDao() {
+
+        // regular SQLite database
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "purchase_record");
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
 }

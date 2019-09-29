@@ -35,12 +35,12 @@ public class PurchaseManager {
     }
 
 
-    public void requestGoogleIAP(Activity activity,String referenceId) {
+    public void requestGoogleIAP(Activity activity,String referenceId,String transactionId) {
 
         LogUtils.d(TAG,"发起Google内购");
 
 
-        GooglePayHelp.getInstance().initGoogleIAP(activity,referenceId);
+        GooglePayHelp.getInstance().initGoogleIAP(activity,referenceId,transactionId);
 
     }
 

@@ -28,6 +28,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorAccent"
             android:inputType="text"
+            android:hint="请输入账号"
             android:text="test0012" />
 
         <EditText
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_weight="1"
+            android:hint="请输入密码"
             android:backgroundTint="@color/colorAccent"
             android:inputType="textPassword"
             android:text="test0012" />
@@ -51,8 +53,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="visitorLogin"
+            android:text="游客登录"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="register"
+            android:layout_marginLeft="10dp"
             android:text="注册"
             android:textColor="@color/white" />
 
@@ -72,8 +84,8 @@
             android:backgroundTint="@color/colorPrimary"
             android:onClick="switchAccount"
             android:text="切换账号"
-            android:visibility="gone"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"
@@ -98,6 +110,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:onClick="visitorLogin"
             android:text="游客登录"
+            android:visibility="gone"
             android:textColor="@color/white" />
 
         <Button
@@ -106,9 +119,9 @@
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="fbLogin"
-            android:visibility="gone"
             android:text="Facebook登录"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"
@@ -117,19 +130,47 @@
             android:backgroundTint="@color/colorPrimary"
             android:onClick="googleLogin"
             android:text="Google登录"
-            android:visibility="gone"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </LinearLayout>
 
 
-
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:onClick="purchase"
-        android:text="支付"
-        android:textColor="@color/colorAccent" />
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="createRoleTracking"
+            android:text="创角追踪"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="updateLanguage"
+            android:text="切换语言"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:onClick="purchase"
+            android:text="支付"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"

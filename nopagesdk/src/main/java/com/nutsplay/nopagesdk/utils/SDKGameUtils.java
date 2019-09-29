@@ -1,6 +1,12 @@
 package com.nutsplay.nopagesdk.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -11,6 +17,7 @@ import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -532,5 +539,28 @@ public class SDKGameUtils {
             }
         }
 
+    }
+
+
+    public static void getKeyHash(Context context) {
+        try {
+            if (context == null) return;
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            if (info == null ) return;
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", "packageName:" + context.getPackageName() + " KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            Log.d("KeyHash:", e.toString());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            Log.d("KeyHash:", e.toString());
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.d("KeyHash:", e.toString());
+        }
     }
 }

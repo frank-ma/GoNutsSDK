@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by frank-ma on 2019/6/29 12:51 PM
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 追踪管理类，appsflyer和DE都写在这里面
  */
 public class TrackingManager {
 
@@ -29,7 +29,7 @@ public class TrackingManager {
      */
     public static void trackingInit(Activity activity,String DEId, String afKey, Application application){
         if (afKey == null || afKey.isEmpty()){
-            afKey="VBmCBKvNg5uvd4iiLZSx7J";
+            afKey = "VBmCBKvNg5uvd4iiLZSx7J";
         }
         //AF初始化
         AppsFlyerConversionListener conversionListener = new AppsFlyerConversionListener() {
@@ -72,22 +72,24 @@ public class TrackingManager {
      */
     public static void EventTracking(Context context, String eventType, Map<String, Object> eventValue) {
         try {
-            if (context!=null && eventType!=null)
-            AppsFlyerLib.getInstance().trackEvent(context.getApplicationContext(), eventType, eventValue);
+            if (context!=null && eventType!=null && eventValue!=null){
+                AppsFlyerLib.getInstance().trackEvent(context.getApplicationContext(), eventType, eventValue);
+                //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
+                DCTrackingPoint.setEffectPoint(eventType,eventValue);
+            }
 
-
-            //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
-            DCTrackingPoint.setEffectPoint(eventType,eventValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void onResume(Context context){
+        //DE用来计算在线时长
         DCTrackingAgent.resume(context);
     }
 
     public static void onPause(Context context){
+        //DE用来计算在线时长
         DCTrackingAgent.pause(context);
     }
 
@@ -98,6 +100,7 @@ public class TrackingManager {
     public static void registerTracking(String accountId){
         DCTrackingPoint.createAccount(accountId);
         GooglePayHelp.getInstance().queryPurchase(false);
+        GooglePayHelp.getInstance().resentOrderByDbRecord();
     }
 
     /**
@@ -107,6 +110,29 @@ public class TrackingManager {
     public static void loginTracking(String accountId){
         DCTrackingPoint.login(accountId);
         GooglePayHelp.getInstance().queryPurchase(false);
+        GooglePayHelp.getInstance().resentOrderByDbRecord();
+    }
+
+    /**
+     * 创建角色追踪
+     * @param context
+     * @param serverId
+     * @param roleId
+     * @param roleName
+     */
+    public static void createRoleTracking(Context context,String serverId,String roleId,String roleName){
+        try {
+            Map<String, Object> eventValue = new HashMap<>();
+            eventValue.put("Game_ServiceId", serverId);
+            eventValue.put("Game_RoleId", roleId);
+            eventValue.put("Game_RoleName", roleName);
+
+            AppsFlyerLib.getInstance().trackEvent(context, "create_role", eventValue);
+            //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
+            DCTrackingPoint.setEffectPoint("create_role",eventValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -128,6 +154,5 @@ public class TrackingManager {
         TrackingManager.EventTracking(context, AFInAppEventType.PURCHASE, eventValues);
         //dataEye追踪
         DCTrackingPoint.paymentSuccess(SDKManager.getInstance().getUser().getUserId(), orderId, currencyAmount, currencyType, payType);
-
     }
 }

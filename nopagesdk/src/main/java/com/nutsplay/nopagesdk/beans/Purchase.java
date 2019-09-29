@@ -83,4 +83,17 @@ public class Purchase implements Serializable {
     public void setPurchaseToken(String purchaseToken) {
         this.purchaseToken = purchaseToken;
     }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "orderId='" + orderId + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", productId='" + productId + '\'' +
+                ", purchaseTime=" + purchaseTime +
+                ", purchaseState=" + purchaseState +
+                ", developerPayload='" + developerPayload + '\'' +
+                ", purchaseToken='" + purchaseToken + '\'' +
+                '}';
+    }
 }

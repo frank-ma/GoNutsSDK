@@ -160,11 +160,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void purchase(View view) {
-        String referenceId = "com.nutsplay.iap.item1001";
+        String referenceId = "com.nutsplay.iap.item1002";
         SDKManager.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
-                showLog("支付成功" + payResult.toString());
+                showLog("下单成功" );
             }
 
             @Override
@@ -180,6 +180,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void createRoleTracking(View view){
+        SDKManager.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
+    }
+
+    /**
+     * zh_cn, 中文
+     * zh_hk, 中文
+     * en_us, 英文
+     * th_th, 泰语
+     * vi_vn, 越语
+     * ar_ar，阿拉伯语
+     * kr，韩语
+     * fr，法语
+     * br，葡萄牙语
+     * deu，德
+     * sp，西班牙
+     * it，意大利语
+     * jp，日语
+     * idn，印度尼西亚语
+     * by:俄语
+     * tr:土耳其语
+     * @param view
+     */
+    public void updateLanguage(View view){
+        SDKManager.getInstance().sdkUpdateLanguage("it");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //游戏退到后台，再回到前台时，检查是否有未完成的订单
+        SDKManager.getInstance().sdkOnResume();
+    }
+
     private void showLog(final String msg) {
         runOnUiThread(new Runnable() {
             @Override
@@ -188,12 +222,5 @@ public class MainActivity extends AppCompatActivity {
                 logTv.append(msg);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDKManager.getInstance().sdkOnResume();
     }
 }

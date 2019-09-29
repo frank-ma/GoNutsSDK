@@ -1,7 +1,7 @@
 package com.nutsplay.nopagesdk.manager;
 
-import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.beans.InitParameter;
+import com.nutsplay.nopagesdk.beans.Purchase;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
@@ -304,7 +304,9 @@ public class ApiManager {
             Notify notify = new Notify();
             notify.setClientID(mClientID);
             notify.setTransactionId(transactionId);
-            notify.setPurchase(purchase);
+            notify.setChannelCode("GOOGLE");
+            String purchaseData=GsonUtils.tojsonString(purchase);
+            notify.setPurchase(purchaseData);
             String jsonData = GsonUtils.tojsonString(notify);
 
             String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
@@ -444,14 +446,19 @@ public class ApiManager {
     private class Notify extends Bean implements Serializable{
 
         private String transactionId;
-        private Purchase purchase;
+        private String purchase;
+        private String channelCode;
 
         public void setTransactionId(String transactionId) {
             this.transactionId = transactionId;
         }
 
-        public void setPurchase(Purchase purchase) {
-            this.purchase = purchase;
+        public void setPurchase(String purchaseJson) {
+            this.purchase = purchaseJson;
+        }
+
+        public void setChannelCode(String channelCode) {
+            this.channelCode = channelCode;
         }
     }
 
@@ -463,4 +470,5 @@ public class ApiManager {
             this.transactionId = transactionId;
         }
     }
+
 }
