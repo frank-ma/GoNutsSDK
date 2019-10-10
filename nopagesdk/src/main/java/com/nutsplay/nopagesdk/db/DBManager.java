@@ -45,6 +45,10 @@ public class DBManager {
         getRecordDao().delete(record);
     }
 
+    public void deleteAll(){
+        getRecordDao().deleteAll();
+    }
+
     public void update(PurchaseRecord record){
         if (record == null)return;
         getRecordDao().update(record);
@@ -64,5 +68,12 @@ public class DBManager {
      */
     public List<PurchaseRecord> query(){
         return getRecordDao().queryRaw("where status=2");
+    }
+    /**
+     * 查询所有状态为2的订单：支付但未兑换
+     * @return
+     */
+    public List<PurchaseRecord> query(String googleId){
+        return getRecordDao().queryRaw("where GOOGLE_ID=?",googleId);
     }
 }

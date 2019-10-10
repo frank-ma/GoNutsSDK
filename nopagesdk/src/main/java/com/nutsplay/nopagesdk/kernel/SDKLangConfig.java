@@ -24,7 +24,8 @@ public class SDKLangConfig {
     }
 
     public final String findMessage(String key) {
-        int value = SDKGameUtils.getLanguage(SDKKernel.getInstance().getLanguage()) - 1;
+//        int value = SDKGameUtils.getLanguage(SDKKernel.getInstance().getLanguage()) - 1;
+        int value = SDKGameUtils.getLanguage(SDKManager.getInstance().getInitParameter().getLanguage()) - 1;
         if (value < 0) {
             value = 0;
         }
@@ -188,14 +189,14 @@ public class SDKLangConfig {
         vi.setProperty("switchAccount", "Đổi tài khoản");
         th.setProperty("switchAccount", "สลับไอดี");
         ar.setProperty("switchAccount", "تبديل  الحساب");
-        en.setProperty("switchAccount", "Switch account");
+        en.setProperty("switchAccount", "Switch ic_account");
         kr.setProperty("switchAccount", "계정 전환");
         zh_hk.setProperty("switchAccount", "切換帳號");
         fr.setProperty("switchAccount", "Changer de compte");
         br.setProperty("switchAccount", "Mudar de conta");
         de.setProperty("switchAccount", "Konto wechseln");
         sp.setProperty("switchAccount", "Cambiar cuenta");
-        it.setProperty("switchAccount", "Cambia account");
+        it.setProperty("switchAccount", "Cambia ic_account");
         jp.setProperty("switchAccount", "アカウント変更");
         idn.setProperty("switchAccount", "Ganti Akun");
 
@@ -351,7 +352,7 @@ public class SDKLangConfig {
         br.setProperty("account_message", "Múltiplos registos foram detectados, selecione uma das seguintes contas para jogar.");
         de.setProperty("account_message", "Mehrfach angemeldet, bitte wähle eines dieser Konten zum Spielen.");
         sp.setProperty("account_message", "Accesos múltiples detectados. Por favor, elige una de las siguientes cuentas para jugar.");
-        it.setProperty("account_message", "Rilevati accessi multipli. Seleziona uno dei seguenti account per giocare");
+        it.setProperty("account_message", "Rilevati accessi multipli. Seleziona uno dei seguenti ic_account per giocare");
         jp.setProperty("account_message", "複数のアカウントがサインイン状態であることが検出されました。以下のアカウントから一つ選んでプレイしてください。");
         idn.setProperty("account_message", "Login multiple akun, silahkan pilih salah satu akun untuk memulai permainan");
 
@@ -359,14 +360,14 @@ public class SDKLangConfig {
         th.setProperty("pwInfomessage", "แก้รหัสสำเร็จ กรุณาใส่ไอดีและรหัสใหม่ยืนยันการ");
         vi.setProperty("pwInfomessage", "Đổi mật khẩu thành công, hãy nhập tài khoản và mật khẩu mới để xác nhận đăng nhập");
         ar.setProperty("pwInfomessage", "تم تغيير كلمة المرور,الرجاء إدخال اسم مستخدم وكلمة مرور جديدة للمصادقة على تسجيل الدخول");
-        en.setProperty("pwInfomessage", "password has been updated, Please enter an account and a new password for login verification");
+        en.setProperty("pwInfomessage", "password has been updated, Please enter an ic_account and a new password for login verification");
         kr.setProperty("pwInfomessage", "비밀번호가 변경되었습니다.변경된 계정과 비밀번호로 다시 등록해주십시오이");
         zh_hk.setProperty("pwInfomessage", "修改密碼成功，請輸入帳號和新的密碼進行登入驗證");
         fr.setProperty("pwInfomessage", "Mot de passe changé. Veuillez entrer votre compte et le mot de passe pour une vérification de connexion.");
         br.setProperty("pwInfomessage", "A senha foi atualizada. Por favor insira a sua conta e a nova senha para verificação de acesso.");
         de.setProperty("pwInfomessage", "Passwort aktualisiert. Bitte Konto und das neue Passwort zum Bestätigen angeben.");
         sp.setProperty("pwInfomessage", "Contraseña actualizada. Introduce tu cuenta y tu nueva contraseña.");
-        it.setProperty("pwInfomessage", "Password aggiornata. Inserisci l'account e la nuova password per verificare l'accesso");
+        it.setProperty("pwInfomessage", "Password aggiornata. Inserisci l'ic_account e la nuova password per verificare l'accesso");
         jp.setProperty("pwInfomessage", "パスワードを変更しました。アカウントと新しいパスワードを入力してログインしてください");
         idn.setProperty("pwInfomessage", "Password telah diubah.Silahkan masukkan akun dan password baru untuk verifikasi login.");
 
@@ -375,14 +376,14 @@ public class SDKLangConfig {
         th.setProperty("pwInfo", "ฟังก์ชั่นดังกล่าวต้องผูกมัด E-mail ก่อนจึงจะใช้ได้ หากยังไม่ได้ผูกมัด กรุณาติดต่อฝ่ายบริการ");
         vi.setProperty("pwInfo", "Cần cố định Email mới có thể sử dụng chức năng này, nếu chưa cố định, hãy liên hệ CSKH");
         ar.setProperty("pwInfo", "هذه الخاصية تحتاج إلى حساب موثق ببريد إلكتروني إذا كان الحساب غير موثق ببريد إلكتروني الرجاء الاتصال بخدمة العملاء");
-        en.setProperty("pwInfo", "This function requires an account that is already bound to the mailbox,If the mailbox is not bound,Please contact customer service");
+        en.setProperty("pwInfo", "This function requires an ic_account that is already bound to the mailbox,If the mailbox is not bound,Please contact customer service");
         kr.setProperty("pwInfo", "이 기능은 이메일이 연동되어있는 계정만 사용할 수 있으므로 연동되지 않은 경우에는 고객 센터에 연락해 주시기 바랍니다");
         zh_hk.setProperty("pwInfo", "此功能需要已經綁定電子信箱的帳號才能使用，如果未綁定電子信箱，請聯繫客服");
         fr.setProperty("pwInfo", "Cette fonction nécessite un compte qui est déjà lié par email. Si l’email n’est pas lié, veuillez contacter le service clientèle.");
         br.setProperty("pwInfo", "Esta função requer uma conta já vinculada a uma conta de e-mail. Se o e-mail não estivere vinculado,por favor contacte o apoio ao cliente.");
         de.setProperty("pwInfo", "Dieses Funktion erfordert ein bereits mit der Mailbox verbundenes Konto. Ist die Mailbox nicht verbunden, wende dich an den Kundendienst.");
         sp.setProperty("pwInfo", "Esta función requiere una cuenta ya vinculada. Si la cuenta no está vinculada, por favor, contacta con atención al cliente.");
-        it.setProperty("pwInfo", "Questa funzione necessita di un account collegato alla casella email. Se la casella email non è collegata, contatta il servizio clienti");
+        it.setProperty("pwInfo", "Questa funzione necessita di un ic_account collegato alla casella email. Se la casella email non è collegata, contatta il servizio clienti");
         jp.setProperty("pwInfo", "メールアドレスに連携したプレーヤーしかこの機能を体験できません。まだメールアドレスに連携されていなければ、サポートにご連絡ください");
         idn.setProperty("pwInfo", "Berlaku untuk akun yang sudah binding email.Bila belum melakukan binding email, silahkan hubungi customer service.");
 
@@ -390,14 +391,14 @@ public class SDKLangConfig {
         th.setProperty("bindFacebookSucess", "ขณะนี้ผูกมัด Facebookสำเร็จ ในการล็อกอินครั้งหน้ากดเยี่ยมชม จะเป็นการสร้างไอดีใหม่");
         vi.setProperty("bindFacebookSucess", "Tài khoản cố định Facebook thành công, lần đăng nhập sau nếu nhấn đăng nhập chơi thử sẽ xuất hiện 1 tài khoản mới");
         ar.setProperty("bindFacebookSucess", "تم ربط الحساب بالفايسبوك بنجاح,يؤدي النقر على حساب زائر  إلى إنشاء حساب جديد عند تسجيل الدخول القادم!");
-        en.setProperty("bindFacebookSucess", "The current account bind Facebook successfully,Clicking on Guest Login will generate a new game account at next login");
+        en.setProperty("bindFacebookSucess", "The current ic_account bind Facebook successfully,Clicking on Guest Login will generate a new game ic_account at next login");
         kr.setProperty("bindFacebookSucess", "현재 Facebook 계정은 연동되어있으며 다음에 게임을 로그인할때는 자동적으로 새로운 계정이 생성될겁니다");
         zh_hk.setProperty("bindFacebookSucess", "該帳號成功綁定Facebook，下次登入遊戲時, 點擊遊客登入將會產生一個新的遊戲帳號");
         fr.setProperty("bindFacebookSucess", "Lias on du compte avec Facebook réussie. Appuyez sur Connexion Invité générera un nouveau compte à la prochaine connexion.");
         br.setProperty("bindFacebookSucess", "A conta atual foi vinculada ao Facebook com sucesso. Clicar em Acesso de Convidado irá gerar uma nova conta na próxima vez.");
         de.setProperty("bindFacebookSucess", "Aktuelles Konto mit Facebook verbunden. Über Gastanmeldung wird beim nächsten Mal ein neues Konto erzeugt.");
         sp.setProperty("bindFacebookSucess", "La cuenta actual ha sido vinculada con Facebook. Toca Acceso de invitado para generar una nueva cuenta al entrar.");
-        it.setProperty("bindFacebookSucess", "L'account selezionato è stato collegato a Facebook. Toccare Login Ospite genererà un nuovo account al prossimo accesso");
+        it.setProperty("bindFacebookSucess", "L'ic_account selezionato è stato collegato a Facebook. Toccare Login Ospite genererà un nuovo ic_account al prossimo accesso");
         jp.setProperty("bindFacebookSucess", "このアカウントをFacebookに連携しました、次回ゲームにログインする時に、ゲストアカウントをクリックすると、新しいアカウントが現れます");
         idn.setProperty("bindFacebookSucess", "Binding Facebook sukses.Berikutnya tap Guest Login akan membuat akun login baru.");
 
@@ -435,14 +436,14 @@ public class SDKLangConfig {
         th.setProperty("51", "บัญชีผูกติดแล้ว");
         vi.setProperty("51", "Tài khoản đã được cố định");
         ar.setProperty("51", "الحساب موثق");
-        en.setProperty("51", "The account has been bound");
+        en.setProperty("51", "The ic_account has been bound");
         kr.setProperty("51", "계정이 연동되었습니다");
         zh_hk.setProperty("51", "帳號已被使用過");
         fr.setProperty("51", "Le compte a été lié");
         br.setProperty("51", "A conta foi vinculada.");
         de.setProperty("51", "Konto ist verbunden");
         sp.setProperty("51", "La cuenta ha sido vinculada");
-        it.setProperty("51", "L'account è stato collegato");
+        it.setProperty("51", "L'ic_account è stato collegato");
         jp.setProperty("51", "このアカウントは既に連携されています");
         idn.setProperty("51", "Akun sudah dibinding");
 
@@ -679,14 +680,14 @@ public class SDKLangConfig {
         vi.setProperty("tourist_signin_alert", "Vì an toàn, hãy cố định tài khoản");
         th.setProperty("tourist_signin_alert", "บัญชีนี้เป็นบัญชีที่ใช้ร่วมกัน เพื่อความปลอดภัยของบัญชีท่าน กรุณาทำการผูกมัดในทันที");
         ar.setProperty("tourist_signin_alert", "حسابك هنا معد فقط للاستخدام في اللعبة، ينصح بتوثيق حسابك لتأمينه وحمايته");
-        en.setProperty("tourist_signin_alert", "The game account is only for use, for your account security, please bind the registered account");
+        en.setProperty("tourist_signin_alert", "The game ic_account is only for use, for your ic_account security, please bind the registered ic_account");
         kr.setProperty("tourist_signin_alert", "이 계정을 안전하게 사용하기를 위하여 등록한 계정번호를 연동해주시기 바랍니다");
         zh_hk.setProperty("tourist_signin_alert", "遊客帳號僅供使用，為了您的帳號安全，請及時綁定註冊帳號");
         fr.setProperty("tourist_signin_alert", "Le compte de jeu est destiné uniquement à l’utilisation, pour la sécurité de votre compte, veuillez lier ce compte");
         br.setProperty("tourist_signin_alert", "A conta do jogo se destina apenas para utilização. Por motivo de segurança deve vincular a conta");
         de.setProperty("tourist_signin_alert", "Das Spielkonto dient nur deiner Sicherheit, bitte registriertes Konto verbinden.");
         sp.setProperty("tourist_signin_alert", "La cuenta del juego es solo para uso. Por tu seguridad, vincula tu cuenta.");
-        it.setProperty("tourist_signin_alert", "L'account del gioco è solo per uso, per maggiore sicurezza collega l'account registrato");
+        it.setProperty("tourist_signin_alert", "L'ic_account del gioco è solo per uso, per maggiore sicurezza collega l'ic_account registrato");
         jp.setProperty("tourist_signin_alert", "ゲームアカウントは使用することしかできません。アカウントの安全のため、早めに登録アカウントに連携してください");
         idn.setProperty("tourist_signin_alert", "Untuk keamanan karakter, segera binding akun registrasi.");
 
@@ -717,7 +718,7 @@ public class SDKLangConfig {
         br.setProperty("nutsplay_viewstring_Bind_Account", "Vincular conta");
         de.setProperty("nutsplay_viewstring_Bind_Account", "Konto verbinden");
         sp.setProperty("nutsplay_viewstring_Bind_Account", "Vincular cuenta");
-        it.setProperty("nutsplay_viewstring_Bind_Account", "Collega account");
+        it.setProperty("nutsplay_viewstring_Bind_Account", "Collega ic_account");
         jp.setProperty("nutsplay_viewstring_Bind_Account", "アカウントに連携する");
         idn.setProperty("nutsplay_viewstring_Bind_Account", "Binding Akun");
 
@@ -810,7 +811,7 @@ public class SDKLangConfig {
         br.setProperty("nutsplay_viewstring_account_tips", "Insira a sua conta");
         de.setProperty("nutsplay_viewstring_account_tips", "Bitte Konto eingeben");
         sp.setProperty("nutsplay_viewstring_account_tips", "Introduce tu cuenta");
-        it.setProperty("nutsplay_viewstring_account_tips", "Inserisci il tuo account");
+        it.setProperty("nutsplay_viewstring_account_tips", "Inserisci il tuo ic_account");
         jp.setProperty("nutsplay_viewstring_account_tips", "アカウントを入力してください");
         idn.setProperty("nutsplay_viewstring_account_tips", "Masukkan akun anda");
 
@@ -848,14 +849,14 @@ public class SDKLangConfig {
         vi.setProperty("nuts_username_null", "Tên người dùng không thể trống");
         th.setProperty("nuts_username_null", "Username ไม่สามารถปล่อยว่างได้");
         ar.setProperty("nuts_username_null", "اسم المستخدم لا يمكن أن يكون فارغا");
-        en.setProperty("nuts_username_null", "Enter the correct account and password");
+        en.setProperty("nuts_username_null", "Enter the correct ic_account and password");
         kr.setProperty("nuts_username_null", "사용자 아이다를 입력해주세요");
         zh_hk.setProperty("nuts_username_null", "會員名稱不能為空白");
         fr.setProperty("nuts_username_null", "Le Compte doit contenir de 6 à 14 caractères ( lettres ou chiffres)");
         br.setProperty("nuts_username_null", "A conta deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("nuts_username_null", "Konto muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen)");
         sp.setProperty("nuts_username_null", "La cuenta debe tener entre 6 y 14 caracteres (letras o números)");
-        it.setProperty("nuts_username_null", "L'account può contenere 6-14 caratteri (lettere o numeri) ");
+        it.setProperty("nuts_username_null", "L'ic_account può contenere 6-14 caratteri (lettere o numeri) ");
         jp.setProperty("nuts_username_null", "アカウントは6ー14文字内にしてください(アルファベット或いは数字)");
         idn.setProperty("nuts_username_null", "Akun harus 6-14 karakter(huruf / angka).");
 
@@ -878,14 +879,14 @@ public class SDKLangConfig {
         vi.setProperty("welcom_guest", "Dùng tài khoản chơi thử");
         th.setProperty("welcom_guest", "ขอต้อนรับบัญชีผู้เยี่ยมชม");
         ar.setProperty("welcom_guest", "مرحبا بالحساب الزائر");
-        en.setProperty("welcom_guest", "Welcome guest account!");
+        en.setProperty("welcom_guest", "Welcome guest ic_account!");
         kr.setProperty("welcom_guest", "비회원 계정을 사용하시는 분들을 환영합니다");
         zh_hk.setProperty("welcom_guest", "歡迎使用遊客帳號");
         fr.setProperty("welcom_guest", "Vous pouvez utiliser le compte invité !");
         br.setProperty("welcom_guest", "Benvindo a usar a conta de convidado");
         de.setProperty("welcom_guest", "Willkommen beim Gastkonto!");
         sp.setProperty("welcom_guest", "Bienvenido a usar la cuenta de invitado");
-        it.setProperty("welcom_guest", "Sei libero di utilizzare il nostro account guest");
+        it.setProperty("welcom_guest", "Sei libero di utilizzare il nostro ic_account guest");
         jp.setProperty("welcom_guest", "ゲストアカウントへようこそ！");
         idn.setProperty("welcom_guest", "Selamat menggunakan akun guest!");
 
@@ -908,14 +909,14 @@ public class SDKLangConfig {
         vi.setProperty("guestlogin", "Đang đăng nhập");
         th.setProperty("guestlogin", "ศูนย์ไอดีผู้เยี่ยมชม");
         ar.setProperty("guestlogin", "تسجيل دخول الحساب الزائر");
-        en.setProperty("guestlogin", "Guest account login");
+        en.setProperty("guestlogin", "Guest ic_account login");
         kr.setProperty("guestlogin", "비회원 계정으로 등록중");
         zh_hk.setProperty("guestlogin", "遊客帳號登入中");
         fr.setProperty("guestlogin", "Connexion au Compte Invité...");
         br.setProperty("guestlogin", "Acessar com convidado...");
         de.setProperty("guestlogin", "Gastkonto-Anmeldung …");
         sp.setProperty("guestlogin", "Acceso como invitado…");
-        it.setProperty("guestlogin", "Accesso del guest account");
+        it.setProperty("guestlogin", "Accesso del guest ic_account");
         jp.setProperty("guestlogin", "ゲストアカウントログイン…");
         idn.setProperty("guestlogin", "Guest akun login...");
 
@@ -967,36 +968,41 @@ public class SDKLangConfig {
         idn.setProperty("welcomfacebook", "Welcome User Facebook");
 
 
-        zh_cn.setProperty("comenuts", " 回到NutsPlayGame");
-        vi.setProperty("comenuts", " đến với NutsPlayGame");
-        th.setProperty("comenuts", " กลับไปยังNutsPlayGame");
-        ar.setProperty("comenuts", "العودة إلى NutsPlayGame ");
-        en.setProperty("comenuts", " Back to NutsPlayGame");
-        kr.setProperty("comenuts", " NutsPlayGame으로 돌아가기");
-        zh_hk.setProperty("comenuts", " 回到NutsPlayGame");
-        fr.setProperty("comenuts", "Retour à NutsPlayGame");
-        br.setProperty("comenuts", "Regressar a NutsPlayGame");
-        de.setProperty("comenuts", "Zurück zu NutsPlayGame");
-        sp.setProperty("comenuts", "Regresar a NutsPlayGame");
-        it.setProperty("comenuts", "Ritorna a NutsPlayGame");
-        jp.setProperty("comenuts", "NutsPlayGameに戻る");
-        idn.setProperty("comenuts", "Kembali ke NutsPlayGame");
+        zh_cn.setProperty("comenuts", " 回到Game");
+        vi.setProperty("comenuts", " đến với Game");
+        th.setProperty("comenuts", " กลับไปยังGame");
+        ar.setProperty("comenuts", "العودة إلى Game ");
+        en.setProperty("comenuts", " Back to Game");
+        kr.setProperty("comenuts", " Game으로 돌아가기");
+        zh_hk.setProperty("comenuts", " 回到Game");
+        fr.setProperty("comenuts", "Retour à Game");
+        br.setProperty("comenuts", "Regressar a Game");
+        de.setProperty("comenuts", "Zurück zu Game");
+        sp.setProperty("comenuts", "Regresar a Game");
+        it.setProperty("comenuts", "Ritorna a Game");
+        jp.setProperty("comenuts", "Gameに戻る");
+        idn.setProperty("comenuts", "Kembali ke Game");
 
 
-        zh_cn.setProperty("nutsgood", "登录成功，NutsPlayGame将会给您带来很棒的游戏体验");
-        vi.setProperty("nutsgood", "Đăng nhập thành công, Nuts Game thế giới trò chơi vui nhộn nhất");
-        th.setProperty("nutsgood", "ล็อกอินสำเร็จ NutsPlayGame จะให้ท่านได้พบกับการเล่นเกมที่น่าตื่นตาตื่นใจ");
-        ar.setProperty("nutsgood", "تم تسجيل الدخول بنجاح، سوف تتيح لك NutsPlayGame خوض تجربة فريدة\u200f");
-        en.setProperty("nutsgood", "successfully logged in, NutsPlayGame will bring you a great gaming experience");
-        kr.setProperty("nutsgood", "NutsPlayGame으로 돌아가기");
-        zh_hk.setProperty("nutsgood", "登入成功，NutsPlayGame將會給您帶來很棒的遊戲體驗");
-        fr.setProperty("nutsgood", "Connecté avec succès. NutsPlayGame vous apportera une expérience de jeu grandiose !");
-        br.setProperty("nutsgood", "Acessou com sucesso. NutsPlayGame irá proporcionar uma excelente experiência de jogo!");
-        de.setProperty("nutsgood", "Angemeldet. NutsPlayGame bringt dir ein großartiges Spielerlebnis!");
-        sp.setProperty("nutsgood", "Accedido con éxito. NutsPlayGame te hará pasar un tiempo extraordinario.");
-        it.setProperty("nutsgood", "Accesso avvenuto con successo. Con NutsPlayGame avrai una fantastica esperienza di gioco");
-        jp.setProperty("nutsgood", "ログインしました。NutsPlayGameは素晴らしいゲーム体験を提供します！");
-        idn.setProperty("nutsgood", "Sukses login.Nikmati pengalaman bermain di NutsPlayGame!");
+        zh_cn.setProperty("loginok", "登录成功，我们将会给您带来很棒的游戏体验");
+        vi.setProperty("loginok", "Đăng nhập thành công, Game thế giới trò chơi vui nhộn nhất");
+        th.setProperty("loginok", "ล็อกอินสำเร็จ Game จะให้ท่านได้พบกับการเล่นเกมที่น่าตื่นตาตื่นใจ");
+        ar.setProperty("loginok", "تم تسجيل الدخول بنجاح، سوف تتيح لك Game خوض تجربة فريدة\u200f");
+        en.setProperty("loginok", "successfully logged in, Game will bring you a great gaming experience");
+        kr.setProperty("loginok", "Game으로 돌아가기");
+        zh_hk.setProperty("loginok", "登入成功，我们將會給您帶來很棒的遊戲體驗");
+        fr.setProperty("loginok", "Connecté avec succès. Game vous apportera une expérience de jeu grandiose !");
+        br.setProperty("loginok", "Acessou com sucesso. Game irá proporcionar uma excelente experiência de jogo!");
+        de.setProperty("loginok", "Angemeldet. Game bringt dir ein großartiges Spielerlebnis!");
+        sp.setProperty("loginok", "Accedido con éxito. Game te hará pasar un tiempo extraordinario.");
+        it.setProperty("loginok", "Accesso avvenuto con successo. Con Game avrai una fantastica esperienza di gioco");
+        jp.setProperty("loginok", "ログインしました。Gameは素晴らしいゲーム体験を提供します！");
+        idn.setProperty("loginok", "Sukses login.Nikmati pengalaman bermain di Game!");
+
+
+        zh_cn.setProperty("registerok", "注册成功");
+        en.setProperty("registerok", "Account registration successful.");
+
 
         zh_cn.setProperty("playto", "一起玩游戏！！");
         vi.setProperty("playto", "Cùng chơi game!!");
@@ -1078,14 +1084,14 @@ public class SDKLangConfig {
         vi.setProperty("please_register", "Hãy đăng ký tài khoản");
         th.setProperty("please_register", "กรุณาลงทะเบียนไอดีก่อน");
         ar.setProperty("please_register", "يرجى تسجيل حسابك أولا");
-        en.setProperty("please_register", "Please register your account first");
+        en.setProperty("please_register", "Please register your ic_account first");
         kr.setProperty("please_register", "회원가입하십시오");
         zh_hk.setProperty("please_register", "請先註冊帳號");
         fr.setProperty("please_register", "Veuillez créer un compte");
         br.setProperty("please_register", "Registre uma conta");
         de.setProperty("please_register", "Bitte Konto registrieren");
         sp.setProperty("please_register", "Registra una cuenta");
-        it.setProperty("please_register", "Si prega di registrare un account");
+        it.setProperty("please_register", "Si prega di registrare un ic_account");
         jp.setProperty("please_register", "アカウントを登録してください");
         idn.setProperty("please_register", "Silahkan register akun");
 
@@ -1177,7 +1183,7 @@ public class SDKLangConfig {
         br.setProperty("1", "A conta já foi registada");
         de.setProperty("1", "Konto bereits registriert");
         sp.setProperty("1", "La cuenta ya ha sido registrada");
-        it.setProperty("1", "L'account è già stato registrato");
+        it.setProperty("1", "L'ic_account è già stato registrato");
         jp.setProperty("1", "このアカウントは既に登録されています");
         idn.setProperty("1", "Akun telah terdaftar");
 
@@ -1193,7 +1199,7 @@ public class SDKLangConfig {
         br.setProperty("2", "A conta não existe");
         de.setProperty("2", "Konto existiert nicht");
         sp.setProperty("2", "La cuenta no existe");
-        it.setProperty("2", "L'account non esiste");
+        it.setProperty("2", "L'ic_account non esiste");
         jp.setProperty("2", "このアカウントは存在しません");
         idn.setProperty("2", "Akun tidak tersedia");
 
@@ -1201,14 +1207,14 @@ public class SDKLangConfig {
         vi.setProperty("3", "Sai mật khẩu");
         th.setProperty("3", "รหัสผิดพลาด");
         ar.setProperty("3", "كلمة مرور خاطئة");
-        en.setProperty("3", "Enter the correct account and password");
+        en.setProperty("3", "Enter the correct ic_account and password");
         kr.setProperty("3", "비밀전호 오류");
         zh_hk.setProperty("3", "密碼錯誤");
         fr.setProperty("3", "Entrez le compte et mdp corrects");
         br.setProperty("3", "Insira a conta ou a senha correta");
         de.setProperty("3", "Bitte korrektes Konto und Passwort eing.");
         sp.setProperty("3", "Introduce tu cuenta o contraseña");
-        it.setProperty("3", "Si prega di inserire correttamente l'account o la password");
+        it.setProperty("3", "Si prega di inserire correttamente l'ic_account o la password");
         jp.setProperty("3", "正しいアカウントとパスワードを入力してください");
         idn.setProperty("3", "Masukkan akun atau password dengan benar");
 
@@ -1223,7 +1229,7 @@ public class SDKLangConfig {
         br.setProperty("4", "Não foi encontrada nenhuma conta com esse endereço de correio");
         de.setProperty("4", "Kein Konto mit dieser E-Mail gefunden");
         sp.setProperty("4", "No se han encontrado cuentas con este correo");
-        it.setProperty("4", "Nessun account trovato associato a questa email");
+        it.setProperty("4", "Nessun ic_account trovato associato a questa email");
         jp.setProperty("4", "メールアドレスは存在しません");
         idn.setProperty("4", "Email tidak tersedia");
 
@@ -1268,7 +1274,7 @@ public class SDKLangConfig {
         br.setProperty("7", "A conta foi criada");
         de.setProperty("7", "Konto ist verbunden");
         sp.setProperty("7", "Cuenta vinculada");
-        it.setProperty("7", "L'account è stato associato");
+        it.setProperty("7", "L'ic_account è stato associato");
         jp.setProperty("7", "アカウントは連携されました");
         idn.setProperty("7", "Akun telah dibinding");
 
@@ -1291,14 +1297,14 @@ public class SDKLangConfig {
         vi.setProperty("9", "Tài khoản bị đóng băng");
         th.setProperty("9", "ไอดีถูกล็อก");
         ar.setProperty("9", "الحساب مجمد");
-        en.setProperty("9", "The account is frozen");
+        en.setProperty("9", "The ic_account is frozen");
         kr.setProperty("9", "동결되어있는 아이다입니다");
         zh_hk.setProperty("9", "帳號被鎖定");
         fr.setProperty("9", "Le compte est gelé");
         br.setProperty("9", "A conta está congelada");
         de.setProperty("9", "Konto eingefroren");
         sp.setProperty("9", "La cuenta está congelada");
-        it.setProperty("9", "L'account è congelato");
+        it.setProperty("9", "L'ic_account è congelato");
         jp.setProperty("9", "アカウントは凍結されました");
         idn.setProperty("9", "Akun telah dibekukan");
 
@@ -1313,7 +1319,7 @@ public class SDKLangConfig {
         br.setProperty("10", "Erro na conta");
         de.setProperty("10", "Kontofehler");
         sp.setProperty("10", "Error de cuenta");
-        it.setProperty("10", "Errore nell'account");
+        it.setProperty("10", "Errore nell'ic_account");
         jp.setProperty("10", "アカウントエラー");
         idn.setProperty("10", "Akun error");
 
@@ -1358,7 +1364,7 @@ public class SDKLangConfig {
         br.setProperty("13", "A conta deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("13", "Konto muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen)");
         sp.setProperty("13", "La cuenta debe tener entre 6 y 14 caracteres (letras o números)");
-        it.setProperty("13", "L'account può contenere 6-14 caratteri (lettere o numeri) ");
+        it.setProperty("13", "L'ic_account può contenere 6-14 caratteri (lettere o numeri) ");
         jp.setProperty("13", "アカウントは6ー14文字内にしてください(アルファベット或いは数字)");
         idn.setProperty("13", "Akun harus 6-14 karakter(huruf / angka).");
 
@@ -1457,7 +1463,7 @@ public class SDKLangConfig {
         vi.setProperty("20", "Tài khoản chơi thử");
         th.setProperty("20", "ไอดีเยี่ยมชม");
         ar.setProperty("20", "حساب زائر");
-        en.setProperty("20", "Tourist account");
+        en.setProperty("20", "Tourist ic_account");
         kr.setProperty("20", "비회원 계정");
         zh_hk.setProperty("20", "遊客帳號");
         fr.setProperty("20", "Compte Invité");
@@ -1608,14 +1614,14 @@ public class SDKLangConfig {
         vi.setProperty("30", "Người dùng chơi thử cần cố định tài khoản mới có thể dùng chức năng này");
         th.setProperty("30", "ไอดีเยี่ยมชมต้องผูกมัดไอดีก่อนจึงจะใช้ฟังก์ชั่นได้");
         ar.setProperty("30", "تحتاج الحسابات الزائرة إلى تقييد حساباتها  للتمكن من استخدام هذه الميزة");
-        en.setProperty("30", "Guest users will need to bind their platform account to use this feature");
+        en.setProperty("30", "Guest users will need to bind their platform ic_account to use this feature");
         kr.setProperty("30", "이 기능은 연동된 플랫품 계정하는 사용자만 사용하실 수 있습니다.");
         zh_hk.setProperty("30", "遊客帳號需要綁定平台帳號才能使用此功能");
         fr.setProperty("30", "Les comptes invité doivent d’abord faire une liaison");
         br.setProperty("30", "Contas de convidado necessitam de vincular primeiro");
         de.setProperty("30", "Gastkonto zuerst mit Plattformkonto verb.");
         sp.setProperty("30", "Las cuentas de invitado deben ser vinculadas primero.");
-        it.setProperty("30", "Il guest account deve prima essere associato al platform account");
+        it.setProperty("30", "Il guest ic_account deve prima essere associato al platform ic_account");
         jp.setProperty("30", "ゲストアカウントは、まずプラットフォームアカウントに連携する必要があります");
         idn.setProperty("30", "Akun Guest harus segera bind akun");
 
@@ -1623,14 +1629,14 @@ public class SDKLangConfig {
         vi.setProperty("31", "Người dùng Facebook cần cố định tài khoản mới có thể dùng chức năng này");
         th.setProperty("31", "ไอดี Facebook ต้องผูกมัดไอดีก่อนจึงจะใช้ฟังก์ชั่นได้");
         ar.setProperty("31", "يحتاج مستخدمو الفايسبوك إلى تقييد حساباتهم للتمكن من استخدام هذه الميزة");
-        en.setProperty("31", "Facebook users need to bind the platform account to use this feature");
+        en.setProperty("31", "Facebook users need to bind the platform ic_account to use this feature");
         kr.setProperty("31", "Facebook 사용자가 플랫폼 계정을 연동하여 이 기능을 사용하실 수 있습니다.");
         zh_hk.setProperty("31", "Facebook會員需要綁定平台帳號才能使用此功能");
         fr.setProperty("31", "Les utilisateurs Facebook doivent d’abord faire une liaison");
         br.setProperty("31", "Usuários de Facebook necessitam de vincular a conta");
         de.setProperty("31", "Facebook-Nutzer müssen zuerst das Plattformkonto verb.");
         sp.setProperty("31", "Los usuarios de Facebook deben vincular sus cuentas.");
-        it.setProperty("31", "l'utente Facebook deve prima essere associato al platform account");
+        it.setProperty("31", "l'utente Facebook deve prima essere associato al platform ic_account");
         jp.setProperty("31", "Facebookアカウントは、まずプラットフォームアカウントに連携する必要があります");
         idn.setProperty("31", "User Facebook harus segera bind akun");
 
@@ -1653,7 +1659,7 @@ public class SDKLangConfig {
         vi.setProperty("33", "Mật khẩu không thể trống");
         th.setProperty("33", "รหัสปล่อยว่างไม่ได้");
         ar.setProperty("33", "خانة كلمة المرور لا يمكن أن تكون فارغة");
-        en.setProperty("33", "Enter the correct account and password");
+        en.setProperty("33", "Enter the correct ic_account and password");
         kr.setProperty("33", "비밀 번호를 입력해주십시오");
         zh_hk.setProperty("33", "密碼不能為空白");
         fr.setProperty("33", "Le MDP doit contenir de 6 à 14 caractères ( lettres ou chiffres)");
@@ -1739,7 +1745,7 @@ public class SDKLangConfig {
         jp.setProperty("39", "認証コードを入力しなければなりません");
         idn.setProperty("39", "Koder verifikasi harus diisi");
 
-        zh_cn.setProperty("38Reg", "用户名格式不正确");
+        zh_cn.setProperty("38Reg", "用户名必须是6-14位字母或数字");
         vi.setProperty("38Reg", "Định dạng người dùng không hợp lệ");
         th.setProperty("38Reg", "รูปแบบชื่อไอดีไม่ถูกต้อง");
         ar.setProperty("38Reg", "شكل اسم المستخدم غير صالح");
@@ -1750,23 +1756,23 @@ public class SDKLangConfig {
         br.setProperty("38Reg", "A conta deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("38Reg", "Konto muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen)");
         sp.setProperty("38Reg", "La cuenta debe tener entre 6 y 14 caracteres (letras o números)");
-        it.setProperty("38Reg", "L'account può contenere 6-14 caratteri (lettere o numeri) ");
+        it.setProperty("38Reg", "L'ic_account può contenere 6-14 caratteri (lettere o numeri) ");
         jp.setProperty("38Reg", "アカウントは6ー14文字内にしてください(アルファベット或いは数字)");
         idn.setProperty("38Reg", "Akun harus 6-14 karakter(huruf / angka).");
 
 
-        zh_cn.setProperty("38", "用户名格式不正确");
+        zh_cn.setProperty("38", "用户名必须是6-14位字母或数字");
         vi.setProperty("38", "Định dạng người dùng không hợp lệ");
         th.setProperty("38", "รูปแบบชื่อไอดีไม่ถูกต้อง");
         ar.setProperty("38", "شكل اسم المستخدم غير صالح");
         en.setProperty("38", "Username format is incorrect");
         kr.setProperty("38", "올바르지 않은 사용자 아이디 형식입니다");
-        zh_hk.setProperty("38", "帳號格式不正確");
+        zh_hk.setProperty("38", "帳號必須是6-14位字母或數字");
         fr.setProperty("38", "Le Compte doit contenir de 6 à 14 caractères ( lettres ou chiffres)");
         br.setProperty("38", "A conta deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("38", "Konto muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen)");
         sp.setProperty("38", "La cuenta debe tener entre 6 y 14 caracteres (letras o números)");
-        it.setProperty("38", "L'account può contenere 6-14 caratteri (lettere o numeri) ");
+        it.setProperty("38", "L'ic_account può contenere 6-14 caratteri (lettere o numeri) ");
         jp.setProperty("38", "アカウントは6ー14文字内にしてください(アルファベット或いは数字)");
         idn.setProperty("38", "Akun harus 6-14 karakter(huruf / angka).");
 
@@ -1787,13 +1793,13 @@ public class SDKLangConfig {
         idn.setProperty("40", "Format kode verifikasi salah");
 
 
-        zh_cn.setProperty("regspw", "密码格式不正确");
+        zh_cn.setProperty("regspw", "密码必须是6-14位字母或数字");
         vi.setProperty("regspw", "Lỗi định dạng mật khẩu");
         th.setProperty("regspw", "รูปแบบรหัสไม่ถูกต้อง");
         ar.setProperty("regspw", "شكل كلمة المرور غير صالح");
         en.setProperty("regspw", "Password must be 6-14 characters Letters or Numbers");
         kr.setProperty("regspw", "올바르지 않은 비밀번호 형식입니다");
-        zh_hk.setProperty("regspw", "密碼格式不正確");
+        zh_hk.setProperty("regspw", "密碼必須是6-14位字母或數字");
         fr.setProperty("regspw", "Le MDP doit contenir de 6 à 14 caractères ( lettres ou chiffres)");
         br.setProperty("regspw", "A senha deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("regspw", "Passwort muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen).");
@@ -1803,13 +1809,13 @@ public class SDKLangConfig {
         idn.setProperty("regspw", "Password harus 6-14 karakter(huruf / angka).");
 
 
-        zh_cn.setProperty("41", "密码格式不正确");
+        zh_cn.setProperty("41", "密码必须是6-14位字母或数字");
         vi.setProperty("41", "Lỗi định dạng mật khẩu");
         th.setProperty("41", "รูปแบบรหัสไม่ถูกต้อง");
         ar.setProperty("41", "شكل كلمة المرور غير صالح");
         en.setProperty("41", "The password is not formatted correctly");
         kr.setProperty("41", "올바르지 않은 비밀번호 형식입니다");
-        zh_hk.setProperty("41", "密碼格式不正確");
+        zh_hk.setProperty("41", "密碼必須是6-14位字母或數字");
         fr.setProperty("41", "Le MDP doit contenir de 6 à 14 caractères ( lettres ou chiffres)");
         br.setProperty("41", "A senha deve ter entre 6 e 14 carateres (letras ou números).");
         de.setProperty("41", "Passwort muss 6-14 Zeichen lang sein (Buchstaben oder Zahlen).");
@@ -1900,7 +1906,7 @@ public class SDKLangConfig {
         th.setProperty("autoLogin", "Mặc định sử dụng tài khoản này cho lần đăng nhập kế tiếp");
         vi.setProperty("autoLogin", "ตั้งไอดีนี้เป็นค่าเริ่มต้น");
         ar.setProperty("autoLogin", "اعتمد هذا الحساب ليكون الحساب الافتراضي");
-        en.setProperty("autoLogin", "Set this account as a default user account");
+        en.setProperty("autoLogin", "Set this ic_account as a default user ic_account");
         kr.setProperty("autoLogin", "오토 로그인");
         zh_hk.setProperty("autoLogin", "設定此帳號為下次登入帳號");
         fr.setProperty("autoLogin", "Connexion-auto");
@@ -1985,149 +1991,14 @@ public class SDKLangConfig {
         idn.setProperty("tip", "Tip");
 
 
-//    <string name = "str_verify_code_send_success" > 验证码发送成功 </string >
-//    <string name = "str_verify_code_send_failed" > 验证码发送失败 </string >
-//    <string name = "str_verify_code_tip" > 验证码不能为空 </string >
-//    <string name = "str_register_failed" > 注册失败 </string >
-//    <string name = "str_bind_failed" > 绑定失败 </string >
-//    <string name = "str_verify_code_error" > 验证码输入有误，请重新输入</string >
-//    <string name = "reset_pwd" > 重置 </string >
-//    <string name = "bind_phone_number" > 绑定 </string >
-
 
         zh_cn.setProperty("str_bind_account_tip", "游戏账号仅供使用，为了您的账户安全，请及时绑定注册账号");
         zh_cn.setProperty("str_bind_account", "绑定账户");
         zh_cn.setProperty("str_enter_game", "进入游戏");
         zh_cn.setProperty("check_your_network", "请求失败，请检查您的网络连接");
-        zh_cn.setProperty("user_protocol", "\n" +
-                "用户注册协议<br/> 一、总则\n" +
-                "<br/> 1.1 本《用户注册协议》为您（即“用户”）与北京点悦互动软件科技有限公司（以下简称“点悦互动”）就点悦互动所提供的服务达成的协议。点悦互动在此特别提醒您认真阅读、充分理解本《协议》:用户应认真阅读、充分理解本《协议》中各条款，特别涉及免除或者限制点悦互动责任的免责条款，对用户的权利限制的条款，法律适用、争议解决方式的条款。如果您未满18周岁，请在法定监护人的陪同下阅读本《协议》。<br/> 1.2 请您审慎阅读并选择同意或不同意本《协议》，除非您接受本《协议》所有条款，否则您无权以下载、安装、升级、登陆、显示、运行、截屏等方式使用本软件及其相关服务。您的下载、安装、显示、账号获取和登录、截屏等行为表明您自愿接受本协议的全部内容并受其约束，不得以任何理由包括但不限于以未能认真阅读本协议等作为纠纷抗辩理由。<br/>1.3 点悦互动有权不定期对本《协议》进行必要的更新，更新后的协议条款一旦公布即代替原来的协议条款，您可在游戏平台相关页面查看最新版协议条款。在点悦互动修改《协议》条款后，如果您不接受更新后的条款，请立即停止使用点悦互动提供的软件和服务，您继续使用点悦互动提供的软件和服务将被视为已接受了更新后的协议。<br/> 1.4 本《协议》内容包括但不限于本协议以下内容，针对某些具体服务所约定的管理办法、公告、重要提示、指引、说明等均为本协议的补充内容，为本协议不可分割之组成部分，具有与本协议同等的法律效力，接受本协议即视为您同时接受以上管理办法、公告、重要提示、指引、说明等并受其约束；否则请您立即停止使用点悦互动提供的软件和服务。同时提醒用户，本协议已包含文化部根据《网络游戏管理暂行办法》（文化部令第49号）制定的《网络游戏服务格式化协议必备条款》。<br/>二、服务说明\n" +
-                "<br/> 2.1经由本平台而发布、上传的游戏、文字、资讯、资料、音乐、照片、图形、视讯、信息或其它资料（以下简称“内容 ”），均由内容提供者授权提供、上传并承担责任。本平台仅为内容提供者提供信息网络存储空间。<br/> 2.2本平台对用户提供平台服务，包括但不限于授权用户通过其账号进行在线游戏、即时通讯、添加好友、加入小组、发布评论。点悦互动可以对其提供的所有服务予以变更、增加或强化，包括所推出的新功能，均受到本协议之规范。\n" +
-                "<br/> 2.3用户了解并同意，点悦互动仅依其当前所呈现状况向您提供服务，对于任何用户信息或个人化设定之时效、删除、传递错误、未予储存或其他任何问题，点悦互动均不承担任何责任。\n" +
-                "<br/> 2.4您需要自行负担个人上网或第三方（包括但不限于电信或移动通信提供商）收取的通讯费、信息费等有关费用。\n" +
-                "<br/> 2.5鉴于网络服务的特殊性，您了解并同意点悦互动有权不经事先通知，随时变更、中断或终止部分或全部的服务（包括收费网络服务）。点悦互动不担保网络服务不会中断，对网络服务的及时性、安全性、准确性等也都不作担保。\n" +
-                "<br/> 2.6点悦互动需要定期或不定期地对提供服务的平台或相关的设备进行检修或者维护，如因此类情况而造成服务（包括收费网络服务）在合理时间内的中断，点悦互动无需为此承担任何责任。点悦互动保留不经事先通知为维修保养、升级或其它目的暂停本服务任何部分的权利。\n" +
-                "<br/> 2.7用户明确同意其使用点悦互动服务所存在的风险将完全由其自己承担。用户理解并接受通过点悦互动服务取得的任何内容取决于用户自己，并由其承担系统受损、资料丢失以及其它任何风险。\n" +
-                "<br/> 2.8用户充分理解并同意，为高效利用服务器资源，如果您长期未使用游戏账号登录点悦互动游戏，点悦互动有权视需要对该账号及其账号下的游戏数据及相关信息采取删除等处置措施，上述处置可能导致您对该游戏账号下相关权益的丧失，对此点悦互动不承担任何责任。\n" +
-                "<br/> 2.9用户充分理解并同意：为营造公平、健康的游戏环境，在您使用点悦互动游戏服务的过程中，点悦互动有权通过技术手段了解您终端设备的随机存储内存以及与点悦互动游戏同时运行的相关程序。一经发现有任何未经授权的、危害点悦互动游戏服务正常运营的相关程序，点悦互动将收集所有与此有关的信息并采取合理措施予以打击。\n" +
-                "<br/> 三、使用规则\n" +
-                "<br/> 3.1 用户在申请使用点悦互动服务时，必须提供准确的个人资料，如个人资料有任何变动，必须及时更新。因用户提供个人资料不准确、不真实而引发的一切后果由用户承担。<br/> 3.2 用户对其账户、密码有保管义务，不应将其账号、密码转让、出借、销售或以任何脱离用户控制的形式交由他人使用。如用户发现其账号遭他人非法使用，应立即通知点悦互动。因黑客行为或用户的保管疏忽导致账号、密码遭他人非法使用，以及由此产生的任何后果，点悦互动不承担任何责任。<br/> 3.3 点悦互动账号的所有权归点悦互动，用户完成注册申请手续后，获得点悦互动账号的使用权。<br/>3.4 用户应当为自身注册帐户下的一切行为负责，因用户行为而导致的用户自身或其他任何第三方的任何损失或损害，点悦互动不承担责任。<br/> 3.5 用户理解并接受点悦互动提供的服务中可能包括广告，同意在使用服务的过程中显示点悦互动和第三方供应商、合作伙伴提供的广告。<br/> 3.6 用户在使用点悦互动服务过程中，必须遵循以下原则：<br/> 3.6.1 遵守中国有关的法律和法规；<br/> 3.6.2 遵守所有与网络服务有关的网络协议、规定和程序；<br/> 3.6.3 不得为任何非法目的而使用网络服务系统；<br/>3.6.4 不得利用点悦互动服务系统进行任何可能对互联网或移动网正常运转造成不利影响的行为；<br/> 3.6.5 不得利用点悦互动提供的服务上传、展示或传播任何虚假的、骚扰性的、中伤他人的、辱骂性的、恐吓性的、庸俗淫秽的或其他任何非法的信息资料；<br/> 3.6.6 不得侵犯点悦互动和其他任何第三方的专利权、著作权、商标权、名誉权或其他任何合法权益；<br/> 3.6.7 不得利用点悦互动服务系统进行任何损害点悦互动合法权益的行为；<br/> 3.6.8不得利用任何相关系统漏洞或服务漏洞，包括但不限于点悦互动的系统或服务漏洞、点悦互动相关合作方的系统或服务漏洞，作出损害点悦互动合法权益的行为；\n" +
-                "<br/> 3.6.9不得对游戏软件进行反向工程、反向汇编、反向编译或者以其他方式尝试发现软件的源代码；\n" +
-                "<br/> 3.6.10不得对游戏软件或者软件运行过程中释放到任何终端内存中的数据、软件运行过程中客户端与服务器端的交互数据，以及软件运行所必需的系统数据，进行复制、修改、增加、删除、挂接运行或创作任何衍生作品，形式包括但不限于使用插件、外挂或非经合法授权的第三方工具/服务接入软件和相关系统；\n" +
-                "<br/> 3.6.11 如发现任何非法使用用户账号或账号出现安全漏洞的情况，应立即通告点悦互动。<br/> 3.7 如用户在使用点悦互动服务时违反相关法律规定或者本协议的任何约定，点悦互动或其授权人有权采取包括但不限于下列措施：（1）要求用户改正相关行为；（2）变更、中断、终止用户使用点悦互动的服务；（3）对用户的账号采取临时性或永久性的禁止登陆（即封号）措施等。<br/> 四、知识产权\n" +
-                "<br/> 4.1 点悦互动提供的服务中包含的任何文本、图片、图形、音频和/或视频资料均受版权、商标和/或其它财产所有权法律的保护，未经相关权利人同意，上述资料均不得用于任何商业目的。<br/> 4.2 点悦互动为提供服务而使用的任何软件（包括但不限于软件中所含的任何图像、照片、动画、录像、录音、音乐、文字和附加程序、随附的帮助材料）的一切权利均属于该软件的著作权人，未经该软件的著作权人许可，用户不得对该软件进行反向工程（reverse engineer）、反向编译（decompile）或反汇编（disassemble），不得进行任何有可能损害著作权人合法权益的行为。<br/>五、隐私保护政策与个人信息利用政策\n" +
-                "<br/> 5.1 保护用户隐私是点悦互动的一项基本政策，点悦互动保证不对外公开或向第三方提供单个用户的注册资料及用户在使用本服务时存储在点悦互动的非公开内容，但下列情况除外：<br/> 5.1.1 事先获得用户的明确授权；<br/> 5.1.2 根据有关的法律法规要求；<br/> 5.1.3 按照相关政府主管部门的要求；<br/> 5.1.4 为维护社会公众的利益；<br/> 5.1.5 为维护点悦互动的合法权益。<br/> 5.2 点悦互动可能会与第三方合作向用户提供相关的网络服务，用户同意在此情况下，如该第三方同意承担与点悦互动同等的保护用户隐私的责任，则用户同意点悦互动有权将用户的注册资料等提供给该第三方。<br/>5.3 在不透露单个用户隐私资料的前提下，用户同意点悦互动有权对整个用户数据库进行分析并对用户数据库进行商业使用。<br/> 5.4 点悦互动制定了以下四项隐私权保护原则，指导我们如何来处理产品中涉及到用户隐私权和用户信息等方面的问题：<br/> （1） 利用我们收集的信息为用户提供有价值的产品和服务。<br/> （2） 开发符合隐私权标准和隐私权惯例的产品。<br/> （3） 尽最大的努力保护我们掌握的信息。<br/> 5.5点悦互动非常重视对未成年人个人信息的保护。若您是18周岁以下的未成年人，在使用点悦互动服务前，应事先取得您家长或法定监护人的同意；在使用点悦互动服务过程中同意您家长或法定监护人根据相关规定，对您的游戏账号进行相应的限制性操作。\n" +
-                "<br/> 5.6点悦互动有权依据相关规定，对未成年人游戏账号进行相应的限制性操作或授权未成年人家长或法定监护人进行相应的限制性操作。用户充分理解到：点悦互动可能会将用户的实名注册信息运用于防沉迷系统之中，即点悦互动可能会根据用户的实名注册信息判断用户是否年满18周岁，从而决定是否对用户相应的游戏帐号予以防沉迷限制。\n" +
-                "<br/> 六、资费说明\n" +
-                "<br/> 6.1 点悦互动在提供产品和服务时，可能会对部分产品和服务向用户收取一定的费用。在此情况下，点悦互动会在相关页面上做明确的提示。<br/> 6.2点悦互动有权决定所提供的产品和服务的资费标准和收费方式，点悦互动可能会就不同的产品和服务制定不同的资费标准和收费方式，也可能按照点悦互动所提供的产品和服务的不同阶段确定不同的资费标准和收费方式。另外，点悦互动有权利根据市场实际情况修改资费政策。\n" +
-                "<br/> 6.3对于点悦互动的收费产品和服务，用户可自主选择接受或拒绝该收费产品或服务，并保证在使用收费产品或服务时，将按照点悦互动的相关收费规定支付费用。如果用户未按点悦互动确定的资费政策购买产品和服务，点悦互动可以立即停止向用户提供该产品和服务，由此导致的相关后果由用户自行承担。\n" +
-                "<br/> 6.4除非法律另有明文规定，否则用户不得要求点悦互动返还用户已经支付予点悦互动游戏的任何资费（以下简称“退款”），无论该等资费是否已被消费。点悦互动有权决定是否、何时、以何种方式向用户退款。点悦互动同意退款的，用户应补偿支付时使用信用卡、手机等支付渠道产生的费用，点悦互动有权在返还用户的资费中直接扣收。存在下列情况之一的，点悦互动有权不予退款：（1）用户已经消费的资费部分，不予退款；（2）用户存在违反本协议约定的行为的，点悦互动有权不予退款；（3）点悦互动在产品和服务提供过程中赠送的充值金额、虚拟商品、虚拟道具等，不予退款或变现。\n" +
-                "<br/> 七、免责条款\n" +
-                "<br/> 7.1 用户之间因线上游戏行为所发生或可能发生的任何心理、生理上的伤害和经济上的损失，点悦互动不承担任何责任。<br/> 7.2 用户因其个人原因造成账号资料保管不妥而导致个人信息数据被他人泄露或账号中虚拟财产、游戏道具被盗或损失的，点悦互动不承担任何责任。<br/> 7.3 用户因除了按游戏规则进行游戏的行为外的其他行为触犯了中华人民共和国法律法规的，责任自负，点悦互动不承担任何责任。<br/> 7.4 用户账号长期不使用的，点悦互动有权进行回收，因此带来的用户个人信息数据丢失、账户内虚拟财产和游戏道具清零等一切损失由用户个人承担，点悦互动不承担任何责任。<br/>7.5基于网络环境的复杂性，点悦互动不担保服务一定能满足用户的要求，不保证各项服务完全无错误、无缺陷、不会中断、或不会受到任何来自他方因素的干扰及损害等，对服务的及时性、安全性也不作担保。因网络安全、网络故障问题和其他用户的非法行为给用户造成的损失，点悦互动不承担任何责任。\n" +
-                "<br/> 7.6 基于网络环境的特殊性，点悦互动不担保对用户限制性行为和禁止性行为的判断的准确性，用户因此产生的任何损失点悦互动不承担任何责任，用户可按点悦互动相关规定进行申诉解决。<br/> 7.7 点悦互动不保证您从第三方获得的点悦互动虚拟商品、游戏道具等游戏物品能正常使用，也不保证该等物品不被索回，因私下购买虚拟商品、游戏道具等游戏物品所产生的一切损失均由用户自行承担，点悦互动不承担任何责任。<br/> 7.8用户在使用点悦互动服务时，必须遵守中华人民共和国相关法律法规的规定，用户同意将不会利用本服务进行任何违法或不正当的活动，包括但不限于下列行为∶\n" +
-                "<br/> 上传、展示、张贴、传播或以其它方式传送含有下列内容之一的信息：\n" +
-                "<br/> （1）反对宪法所确定的基本原则的；\n" +
-                "<br/> （2）危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；\n" +
-                "<br/> （3）损害国家荣誉和利益的；\n" +
-                "<br/> （4）煽动民族仇恨、民族歧视、破坏民族团结的；\n" +
-                "<br/> （5）破坏国家宗教政策，宣扬邪教和封建迷信的；\n" +
-                "<br/> （6）散布谣言，扰乱社会秩序，破坏社会稳定的；\n" +
-                "<br/> （7）散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；\n" +
-                "<br/> （8）侮辱或者诽谤他人，侵害他人合法权利的；\n" +
-                "<br/> （9）含有虚假、有害、胁迫、侵害他人隐私、骚扰、侵害、中伤、粗俗、猥亵、或其它道德上令人反感的内容；\n" +
-                "<br/> （10）含有中国法律、法规、规章、条例以及任何具有法律效力之规范所限制或禁止的其它内容的或以任何方式危害他人的合法权益。\n" +
-                "<br/> 7.9用户违反本协议的约定或相关的服务条款的规定，导致或产生的任何第三方主张的任何索赔、要求或损失，包括合理的律师费，您同意赔偿点悦互动与合作公司、关联公司，并使之免受损害。对此，点悦互动有权视用户的行为性质，采取包括但不限于下列一项或多项措施：（1）删除用户发布信息内容；（2）暂停或终止使用许可；（3）暂停或终止服务；（4）限制或禁止使用账号（封号）；（5）回收账号；（6）追究法律责任等。因上述措施所导致的用户帐号内相关游戏道具（包括但不限于游戏虚拟商品、游戏装备等）、信息数据等过期或者失效等后果，由用户自行承担。同时，点悦互动会按照司法部门的要求，协助司法调查。\n" +
-                "<br/> 八、未成年人使用条款及健康游戏忠告\n" +
-                "<br/> 8.1 未成年人用户必须遵守全国青少年网络文明公约：<br/> 要善于网上学习，不浏览不良信息；要诚实友好交流，不侮辱欺诈他人；要增强自护意识，不随意约会网友；要维护网络安全，不破坏网络秩序；要有益身心健康，不沉溺虚拟时空。\n" +
-                "<br/> 8.2根据国家新闻出版总署关于健康游戏的忠告，点悦互动提醒您：抵制不良游戏，拒绝盗版游戏；注意自我保护，谨防受骗上当；适度游戏益脑，沉迷游戏伤身。\n" +
-                "<br/> 九、法律适用及争议解决\n" +
-                "<br/> 9.1 本协议适用中华人民共和国大陆地区法律。<br/> 9.2 因本协议引起的或与本协议有关的任何争议，各方应友好协商解决；如协商不成，任何一方均有权将争议提交北京仲裁委员会，按照提交仲裁时该会现行有效的仲裁规则进行仲裁。<br/> 十、其他条款\n" +
-                "<br/> 10.1 如果本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，或违反任何适用的法律，则该条款被视为删除，但本协议的其余条款仍继续有效并且有约束力。<br/> 10.2 点悦互动在法律允许范围内对本协议拥有解释权与修改权。<br/>\n" +
-                "<br/>\n" +
-                "<br/>\n" +
-                "<br/>\n" +
-                "<br/>\n" +
-                "<br/> 附件一：网络游戏服务格式化协议必备条款\n" +
-                "<br/> 根据《网络游戏管理暂行办法》（文化部令第49号），文化部制定《网络游戏服务格式化协议必备条款》。甲方为网络游戏运营企业，乙方为网络游戏用户。\n" +
-                "<br/> 一、账号注册\n" +
-                "<br/> 1.1 乙方承诺以其真实身份注册成为甲方的用户，并保证所提供的个人身份资料信息真实、完整、有效，依据法律规定和必备条款约定对所提供的信息承担相应的法律责任。<br/> 1.2 乙方以其真实身份注册成为甲方用户后，需要修改所提供的个人身份资料信息的，甲方应当及时、有效地为其提供该项服务。<br/> 二、用户账号使用与保管\n" +
-                "<br/> 2.1 根据必备条款的约定，甲方有权审查乙方注册所提供的身份信息是否真实、有效，并应积极地采取技术与管理等合理措施保障用户账号的安全、有效；乙方有义务妥善保管其账号及密码，并正确、安全地使用其账号及密码。任何一方未尽上述义务导致账号密码遗失、账号被盗等情形而给乙方和他人的民事权利造成损害的，应当承担由此产生的法律责任。<br/> 2.2乙方对登录后所持账号产生的行为依法享有权利和承担责任。\n" +
-                "<br/> 2.3 乙方发现其账号或密码被他人非法使用或有使用异常的情况的，应及时根据甲方公布的处理方式通知甲方，并有权通知甲方采取措施暂停该账号的登录和使用。<br/> 2.4 甲方根据乙方的通知采取措施暂停乙方账号的登录和使用的，甲方应当要求乙方提供并核实与其注册身份信息相一致的个人有效身份信息。<br/> 2.4.1 甲方核实乙方所提供的个人有效身份信息与所注册的身份信息相一致的，应当及时采取措施暂停乙方账号的登录和使用。<br/> 2.4.2 甲方违反2.4.1款项的约定，未及时采取措施暂停乙方账号的登录和使用，因此而给乙方造成损失的，应当承担其相应的法律责任。<br/>2.4.3 乙方不能提供其个人有效身份证件或者乙方提供的个人有效身份证件与所注册的身份信息不一致的，甲方有权拒绝乙方上述请求。<br/> 2.5 乙方为了维护其合法权益，向甲方提供与所注册的身份信息相一致的个人有效身份信息时，甲方应当为乙方提供账号注册人证明、原始注册信息等必要的协助和支持，并根据需要向有关行政机关和司法机关提供相关证据信息资料。<br/> 三、服务的中止与终止\n" +
-                "<br/> 3.1乙方有发布违法信息、严重违背社会公德、以及其他违反法律禁止性规定的行为，甲方应当立即终止对乙方提供服务。\n" +
-                "<br/> 3.2乙方在接受甲方服务时实施不正当行为的，甲方有权终止对乙方提供服务。该不正当行为的具体情形应当在本协议中有明确约定或属于甲方事先明确告知的应被终止服务的禁止性行为，否则，甲方不得终止对乙方提供服务。\n" +
-                "<br/> 3.3乙方提供虚假注册身份信息，或实施违反本协议的行为，甲方有权中止对乙方提供全部或部分服务；甲方采取中止措施应当通知乙方并告知中止期间，中止期间应该是合理的，中止期间届满甲方应当及时恢复对乙方的服务。\n" +
-                "<br/> 3.4 甲方根据本条约定中止或终止对乙方提供部分或全部服务的，甲方应负举证责任。<br/> 四、用户信息保护\n" +
-                "<br/> 4.1 甲方要求乙方提供与其个人身份有关的信息资料时，应当事先以明确而易见的方式向乙方公开其隐私权保护政策和个人信息利用政策，并采取必要措施保护乙方的个人信息资料的安全。<br/> 4.2未经乙方许可甲方不得向任何第三方提供、公开或共享乙方注册资料中的姓名、个人有效身份证件号码、联系方式、家庭住址等个人身份信息，但下列情况除外：\n" +
-                "<br/> 4.2.1 乙方或乙方监护人授权甲方披露的；<br/> 4.2.2 有关法律要求甲方披露的；<br/> 4.2.3 司法机关或行政机关基于法定程序要求甲方提供的；<br/> 4.2.4 甲方为了维护自己合法权益而向乙方提起诉讼或者仲裁时；<br/> 4.2.5 应乙方监护人的合法要求而提供乙方个人身份信息时。<br/>\n" +
-                "<br/> 附件二：《点悦互动游戏用户个人信息及隐私保护政策》\n" +
-                "<br/> 点悦互动游戏用户个人信息及隐私保护政策\n" +
-                "<br/> 《点悦互动游戏用户个人信息及隐私保护政策》重要须知：为了贯彻执行文化部颁布的《网络游戏管理暂行办法》以及《关于贯彻实施\n" +
-                "<网络游戏管理暂行办法>的通知》，北京点悦互动软件科技有限公司（以下称“点悦互动”）特此制定本《点悦互动游戏用户个人信息及隐私保护政策》。<br/> 点悦互动在此特别提醒用户仔细阅读本《点悦互动游戏用户个人信息及隐私保护政策》中的各个条款（未成年人应当在其法定监护人陪同下阅读），并选择接受或者不接受本《点悦互动游戏用户个人信息及隐私保护政策》。\n" +
-                "    <br/> 点悦互动严格遵守法律法规，遵循以下隐私保护原则，为您提供更加安全、可靠的服务：\n" +
-                "    <br/>\n" +
-                "    <br/> 1、安全可靠：\n" +
-                "    <br/> 点悦互动竭尽全力通过合理有效的信息安全技术及管理流程，防止您的信息泄露、损毁、丢失。\n" +
-                "    <br/> 2、自主选择：\n" +
-                "    <br/> 点悦互动为您提供便利的信息管理选项，以便您做出合适的选择，管理您的个人信息。\n" +
-                "    <br/> 3、保护通信秘密：\n" +
-                "    <br/> 点悦互动严格遵照法律法规，保护您的通信秘密，为您提供安全的通信服务。\n" +
-                "    <br/> 4、合理必要：\n" +
-                "    <br/> 点悦互动为了向您和其他用户提供更好的服务，我们仅收集必要的信息。\n" +
-                "    <br/> 5、清晰透明：\n" +
-                "    <br/> 点悦互动努力使用简明易懂的表述，向您介绍隐私政策，以便您清晰地了解我们的信息处理方式。\n" +
-                "    <br/> 6、将隐私保护融入产品设计：\n" +
-                "    <br/> 点悦互动在产品或服务开发的各个环节，综合法律、产品、设计等多方因素，融入隐私保护的理念。\n" +
-                "    <br/>\n" +
-                "    <br/> 我们根据合法、正当、必要的原则，仅收集实现产品功能所必要的信息。\n" +
-                "    <br/> 您在使用我们服务时主动提供的信息\n" +
-                "    <br/>\n" +
-                "    <br/> ·您在注册帐户时填写的信息\n" +
-                "    <br/> 例如，您在注册游戏帐户时所填写的昵称、手机号码。\n" +
-                "    <br/>\n" +
-                "    <br/> ·您授权访问的信息\n" +
-                "    <br/> 例如，您在登陆游戏时，我们将收集您所授予的权限。\n" +
-                "    <br/>\n" +
-                "    <br/> ·您通过我们的客服或参加我们举办的活动时所提交的信息\n" +
-                "    <br/> 例如，您参与我们线上活动时填写的调查问卷中可能包含您的姓名、电话、家庭地址等信息。\n" +
-                "    <br/> 我们的部分服务可能需要您提供特定的个人敏感信息来实现特定功能。若您选择不提供该类信息，则可能无法正常使用服务中的特定功能，但不影响您使用服务中的其他功能。若您主动提供您的个人敏感信息，即表示您同意我们按本政策所述目的和方式来处理您的个人敏感信息。\n" +
-                "    <br/> 我们在您使用服务时获取的信息\n" +
-                "    <br/> ·日志信息。当您使用我们的服务时，我们可能会自动收集相关信息并存储为服务日志信息。\n" +
-                "    <br/> 1)设备信息\n" +
-                "    <br/> 例如，设备型号、操作系统版本、唯一设备标识符、电池、信号强度等信息。\n" +
-                "    <br/> 2)软件信息\n" +
-                "    <br/> 例如，软件的版本号、浏览器类型。为确保操作环境的安全或提供服务所需，我们会收集有关您使用的移动应用和其他软件的信息。\n" +
-                "    <br/> 3)IP地址\n" +
-                "    <br/> 4)服务日志信息\n" +
-                "    <br/> 例如，您在使用我们服务时搜索、查看的信息、服务故障信息、引荐网址等信息。\n" +
-                "    <br/> 5)通讯日志信息\n" +
-                "    <br/> 例如，您在使用我们服务时曾经通讯的账户、通讯时间和时长。\n" +
-                "    <br/> ·位置信息\n" +
-                "    <br/> 当您使用与位置有关的服务时，我们可能会记录您设备所在的位置信息，以便为您提供相关服务。\n" +
-                "    <br/> 在您使用服务时，我们可能会通过IP地址 、GPS、WLAN（如 WiFi)或基站等途径获取您的地理位置信息；<br/> 您或其他用户在使用服务时提供的信息中可能包含您所在地理位置信息，例如您提供的帐号信息中可能包含的您所在地区信息，您或其他人共享的照片包含的地理标记信息。\n" +
-                "    <br/> ·其他相关信息\n" +
-                "    <br/> 为了帮助您更好地使用我们的产品或服务，我们会收集相关信息。例如，我们收集的好友列表、群列表信息、声纹特征值信息。为确保您使用我们服务时能与您认识的人进行联系，如您选择开启导入通讯录功能，我们可能对您联系人的姓名和电话号码进行加密，并仅收集加密后的信息。\n" +
-                "    <br/> 其他用户分享的信息中含有您的信息\n" +
-                "    <br/> 例如，其他用户发布的照片或分享的视频中可能包含您的信息。\n" +
-                "    <br/>\n" +
-                "    <br/> 我们严格遵守法律法规的规定及与用户的约定，将收集的信息用于以下用途。若我们超出以下用途使用您的信息，我们将再次向您进行说明，并征得您的同意。\n" +
-                "    <br/> 向您提供服务\n" +
-                "    <br/> 满足您的个性化需求\n" +
-                "    <br/> 例如，语言设定、位置设定、个性化的帮助服务。\n" +
-                "    <br/> 产品开发和服务优化\n" +
-                "    <br/> 例如，当我们的系统发生故障时，我们会记录和分析系统故障时产生的信息，优化我们的服务。\n" +
-                "    <br/> 安全保障\n" +
-                "    <br/> 例如，我们会将您的信息用于身份验证、安全防范、反诈骗监测、存档备份、客户的安全服务等用途。\n" +
-                "    <br/>\n" +
-                "    <br/> 评估、改善我们的广告投放和其他促销及推广活动的效果\n" +
-                "    <br/> 7、点悦互动不向第三方公开透露用户信息，但因下列原因而披露给第三方的除外：\n" +
-                "    <br/> （1）基于国家法律法规的规定而对外披露；\n" +
-                "    <br/> （2）应国家司法机关及其他有法律赋予权限的政府机关基于法定程序的要求而披露；\n" +
-                "    <br/> （3）为保护点悦互动或您的合法权益而披露；\n" +
-                "    <br/> （4）在紧急情况下，为保护其他用户及第三方人身安全而披露；\n" +
-                "    <br/> （5）用户本人或用户监护人授权披露的；\n" +
-                "    <br/> （6）应用户监护人合法要求而提供用户个人身份信息时。\n" +
-                "    <br/>");
 
+        zh_cn.setProperty("resetPwdOk", "重置密码成功");
+        en.setProperty("resetPwdOk", "Reset password successfully");
     }
 }
 

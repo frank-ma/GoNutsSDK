@@ -97,7 +97,7 @@ public class SDKKernel {
         if (sdkClientParams != null) {
             return sdkClientParams.getLanguage();
         }
-        return "zh_cn";
+        return "en";
     }
 
     public boolean isDebug() {

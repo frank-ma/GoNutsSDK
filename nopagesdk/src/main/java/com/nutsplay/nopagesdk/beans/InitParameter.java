@@ -17,7 +17,8 @@ public class InitParameter implements Serializable {
     private String dataeyeId;
     private String language;
     private String customerServiceAddress="";
-    private boolean isDebug=false;
+    private boolean isDebug = false;
+    private boolean hasUI = true;
 
     public String getClientId() {
         return clientId;
@@ -89,5 +90,13 @@ public class InitParameter implements Serializable {
 
     public void setCustomerServiceAddress(String customerServiceAddress) {
         this.customerServiceAddress = customerServiceAddress;
+    }
+
+    public boolean isHasUI() {
+        return hasUI;
+    }
+
+    public void setHasUI(boolean hasUI) {
+        this.hasUI = hasUI;
     }
 }

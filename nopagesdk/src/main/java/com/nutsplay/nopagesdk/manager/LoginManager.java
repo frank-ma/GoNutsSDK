@@ -40,7 +40,7 @@ public class LoginManager {
 
     }
 
-    public void visitorLogin(Activity activity,LoginCallBack loginCallBack) {
+    public void visitorLogin(Activity activity, LoginCallBack loginCallBack) {
 
         String visitor = Installations.id(activity);
         SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, "visitor", loginCallBack);

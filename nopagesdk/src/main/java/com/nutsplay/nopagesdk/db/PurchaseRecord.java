@@ -25,7 +25,7 @@ public class PurchaseRecord implements Serializable {
 
     private String skuId;
 
-    private int status;//1成功  0创建订单  2支付成功，未兑换
+    private int status;//1成功  0创建订单成功  2支付成功，未兑换
 
 
     @Generated(hash = 1790474878)

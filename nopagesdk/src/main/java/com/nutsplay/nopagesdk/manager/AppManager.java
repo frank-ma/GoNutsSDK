@@ -13,10 +13,10 @@ import com.nutsplay.nopagesdk.kernel.SDKManager;
 public class AppManager {
 
     public static void startActivity(Class activity){
-        Activity currActiivty= SDKManager.getInstance().getActivity();
-        Intent intent=new Intent(currActiivty,activity);
-        currActiivty.startActivity(intent);
-        currActiivty.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        Activity currActivity= SDKManager.getInstance().getActivity();
+        Intent intent=new Intent(currActivity,activity);
+        currActivity.startActivity(intent);
+        currActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
     public static void startActivityWithData(Class activity, String... data){

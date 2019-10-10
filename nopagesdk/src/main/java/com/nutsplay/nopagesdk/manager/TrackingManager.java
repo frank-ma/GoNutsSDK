@@ -10,7 +10,9 @@ import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.dataeye.tracking.sdk.trackingAPI.DCTrackingAgent;
 import com.dataeye.tracking.sdk.trackingAPI.DCTrackingPoint;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,8 +100,10 @@ public class TrackingManager {
      * @param accountId
      */
     public static void registerTracking(String accountId){
+        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("registerok"),1);
+
         DCTrackingPoint.createAccount(accountId);
-        GooglePayHelp.getInstance().queryPurchase(false);
+//        GooglePayHelp.getInstance().queryPurchase(false);
         GooglePayHelp.getInstance().resentOrderByDbRecord();
     }
 
@@ -108,8 +112,11 @@ public class TrackingManager {
      * @param accountId
      */
     public static void loginTracking(String accountId){
+
+        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
+
         DCTrackingPoint.login(accountId);
-        GooglePayHelp.getInstance().queryPurchase(false);
+//        GooglePayHelp.getInstance().queryPurchase(false);
         GooglePayHelp.getInstance().resentOrderByDbRecord();
     }
 

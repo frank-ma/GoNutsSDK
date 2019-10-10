@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao'
 
+def static getProductName() {
+    return "sdk"
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -22,7 +26,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    android.libraryVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = getProductName() + "_v${defaultConfig.versionName}"+'.aar'
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +46,7 @@ dependencies {
     implementation 'com.android.billingclient:billing:2.0.3'
     // greenDao
     implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 }
 
 greendao {
@@ -45,3 +54,18 @@ greendao {
     daoPackage 'com.nutsplay.nopagesdk.db'// 设置DaoMaster、DaoSession、Dao 包名
     targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
 }
+
+
+//生成sdk的jar包
+def SDK_BASENAME = "sdk"
+def SDK_VERSION = "_v1.0"
+def sdkDestinationPath = "build/outputs/jar/"
+task deleteBuild(type: Delete) {
+    delete sdkDestinationPath + SDK_BASENAME + SDK_VERSION + ".jar"
+}
+task makeJar(type: Jar) {
+    archivesBaseName = SDK_BASENAME + SDK_VERSION
+    from(project.zipTree('build/intermediates/packaged-classes/release/classes.jar'))
+    destinationDir = file(sdkDestinationPath)
+}
+makeJar.dependsOn(deleteBuild, build)

@@ -143,7 +143,7 @@ public class PayWebActivity extends BaseActivity {
 
                         } else {
                             LogUtils.e(TAG, "SDKQueryOrderStatus---onSuccess:" + orderModel.getMessage());
-                            SDKGameUtils.showServiceInfo(orderModel.getCode());
+                            SDKGameUtils.showServiceInfo(orderModel.getCode(),orderModel.getMessage());
                             SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
                         }
                     } catch (Exception e) {

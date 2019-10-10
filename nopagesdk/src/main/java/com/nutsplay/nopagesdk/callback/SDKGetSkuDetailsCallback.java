@@ -1,6 +1,7 @@
 package com.nutsplay.nopagesdk.callback;
 
-import com.android.billingclient.api.SkuDetails;
+
+import com.nutsplay.nopagesdk.beans.SkuDetails;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 
 /**
- * @author zhangpanpan
+ * @author
  * @since 2017/10/18
  */
 

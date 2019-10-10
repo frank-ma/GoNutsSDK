@@ -9,7 +9,6 @@ import com.nutsplay.nopagesdk.network.NetClient;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
 import com.nutsplay.nopagesdk.utils.encryption.SHA1Utils;
-import com.nutspower.commonlibrary.utils.DeviceUtils;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
@@ -43,7 +42,7 @@ public class ApiManager {
             System.out.println("ApiManager construction failed:initParameter is null.");
             return;
         }
-        imei = DeviceUtils.getDeviceID(SDKManager.getInstance().getActivity());
+//        imei = DeviceUtils.getDeviceID(SDKManager.getInstance().getActivity());
         mClientID = initParameter.getClientId();
         mKey = initParameter.getClientKey();
         language = initParameter.getLanguage();
@@ -123,42 +122,6 @@ public class ApiManager {
             e.printStackTrace();
         }
     }
-
-//    /**
-//     * 初始化
-//     *
-//     * @param callBack
-//     */
-//    public void SDKInitGo(String aesKey16, String aesKey16byRSA, NetCallBack callBack) {
-//
-//        try {
-//            String url = addDomainName() + "/epsilon";
-//
-//            InitBean initBean = new InitBean();
-//            initBean.setImei(imei);
-//            if (SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
-//                initBean.setToken(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
-//            }
-//            initBean.setDevice(DEVICE_TYPE);
-//            initBean.setClientID(mClientID);
-//            initBean.setTime(currentTime());
-//            initBean.setMac(StringUtils.MD5(mClientID + currentTime() + mKey));
-//            initBean.setLanguage(language);
-//            String jsonData = GsonUtils.tojsonString(initBean);
-//
-//            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
-//            Map<String, String> data = new TreeMap<>();
-//            data.put("asong", encryptJsonData);
-//
-//            Map<String, String> headerMap = new TreeMap<>();
-//            headerMap.put("uniqueid",identifier);
-//            headerMap.put("rak",aesKey16byRSA);
-//            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 注册账号
@@ -354,6 +317,42 @@ public class ApiManager {
         }
     }
 
+    /**
+     * 修改密码
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param account
+     * @param oldPwd
+     * @param newPwd
+     * @param callBack
+     */
+    public void SDKResetPwd(String aesKey16, String aesKey16byRSA,String account,String oldPwd,String newPwd, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/zeta";
+
+            ResetPwd resetPwd = new ResetPwd();
+            resetPwd.setClientID(mClientID);
+            resetPwd.setAccount(account);
+            resetPwd.setSecond(SHA1Utils.sha1UpperCase(oldPwd));
+            resetPwd.setNewsecond(SHA1Utils.sha1UpperCase(newPwd));
+            String jsonData = GsonUtils.tojsonString(resetPwd);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 /**
  * **************************************************************************************************
@@ -468,6 +467,27 @@ public class ApiManager {
 
         public void setTransactionId(String transactionId) {
             this.transactionId = transactionId;
+        }
+    }
+
+    private class ResetPwd extends Bean implements Serializable{
+
+        private String account;
+
+        private String second;
+
+        private String newsecond;
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public void setSecond(String second) {
+            this.second = second;
+        }
+
+        public void setNewsecond(String newsecond) {
+            this.newsecond = newsecond;
         }
     }
 

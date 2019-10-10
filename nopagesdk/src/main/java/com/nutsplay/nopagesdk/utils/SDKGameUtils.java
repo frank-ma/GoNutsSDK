@@ -334,61 +334,63 @@ public class SDKGameUtils {
         }
     }
 
-    public static void showServiceInfo(int message) {
-        if (message == SDKConstant.status_account_exist) {
+    public static void showServiceInfo(int code,String msg) {
+        if (code == SDKConstant.status_account_exist) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("1"), 3);
-        } else if (message == SDKConstant.status_account_do_not_exist) {
+        } else if (code == SDKConstant.status_account_do_not_exist) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("2"), 3);
-        } else if (message == SDKConstant.status_password_error) {
+        } else if (code == SDKConstant.status_password_error) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("3"), 3);
-        } else if (message == SDKConstant.status_email_exist) {
+        } else if (code == SDKConstant.status_email_exist) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
-        } else if (message == SDKConstant.status_email_not_exist) {
+        } else if (code == SDKConstant.status_email_not_exist) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("4"), 3);
-        } else if (message == SDKConstant.status_parameter_error) {
+        } else if (code == SDKConstant.status_parameter_error) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (message == SDKConstant.status_ticket_invalid) {
+        } else if (code == SDKConstant.status_ticket_invalid) {
             SDKToast.getInstance().ToastShow("ticket无效，请先登录", 3);
-        } else if (message == SDKConstant.status_verify_invalid) {
+        } else if (code == SDKConstant.status_verify_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (message == SDKConstant.status_account_bound) {
+        } else if (code == SDKConstant.status_account_bound) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("7"), 3);
-        } else if (message == SDKConstant.status_game_invalid) {
+        } else if (code == SDKConstant.status_game_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("8"), 3);
-        } else if (message == SDKConstant.status_user_frozen) {
+        } else if (code == SDKConstant.status_user_frozen) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("9"), 3);
-        } else if (message == SDKConstant.status_account_error) {
+        } else if (code == SDKConstant.status_account_error) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
-        } else if (message == SDKConstant.status_email_not_fixed) {
+        } else if (code == SDKConstant.status_email_not_fixed) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("11"), 3);
-        } else if (message == SDKConstant.status_token_invalid) {
+        } else if (code == SDKConstant.status_token_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
-        } else if (message == SDKConstant.status_email_format_invalid) {
+        } else if (code == SDKConstant.status_email_format_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("12"), 3);
-        } else if (message == SDKConstant.status_account_format_invalid) {
+        } else if (code == SDKConstant.status_account_format_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
-        } else if (message == SDKConstant.status_passwd_format_invalid) {
+        } else if (code == SDKConstant.status_passwd_format_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("15"), 3);
-        } else if (message == SDKConstant.status_server_invalid) {
+        } else if (code == SDKConstant.status_server_invalid) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_service_err"), 3);
-        } else if (message == SDKConstant.status_pay_fail) {
+        } else if (code == SDKConstant.status_pay_fail) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("14"), 3);
-        } else if (message == SDKConstant.status_pay_balance_not_enough) {
+        } else if (code == SDKConstant.status_pay_balance_not_enough) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("18"), 3);
-        } else if (message == SDKConstant.status_pay_save_to_balance) {
+        } else if (code == SDKConstant.status_pay_save_to_balance) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
-        } else if (message == SDKConstant.status_pay_balance_plus_deposit_not_enough) {
+        } else if (code == SDKConstant.status_pay_balance_plus_deposit_not_enough) {
             SDKToast.getInstance().ToastShow("nuts_service_err", 3);
-        } else if (message == SDKConstant.status_deal_balance_fail) {
+        } else if (code == SDKConstant.status_deal_balance_fail) {
             SDKToast.getInstance().ToastShow("status_deal_balance_fail", 3);
-        } else if (message == SDKConstant.status_production_do_not_exist) {
+        } else if (code == SDKConstant.status_production_do_not_exist) {
             SDKToast.getInstance().ToastShow("status_production_do_not_exist", 3);
-        } else if (message == SDKConstant.status_card_used) {
+        } else if (code == SDKConstant.status_card_used) {
             SDKToast.getInstance().ToastShow("status_card_used", 3);
-        } else if (message == SDKConstant.status_card_or_pass_invalid) {
+        } else if (code == SDKConstant.status_card_or_pass_invalid) {
             SDKToast.getInstance().ToastShow("status_card_or_pass_invalid", 3);
-        } else if (message == SDKConstant.status_account_has_real_name_authentication){
+        } else if (code == SDKConstant.status_account_has_real_name_authentication){
             SDKToast.getInstance().ToastShow("该账户已实名认证",3);
+        } else {
+            SDKToast.getInstance().ToastShow(msg,3);
         }
 
     }
@@ -499,7 +501,7 @@ public class SDKGameUtils {
                 if (errorCode == SDKConstant.status_user_frozen) {
                     SDKToast.getInstance().ToastShow(" user frozen", 3);
                 } else if (errorCode == SDKConstant.status_account_error) {
-                    SDKToast.getInstance().ToastShow("account error ", 3);
+                    SDKToast.getInstance().ToastShow("ic_account error ", 3);
                 } else if (errorCode == SDKConstant.status_email_not_fixed) {
                     SDKToast.getInstance().ToastShow("email not fixed ", 3);
                 } else if (errorCode == SDKConstant.status_token_invalid) {
@@ -507,7 +509,7 @@ public class SDKGameUtils {
                 } else if (errorCode == SDKConstant.status_email_format_invalid) {
                     SDKToast.getInstance().ToastShow("email format invalid ", 3);
                 } else if (errorCode == SDKConstant.status_account_format_invalid) {
-                    SDKToast.getInstance().ToastShow("account format invalid ", 3);
+                    SDKToast.getInstance().ToastShow("ic_account format invalid ", 3);
                 } else if (errorCode == SDKConstant.status_passwd_format_invalid) {
                     SDKToast.getInstance().ToastShow("password format invalid ", 3);
                 } else if (errorCode == SDKConstant.status_server_invalid) {
@@ -517,9 +519,9 @@ public class SDKGameUtils {
             } else {
 
                 if (errorCode == SDKConstant.status_account_exist) {
-                    SDKToast.getInstance().ToastShow("account exit", 3);
+                    SDKToast.getInstance().ToastShow("ic_account exit", 3);
                 } else if (errorCode == SDKConstant.status_account_do_not_exist) {
-                    SDKToast.getInstance().ToastShow("account do not exit", 3);
+                    SDKToast.getInstance().ToastShow("ic_account do not exit", 3);
                 } else if (errorCode == SDKConstant.status_password_error) {
                     SDKToast.getInstance().ToastShow("password error", 3);
                 } else if (errorCode == SDKConstant.status_email_exist) {
@@ -531,7 +533,7 @@ public class SDKGameUtils {
                 } else if (errorCode == SDKConstant.status_verify_invalid) {
                     SDKToast.getInstance().ToastShow("验证码无效", 3);
                 } else if (errorCode == SDKConstant.status_account_bound) {
-                    SDKToast.getInstance().ToastShow("account bound ", 3);
+                    SDKToast.getInstance().ToastShow("ic_account bound ", 3);
                 } else if (errorCode == SDKConstant.status_game_invalid) {
                     SDKToast.getInstance().ToastShow("game invalid ", 3);
                 }

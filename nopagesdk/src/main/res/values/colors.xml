@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#0B4DCC</color>
+    <color name="color_circle_blue">#0291e4</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+<!--    <color name="colorAccent">#3F6A9E</color>-->
+<!--    <color name="colorAccentLight">#195763</color>-->
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccentLight">#E46494</color>
+    <color name="colorAccentDark">#800453</color>
+    <color name="transaction">#00FAF8F8</color>
+    <color name="gray">#34222121</color>
+    <color name="bg">#43A83C18</color>
+</resources>

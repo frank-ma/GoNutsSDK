@@ -73,7 +73,7 @@ public class Security {
      * Verifies that the signature from the server matches the computed signature on the data.
      * Returns true if the data is correctly signed.
      *
-     * @param publicKey public key associated with the developer account
+     * @param publicKey public key associated with the developer ic_account
      * @param signedData signed data from server
      * @param signature server signature
      * @return true if the data and signature match
