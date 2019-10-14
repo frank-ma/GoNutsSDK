@@ -11,6 +11,7 @@ public class User implements Serializable {
 
     private String userId;
     private String ticket;
+    private String sdkmemberType="";
 
     public String getUserId() {
         return userId;
@@ -28,11 +29,20 @@ public class User implements Serializable {
         this.ticket = ticket;
     }
 
+    public String getSdkmemberType() {
+        return sdkmemberType;
+    }
+
+    public void setSdkmemberType(String sdkmemberType) {
+        this.sdkmemberType = sdkmemberType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", ticket='" + ticket + '\'' +
+                ", sdkmemberType='" + sdkmemberType + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.nutsplay.nopagesdk.kernel;
 
 
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.util.Properties;
 
@@ -29,7 +30,11 @@ public class SDKLangConfig {
         if (value < 0) {
             value = 0;
         }
-        return array[value].getProperty(key, key);
+        String result = array[value].getProperty(key, "");
+        if (StringUtils.isBlank(result)){
+            return array[1].getProperty(key, key);
+        }
+        return result;
     }
 
     /**
@@ -55,9 +60,10 @@ public class SDKLangConfig {
         Properties it = new Properties();//意大利语
         Properties jp = new Properties();//日语
         Properties idn = new Properties();//印度尼西亚语
+        Properties by = new Properties();//印度尼西亚语
 
 
-        array = new Properties[]{zh_cn, en, th, vi, ar, kr, zh_hk, fr, br, de, sp, it, jp, idn};
+        array = new Properties[]{zh_cn, en, th, vi, ar, kr, zh_hk, fr, br, de, sp, it, jp, idn,by};
 
 
         zh_cn.setProperty("yuekainfo", "Ncoin Recharge");
@@ -676,11 +682,26 @@ public class SDKLangConfig {
         jp.setProperty("nutsplay_viewstring_signining_fb", "Facebookログイン中…");
         idn.setProperty("nutsplay_viewstring_signining_fb", "Facebook Login...");
 
-        zh_cn.setProperty("tourist_signin_alert", "游戏账号仅供使用，为了您的账户安全，请及时绑定注册账号");
+        zh_cn.setProperty("tourist_signin_tips", "提示");
+        vi.setProperty("tourist_signin_tips", "Mẹo");
+        th.setProperty("tourist_signin_tips", "เคล็ดลับ");
+        ar.setProperty("tourist_signin_tips", "نصائح");
+        en.setProperty("tourist_signin_tips", "Tips");
+        kr.setProperty("tourist_signin_tips", "팁");
+        zh_hk.setProperty("tourist_signin_tips", "提示");
+        fr.setProperty("tourist_signin_tips", "Pourboires");
+        br.setProperty("tourist_signin_tips", "Dicas");
+        de.setProperty("tourist_signin_tips", "Tipps");
+        sp.setProperty("tourist_signin_tips", "Consejos");
+        it.setProperty("tourist_signin_tips", "Consigli");
+        jp.setProperty("tourist_signin_tips", "ヒント");
+        idn.setProperty("tourist_signin_tips", "Kiat");
+
+        zh_cn.setProperty("tourist_signin_alert", "游客账号仅供体验，为了您的账户安全，请及时绑定一个新账号");
         vi.setProperty("tourist_signin_alert", "Vì an toàn, hãy cố định tài khoản");
         th.setProperty("tourist_signin_alert", "บัญชีนี้เป็นบัญชีที่ใช้ร่วมกัน เพื่อความปลอดภัยของบัญชีท่าน กรุณาทำการผูกมัดในทันที");
         ar.setProperty("tourist_signin_alert", "حسابك هنا معد فقط للاستخدام في اللعبة، ينصح بتوثيق حسابك لتأمينه وحمايته");
-        en.setProperty("tourist_signin_alert", "The game ic_account is only for use, for your ic_account security, please bind the registered ic_account");
+        en.setProperty("tourist_signin_alert", "The guest account is only for experience, for your account security, please bind a new account.");
         kr.setProperty("tourist_signin_alert", "이 계정을 안전하게 사용하기를 위하여 등록한 계정번호를 연동해주시기 바랍니다");
         zh_hk.setProperty("tourist_signin_alert", "遊客帳號僅供使用，為了您的帳號安全，請及時綁定註冊帳號");
         fr.setProperty("tourist_signin_alert", "Le compte de jeu est destiné uniquement à l’utilisation, pour la sécurité de votre compte, veuillez lier ce compte");
@@ -692,35 +713,35 @@ public class SDKLangConfig {
         idn.setProperty("tourist_signin_alert", "Untuk keamanan karakter, segera binding akun registrasi.");
 
 
-        zh_cn.setProperty("nutsplay_viewstring_enter_game", "进入游戏");
-        vi.setProperty("nutsplay_viewstring_enter_game", "Đăng nhập");
-        th.setProperty("nutsplay_viewstring_enter_game", "เข้าเกม");
-        ar.setProperty("nutsplay_viewstring_enter_game", "دخول اللعبة");
-        en.setProperty("nutsplay_viewstring_enter_game", "Enter the game");
-        kr.setProperty("nutsplay_viewstring_enter_game", "게임을 시작하기");
-        zh_hk.setProperty("nutsplay_viewstring_enter_game", "進入遊戲");
-        fr.setProperty("nutsplay_viewstring_enter_game", "Entrer dans le jeu");
-        br.setProperty("nutsplay_viewstring_enter_game", "Entrar no jogo");
-        de.setProperty("nutsplay_viewstring_enter_game", "Spiel betreten");
-        sp.setProperty("nutsplay_viewstring_enter_game", "Entrar al juego");
-        it.setProperty("nutsplay_viewstring_enter_game", "Entra");
-        jp.setProperty("nutsplay_viewstring_enter_game", "ゲームに入る");
-        idn.setProperty("nutsplay_viewstring_enter_game", "Masuk game");
+        zh_cn.setProperty("viewstring_enter_game", "进入游戏");
+        vi.setProperty("viewstring_enter_game", "Đăng nhập");
+        th.setProperty("viewstring_enter_game", "เข้าเกม");
+        ar.setProperty("viewstring_enter_game", "دخول اللعبة");
+        en.setProperty("viewstring_enter_game", "Enter the game");
+        kr.setProperty("viewstring_enter_game", "게임을 시작하기");
+        zh_hk.setProperty("viewstring_enter_game", "進入遊戲");
+        fr.setProperty("viewstring_enter_game", "Entrer dans le jeu");
+        br.setProperty("viewstring_enter_game", "Entrar no jogo");
+        de.setProperty("viewstring_enter_game", "Spiel betreten");
+        sp.setProperty("viewstring_enter_game", "Entrar al juego");
+        it.setProperty("viewstring_enter_game", "Entra");
+        jp.setProperty("viewstring_enter_game", "ゲームに入る");
+        idn.setProperty("viewstring_enter_game", "Masuk game");
 
-        zh_cn.setProperty("nutsplay_viewstring_Bind_Account", "绑定账号");
-        vi.setProperty("nutsplay_viewstring_Bind_Account", "Cố định TK");
-        th.setProperty("nutsplay_viewstring_Bind_Account", "ผูกมัดบัญชี");
-        ar.setProperty("nutsplay_viewstring_Bind_Account", "حسابات موثقة");
-        en.setProperty("nutsplay_viewstring_Bind_Account", "Bind accounts");
-        kr.setProperty("nutsplay_viewstring_Bind_Account", "계정번호를 연동하기");
-        zh_hk.setProperty("nutsplay_viewstring_Bind_Account", "綁定帳號");
-        fr.setProperty("nutsplay_viewstring_Bind_Account", "Lier le compte");
-        br.setProperty("nutsplay_viewstring_Bind_Account", "Vincular conta");
-        de.setProperty("nutsplay_viewstring_Bind_Account", "Konto verbinden");
-        sp.setProperty("nutsplay_viewstring_Bind_Account", "Vincular cuenta");
-        it.setProperty("nutsplay_viewstring_Bind_Account", "Collega ic_account");
-        jp.setProperty("nutsplay_viewstring_Bind_Account", "アカウントに連携する");
-        idn.setProperty("nutsplay_viewstring_Bind_Account", "Binding Akun");
+        zh_cn.setProperty("viewstring_Bind_Account", "绑定账号");
+        vi.setProperty("viewstring_Bind_Account", "Cố định TK");
+        th.setProperty("viewstring_Bind_Account", "ผูกมัดบัญชี");
+        ar.setProperty("viewstring_Bind_Account", "حسابات موثقة");
+        en.setProperty("viewstring_Bind_Account", "Bind accounts");
+        kr.setProperty("viewstring_Bind_Account", "계정번호를 연동하기");
+        zh_hk.setProperty("viewstring_Bind_Account", "綁定帳號");
+        fr.setProperty("viewstring_Bind_Account", "Lier le compte");
+        br.setProperty("viewstring_Bind_Account", "Vincular conta");
+        de.setProperty("viewstring_Bind_Account", "Konto verbinden");
+        sp.setProperty("viewstring_Bind_Account", "Vincular cuenta");
+        it.setProperty("viewstring_Bind_Account", "Collega ic_account");
+        jp.setProperty("viewstring_Bind_Account", "アカウントに連携する");
+        idn.setProperty("viewstring_Bind_Account", "Binding Akun");
 
         zh_cn.setProperty("nutsplay_viewstring_account_id", "账号ID:");
         vi.setProperty("nutsplay_viewstring_account_id", "TK ID:");
@@ -988,8 +1009,8 @@ public class SDKLangConfig {
         vi.setProperty("loginok", "Đăng nhập thành công, Game thế giới trò chơi vui nhộn nhất");
         th.setProperty("loginok", "ล็อกอินสำเร็จ Game จะให้ท่านได้พบกับการเล่นเกมที่น่าตื่นตาตื่นใจ");
         ar.setProperty("loginok", "تم تسجيل الدخول بنجاح، سوف تتيح لك Game خوض تجربة فريدة\u200f");
-        en.setProperty("loginok", "successfully logged in, Game will bring you a great gaming experience");
-        kr.setProperty("loginok", "Game으로 돌아가기");
+        en.setProperty("loginok", "Successfully logged in, Game will bring you a great gaming experience");
+        kr.setProperty("loginok", "성공적인 로그인, 우리는 당신에게 훌륭한 게임 경험을 제공합니다");
         zh_hk.setProperty("loginok", "登入成功，我们將會給您帶來很棒的遊戲體驗");
         fr.setProperty("loginok", "Connecté avec succès. Game vous apportera une expérience de jeu grandiose !");
         br.setProperty("loginok", "Acessou com sucesso. Game irá proporcionar uma excelente experiência de jogo!");
@@ -1176,7 +1197,7 @@ public class SDKLangConfig {
         vi.setProperty("1", "Tài khoản Đã có người dùng");
         th.setProperty("1", "มีไอดีนี้อยู่แล้ว");
         ar.setProperty("1", "اسم المستخدم موجود من قبل");
-        en.setProperty("1", "Account has already been registered");
+        en.setProperty("1", "Account already exists");
         kr.setProperty("1", "동일한 아이디가 존재하였습니다");
         zh_hk.setProperty("1", "帳號已存在");
         fr.setProperty("1", "Le compte a déjà été enregistré");
@@ -1192,7 +1213,7 @@ public class SDKLangConfig {
         vi.setProperty("2", "Tài khoản không tồn tại");
         th.setProperty("2", "ไม่มีไอดีนี้อยู่");
         ar.setProperty("2", "اسم المستخدم غير موجود");
-        en.setProperty("2", "Username does not exist");
+        en.setProperty("2", "Account does not exist");
         kr.setProperty("2", "존재하지 않은 아이다입니다");
         zh_hk.setProperty("2", "帳號不存在");
         fr.setProperty("2", "Le compte n’existe pas !");
@@ -1975,30 +1996,207 @@ public class SDKLangConfig {
         jp.setProperty("login_first", "login first");
         idn.setProperty("login_first", "login first");
 
-        zh_cn.setProperty("tip", "提示");
-        th.setProperty("tip", "Tip");
-        vi.setProperty("tip", "Tip");
-        ar.setProperty("tip", "Tip");
-        en.setProperty("tip", "Tip");
-        kr.setProperty("tip", "Tip");
-        zh_hk.setProperty("tip", "Tip");
-        fr.setProperty("tip", "Tip");
-        br.setProperty("tip", "Tip");
-        de.setProperty("tip", "Tip");
-        sp.setProperty("tip", "Tip");
-        it.setProperty("tip", "Tip");
-        jp.setProperty("tip", "Tip");
-        idn.setProperty("tip", "Tip");
-
-
-
         zh_cn.setProperty("str_bind_account_tip", "游戏账号仅供使用，为了您的账户安全，请及时绑定注册账号");
         zh_cn.setProperty("str_bind_account", "绑定账户");
         zh_cn.setProperty("str_enter_game", "进入游戏");
         zh_cn.setProperty("check_your_network", "请求失败，请检查您的网络连接");
 
+
+//     ===================================新增====================================
+
         zh_cn.setProperty("resetPwdOk", "重置密码成功");
         en.setProperty("resetPwdOk", "Reset password successfully");
+        th.setProperty("resetPwdOk", "รีเซ็ตรหัสผ่านสำเร็จ");
+        vi.setProperty("resetPwdOk", "Đặt lại mật khẩu thành công");
+        ar.setProperty("resetPwdOk", "إعادة تعيين كلمة المرور بنجاح");
+        kr.setProperty("resetPwdOk", "비밀번호 재설정");
+        zh_hk.setProperty("resetPwdOk", "重置密碼成功");
+        fr.setProperty("resetPwdOk", "Réinitialiser le mot de passe avec succès");
+        br.setProperty("resetPwdOk", "Redefinir senha com sucesso");
+        de.setProperty("resetPwdOk", "Passwort erfolgreich zurücksetzen");
+        sp.setProperty("resetPwdOk", "Restablecer contraseña exitosamente");
+        it.setProperty("resetPwdOk", "Reimposta password correttamente");
+        jp.setProperty("resetPwdOk", "パスワードを正常にリセット");
+        idn.setProperty("resetPwdOk", "Berhasil mereset kata sandi");
+        by.setProperty("resetPwdOk", "Сбросить пароль успешно");
+
+
+        zh_cn.setProperty("str_login_tips","请选择一种方式登录:");
+        en.setProperty("str_login_tips","Please choose a way to log in:");
+        th.setProperty("str_login_tips", "กรุณาเลือกวิธีการเข้าสู่ระบบ:");
+        vi.setProperty("str_login_tips", "Vui lòng chọn một cách để đăng nhập:");
+        ar.setProperty("str_login_tips", "الرجاء اختيار طريقة لتسجيل الدخول:");
+        kr.setProperty("str_login_tips", "로그인 방법을 선택하십시오 :");
+        zh_hk.setProperty("str_login_tips", "請選擇一種方式登錄：");
+        fr.setProperty("str_login_tips", "Veuillez choisir un moyen de vous connecter:");
+        br.setProperty("str_login_tips", "Escolha uma maneira de fazer login:");
+        de.setProperty("str_login_tips", "Bitte wählen Sie einen Weg, um sich einzuloggen:");
+        sp.setProperty("str_login_tips", "Por favor, elija una forma de iniciar sesión:");
+        it.setProperty("str_login_tips", "Scegli un modo per accedere:");
+        jp.setProperty("str_login_tips", "ログイン方法を選択してください：");
+        idn.setProperty("str_login_tips", "Silakan pilih cara untuk masuk:");
+        by.setProperty("str_login_tips", "Пожалуйста, выберите способ авторизации:");
+
+        zh_cn.setProperty("guest_login","游客登录");
+        en.setProperty("guest_login","Guest login");
+        th.setProperty("guest_login", "เข้าสู่ระบบบุคคลทั่วไป");
+        vi.setProperty("guest_login", "Đăng nhập của khách");
+        ar.setProperty("guest_login", "تسجيل دخول ضيف");
+        kr.setProperty("guest_login", "손님 로그인");
+        zh_hk.setProperty("guest_login", "訪客登錄");
+        fr.setProperty("guest_login", "Login invité");
+        br.setProperty("guest_login", "Login de convidado");
+        de.setProperty("guest_login", "Gastzugang");
+        sp.setProperty("guest_login", "Inicio de sesión de invitado");
+        it.setProperty("guest_login", "Accesso ospite");
+        jp.setProperty("guest_login", "ゲストログイン");
+        idn.setProperty("guest_login", "Login tamu");
+        by.setProperty("guest_login", "Гостевой вход");
+
+        zh_cn.setProperty("str_bind_tips","创建一个你要绑定的新账号:");
+        en.setProperty("str_bind_tips","Create a new account that you want to bind:");
+        th.setProperty("str_bind_tips", "สร้างบัญชีใหม่ที่คุณต้องการผูก:");
+        vi.setProperty("str_bind_tips", "Tạo một tài khoản mới mà bạn muốn liên kết:");
+        ar.setProperty("str_bind_tips", "قم بإنشاء حساب جديد تريد ربطه:");
+        kr.setProperty("str_bind_tips", "바인딩하려는 새 계정을 만듭니다.");
+        zh_hk.setProperty("str_bind_tips", "創建一個你要綁定的新賬號:");
+        fr.setProperty("str_bind_tips", "Créez un nouveau compte que vous souhaitez lier:");
+        br.setProperty("str_bind_tips", "Crie uma nova conta que você deseja vincular:");
+        de.setProperty("str_bind_tips", "Erstellen Sie ein neues Konto, das Sie binden möchten:");
+        sp.setProperty("str_bind_tips", "Crea una nueva cuenta que quieras vincular:");
+        it.setProperty("str_bind_tips", "Crea un nuovo account che desideri associare:");
+        jp.setProperty("str_bind_tips", "バインドする新しいアカウントを作成します:");
+        idn.setProperty("str_bind_tips", "Buat akun baru yang ingin Anda ikat:");
+        by.setProperty("str_bind_tips", "Создайте новую учетную запись, которую вы хотите связать:");
+
+        zh_cn.setProperty("bind","绑定");
+        en.setProperty("bind","Bind");
+        th.setProperty("bind", "ผูกพัน");
+        vi.setProperty("bind", "Ràng buộc");
+        ar.setProperty("bind", "ملزم");
+        kr.setProperty("bind", "바인딩");
+        zh_hk.setProperty("bind", "綁定");
+        fr.setProperty("bind", "Reliure");
+        br.setProperty("bind", "Encadernação");
+        de.setProperty("bind", "Einband");
+        sp.setProperty("bind", "Vinculante");
+        it.setProperty("bind", "legame");
+        jp.setProperty("bind", "バインディング");
+        idn.setProperty("bind", "Mengikat");
+        by.setProperty("bind", "переплет");
+
+        zh_cn.setProperty("sign_in","登录");
+        en.setProperty("sign_in","Log in");
+        th.setProperty("sign_in", "เข้าสู่ระบบ");
+        vi.setProperty("sign_in", "Đăng nhập");
+        ar.setProperty("sign_in", "تسجيل الدخول");
+        kr.setProperty("sign_in", "로그인");
+        zh_hk.setProperty("sign_in", "登錄");
+        fr.setProperty("sign_in", "Connexion");
+        br.setProperty("sign_in", "Entrar");
+        de.setProperty("sign_in", "Einloggen");
+        sp.setProperty("sign_in", "Iniciar sesión");
+        it.setProperty("sign_in", "Entra");
+        jp.setProperty("sign_in", "ログイン");
+        idn.setProperty("sign_in", "Login");
+        by.setProperty("sign_in", "войти");
+
+        zh_cn.setProperty("reset","重置");
+        en.setProperty("reset","Reset");
+        th.setProperty("reset", "รีเซ็ต");
+        vi.setProperty("reset", "Đặt lại");
+        ar.setProperty("reset", "إعادة تعيين");
+        kr.setProperty("reset", "리셋");
+        zh_hk.setProperty("reset", "重置");
+        fr.setProperty("reset", "Réinitialiser");
+        br.setProperty("reset", "Reset");
+        de.setProperty("reset", "Zurücksetzen");
+        sp.setProperty("reset", "Restablecer");
+        it.setProperty("reset", "reset");
+        jp.setProperty("reset", "リセットする");
+        idn.setProperty("reset", "Setel ulang");
+        by.setProperty("reset", "сброс");
+
+        zh_cn.setProperty("sign_up","注册");
+        en.setProperty("sign_up","Register");
+        th.setProperty("sign_up", "การลงทะเบียน");
+        vi.setProperty("sign_up", "Đăng ký");
+        ar.setProperty("sign_up", "تسجيل");
+        kr.setProperty("sign_up", "등록");
+        zh_hk.setProperty("sign_up", "註冊");
+        fr.setProperty("sign_up", "Inscription");
+        br.setProperty("sign_up", "Inscrição");
+        de.setProperty("sign_up", "Registrierung");
+        sp.setProperty("sign_up", "Registro");
+        it.setProperty("sign_up", "registrazione");
+        jp.setProperty("sign_up", "登録");
+        idn.setProperty("sign_up", "Pendaftaran");
+        by.setProperty("sign_up", "регистрация");
+
+        zh_cn.setProperty("new_password","新密码");
+        en.setProperty("new_password","New password");
+        th.setProperty("new_password", "รหัสผ่านใหม่");
+        vi.setProperty("new_password", "Mật khẩu mới");
+        ar.setProperty("new_password", "كلمة مرور جديدة");
+        kr.setProperty("new_password", "새로운 비밀번호");
+        zh_hk.setProperty("new_password", "新密碼");
+        fr.setProperty("new_password", "Nouveau mot de passe");
+        br.setProperty("new_password", "Nova senha");
+        de.setProperty("new_password", "Neues Passwort");
+        sp.setProperty("new_password", "Nueva contraseña");
+        it.setProperty("new_password", "Nuova password");
+        jp.setProperty("new_password", "新しいパスワード");
+        idn.setProperty("new_password", "Kata sandi baru");
+        by.setProperty("new_password", "Новый пароль");
+
+        zh_cn.setProperty("repeat_password","重复密码");
+        en.setProperty("repeat_password","Repeat the password");
+        th.setProperty("repeat_password", "ทำซ้ำรหัสผ่าน");
+        vi.setProperty("repeat_password", "Lặp lại mật khẩu");
+        ar.setProperty("repeat_password", "كرر كلمة المرور");
+        kr.setProperty("repeat_password", "비밀번호 반복");
+        zh_hk.setProperty("repeat_password", "重複密碼");
+        fr.setProperty("repeat_password", "Répéter le mot de passe");
+        br.setProperty("repeat_password", "Repita a senha");
+        de.setProperty("repeat_password", "Passwort wiederholen");
+        sp.setProperty("repeat_password", "Repetir contraseña");
+        it.setProperty("repeat_password", "Ripeti la password");
+        jp.setProperty("repeat_password", "繰り返しパスワード");
+        idn.setProperty("repeat_password", "Ulangi kata sandi");
+        by.setProperty("repeat_password", "Повторить пароль");
+
+        zh_cn.setProperty("str_create_account","创建账户");
+        en.setProperty("str_create_account","Create an account");
+        th.setProperty("str_create_account", "สร้างบัญชี");
+        vi.setProperty("str_create_account", "Tạo một tài khoản");
+        ar.setProperty("str_create_account", "انشاء حساب");
+        kr.setProperty("str_create_account", "계정 만들기");
+        zh_hk.setProperty("str_create_account", "創建賬戶");
+        fr.setProperty("str_create_account", "Créer un compte");
+        br.setProperty("str_create_account", "Crie uma conta");
+        de.setProperty("str_create_account", "Erstellen Sie ein Konto");
+        sp.setProperty("str_create_account", "Crear una cuenta");
+        it.setProperty("str_create_account", "Crea un account");
+        jp.setProperty("str_create_account", "アカウントを作成する");
+        idn.setProperty("str_create_account", "Buat akun");
+        by.setProperty("str_create_account", "Создать аккаунт");
+
+        zh_cn.setProperty("str_reset_password","重置密码");
+        en.setProperty("str_reset_password","Reset password");
+        th.setProperty("str_reset_password", "รีเซ็ตรหัสผ่าน");
+        vi.setProperty("str_reset_password", "Đặt lại mật khẩu");
+        ar.setProperty("str_reset_password", "إعادة تعيين كلمة المرور");
+        kr.setProperty("str_reset_password", "비밀번호 재설정");
+        zh_hk.setProperty("str_reset_password", "重置密碼");
+        fr.setProperty("str_reset_password", "Réinitialiser le mot de passe");
+        br.setProperty("str_reset_password", "Redefinir senha");
+        de.setProperty("str_reset_password", "Passwort zurücksetzen");
+        sp.setProperty("str_reset_password", "Restablecer contraseña");
+        it.setProperty("str_reset_password", "Reimposta password");
+        jp.setProperty("str_reset_password", "パスワードをリセット");
+        idn.setProperty("str_reset_password", "Setel ulang kata sandi");
+        by.setProperty("str_reset_password", "Сбросить пароль");
+
     }
 }
 

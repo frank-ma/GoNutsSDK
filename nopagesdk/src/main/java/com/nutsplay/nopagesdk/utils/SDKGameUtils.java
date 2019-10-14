@@ -2,13 +2,17 @@ package com.nutsplay.nopagesdk.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
@@ -334,61 +338,53 @@ public class SDKGameUtils {
         }
     }
 
+    /**
+     * 错误码信息
+     *
+     * @param code
+     * @param msg
+     */
     public static void showServiceInfo(int code,String msg) {
-        if (code == SDKConstant.status_account_exist) {
+        if (code == SDKConstant.STATUS_ACCOUNT_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("1"), 3);
-        } else if (code == SDKConstant.status_account_do_not_exist) {
+        } else if (code == SDKConstant.STATUS_ACCOUNT_DO_NOT_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("2"), 3);
-        } else if (code == SDKConstant.status_password_error) {
+        } else if (code == SDKConstant.STATUS_PASSWORD_ERROR) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("3"), 3);
-        } else if (code == SDKConstant.status_email_exist) {
+        } else if (code == SDKConstant.STATUS_EMAIL_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
-        } else if (code == SDKConstant.status_email_not_exist) {
+        } else if (code == SDKConstant.STATUS_EMAIL_NOT_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("4"), 3);
-        } else if (code == SDKConstant.status_parameter_error) {
+        } else if (code == SDKConstant.STATUS_PARAMETER_ERROR) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (code == SDKConstant.status_ticket_invalid) {
+        } else if (code == SDKConstant.STATUS_TICKET_INVALID) {
             SDKToast.getInstance().ToastShow("ticket无效，请先登录", 3);
-        } else if (code == SDKConstant.status_verify_invalid) {
+        } else if (code == SDKConstant.STATUS_VERIFY_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (code == SDKConstant.status_account_bound) {
+        } else if (code == SDKConstant.STATUS_ACCOUNT_BOUND) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("7"), 3);
-        } else if (code == SDKConstant.status_game_invalid) {
+        } else if (code == SDKConstant.STATUS_GAME_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("8"), 3);
-        } else if (code == SDKConstant.status_user_frozen) {
+        } else if (code == SDKConstant.STATUS_USER_FROZEN) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("9"), 3);
-        } else if (code == SDKConstant.status_account_error) {
+        } else if (code == SDKConstant.STATUS_ACCOUNT_ERROR) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
-        } else if (code == SDKConstant.status_email_not_fixed) {
+        } else if (code == SDKConstant.STATUS_EMAIL_NOT_FIXED) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("11"), 3);
-        } else if (code == SDKConstant.status_token_invalid) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
-        } else if (code == SDKConstant.status_email_format_invalid) {
+        } else if (code == SDKConstant.STATUS_EMAIL_FORMAT_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("12"), 3);
-        } else if (code == SDKConstant.status_account_format_invalid) {
+        } else if (code == SDKConstant.STATUS_ACCOUNT_FORMAT_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
-        } else if (code == SDKConstant.status_passwd_format_invalid) {
+        } else if (code == SDKConstant.STATUS_PASSWD_FORMAT_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("15"), 3);
-        } else if (code == SDKConstant.status_server_invalid) {
+        } else if (code == SDKConstant.STATUS_SERVER_INVALID) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_service_err"), 3);
-        } else if (code == SDKConstant.status_pay_fail) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("14"), 3);
-        } else if (code == SDKConstant.status_pay_balance_not_enough) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("18"), 3);
-        } else if (code == SDKConstant.status_pay_save_to_balance) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
-        } else if (code == SDKConstant.status_pay_balance_plus_deposit_not_enough) {
-            SDKToast.getInstance().ToastShow("nuts_service_err", 3);
-        } else if (code == SDKConstant.status_deal_balance_fail) {
-            SDKToast.getInstance().ToastShow("status_deal_balance_fail", 3);
-        } else if (code == SDKConstant.status_production_do_not_exist) {
+        } else if (code == SDKConstant.STATUS_PRODUCTION_DO_NOT_EXIST) {
             SDKToast.getInstance().ToastShow("status_production_do_not_exist", 3);
-        } else if (code == SDKConstant.status_card_used) {
-            SDKToast.getInstance().ToastShow("status_card_used", 3);
-        } else if (code == SDKConstant.status_card_or_pass_invalid) {
-            SDKToast.getInstance().ToastShow("status_card_or_pass_invalid", 3);
-        } else if (code == SDKConstant.status_account_has_real_name_authentication){
-            SDKToast.getInstance().ToastShow("该账户已实名认证",3);
+        } else if (code==SDKConstant.STATUS_THIRD_ACCOUNT_USED){
+            SDKToast.getInstance().ToastShow("third account used",3);
+        } else if (code==SDKConstant.STATUS_ANTIADDICTIVE_ALREADY_EXIST){
+            SDKToast.getInstance().ToastShow("antiaddictive already exist",3);
         } else {
             SDKToast.getInstance().ToastShow(msg,3);
         }
@@ -465,85 +461,6 @@ public class SDKGameUtils {
         return lan;
     }
 
-    /**
-     * 判断错误码信息
-     *
-     * @param errorCode
-     */
-    public static void judgeErrorCode(int errorCode) {
-
-        if (errorCode <= -20) {
-
-            if (errorCode == SDKConstant.status_pay_fail) {
-                SDKToast.getInstance().ToastShow("pay fail ", 3);
-            } else if (errorCode == SDKConstant.status_pay_balance_not_enough) {
-                SDKToast.getInstance().ToastShow("pay balance not enough ", 3);
-            } else if (errorCode == SDKConstant.status_pay_save_to_balance) {
-                SDKToast.getInstance().ToastShow("pay save to balance ", 3);
-            } else if (errorCode == SDKConstant.status_pay_balance_plus_deposit_not_enough) {
-                SDKToast.getInstance().ToastShow("pay balance plus deposit not enough ", 3);
-            } else if (errorCode == SDKConstant.status_deal_balance_fail) {
-                SDKToast.getInstance().ToastShow("deal balance fail ", 3);
-            } else if (errorCode == SDKConstant.status_production_do_not_exist) {
-                SDKToast.getInstance().ToastShow("production do not exist ", 3);
-            } else if (errorCode == SDKConstant.status_card_used) {
-                SDKToast.getInstance().ToastShow("card used ", 3);
-            } else if (errorCode == SDKConstant.status_card_or_pass_invalid) {
-                SDKToast.getInstance().ToastShow("card or pass invalid ", 3);
-            } else if (errorCode == SDKConstant.status_email_not_exist) {
-                SDKToast.getInstance().ToastShow("email not exist ", 3);
-            }
-
-        } else {
-
-            if (errorCode <= -10) {
-
-                if (errorCode == SDKConstant.status_user_frozen) {
-                    SDKToast.getInstance().ToastShow(" user frozen", 3);
-                } else if (errorCode == SDKConstant.status_account_error) {
-                    SDKToast.getInstance().ToastShow("ic_account error ", 3);
-                } else if (errorCode == SDKConstant.status_email_not_fixed) {
-                    SDKToast.getInstance().ToastShow("email not fixed ", 3);
-                } else if (errorCode == SDKConstant.status_token_invalid) {
-                    SDKToast.getInstance().ToastShow("token invalid ", 3);
-                } else if (errorCode == SDKConstant.status_email_format_invalid) {
-                    SDKToast.getInstance().ToastShow("email format invalid ", 3);
-                } else if (errorCode == SDKConstant.status_account_format_invalid) {
-                    SDKToast.getInstance().ToastShow("ic_account format invalid ", 3);
-                } else if (errorCode == SDKConstant.status_passwd_format_invalid) {
-                    SDKToast.getInstance().ToastShow("password format invalid ", 3);
-                } else if (errorCode == SDKConstant.status_server_invalid) {
-                    SDKToast.getInstance().ToastShow("server invalid ", 3);
-                }
-
-            } else {
-
-                if (errorCode == SDKConstant.status_account_exist) {
-                    SDKToast.getInstance().ToastShow("ic_account exit", 3);
-                } else if (errorCode == SDKConstant.status_account_do_not_exist) {
-                    SDKToast.getInstance().ToastShow("ic_account do not exit", 3);
-                } else if (errorCode == SDKConstant.status_password_error) {
-                    SDKToast.getInstance().ToastShow("password error", 3);
-                } else if (errorCode == SDKConstant.status_email_exist) {
-                    SDKToast.getInstance().ToastShow("email exit", 3);
-                } else if (errorCode == SDKConstant.status_parameter_error) {
-                    SDKToast.getInstance().ToastShow("parameter error", 3);
-                } else if (errorCode == SDKConstant.status_ticket_invalid) {
-                    SDKToast.getInstance().ToastShow("ticket invalid", 3);
-                } else if (errorCode == SDKConstant.status_verify_invalid) {
-                    SDKToast.getInstance().ToastShow("验证码无效", 3);
-                } else if (errorCode == SDKConstant.status_account_bound) {
-                    SDKToast.getInstance().ToastShow("ic_account bound ", 3);
-                } else if (errorCode == SDKConstant.status_game_invalid) {
-                    SDKToast.getInstance().ToastShow("game invalid ", 3);
-                }
-
-            }
-        }
-
-    }
-
-
     public static void getKeyHash(Context context) {
         try {
             if (context == null) return;
@@ -564,5 +481,35 @@ public class SDKGameUtils {
             e.printStackTrace();
             Log.d("KeyHash:", e.toString());
         }
+    }
+
+    /**
+     * 绑定账号dialog
+     */
+    public static void showBindAccountDialog(Context context) {
+
+        if (Build.VERSION.SDK_INT >= 14){
+            AlertDialog.Builder normalDialog = new AlertDialog.Builder(context,android.R.style.Theme_DeviceDefault_Light_Dialog);
+            normalDialog.setTitle(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
+            normalDialog.setMessage(SDKLangConfig.getInstance().findMessage("tourist_signin_alert"));
+            normalDialog.setPositiveButton(SDKLangConfig.getInstance().findMessage("viewstring_Bind_Account"),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            normalDialog.setNegativeButton(SDKLangConfig.getInstance().findMessage("viewstring_enter_game"),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            normalDialog.setCancelable(false);
+            normalDialog.show();
+        }
+
     }
 }

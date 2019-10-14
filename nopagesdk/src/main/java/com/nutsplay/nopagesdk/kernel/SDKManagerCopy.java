@@ -1,7 +1,6 @@
 package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
-import android.os.Handler;
 
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
@@ -26,9 +25,9 @@ import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
-import com.nutsplay.nopagesdk.ui.BindTipDialog;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
+import com.nutsplay.nopagesdk.ui.RegisterDialog;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
@@ -48,11 +47,11 @@ import java.util.List;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public class SDKManager {
+public class SDKManagerCopy {
 
     private static String TAG = "SDKManager";
 
-    private volatile static SDKManager INSTANCE;
+    private volatile static SDKManagerCopy INSTANCE;
 
     private InitParameter initParameter;
 
@@ -64,11 +63,11 @@ public class SDKManager {
 
     private boolean initStatus = false;
 
-    public static SDKManager getInstance() {
+    public static SDKManagerCopy getInstance() {
         if (INSTANCE == null) {
-            synchronized (SDKManager.class) {
+            synchronized (SDKManagerCopy.class) {
                 if (null == INSTANCE) {
-                    INSTANCE = new SDKManager();
+                    INSTANCE = new SDKManagerCopy();
                 }
             }
         }
@@ -112,7 +111,7 @@ public class SDKManager {
     }
 
     public int getGuestLoginCount() {
-        return SPManager.getInstance(getActivity()).getInt(SPKey.key_sdk_auto_guest_count, 0);
+        return SPManager.getInstance(getActivity()).getInt(SPKey.key_sdk_auto_guest_count);
     }
 
     public User getUser() {
@@ -246,7 +245,7 @@ public class SDKManager {
                     //初始化接口go
                     doSdkInit(activity, initCallBack);
                 } else {
-                    SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
+                    SDKGameUtils.showServiceInfo(sdkResult.getCode(),sdkResult.getMessage());
                     initCallBack.onFailure(sdkResult.getMessage());
                 }
             }
@@ -301,7 +300,7 @@ public class SDKManager {
 
                         } else {
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
-                            SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
+                            SDKGameUtils.showServiceInfo(initgoBean.getCode(),initgoBean.getMessage());
                             initCallBackListener.onFailure(initgoBean.getMessage());
                         }
 
@@ -329,6 +328,98 @@ public class SDKManager {
         if (initGoBean == null) return;
         setInitStatus(true);
         SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_init, initGoBean);
+    }
+
+    /**
+     * SDK注册接口,有UI
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+
+    public void sdkRegister(Activity activity, final LoginCallBack loginCallBack) {
+
+        try {
+
+            if (activity == null) {
+                System.out.println("sdkRegister failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (loginCallBack == null) {
+                System.out.println("sdkRegister failed:registerCallBack is null.");
+                return;
+            }
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                loginCallBack.onFailure("The SDK is not initialized.");
+                return;
+            }
+
+
+            RegisterDialog.Builder builder=new RegisterDialog.Builder(activity,loginCallBack);
+            builder.create().show();
+
+
+
+
+
+
+
+
+
+
+//            final String aesKey = AESUtils.generate16SecretKey();
+//            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+//            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+//
+//            showProgress(activity);
+//            ApiManager.getInstance().SDKRegisterAccount(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+//                @Override
+//                public void onSuccess(String result) {
+//                    hideProgress();
+//
+//                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + result);
+//                    if (result == null || result.isEmpty()) {
+//                        registerCallBack.onFailure("result is null.");
+//                        return;
+//                    }
+//                    try {
+//                        String decodeData = AESUtils.decrypt(result, aesKey);
+//                        SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
+//                        if (loginModel == null) {
+//                            registerCallBack.onFailure("loginModel is null.");
+//                            return;
+//                        }
+//                        if (loginModel.getCode() == 1) {
+//                            registerCallBack.onSuccess();
+//
+//                            //注册追踪
+//                            TrackingManager.registerTracking(loginModel.getData().getPassportId());
+//                        } else {
+//                            LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + loginModel.getMessage());
+//                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
+//                            registerCallBack.onFailure(loginModel.getMessage());
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(String errorMsg) {
+//                    hideProgress();
+//                    LogUtils.e(TAG, "SDKRegisterAccount---onFailure:" + errorMsg);
+//                    registerCallBack.onFailure(errorMsg);
+//                }
+//            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
     }
 
 //    public void sdkRegister(Activity activity, final RegisterCallBack registerCallBack) {
@@ -427,7 +518,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+            if (!SDKGameUtils.matchAccount(userName)||!SDKGameUtils.matchPw(pwd)){
                 return;
             }
 
@@ -467,14 +558,14 @@ public class SDKManager {
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             loginCallBack.onSuccess(user);
                             //记住账号密码
-                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login,userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login,pwd);
 
                             //注册追踪
                             TrackingManager.registerTracking(loginModel.getData().getPassportId());
                         } else {
                             LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             loginCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -502,7 +593,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
+    public void sdkLogin(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
 
         try {
             if (activity == null) {
@@ -523,7 +614,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)){
                 return;
             }
 
@@ -534,18 +625,12 @@ public class SDKManager {
             }
 
             //自动登录
-            if (isAuto()) {
-                if (getUser() != null) {
-                    showProgress(activity);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgress();
-                            loginCallBack.onSuccess(getUser());
-                            //登录追踪
-                            TrackingManager.loginTracking(getUser().getUserId());
-                        }
-                    }, 1000);
+            if (isAuto()){
+                if (getUser()!=null){
+
+                    loginCallBack.onSuccess(getUser());
+                    //登录追踪
+                    TrackingManager.loginTracking(getUser().getUserId());
                     return;
                 }
             }
@@ -582,15 +667,15 @@ public class SDKManager {
                             loginCallBack.onSuccess(user);
 
                             //记住账号密码
-                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login,userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login,pwd);
 
                             //登录追踪
                             TrackingManager.loginTracking(loginModel.getData().getPassportId());
 
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             loginCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -612,140 +697,8 @@ public class SDKManager {
         }
     }
 
-    /**
-     * SDK登陆接口,有UI的
-     *
-     * @param activity
-     * @param loginCallBack
-     */
-    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack) {
-
-        try {
-            if (activity == null) {
-                System.out.println("sdkLogin failed:Activity is null.");
-                return;
-            }
-            setActivity(activity);
-
-            if (loginCallBack == null) {
-                System.out.println("sdkLogin failed:loginCallBack is null.");
-                return;
-            }
-
-            if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
-                return;
-            }
-
-            //自动登录
-            if (isAuto()) {
-                if (getUser() != null) {
-                    if (getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)) {
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
-
-                            BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
-                            builder.create().show();
-                            return;
-                        } else {
-                            SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
-                        }
-                    }
-                    showProgress(activity);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgress();
-                            loginCallBack.onSuccess(getUser());
-                            //登录追踪
-                            TrackingManager.loginTracking(getUser().getUserId());
-                        }
-                    }, 1000);
-                    return;
-
-                }
-            }
-            FirstDialog.Builder builder = new FirstDialog.Builder(activity, loginCallBack);
-            builder.create().show();
-
-
-        } catch (Exception e) {
-            hideProgress();
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 切换账号 UI
-     *
-     * @param activity
-     * @param loginCallBack
-     */
-    public void sdkSwitchAccount(Activity activity,LoginCallBack loginCallBack){
-
-        if (activity == null) {
-            System.out.println("sdkSwitchAccount failed:Activity is null.");
-            return;
-        }
-        setActivity(activity);
-
-        if (loginCallBack == null) {
-            System.out.println("sdkSwitchAccount failed:loginCallBack is null.");
-            return;
-        }
-
-        if (!isInitStatus()) {
-            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
-            return;
-        }
-
-        //登出操作
-        User user = new User();
-        setUser(user);
-        setAuto(false);
-
-        //登录操作
-        sdkLogin(activity,loginCallBack);
-    }
-
-    /**
-     * 切换账号 UI
-     *
-     * @param activity
-     * @param loginCallBack
-     */
-    public void sdkSwitchAccountNoUI(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
-
-        if (activity == null) {
-            System.out.println("sdkSwitchAccount failed:Activity is null.");
-            return;
-        }
-        setActivity(activity);
-
-        if (loginCallBack == null) {
-            System.out.println("sdkSwitchAccount failed:loginCallBack is null.");
-            return;
-        }
-
-        if (!isInitStatus()) {
-            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
-            return;
-        }
-
-        //登出操作
-        User user = new User();
-        setUser(user);
-        setAuto(false);
-
-        //登录操作
-        sdkLoginNoUI(activity,userName,pwd,loginCallBack);
-    }
-
-
     public void sdkLogin2Dialog(final Activity activity, final String userName, final String pwd,
-                                final LoginCallBack loginCallBack, final ResultCallBack resultCallBack) {
+                                final LoginCallBack loginCallBack,final ResultCallBack resultCallBack) {
 
         try {
             if (activity == null) {
@@ -766,7 +719,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)){
                 return;
             }
 
@@ -807,17 +760,17 @@ public class SDKManager {
                             loginCallBack.onSuccess(user);
 
                             //记住账号密码
-                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login,userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login,pwd);
 
                             //登录追踪
                             TrackingManager.loginTracking(loginModel.getData().getPassportId());
 
-                            if (resultCallBack != null) resultCallBack.onSuccess();
+                            if (resultCallBack!=null) resultCallBack.onSuccess();
 
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             loginCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -883,15 +836,15 @@ public class SDKManager {
                             loginCallBack.onSuccess(user);
 
                             //记住账号密码
-                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login,userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login,pwd);
 
                             //登录追踪
                             TrackingManager.loginTracking(loginModel.getData().getPassportId());
 
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             loginCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -978,8 +931,10 @@ public class SDKManager {
             loginCallBack.onFailure("The SDK is not initialized.");
             return;
         }
-        LoginManager.getInstance().visitorLogin(activity, loginCallBack);
+//        LoginManager.getInstance().visitorLogin(activity, loginCallBack);
 
+        FirstDialog.Builder builder = new FirstDialog.Builder(activity,loginCallBack);
+        builder.create().show();
     }
 
     /**
@@ -1043,7 +998,7 @@ public class SDKManager {
 
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             loginCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -1073,7 +1028,7 @@ public class SDKManager {
      * @param pwd
      * @param switchAccountCallBack
      */
-    public void sdkSwitchAccountNoUI(Activity activity, String userName, String pwd, final SwitchAccountCallBack switchAccountCallBack) {
+    public void sdkSwitchAccount(Activity activity, String userName, String pwd, final SwitchAccountCallBack switchAccountCallBack) {
 
         if (activity == null) {
             System.out.println("sdkSwitchAccount failed:Activity is null.");
@@ -1215,7 +1170,7 @@ public class SDKManager {
 
                         } else {
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
-                            SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
+                            SDKGameUtils.showServiceInfo(orderModel.getCode(),orderModel.getMessage());
                             purchaseCallBack.onFailure(orderModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -1314,7 +1269,7 @@ public class SDKManager {
             System.out.println("The SDK is not initialized.");
             return;
         }
-        SDKManager.getInstance().getInitParameter().setLanguage(language);
+        SDKManagerCopy.getInstance().getInitParameter().setLanguage(language);
     }
 
 
@@ -1331,7 +1286,6 @@ public class SDKManager {
 
         }
     }
-
     /**
      * 在activity的onDestroy()方法中调用
      */
@@ -1349,7 +1303,7 @@ public class SDKManager {
      * @param newPwd
      * @param callback
      */
-    public void sdkResetPwdNoUI(Activity activity, String account, String oldPwd, String newPwd, final LoginCallBack callback) {
+    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final LoginCallBack callback) {
 
         try {
 
@@ -1371,7 +1325,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(account) || !SDKGameUtils.matchPw(oldPwd) || !SDKGameUtils.matchPw(newPwd)) {
+            if (!SDKGameUtils.matchAccount(account) || !SDKGameUtils.matchPw(oldPwd)|| !SDKGameUtils.matchPw(newPwd)){
                 return;
             }
 
@@ -1412,9 +1366,9 @@ public class SDKManager {
                             setUser(user);
                             callback.onSuccess(user);
 
-                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("resetPwdOk"), 1);
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("resetPwdOk"),1);
                         } else {
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
                             LogUtils.e(TAG, "sdkResetPwdNoUI---onFailure:" + loginModel.getMessage());
                         }
@@ -1438,19 +1392,18 @@ public class SDKManager {
         }
 
     }
-
     /**
      * 第三方账号绑定账号密码
      *
      * @param activity
      * @param account
-     * @param oauthid     第三方账号ID
+     * @param oauthid 第三方账号ID
      * @param oauthsource 第三方账号来源
-     * @param account     账号
-     * @param second      密码
+     * @param account 账号
+     * @param second 密码
      * @param callback
      */
-    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback, final ResultCallBack call) {
+    public void sdkBindAccount(Activity activity, String oauthid,String oauthsource,String account,String second, final ResultCallBack callback,final ResultCallBack call) {
 
         try {
 
@@ -1465,14 +1418,14 @@ public class SDKManager {
                 return;
             }
 
-            if (StringUtils.isBlank(account) || StringUtils.isBlank(second) || StringUtils.isBlank(oauthid) || StringUtils.isBlank(oauthsource)) {
+            if (StringUtils.isBlank(account) || StringUtils.isBlank(second) || StringUtils.isBlank(oauthid) ||StringUtils.isBlank(oauthsource)) {
                 SDKToast.getInstance().ToastShow("Account,password and oauthId can't be empty.", 3);
                 callback.onFailure("account||second||oauthId||oauthSource is null.");
                 return;
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(account) || !SDKGameUtils.matchPw(second)) {
+            if (!SDKGameUtils.matchAccount(account) || !SDKGameUtils.matchPw(second)){
                 return;
             }
 
@@ -1487,7 +1440,7 @@ public class SDKManager {
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKBindAccount(aesKey, aesKey16byRSA, oauthid, oauthsource, account, second, new NetCallBack() {
+            ApiManager.getInstance().SDKBindAccount(aesKey, aesKey16byRSA, oauthid,oauthsource,account, second, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -1508,11 +1461,11 @@ public class SDKManager {
                         if (loginModel.getCode() == 1) {
                             //绑定账号成功
 
-                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"),1);
                             callback.onSuccess();
                             call.onSuccess();
                         } else {
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
                             LogUtils.e(TAG, "sdkBindAccount---onFailure:" + loginModel.getMessage());
                         }
@@ -1532,7 +1485,7 @@ public class SDKManager {
             });
 
         } catch (Exception e) {
-            if (callback != null) callback.onFailure(e.getMessage());
+            if (callback!=null) callback.onFailure(e.getMessage());
             e.printStackTrace();
         }
 

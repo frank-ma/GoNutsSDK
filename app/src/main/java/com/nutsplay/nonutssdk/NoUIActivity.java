@@ -1,6 +1,5 @@
 package com.nutsplay.nonutssdk;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +22,12 @@ import com.nutsplay.nopagesdk.kernel.SDKManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ *
+ * 无UI接口
+ *
+ */
+public class NoUIActivity extends AppCompatActivity {
 
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_no_ui);
         userNameEt = findViewById(R.id.accountEt);
         pwdEt = findViewById(R.id.pwdEt);
         newPwdEdt=findViewById(R.id.newPwd);
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
         initParameter.setDataeyeId(dataEyeId);
-        initParameter.setLanguage("zh_hk");
+        initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         SDKManager.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -72,16 +76,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void goToNoUIActivity(View view){
+    public void visitorLogin(View view) {
 
-        Intent intent = new Intent(this,NoUIActivity.class);
-        startActivity(intent);
+        SDKManager.getInstance().sdkLoginWithVisitor(this, new LoginCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                showLog("login success:userId-" + user.getUserId());
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("visitor login fail:" + msg);
+            }
+        });
     }
 
+    public void register(View view) {
 
-    public void loginUI(View view) {
+        SDKManager.getInstance().sdkRegisterNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(),new LoginCallBack() {
+            @Override
+            public void onSuccess(User user) {
 
-        SDKManager.getInstance().sdkLogin(this, new LoginCallBack() {
+                showLog("注册成功");
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                showLog("注册失败：" + errorMsg);
+            }
+        });
+
+    }
+
+    public void loginNoUI(View view) {
+
+        SDKManager.getInstance().sdkLoginNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -95,12 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 showLog("登录失败：" + errorMsg);
             }
         });
-
     }
+
 
     public void switchAccount(View view) {
 
-        SDKManager.getInstance().sdkSwitchAccount(this, new LoginCallBack() {
+        SDKManager.getInstance().sdkSwitchAccountNoUI(this,userNameEt.getText().toString(),pwdEt.getText().toString(), new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -115,6 +144,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param view
+     */
+    public void resetPwd(View view){
+
+        SDKManager.getInstance().sdkResetPwdNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), newPwdEdt.getText().toString(), new LoginCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                showLog("修改密码成功,ticket:"+user.getTicket());
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("修改密码失败:"+msg);
+            }
+        });
     }
 
     public void logout(View view) {
@@ -165,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     public void localPrice(View view){
 
         List<String> skuList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 125; i++) {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
@@ -210,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
     public void updateLanguage(View view){
         SDKManager.getInstance().sdkUpdateLanguage("kr");
     }
-
 
     @Override
     protected void onResume() {

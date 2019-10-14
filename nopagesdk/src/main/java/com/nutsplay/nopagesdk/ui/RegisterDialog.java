@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
@@ -56,6 +57,11 @@ public class RegisterDialog extends Dialog {
             final EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
             final EditText repeatPwd = layout.findViewById(SDKResUtils.getResId(context, "et_repeat_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
+            userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
+            pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
+            repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
+            signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+
             //注册账号
             signUp.setOnClickListener(new View.OnClickListener() {
                 @Override

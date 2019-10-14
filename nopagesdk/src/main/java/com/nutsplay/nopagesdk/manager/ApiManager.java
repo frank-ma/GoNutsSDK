@@ -351,8 +351,42 @@ public class ApiManager {
             e.printStackTrace();
         }
     }
+    /**
+     * 第三方类型账号绑定注册账号
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param oauthid 用户唯一标识
+     * @param oauthSource 第三方来源
+     * @param account 账号
+     * @param second SHA1加密后大写的密码
+     * @param callBack
+     */
+    public void SDKBindAccount(String aesKey16, String aesKey16byRSA,String oauthid,String oauthSource,String account,String second, NetCallBack callBack){
 
+        try {
+            String url = addDomainName() + "/rho";
 
+            BindAccount bindAccount = new BindAccount();
+            bindAccount.setClientID(mClientID);
+            bindAccount.setOauthid(oauthid);
+            bindAccount.setOauthsource(oauthSource);
+            bindAccount.setAccount(account);
+            bindAccount.setSecond(SHA1Utils.sha1UpperCase(second));
+            String jsonData = GsonUtils.tojsonString(bindAccount);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 /**
  * **************************************************************************************************
@@ -488,6 +522,30 @@ public class ApiManager {
 
         public void setNewsecond(String newsecond) {
             this.newsecond = newsecond;
+        }
+    }
+
+    private class BindAccount extends Bean implements Serializable{
+
+        private String oauthid;
+        private String oauthsource;
+        private String account;
+        private String second;
+
+        public void setOauthid(String oauthid) {
+            this.oauthid = oauthid;
+        }
+
+        public void setOauthsource(String oauthsource) {
+            this.oauthsource = oauthsource;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public void setSecond(String second) {
+            this.second = second;
         }
     }
 

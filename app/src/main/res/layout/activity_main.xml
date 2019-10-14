@@ -7,140 +7,67 @@
     android:padding="8dp"
     tools:context=".MainActivity">
 
-    <DigitalClock
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:format12Hour ="hh:mm:ss"/>
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="有UI接口："/>
+
+        <TextView
+            android:id="@+id/no_ui_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorAccent"
+            android:padding="6dp"
+            android:onClick="goToNoUIActivity"
+            android:text="无UI接口-->"/>
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left">
+        android:layout_marginTop="20dp">
+
         <Button
             android:id="@+id/init"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="initSDK"
             android:text="初始化"
             android:textColor="@color/white" />
+
         <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="loginUI"
             android:text="登录"
             android:textColor="@color/white" />
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <EditText
-            android:id="@+id/accountEt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorAccent"
-            android:hint="请输入账号"
-            android:inputType="text"
-            android:text="test0012" />
-
-        <EditText
-            android:id="@+id/pwdEt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorAccent"
-            android:hint="请输入密码"
-            android:inputType="textPassword"
-            android:text="test0012" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="5dp">
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="visitorLogin"
-            android:text="游客登录"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="register"
-            android:text="注册"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="login"
-            android:text="登录"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="switchAccount"
-            android:text="切换账号"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="logout"
             android:text="注销"
             android:textColor="@color/white" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <EditText
-            android:id="@+id/newPwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:hint="你的新密码"/>
-
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="resetPwd"
-            android:layout_marginStart="10dp"
-            android:text="重置密码"
+            android:onClick="switchAccount"
+            android:text="切换账号"
             android:textColor="@color/white" />
 
     </LinearLayout>
@@ -148,53 +75,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_marginTop="20dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="fbLogin"
-            android:text="Facebook登录"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+            android:onClick="updateLanguage"
+            android:text="切换语言"
+            android:textColor="@color/white" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="googleLogin"
-            android:text="Google登录"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="createRoleTracking"
             android:text="创角追踪"
             android:textColor="@color/white"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="updateLanguage"
-            android:text="切换语言"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/color_circle_blue"
+        android:layout_margin="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="wrap_content"

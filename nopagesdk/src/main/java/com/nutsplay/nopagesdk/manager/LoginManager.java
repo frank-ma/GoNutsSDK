@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.Installations;
 
@@ -30,20 +31,20 @@ public class LoginManager {
     public void facebookLogin(Activity activity,LoginCallBack loginCallBack) {
 
         String facebookId = doFacebookLogin();
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, facebookId, "facebook", loginCallBack);
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, facebookId, SDKConstant.TYPE_FACEBOOK, loginCallBack);
     }
 
     public void googleLogin(Activity activity,LoginCallBack loginCallBack) {
 
         String googleId = doGoogleLogin();
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, "google", loginCallBack);
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack);
 
     }
 
     public void visitorLogin(Activity activity, LoginCallBack loginCallBack) {
 
-        String visitor = Installations.id(activity);
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, "visitor", loginCallBack);
+        String visitor = Installations.id(activity)+"3";
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, SDKConstant.TYPE_GUEST, loginCallBack);
 
     }
 

@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
+import com.nutspower.commonlibrary.utils.LogUtils;
 
 /**
  * Created by frankma on 2019-10-09 18:22
@@ -49,7 +52,14 @@ public class FirstDialog extends Dialog {
             if (inflater == null) return dialog;
             View layout = inflater.inflate(SDKResUtils.getResId(context, "first_dialog", "layout"), null);
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
-            TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
+            TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
+            TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
+            TextView loginTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
+
+            loginTips.setText(SDKLangConfig.getInstance().findMessage("str_login_tips"));
+            visitorLogin.setText(SDKLangConfig.getInstance().findMessage("guest_login"));
+            accountLogin.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+
             visitorLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -57,13 +67,31 @@ public class FirstDialog extends Dialog {
                     dialog.dismiss();
                 }
             });
-            createAccount.setOnClickListener(new View.OnClickListener() {
+            accountLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack);
                     builder.create().show();
                     dialog.dismiss();
+                }
+            });
+            bind.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack,new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            LogUtils.e("FirstDialog","Bind successful");
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+                            LogUtils.e("FirstDialog","Bind failed:" + msg);
+                        }
+                    });
+                    builder.create().show();
                 }
             });
 

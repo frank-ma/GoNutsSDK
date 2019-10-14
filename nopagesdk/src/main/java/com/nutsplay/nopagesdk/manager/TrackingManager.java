@@ -113,6 +113,7 @@ public class TrackingManager {
      */
     public static void loginTracking(String accountId){
 
+        SDKManager.getInstance().setAuto(true);
         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
 
         DCTrackingPoint.login(accountId);

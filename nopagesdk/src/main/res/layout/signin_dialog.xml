@@ -19,6 +19,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:tint="@color/colorAccentLight"
+            android:visibility="invisible"
             android:src="@drawable/ic_back"/>
 
         <EditText
@@ -27,9 +28,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Account"
-            android:drawableRight="@drawable/ic_account"
+            android:drawableLeft="@drawable/ic_account"
             android:inputType="text"
             android:text=""
+            android:drawablePadding="10dp"
             android:textColor="@color/black" />
 
         <EditText
@@ -38,9 +40,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Password"
-            android:drawableRight="@drawable/ic_pwd"
+            android:drawableLeft="@drawable/ic_pwd"
             android:inputType="textPassword"
             android:text=""
+            android:drawablePadding="10dp"
             android:textColor="@color/black" />
 
         <EditText
@@ -50,7 +53,8 @@
             android:backgroundTint="@color/colorAccentLight"
             android:hint="New password:"
             android:inputType="textPassword"
-            android:drawableRight="@drawable/ic_pwd"
+            android:drawableLeft="@drawable/ic_pwd"
+            android:drawablePadding="10dp"
             android:visibility="gone"
             android:text=""
             android:textColor="@color/black" />
@@ -73,16 +77,8 @@
             android:id="@+id/tv_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/drawable_10"
-            android:paddingLeft="80dp"
-            android:paddingTop="6dp"
-            android:paddingRight="80dp"
-            android:paddingBottom="6dp"
             android:text="Sign in"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:translationZ="5dp" />
+            style="@style/customButton"/>
 
         <TextView
             android:id="@+id/tv_create_account"

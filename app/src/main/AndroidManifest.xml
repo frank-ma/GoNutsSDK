@@ -36,6 +36,9 @@
 
 
         <activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"/>
+
+        <activity android:name=".NoUIActivity"/>
+
         <!--appsflyer-->
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"

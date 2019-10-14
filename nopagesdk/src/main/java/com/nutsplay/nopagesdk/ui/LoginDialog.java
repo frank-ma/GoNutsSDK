@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
@@ -59,11 +60,18 @@ public class LoginDialog extends Dialog {
             final TextView signIn = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_in", "id"));
             final TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
+            signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+            createAccount.setText(SDKLangConfig.getInstance().findMessage("str_create_account"));
+            resetPwd.setText(SDKLangConfig.getInstance().findMessage("reset"));
+
 
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
             final EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
             final EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
+            userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
+            pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
+            newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));
             fillAccount(context,userName, pwd);
 
 
@@ -71,16 +79,17 @@ public class LoginDialog extends Dialog {
             resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    signIn.setText("Reset");
+                    signIn.setText(SDKLangConfig.getInstance().findMessage("reset"));
                     resetPwd.setVisibility(View.INVISIBLE);
                     newPwd.setVisibility(View.VISIBLE);
+                    backIv.setVisibility(View.VISIBLE);
                 }
             });
             //登录或重置密码
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (signIn.getText().equals("Sign in")) {
+                    if (signIn.getText().equals(SDKLangConfig.getInstance().findMessage("sign_in"))) {
                         //登录账号
 
                         if (userName.getText().toString().isEmpty() || pwd.getText().toString().isEmpty()) {
@@ -113,7 +122,7 @@ public class LoginDialog extends Dialog {
                             SDKToast.getInstance().ToastShow("The new password is same as old password.", 2);
                             return;
                         }
-                        SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), loginCallBack);
+                        SDKManager.getInstance().sdkResetPwdNoUI((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), loginCallBack);
                     }
 
                 }
@@ -134,9 +143,10 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     fillAccount(context,userName,pwd);
-                    signIn.setText("Sign in");
+                    signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
                     resetPwd.setVisibility(View.VISIBLE);
                     newPwd.setVisibility(View.GONE);
+                    backIv.setVisibility(View.INVISIBLE);
                 }
             });
 
