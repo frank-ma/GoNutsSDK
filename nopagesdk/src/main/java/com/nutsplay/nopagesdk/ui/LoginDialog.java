@@ -122,7 +122,7 @@ public class LoginDialog extends Dialog {
                             SDKToast.getInstance().ToastShow("The new password is same as old password.", 2);
                             return;
                         }
-                        SDKManager.getInstance().sdkResetPwdNoUI((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), loginCallBack);
+                        SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), loginCallBack);
                     }
 
                 }

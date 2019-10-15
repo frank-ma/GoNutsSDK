@@ -1308,7 +1308,7 @@ public class SDKManagerCopy {
         try {
 
             if (activity == null) {
-                System.out.println("sdkResetPwdNoUI failed:Activity is null.");
+                System.out.println("sdkResetPwd failed:Activity is null.");
                 return;
             }
             setActivity(activity);
@@ -1370,7 +1370,7 @@ public class SDKManagerCopy {
                         } else {
                             SDKGameUtils.showServiceInfo(loginModel.getCode(),loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
-                            LogUtils.e(TAG, "sdkResetPwdNoUI---onFailure:" + loginModel.getMessage());
+                            LogUtils.e(TAG, "sdkResetPwd---onFailure:" + loginModel.getMessage());
                         }
 
                     } catch (Exception e) {
@@ -1383,7 +1383,7 @@ public class SDKManagerCopy {
                 public void onFailure(String msg) {
                     hideProgress();
                     callback.onFailure(msg);
-                    LogUtils.e(TAG, "sdkResetPwdNoUI---onFailure:" + msg);
+                    LogUtils.e(TAG, "sdkResetPwd---onFailure:" + msg);
                 }
             });
 
@@ -1408,7 +1408,7 @@ public class SDKManagerCopy {
         try {
 
             if (activity == null) {
-                System.out.println("sdkResetPwdNoUI failed:Activity is null.");
+                System.out.println("sdkResetPwd failed:Activity is null.");
                 return;
             }
             setActivity(activity);

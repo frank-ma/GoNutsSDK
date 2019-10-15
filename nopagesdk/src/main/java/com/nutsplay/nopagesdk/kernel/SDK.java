@@ -54,9 +54,18 @@ public class SDK {
      * @param pwd
      * @param loginCallBack
      */
-    public void sdkRegisterNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
+    public void sdkRegister(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
 
-        SDKManager.getInstance().sdkRegisterNoUI(activity,userName,pwd,loginCallBack);
+        SDKManager.getInstance().sdkRegister(activity,userName,pwd,loginCallBack);
+    }
+
+    /**
+     * 登录 UI
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkLogin(Activity activity,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkLogin(activity,loginCallBack);
     }
 
     /**
@@ -65,9 +74,39 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLogin(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
+    public void sdkLoginNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
 
         SDKManager.getInstance().sdkLoginNoUI(activity,userName,pwd,loginCallBack);
+    }
+
+    /**
+     * 切换账号 UI
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkSwitchAccount(Activity activity,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkSwitchAccount(activity,loginCallBack);
+    }
+
+    /**
+     * 切换账号 无UI
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkSwitchAccountNoUI(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkSwitchAccountNoUI(activity,userName,pwd,loginCallBack);
+    }
+
+    /**
+     * 游客登录
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkLoginWithVisitor(Activity activity, LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkLoginWithVisitor(activity,loginCallBack);
     }
 
     /**
@@ -140,6 +179,34 @@ public class SDK {
         SDKManager.getInstance().sdkUpdateLanguage(language);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param activity
+     * @param account
+     * @param oldPwd
+     * @param newPwd
+     * @param callback
+     */
+    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final LoginCallBack callback){
+        SDKManager.getInstance().sdkResetPwd(activity,account,oldPwd,newPwd,callback);
+    }
+
+    /**
+     * 第三方账号绑定账号密码
+     *
+     * @param activity
+     * @param oauthid     第三方账号ID
+     * @param oauthsource 第三方账号来源
+     * @param account     账号
+     * @param pwd      密码
+     * @param callback
+     */
+    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String pwd, final ResultCallBack callback) {
+
+        SDKManager.getInstance().sdkBindAccount(activity,oauthid,oauthsource,account,pwd,callback);
+
+    }
 
     /**
      * 在activity的onResume()方法中调用
@@ -155,23 +222,6 @@ public class SDK {
     public void sdkOnDestroy() {
 
         SDKManager.getInstance().sdkOnDestroy();
-    }
-
-    /**
-     * 第三方账号绑定账号密码
-     *
-     * @param activity
-     * @param account
-     * @param oauthid     第三方账号ID
-     * @param oauthsource 第三方账号来源
-     * @param account     账号
-     * @param second      密码
-     * @param callback
-     */
-    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback) {
-
-//        SDKManager.getInstance().sdkBindAccount(activity,oauthid,oauthsource,account,second,callback);
-
     }
 
 }

@@ -139,6 +139,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
+            android:onClick="bind"
+            android:text="游客绑定"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
             android:onClick="updateLanguage"
             android:text="切换语言"
             android:layout_marginLeft="10dp"

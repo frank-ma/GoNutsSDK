@@ -85,8 +85,8 @@ public class BindDialog extends Dialog {
                     if (!SDKGameUtils.matchAccount(account)|| !SDKGameUtils.matchPw(psw)){
                         return;
                     }
-                    String oauthid= Installations.id(context)+"3";
-                    SDKManager.getInstance().sdkBindAccount((Activity) context, oauthid, SDKConstant.TYPE_GUEST, account, psw, callBack, new ResultCallBack() {
+                    String oauthid= Installations.id(context);
+                    SDKManager.getInstance().sdkBindAccount2Dialog((Activity) context, oauthid, SDKConstant.TYPE_GUEST, account, psw, callBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();

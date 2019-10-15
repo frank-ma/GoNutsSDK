@@ -78,7 +78,7 @@ public class RegisterDialog extends Dialog {
                         SDKToast.getInstance().ToastShow("You should enter the same password.", 3);
                         return;
                     }
-                    SDKManager.getInstance().sdkRegisterNoUI((Activity) context, account, psw, loginCallBack);
+                    SDKManager.getInstance().sdkRegister((Activity) context, account, psw, loginCallBack);
 
                 }
             });

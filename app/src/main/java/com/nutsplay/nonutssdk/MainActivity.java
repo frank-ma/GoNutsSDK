@@ -18,7 +18,7 @@ import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
-import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.kernel.SDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         initParameter.setLanguage("zh_hk");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
-        SDKManager.getInstance().initSDK(this, initParameter, new InitCallBack() {
+        SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
             public void onSuccess() {
                 showLog("初始化成功");
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginUI(View view) {
 
-        SDKManager.getInstance().sdkLogin(this, new LoginCallBack() {
+        SDK.getInstance().sdkLogin(this, new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchAccount(View view) {
 
-        SDKManager.getInstance().sdkSwitchAccount(this, new LoginCallBack() {
+        SDK.getInstance().sdkSwitchAccount(this, new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout(View view) {
 
-        SDKManager.getInstance().sdkLogout(this,new LogOutCallBack() {
+        SDK.getInstance().sdkLogout(this,new LogOutCallBack() {
             @Override
             public void onSuccess() {
                 showLog("注销成功");
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void purchase(View view) {
         String referenceId = "com.nutsplay.iap.item1002";
-        SDKManager.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
+        SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 showLog("下单成功" );
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createRoleTracking(View view){
-        SDKManager.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
+        SDK.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
     }
 
     /**
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
-        SDKManager.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功："+skuDetails.size());
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void updateLanguage(View view){
-        SDKManager.getInstance().sdkUpdateLanguage("kr");
+        SDK.getInstance().sdkUpdateLanguage("kr");
     }
 
 
@@ -216,13 +216,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDKManager.getInstance().sdkOnResume();
+        SDK.getInstance().sdkOnResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SDKManager.getInstance().sdkOnDestroy();
+        SDK.getInstance().sdkOnDestroy();
     }
 
     private void showLog(final String msg) {

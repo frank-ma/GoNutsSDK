@@ -49,6 +49,7 @@ public class SPManager {
 
     private SPManager(Context context) {
 
+        if (context == null )return;
         mPreferences = context.getSharedPreferences(SharedPreferenceFileName, Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
     }

@@ -98,20 +98,16 @@
     </LinearLayout>
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/color_circle_blue"
-        android:layout_margin="5dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/black"
             android:onClick="purchase"
             android:text="支付"
@@ -128,6 +124,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/color_circle_blue"
+        android:layout_margin="5dp"/>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -30,11 +30,13 @@ public class ApiManager {
 
     private volatile static ApiManager INSTANCE;
 
-    private String imei="",mClientID = "", mKey = "", language = "", identifier="";
+    private String mClientID = "", identifier="";
 
     private String[] domains;
 
     private String goDomainName1 = "https://go.0egg.com/foo";
+
+    private int index = 0;
 
     private ApiManager() {
         InitParameter initParameter = SDKManager.getInstance().getInitParameter();
@@ -42,16 +44,14 @@ public class ApiManager {
             System.out.println("ApiManager construction failed:initParameter is null.");
             return;
         }
-//        imei = DeviceUtils.getDeviceID(SDKManager.getInstance().getActivity());
         mClientID = initParameter.getClientId();
-        mKey = initParameter.getClientKey();
-        language = initParameter.getLanguage();
         identifier = Installations.id(SDKManager.getInstance().getActivity());
 
         String goDomainName1 = "https://go.0egg.com/foo";
         String goDomainName2 = "https://go.0egg.com/foo";
-        String goDomainName3 = "https://go.0egg.com/foo";
-        domains = new String[]{goDomainName1,goDomainName2,goDomainName3};
+
+        domains = new String[]{goDomainName1,goDomainName2};
+        index = new Random().nextInt(domains.length);
     }
 
 
@@ -68,11 +68,9 @@ public class ApiManager {
 
     private String addDomainName(){
         if (domains == null || domains.length == 0) return goDomainName1;
-        int index = new Random().nextInt(domains.length);
+        LogUtils.e(TAG,"index-----" + index);
         return domains[index];
     }
-
-
 
     /**
      * **************************************************************************************************

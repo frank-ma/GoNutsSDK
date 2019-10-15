@@ -27,4 +27,5 @@ public class SPKey {
     public static final String key_usage_stats_dialog_show_times = "key_usage_stats";
     public static final String key_user_name_last_login = "key_user_name_last_login";
     public static final String key_pwd_last_login = "key_pwd_last_login";
+    public static final String key_sdk_language="key_sdk_language";
 }

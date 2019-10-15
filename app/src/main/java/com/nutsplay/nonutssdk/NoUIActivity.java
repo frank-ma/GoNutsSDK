@@ -16,8 +16,10 @@ import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
-import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.kernel.SDK;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,7 @@ public class NoUIActivity extends AppCompatActivity {
         initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
-        SDKManager.getInstance().initSDK(this, initParameter, new InitCallBack() {
+        SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
             public void onSuccess() {
                 showLog("初始化成功");
@@ -78,7 +80,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void visitorLogin(View view) {
 
-        SDKManager.getInstance().sdkLoginWithVisitor(this, new LoginCallBack() {
+        SDK.getInstance().sdkLoginWithVisitor(this, new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 showLog("login success:userId-" + user.getUserId());
@@ -93,7 +95,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void register(View view) {
 
-        SDKManager.getInstance().sdkRegisterNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(),new LoginCallBack() {
+        SDK.getInstance().sdkRegister(this, userNameEt.getText().toString(), pwdEt.getText().toString(),new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
 
@@ -110,7 +112,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void loginNoUI(View view) {
 
-        SDKManager.getInstance().sdkLoginNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), new LoginCallBack() {
+        SDK.getInstance().sdkLoginNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -129,7 +131,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void switchAccount(View view) {
 
-        SDKManager.getInstance().sdkSwitchAccountNoUI(this,userNameEt.getText().toString(),pwdEt.getText().toString(), new LoginCallBack() {
+        SDK.getInstance().sdkSwitchAccountNoUI(this,userNameEt.getText().toString(),pwdEt.getText().toString(), new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 if (user == null) return;
@@ -153,7 +155,7 @@ public class NoUIActivity extends AppCompatActivity {
      */
     public void resetPwd(View view){
 
-        SDKManager.getInstance().sdkResetPwdNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), newPwdEdt.getText().toString(), new LoginCallBack() {
+        SDK.getInstance().sdkResetPwd(this, userNameEt.getText().toString(), pwdEt.getText().toString(), newPwdEdt.getText().toString(), new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
                 showLog("修改密码成功,ticket:"+user.getTicket());
@@ -168,7 +170,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void logout(View view) {
 
-        SDKManager.getInstance().sdkLogout(this,new LogOutCallBack() {
+        SDK.getInstance().sdkLogout(this,new LogOutCallBack() {
             @Override
             public void onSuccess() {
                 showLog("注销成功");
@@ -184,7 +186,7 @@ public class NoUIActivity extends AppCompatActivity {
 
     public void purchase(View view) {
         String referenceId = "com.nutsplay.iap.item1002";
-        SDKManager.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
+        SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 showLog("下单成功" );
@@ -204,7 +206,7 @@ public class NoUIActivity extends AppCompatActivity {
     }
 
     public void createRoleTracking(View view){
-        SDKManager.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
+        SDK.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
     }
 
     /**
@@ -218,7 +220,7 @@ public class NoUIActivity extends AppCompatActivity {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
-        SDKManager.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功："+skuDetails.size());
@@ -257,20 +259,40 @@ public class NoUIActivity extends AppCompatActivity {
      * @param view
      */
     public void updateLanguage(View view){
-        SDKManager.getInstance().sdkUpdateLanguage("kr");
+        SDK.getInstance().sdkUpdateLanguage("kr");
+    }
+
+    /**
+     * 游客绑定新账号
+     * @param view
+     */
+    public void bind(View view){
+
+        SDK.getInstance().sdkBindAccount(this, "testtesttesttesttesttest", SDKConstant.TYPE_GUEST, userNameEt.getText().toString(), pwdEt.getText().toString(), new ResultCallBack() {
+
+            @Override
+            public void onSuccess() {
+                showLog("绑定成功");
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("绑定失败:" + msg);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDKManager.getInstance().sdkOnResume();
+        SDK.getInstance().sdkOnResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SDKManager.getInstance().sdkOnDestroy();
+        SDK.getInstance().sdkOnDestroy();
     }
 
     private void showLog(final String msg) {

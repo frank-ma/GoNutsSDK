@@ -1,5 +1,10 @@
 package com.nutsplay.nopagesdk.beans;
 
+import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.sputil.SPKey;
+import com.nutsplay.nopagesdk.utils.sputil.SPManager;
+import com.nutspower.commonlibrary.utils.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -15,7 +20,7 @@ public class InitParameter implements Serializable {
     private String buglyChannel;
     private String appsflyerId;
     private String dataeyeId;
-    private String language;
+    private String language="en";
     private String customerServiceAddress="";
     private boolean isDebug = false;
     private boolean hasUI = true;
@@ -69,7 +74,12 @@ public class InitParameter implements Serializable {
     }
 
     public String getLanguage() {
-        return language;
+        String lan = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.key_sdk_language,"");
+        if (StringUtils.isBlank(lan)){
+            return language;
+        }else {
+            return lan;
+        }
     }
 
     public void setLanguage(String language) {
