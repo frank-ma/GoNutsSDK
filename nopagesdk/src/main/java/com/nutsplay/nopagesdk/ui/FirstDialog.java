@@ -50,7 +50,7 @@ public class FirstDialog extends Dialog {
 //            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final FirstDialog dialog = new FirstDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "first_dialog", "layout"), null);
+            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
             TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));

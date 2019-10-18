@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 
 /**
@@ -511,5 +512,54 @@ public class SDKGameUtils {
             normalDialog.show();
         }
 
+    }
+
+
+    /**
+     * 随机生成10位账号（由字母和数字组成，字母开头）
+     * @return
+     */
+    public static String generate10Account() {
+        String val = "";
+        Random random = new Random();
+        //产生首字母
+        val += (char) (65 + random.nextInt(26));
+
+        for (int i = 0; i < 9; i++) {
+            String str = random.nextInt(2) % 2 == 0 ? "num" : "char";
+            if ("char".equalsIgnoreCase(str)) { // 产生字母
+                int nextInt = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                // System.out.println(nextInt + "!!!!"); 1,0,1,1,1,0,0
+                val += (char) (nextInt + random.nextInt(26));
+            } else  { // 产生数字
+                String key= String.valueOf(random.nextInt(10));
+                val += key;
+            }
+        }
+        return val;
+    }
+
+    /**
+     * 随机生成6位密码（由字母和数字组成，字母开头）
+     * @return
+     */
+    public static String generate6Password() {
+        String val = "";
+        Random random = new Random();
+        //产生首字母
+        val += (char) (65 + random.nextInt(26));
+
+        for (int i = 0; i < 5; i++) {
+            String str = random.nextInt(2) % 2 == 0 ? "num" : "char";
+            if ("char".equalsIgnoreCase(str)) { // 产生字母
+                int nextInt = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                // System.out.println(nextInt + "!!!!"); 1,0,1,1,1,0,0
+                val += (char) (nextInt + random.nextInt(26));
+            } else  { // 产生数字
+                String key= String.valueOf(random.nextInt(10));
+                val += key;
+            }
+        }
+        return val;
     }
 }

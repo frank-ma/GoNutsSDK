@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nonutssdkdemo.R;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
@@ -28,9 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
-    private String dataEyeId = "C0D10A7AA5016F9B3FCCBB6821EC72F91";
 
-    private EditText userNameEt, pwdEt,newPwdEdt;
     private TextView logTv;
     private Button initB;
 
@@ -38,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userNameEt = findViewById(R.id.accountEt);
-        pwdEt = findViewById(R.id.pwdEt);
-        newPwdEdt=findViewById(R.id.newPwd);
         logTv = findViewById(R.id.log);
         initB=findViewById(R.id.init);
 
@@ -54,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setDataeyeId(dataEyeId);
-        initParameter.setLanguage("zh_hk");
+        initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -138,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
-                showLog("下单成功" );
+                if (payResult==null)return;
+                showLog("支付成功" +payResult.toString());
             }
 
             @Override
@@ -165,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     public void localPrice(View view){
 
         List<String> skuList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
@@ -208,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void updateLanguage(View view){
-        SDK.getInstance().sdkUpdateLanguage("kr");
+        SDK.getInstance().sdkUpdateLanguage("zh_hk");
     }
 
 
@@ -216,13 +211,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDK.getInstance().sdkOnResume();
+        SDK.getInstance().sdkOnResume(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SDK.getInstance().sdkOnDestroy();
+        SDK.getInstance().sdkOnDestroy(this);
     }
 
     private void showLog(final String msg) {

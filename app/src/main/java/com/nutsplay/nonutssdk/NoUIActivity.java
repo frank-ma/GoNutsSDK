@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nonutssdkdemo.R;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
@@ -34,7 +35,6 @@ public class NoUIActivity extends AppCompatActivity {
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
-    private String dataEyeId = "C0D10A7AA5016F9B3FCCBB6821EC72F91";
 
     private EditText userNameEt, pwdEt,newPwdEdt;
     private TextView logTv;
@@ -60,7 +60,6 @@ public class NoUIActivity extends AppCompatActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setDataeyeId(dataEyeId);
         initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
@@ -189,7 +188,8 @@ public class NoUIActivity extends AppCompatActivity {
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
-                showLog("下单成功" );
+                if (payResult == null) return;
+                showLog("支付成功" +payResult.toString());
             }
 
             @Override
@@ -259,7 +259,7 @@ public class NoUIActivity extends AppCompatActivity {
      * @param view
      */
     public void updateLanguage(View view){
-        SDK.getInstance().sdkUpdateLanguage("kr");
+        SDK.getInstance().sdkUpdateLanguage("en_us");
     }
 
     /**
@@ -286,13 +286,13 @@ public class NoUIActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDK.getInstance().sdkOnResume();
+        SDK.getInstance().sdkOnResume(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SDK.getInstance().sdkOnDestroy();
+        SDK.getInstance().sdkOnDestroy(this);
     }
 
     private void showLog(final String msg) {

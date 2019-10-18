@@ -47,7 +47,7 @@ public class PayWebActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(SDKResUtils.getResId(PayWebActivity.this, "activity_payweb", "layout"));
+        setContentView(SDKResUtils.getResId(PayWebActivity.this, "sdk_activity_payweb", "layout"));
         initView();
     }
 

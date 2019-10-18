@@ -153,7 +153,7 @@ public class Toasty {
 
         }
         final View toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(SDKResUtils.getResId(context,"toast_layout","layout"), null);
+                .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
         currentToast.setGravity(Gravity.TOP,0,0);
         final ImageView toastIcon =toastLayout.findViewById(SDKResUtils.getResId(context,"toast_icon","id"));
         final TextView toastTextView = toastLayout.findViewById(SDKResUtils.getResId(context,"toast_text","id"));

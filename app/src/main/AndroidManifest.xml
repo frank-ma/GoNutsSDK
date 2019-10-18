@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nutsplay.nonutssdk">
+    package="com.example.nonutssdkdemo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- google支付权限 -->
@@ -12,12 +12,14 @@
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
     <!--af Optional -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--存储照片-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
 
 
     <application
-        android:name=".App"
+        android:name="com.nutsplay.nonutssdk.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,8 +27,8 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden">
+        <activity android:name="com.nutsplay.nonutssdk.MainActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -35,9 +37,10 @@
         </activity>
 
 
-        <activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"/>
+        <activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
 
-        <activity android:name=".NoUIActivity"/>
+        <activity android:name="com.nutsplay.nonutssdk.NoUIActivity"/>
 
         <!--appsflyer-->
         <receiver

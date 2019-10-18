@@ -68,7 +68,7 @@ public class ApiManager {
 
     private String addDomainName(){
         if (domains == null || domains.length == 0) return goDomainName1;
-        LogUtils.e(TAG,"index-----" + index);
+
         return domains[index];
     }
 

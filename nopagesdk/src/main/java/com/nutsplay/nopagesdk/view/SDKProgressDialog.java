@@ -32,7 +32,7 @@ public class SDKProgressDialog extends Dialog {
     public static SDKProgressDialog createProgrssDialog(Context context) {
         progressDialog = new SDKProgressDialog(context);
 //        progressDialog = new SDKProgressDialog(context, SDKResUtils.getResId(context,"DialogStyle","style"));
-        progressDialog.setContentView(SDKResUtils.getResId(context,"loading_dialog","layout"));
+        progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
         if (progressDialog.getWindow()!=null) progressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         tv =  progressDialog.findViewById(SDKResUtils.getResId(context,"tv_dialog_info","id"));
         if (mMessage != null) {

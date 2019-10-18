@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -56,7 +57,7 @@ public class LoginDialog extends Dialog {
 //            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final LoginDialog dialog = new LoginDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "signin_dialog", "layout"), null);
+            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
             final TextView signIn = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_in", "id"));
             final TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
@@ -132,7 +133,19 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack);
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack, new RegisterResultCallBack() {
+                        @Override
+                        public void onSuccess(String account, String pas) {
+                            if (account == null || pas == null) return;
+                            userName.setText(account);
+                            pwd.setText(pas);
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
                     builder.create().show();
 
                 }

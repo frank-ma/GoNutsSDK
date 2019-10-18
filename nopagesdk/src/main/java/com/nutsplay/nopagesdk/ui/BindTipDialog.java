@@ -48,7 +48,7 @@ public class BindTipDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final BindTipDialog dialog = new BindTipDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "bind_tip_dialog", "layout"), null);
+            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips", "layout"), null);
 
             TextView tvTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
             TextView tvContent = layout.findViewById(SDKResUtils.getResId(context, "tv_content", "id"));

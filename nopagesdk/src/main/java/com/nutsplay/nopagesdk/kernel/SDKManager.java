@@ -2,7 +2,10 @@ package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
@@ -192,7 +195,7 @@ public class SDKManager {
         }
 
         //初始化追踪
-        TrackingManager.trackingInit(activity, initParameter.getDataeyeId(), initParameter.getAppsflyerId(), activity.getApplication());
+        TrackingManager.trackingInit(activity,  initParameter.getAppsflyerId(), activity.getApplication());
 
         showProgress(activity);
 
@@ -376,6 +379,100 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             loginCallBack.onSuccess(user);
+                            //记住账号密码
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+
+                            //注册追踪
+                            TrackingManager.registerTracking(loginModel.getData().getPassportId());
+                        } else {
+                            LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + loginModel.getMessage());
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getMessage());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "SDKRegisterAccount---onFailure:" + errorMsg);
+                    loginCallBack.onFailure(errorMsg);
+                }
+            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 无UI
+     *
+     * @param activity
+     * @param userName
+     * @param pwd
+     * @param loginCallBack
+     */
+    public void sdkRegister2Dialog(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack, final ResultCallBack callBack) {
+
+        try {
+
+            if (activity == null) {
+                System.out.println("sdkRegister failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (loginCallBack == null) {
+                System.out.println("sdkRegister failed:registerCallBack is null.");
+                return;
+            }
+
+            //账号检查
+            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+                return;
+            }
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                loginCallBack.onFailure("The SDK is not initialized.");
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            showProgress(activity);
+            ApiManager.getInstance().SDKRegisterAccount(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+
+                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + result);
+                    if (result == null || result.isEmpty()) {
+                        loginCallBack.onFailure("result is null.");
+                        return;
+                    }
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + decodeData);
+                        SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
+                        if (loginModel == null) {
+                            loginCallBack.onFailure("loginModel is null.");
+                            return;
+                        }
+                        if (loginModel.getCode() == 1) {
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            loginCallBack.onSuccess(user);
+                            callBack.onSuccess();
                             //记住账号密码
                             SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
                             SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
@@ -1115,7 +1212,7 @@ public class SDKManager {
             System.out.println("The SDK is not initialized.");
             return;
         }
-        SPManager.getInstance(activity).putString(SPKey.key_sdk_language,language);
+        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language,language);
         SDKManager.getInstance().getInitParameter().setLanguage(language);
     }
 
@@ -1123,14 +1220,30 @@ public class SDKManager {
     /**
      * 在activity的onResume()方法中调用
      */
-    public void sdkOnResume() {
+    public void sdkOnResume(Activity activity) {
+
+        if (activity == null) {
+            System.out.println("sdkOnResume():activity == null");
+            return;
+        }
 
         if (!isInitStatus()) return;
 
         if (GooglePayHelp.getInstance().isConnected()) {
-//            GooglePayHelp.getInstance().queryPurchase(false);
             GooglePayHelp.getInstance().resentOrderByDbRecord();
+        }else {
+            GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
+                @Override
+                public void onBillingSetupFinished(BillingResult billingResult) {
+                    GooglePayHelp.getInstance().setConnected(true);
+                    GooglePayHelp.getInstance().resentOrderByDbRecord();
+                }
 
+                @Override
+                public void onBillingServiceDisconnected() {
+                    Log.i(TAG, "line1240-onBillingServiceDisconnected()");
+                }
+            });
         }
     }
 

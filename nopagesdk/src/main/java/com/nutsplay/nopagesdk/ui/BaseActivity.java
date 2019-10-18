@@ -7,8 +7,6 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.nutsplay.nopagesdk.manager.TrackingManager;
-
 /**
  * Created by frankma on 2019-09-24 16:19
  * Email: frankma9103@gmail.com
@@ -27,12 +25,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TrackingManager.onResume(this);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        TrackingManager.onPause(this);
+
     }
 }

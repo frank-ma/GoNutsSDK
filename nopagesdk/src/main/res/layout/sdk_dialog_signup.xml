@@ -10,15 +10,30 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:tint="@color/colorAccentLight"
-            android:src="@drawable/ic_back"/>
+            android:padding="8dp">
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:tint="@color/colorAccentLight"
+                android:src="@drawable/ic_back"/>
+
+            <TextView
+                android:id="@+id/tv_auto_generation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autogeneration"
+                android:layout_centerVertical="true"
+                android:textColor="@color/blue"
+                android:padding="4dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
 
         <EditText
             android:id="@+id/et_name"

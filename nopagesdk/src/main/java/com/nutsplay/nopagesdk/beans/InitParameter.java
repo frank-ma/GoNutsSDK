@@ -19,7 +19,7 @@ public class InitParameter implements Serializable {
     private String buglyId;
     private String buglyChannel;
     private String appsflyerId;
-    private String dataeyeId;
+//    private String dataeyeId;
     private String language="en";
     private String customerServiceAddress="";
     private boolean isDebug = false;
@@ -63,14 +63,6 @@ public class InitParameter implements Serializable {
 
     public void setAppsflyerId(String appsflyerId) {
         this.appsflyerId = appsflyerId;
-    }
-
-    public String getDataeyeId() {
-        return dataeyeId;
-    }
-
-    public void setDataeyeId(String dataeyeId) {
-        this.dataeyeId = dataeyeId;
     }
 
     public String getLanguage() {

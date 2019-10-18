@@ -4,7 +4,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.nutsplay.nonutssdk"
+//        applicationId "com.nutsplay.nonutssdk"
+        applicationId "com.example.nonutssdkdemo"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 4

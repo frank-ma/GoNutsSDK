@@ -309,10 +309,10 @@ public class BillingManager implements PurchasesUpdatedListener {
                         purchasesResult.getPurchasesList().addAll(
                                 subscriptionResult.getPurchasesList());
                     } else {
-                        Log.e(TAG, "Got an error response trying to query subscription purchases");
+                        Log.e(TAG, "Got an error response trying to queryLostOrders subscription purchases");
                     }
                 } else if (purchasesResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    Log.i(TAG, "Skipped subscription purchases query since they are not supported");
+                    Log.i(TAG, "Skipped subscription purchases queryLostOrders since they are not supported");
                 } else {
                     Log.w(TAG, "queryPurchases() got an error response code: "
                             + purchasesResult.getResponseCode());

@@ -66,8 +66,8 @@ public class DBManager {
      * 查询所有状态为2的订单：支付但未兑换
      * @return
      */
-    public List<PurchaseRecord> query(){
-        return getRecordDao().queryRaw("where status=2");
+    public List<PurchaseRecord> queryLostOrders(){
+        return getRecordDao().queryRaw("where status=2 order by transaction_id desc limit 50");
     }
     /**
      * 查询所有状态为2的订单：支付但未兑换

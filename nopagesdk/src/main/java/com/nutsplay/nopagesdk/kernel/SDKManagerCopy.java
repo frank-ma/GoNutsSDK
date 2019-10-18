@@ -27,7 +27,6 @@ import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
-import com.nutsplay.nopagesdk.ui.RegisterDialog;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
@@ -209,7 +208,7 @@ public class SDKManagerCopy {
         }
 
         //初始化追踪
-        TrackingManager.trackingInit(activity, initParameter.getDataeyeId(), initParameter.getAppsflyerId(), activity.getApplication());
+        TrackingManager.trackingInit(activity,  initParameter.getAppsflyerId(), activity.getApplication());
 
         showProgress(activity);
 
@@ -357,17 +356,6 @@ public class SDKManagerCopy {
                 loginCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
-
-
-            RegisterDialog.Builder builder=new RegisterDialog.Builder(activity,loginCallBack);
-            builder.create().show();
-
-
-
-
-
-
-
 
 
 

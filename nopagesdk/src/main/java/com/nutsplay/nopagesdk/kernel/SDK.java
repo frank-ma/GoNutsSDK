@@ -211,15 +211,15 @@ public class SDK {
     /**
      * 在activity的onResume()方法中调用
      */
-    public void sdkOnResume() {
+    public void sdkOnResume(Activity activity) {
 
-        SDKManager.getInstance().sdkOnResume();
+        SDKManager.getInstance().sdkOnResume(activity);
     }
 
     /**
      * 在activity的onDestroy()方法中调用
      */
-    public void sdkOnDestroy() {
+    public void sdkOnDestroy(Activity activity) {
 
         SDKManager.getInstance().sdkOnDestroy();
     }
