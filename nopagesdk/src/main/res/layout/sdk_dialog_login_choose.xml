@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="384dp"
-        android:layout_height="240dp"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
         android:background="@drawable/dialog_bg"
         android:orientation="vertical">
 
@@ -20,11 +20,13 @@
 
             <TextView
                 android:id="@+id/tv_visitor_sign_in"
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:text="Guest login"
                 android:textSize="16sp"
                 style="@style/customButton"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="0dp"
@@ -50,15 +52,15 @@
             <TextView
                 android:id="@+id/tv_create_account"
                 style="@style/customButton"
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Log in"
                 android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"/>
+                android:paddingBottom="10dp"/>
 
         </LinearLayout>
 

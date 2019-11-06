@@ -13,6 +13,7 @@ public class SPKey {
 
     public static final String key_sdk_token="SDKToken";
     public static final String key_sdk_auto="SDKAuto";
+    public static final String key_sdk_has_bind="SDKHasBind";
     public static final String key_sdk_bind_guest="SDKBindGuest";
     public static final String key_sdk_auto_guest_count="SDKAutoGuetsCOunt";
     public static final String key_sdk_switch="SDKSwitch";

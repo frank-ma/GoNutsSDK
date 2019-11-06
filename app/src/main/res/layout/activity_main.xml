@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".MainActivity">
+    tools:context="com.nutsplay.nonutssdk.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -129,6 +129,14 @@
         android:layout_height="2dp"
         android:background="@color/color_circle_blue"
         android:layout_margin="5dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:onClick="saveShot"
+        android:text="截图保存"
+        android:textColor="@color/colorAccent" />
 
     <ScrollView
         android:layout_width="match_parent"

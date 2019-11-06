@@ -1,12 +1,11 @@
 package com.nutsplay.nonutssdk;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nonutssdkdemo.R;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -30,7 +29,7 @@ import java.util.List;
  * 无UI接口
  *
  */
-public class NoUIActivity extends AppCompatActivity {
+public class NoUIActivity extends Activity {
 
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";

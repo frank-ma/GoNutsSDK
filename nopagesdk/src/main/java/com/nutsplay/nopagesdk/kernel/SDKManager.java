@@ -31,6 +31,7 @@ import com.nutsplay.nopagesdk.network.NetUtils;
 import com.nutsplay.nopagesdk.ui.BindTipDialog;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
+import com.nutsplay.nopagesdk.ui.ScreenShotActivity;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
@@ -101,6 +102,14 @@ public class SDKManager {
         this.purchaseCallBack = purchaseCallBack;
     }
 
+    public boolean isBind(){
+        return SPManager.getInstance(getActivity()).getBoolean(SPKey.key_sdk_has_bind, false);
+    }
+
+    public void setIsBind(boolean isBind){
+        SPManager.getInstance(getActivity()).putBoolean(SPKey.key_sdk_has_bind, isBind);
+    }
+
     public void setAuto(boolean auto) {
         SPManager.getInstance(getActivity()).putBoolean(SPKey.key_sdk_auto, auto);
     }
@@ -136,7 +145,7 @@ public class SDKManager {
     public void showProgress(Activity activity) {
         if (null == progressDialog)
             if (activity.hasWindowFocus()) {
-                progressDialog = SDKProgressDialog.createProgrssDialog(activity);
+                progressDialog = SDKProgressDialog.createProgrssDialog(activity,"Loading...");
             }
         if (null != progressDialog) {
             if (activity.hasWindowFocus()) {
@@ -278,10 +287,11 @@ public class SDKManager {
                             initCallBackListener.onSuccess();
                             setInitData(initgoBean);
                         } else if (initgoBean.getCode() == -6) {
-                            //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录
+                            //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                             User user = new User();
                             setUser(user);
+                            setAuto(false);
                             initCallBackListener.onFailure(initgoBean.getMessage());
 
                         } else {
@@ -531,15 +541,18 @@ public class SDKManager {
 
             //自动登录
             if (isAuto()) {
-                if (getUser() != null) {
+                if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
                     if (getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)) {
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
 
-                            BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
-                            builder.create().show();
-                            return;
-                        } else {
-                            SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
+                        if (!isBind()){
+                            if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
+
+                                BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
+                                builder.create().show();
+                                return;
+                            } else {
+                                SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
+                            }
                         }
                     }
                     showProgress(activity);
@@ -1423,8 +1436,16 @@ public class SDKManager {
                             //绑定账号成功
 
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
+                            //ticket重新生成了，保存ticket
+                            SDKManager.getInstance().getUser().setTicket(loginModel.getData().getTicket());
+                            SDKManager.getInstance().setIsBind(true);
                             callback.onSuccess();
                             call.onSuccess();
+
+                        } else if (loginModel.getCode() == -8){
+                            //游客账号已绑定
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKManager.getInstance().setIsBind(true);
                         } else {
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
@@ -1522,7 +1543,13 @@ public class SDKManager {
                             //绑定账号成功
 
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
+                            SDKManager.getInstance().getUser().setTicket(loginModel.getData().getTicket());
+                            SDKManager.getInstance().setIsBind(true);
                             callback.onSuccess();
+                        } else if (loginModel.getCode() == -8){
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            SDKManager.getInstance().setIsBind(true);
+
                         } else {
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
@@ -1550,4 +1577,17 @@ public class SDKManager {
 
     }
 
+    /**
+     *
+     * 截图保存
+     *
+     * @param activity
+     */
+    public void saveShot(Activity activity) {
+
+        if (activity == null) return;
+        AppManager.startActivity(ScreenShotActivity.class);
+
+
+    }
 }

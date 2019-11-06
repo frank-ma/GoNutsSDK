@@ -840,7 +840,7 @@ public class SDKLangConfig {
         vi.setProperty("nutsplay_viewstring_password_tips", "Nhập mật khẩu");
         th.setProperty("nutsplay_viewstring_password_tips", "กรุณาระบุรหัสผ่าน");
         ar.setProperty("nutsplay_viewstring_password_tips", "الرجاء إدخال كلمة المرور");
-        en.setProperty("nutsplay_viewstring_password_tips", "Please enter the user password");
+        en.setProperty("nutsplay_viewstring_password_tips", "Please enter password");
         kr.setProperty("nutsplay_viewstring_password_tips", "사용자 비밀번호를 입력해주세요");
         zh_hk.setProperty("nutsplay_viewstring_password_tips", "請輸入會員密碼");
         fr.setProperty("nutsplay_viewstring_password_tips", "Veuillez entrer votre mdp");
@@ -1224,13 +1224,13 @@ public class SDKLangConfig {
         jp.setProperty("2", "このアカウントは存在しません");
         idn.setProperty("2", "Akun tidak tersedia");
 
-        zh_cn.setProperty("3", "请输入正确的账户或者密码");
+        zh_cn.setProperty("3", "账户或密码错误");
         vi.setProperty("3", "Sai mật khẩu");
         th.setProperty("3", "รหัสผิดพลาด");
         ar.setProperty("3", "كلمة مرور خاطئة");
-        en.setProperty("3", "Enter the correct ic_account and password");
+        en.setProperty("3", "Account or password error");
         kr.setProperty("3", "비밀전호 오류");
-        zh_hk.setProperty("3", "密碼錯誤");
+        zh_hk.setProperty("3", "賬戶或密碼錯誤");
         fr.setProperty("3", "Entrez le compte et mdp corrects");
         br.setProperty("3", "Insira a conta ou a senha correta");
         de.setProperty("3", "Bitte korrektes Konto und Passwort eing.");
@@ -2197,6 +2197,23 @@ public class SDKLangConfig {
         idn.setProperty("str_reset_password", "Setel ulang kata sandi");
         by.setProperty("str_reset_password", "Сбросить пароль");
 
+
+
+        zh_cn.setProperty("str_save_account","保存你的账号到本地相册，方便日后找回:");
+        en.setProperty("str_save_account","Save your account to a local album so you can retrieve it later:");
+        th.setProperty("str_save_account", "บันทึกบัญชีของคุณในอัลบั้มท้องถิ่นเพื่อให้คุณสามารถเรียกดูได้ในภายหลัง:");
+        vi.setProperty("str_save_account", "Lưu tài khoản của bạn vào album cục bộ để bạn có thể truy xuất nó sau:");
+        ar.setProperty("str_save_account", "احفظ حسابك في ألبوم محلي حتى تتمكن من استعادته لاحقًا:");
+        kr.setProperty("str_save_account", "나중에 검색 할 수 있도록 계정을 로컬 앨범에 저장하십시오.");
+        zh_hk.setProperty("str_save_account", "保存你的賬號到本地相冊，方便日後找回:");
+        fr.setProperty("str_save_account", "Enregistrez votre compte dans un album local pour pouvoir le récupérer ultérieurement:");
+        br.setProperty("str_save_account", "Salve sua conta em um álbum local para recuperá-la mais tarde:");
+        de.setProperty("str_save_account", "Speichern Sie Ihr Konto in einem lokalen Album, damit Sie es später abrufen können:");
+        sp.setProperty("str_save_account", "Guarde su cuenta en un álbum local para poder recuperarla más tarde:");
+        it.setProperty("str_save_account", "Salva il tuo account in un album locale in modo da poterlo recuperare in seguito:");
+        jp.setProperty("str_save_account", "アカウントをローカルアルバムに保存して、後で取得できるようにします。");
+        idn.setProperty("str_save_account", "Simpan akun Anda ke album lokal sehingga Anda dapat mengambilnya nanti:");
+        by.setProperty("str_save_account", "Сохраните свою учетную запись в локальном альбоме, чтобы вы могли получить ее позже:");
     }
 }
 

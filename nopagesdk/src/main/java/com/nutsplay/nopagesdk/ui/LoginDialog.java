@@ -63,7 +63,7 @@ public class LoginDialog extends Dialog {
             final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
             createAccount.setText(SDKLangConfig.getInstance().findMessage("str_create_account"));
-            resetPwd.setText(SDKLangConfig.getInstance().findMessage("reset"));
+            resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_password"));
 
 
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));

@@ -1,12 +1,11 @@
 package com.nutsplay.nonutssdk;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nonutssdkdemo.R;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -19,11 +18,12 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void purchase(View view) {
-        String referenceId = "com.nutsplay.iap.item1002";
+        String referenceId = "com.petmonsters.game.2";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -204,6 +204,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void updateLanguage(View view){
         SDK.getInstance().sdkUpdateLanguage("zh_hk");
+    }
+
+    public void saveShot(View view){
+        //截图保存
+        SDKManager.getInstance().saveShot(this);
     }
 
 

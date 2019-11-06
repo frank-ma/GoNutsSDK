@@ -1,9 +1,11 @@
 package com.nutsplay.nopagesdk.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -59,7 +61,7 @@ public class ScreenShotUtils {
 
         //生成屏幕截图
         Bitmap bitmap = activityShot(context);
-        if (bitmap==null)return;
+        if (bitmap == null) return;
 
         // 保存图片
         File appDir = new File(Environment.getExternalStorageDirectory(), "image");
@@ -85,4 +87,25 @@ public class ScreenShotUtils {
         // 通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + "/sdcard/namecard/")));
     }
+
+    /**
+     *
+     * 开启截屏并保存
+     *
+     * @param activity
+     */
+    public static void saveScreenShot(Activity activity) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            final MediaProjectionManager projectionManager = (MediaProjectionManager) activity.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            if (projectionManager != null) {
+
+                Intent intent = projectionManager.createScreenCaptureIntent();
+                activity.startActivityForResult(intent, 0x20);
+            }
+        }
+
+    }
+
+
 }

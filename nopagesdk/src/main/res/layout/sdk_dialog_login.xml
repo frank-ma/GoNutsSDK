@@ -5,10 +5,11 @@
     android:gravity="center">
 
     <LinearLayout
-        android:layout_width="360dp"
+        android:layout_width="340dp"
         android:background="@drawable/dialog_bg"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="10dp"
         android:layout_height="wrap_content">
 
         <ImageView

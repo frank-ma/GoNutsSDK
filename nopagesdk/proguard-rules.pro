@@ -156,11 +156,19 @@ public static java.lang.String TABLENAME;
 -keep public class com.tencent.bugly.**{*;}
 
 #Appsflyer相关
-#-keep class com.appsflyer.** {*;}
-#-keep class com.android.installreferrer.**{*;}
-#-keep class com.google.android.**{*;}
+-keep class com.appsflyer.**{*;}
+
+-keep class com.android.installreferrer.**{*;}
+-keep class com.google.android.**{*;}
 
 #gson相关
 -keep class com.google.gson.**{*;}
 #xutils相关
 -keep class org.xutils.**{*;}
+
+#sdk不混淆的类
+-keep class com.nutsplay.nopagesdk.beans.**{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDK{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
+-keep class com.nutsplay.nopagesdk.callback.**{*;}
+

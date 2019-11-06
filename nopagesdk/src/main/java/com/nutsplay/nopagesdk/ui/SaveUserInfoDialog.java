@@ -1,6 +1,5 @@
 package com.nutsplay.nopagesdk.ui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,9 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.utils.QrcodeUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
-import com.nutsplay.nopagesdk.utils.ScreenShotUtils;
 
 /**
  * Created by frankma on 2019-10-09 18:22
@@ -55,13 +55,13 @@ public class SaveUserInfoDialog extends Dialog {
             TextView tvPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_pwd", "id"));
             TextView tvSave = layout.findViewById(SDKResUtils.getResId(context, "tv_save", "id"));
             TextView tvNo = layout.findViewById(SDKResUtils.getResId(context, "tv_close", "id"));
+            TextView saveTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
             ImageView ivQrcode = layout.findViewById(SDKResUtils.getResId(context, "iv_qrcode", "id"));
 
             tvAccount.setText("UserName:"+account);
             tvPwd.setText("Password:"+pwd);
             generationQrcode(ivQrcode);
-
-//            loginTips.setText(SDKLangConfig.getInstance().findMessage("str_login_tips"));
+            saveTips.setText(SDKLangConfig.getInstance().findMessage("str_save_account"));
 
             tvNo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,7 +89,8 @@ public class SaveUserInfoDialog extends Dialog {
          *
          */
         private void saveImg() {
-            ScreenShotUtils.saveBitmap((Activity) context);
+//            ScreenShotUtils.saveBitmap((Activity) context);
+            AppManager.startActivity(ScreenShotActivity.class);
         }
 
         /**
@@ -100,7 +101,7 @@ public class SaveUserInfoDialog extends Dialog {
         private void generationQrcode(ImageView ivQrcode) {
 
             String content= account+"|"+pwd;
-            Bitmap qrImage = QrcodeUtils.createQRImage(content, 300, 300);
+            Bitmap qrImage = QrcodeUtils.createQRImage(content, 400, 400);
             ivQrcode.setImageBitmap(qrImage);
         }
     }

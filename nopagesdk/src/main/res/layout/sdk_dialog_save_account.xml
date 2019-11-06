@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="384dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_bg"
         android:gravity="center"
@@ -19,7 +19,7 @@
             android:layout_gravity="left"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:text="保存你的账号和密码到本地相册，方便日后找回:"
+            android:text="保存你的账号到本地相册，方便日后找回:"
             android:textSize="12sp"
             android:textColor="@color/color_circle_blue"
             android:textStyle="italic"/>
@@ -43,11 +43,10 @@
 
         <ImageView
             android:id="@+id/iv_qrcode"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:src="@drawable/icon_info"/>
+            android:padding="10dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

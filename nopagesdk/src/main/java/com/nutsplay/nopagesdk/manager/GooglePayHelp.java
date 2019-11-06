@@ -130,8 +130,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
-                    setConnected(true);
-                    queryPurchase(isBuy);
+                    if (billingResult == null) return;
+
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        setConnected(true);
+                        queryPurchase(isBuy);
+                    }
                 }
 
                 @Override
@@ -230,15 +234,32 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      *
      * @param skuList
      */
-    public void querySkuDetails(List<String> skuList, final SDKGetSkuDetailsCallback callback) {
-        if (skuList == null || skuList.size() == 0) return;
+    public void querySkuDetails(final List<String> skuList, final SDKGetSkuDetailsCallback callback) {
+        if (skuList == null || skuList.size() == 0 || callback==null) return;
 
-        if (!isConnected) {
-            LogUtils.d(TAG, "querySkuDetails fail:google play server has not init.");
+        if (!isConnected() || billingClient == null) {
+            initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
+                @Override
+                public void onBillingSetupFinished(BillingResult billingResult) {
+                    if (billingResult == null) return;
+
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        setConnected(true);
+                        querySkuDetails(skuList,callback);
+                    }else {
+                        callback.onFailure(billingResult.getResponseCode()+":"+billingResult.getDebugMessage());
+                    }
+                }
+
+                @Override
+                public void onBillingServiceDisconnected() {
+                    Log.i(TAG, "line135-onBillingServiceDisconnected()");
+
+                }
+            });
             return;
         }
 
-        if (billingClient == null) return;
 
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
         params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
@@ -247,39 +268,46 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     @Override
                     public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
 
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null && skuDetailsList.size() > 0) {
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            if (skuDetailsList != null && skuDetailsList.size() > 0) {
 
+                                List<com.nutsplay.nopagesdk.beans.SkuDetails> skus = new ArrayList<>();
 
-                            List<com.nutsplay.nopagesdk.beans.SkuDetails> skus = new ArrayList<>();
+                                LogUtils.d(TAG, "skuDetailsList.size()---" + skuDetailsList.size());
+                                for (SkuDetails skuDetails : skuDetailsList) {
 
-                            LogUtils.d(TAG, "skuDetailsList.size()---" + skuDetailsList.size());
-                            for (SkuDetails skuDetails : skuDetailsList) {
+                                    com.nutsplay.nopagesdk.beans.SkuDetails sku = new com.nutsplay.nopagesdk.beans.SkuDetails();
+                                    sku.setSku(skuDetails.getSku());
+                                    sku.setType(skuDetails.getType());
+                                    sku.setPrice(skuDetails.getPrice());
+                                    sku.setPriceCurrencyCode(skuDetails.getPriceCurrencyCode());
+                                    sku.setPriceAmountMicros(skuDetails.getPriceAmountMicros());
+                                    sku.setTitle(skuDetails.getTitle());
+                                    sku.setDescription(skuDetails.getDescription());
+                                    sku.setOriginalJson(skuDetails.getOriginalJson());
+                                    sku.setIconUrl(skuDetails.getIconUrl());
+                                    sku.setFreeTrialPeriod(skuDetails.getFreeTrialPeriod());
+                                    sku.setIntroductoryPrice(skuDetails.getIntroductoryPrice());
+                                    sku.setIntroductoryPriceAmountMicros(skuDetails.getIntroductoryPriceAmountMicros());
+                                    sku.setIntroductoryPriceCycles(skuDetails.getIntroductoryPriceCycles());
+                                    sku.setOriginalPrice(skuDetails.getOriginalPrice());
+                                    sku.setRewarded(skuDetails.isRewarded());
+                                    sku.setSubscriptionPeriod(skuDetails.getSubscriptionPeriod());
+                                    sku.setIntroductoryPricePeriod(skuDetails.getIntroductoryPricePeriod());
 
-                                com.nutsplay.nopagesdk.beans.SkuDetails sku = new com.nutsplay.nopagesdk.beans.SkuDetails();
-                                sku.setSku(skuDetails.getSku());
-                                sku.setType(skuDetails.getType());
-                                sku.setPrice(skuDetails.getPrice());
-                                sku.setPriceCurrencyCode(skuDetails.getPriceCurrencyCode());
-                                sku.setPriceAmountMicros(skuDetails.getPriceAmountMicros());
-                                sku.setTitle(skuDetails.getTitle());
-                                sku.setDescription(skuDetails.getDescription());
-                                sku.setOriginalJson(skuDetails.getOriginalJson());
-                                sku.setIconUrl(skuDetails.getIconUrl());
-                                sku.setFreeTrialPeriod(skuDetails.getFreeTrialPeriod());
-                                sku.setIntroductoryPrice(skuDetails.getIntroductoryPrice());
-                                sku.setIntroductoryPriceAmountMicros(skuDetails.getIntroductoryPriceAmountMicros());
-                                sku.setIntroductoryPriceCycles(skuDetails.getIntroductoryPriceCycles());
-                                sku.setOriginalPrice(skuDetails.getOriginalPrice());
-                                sku.setRewarded(skuDetails.isRewarded());
-                                sku.setSubscriptionPeriod(skuDetails.getSubscriptionPeriod());
-                                sku.setIntroductoryPricePeriod(skuDetails.getIntroductoryPricePeriod());
+                                    skus.add(sku);
+                                }
+                                if (skus.size() > 0) {
+                                    callback.onSuccess(skus);
+                                }
+                            } else {
+                                callback.onFailure("skuDetailsList is null or skuDetailsList.size() == 0,Please make sure the app has been uploaded to Google Play.");
 
-                                skus.add(sku);
                             }
-                            if (skus.size() > 0) {
-                                callback.onSuccess(skus);
-                            }
 
+                        } else {
+
+                            callback.onFailure(billingResult.getResponseCode() + ":" + billingResult.getDebugMessage());
                         }
 
                     }
@@ -297,8 +325,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
-                    setConnected(true);
-                    queryPurchase(true);
+                    if (billingResult == null) return;
+
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        setConnected(true);
+                        queryPurchase(true);
+                    }
                 }
 
                 @Override
@@ -318,23 +350,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 new SkuDetailsResponseListener() {
                     @Override
                     public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-
-//                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null && skuDetailsList.size() > 0) {
-//
-//                            LogUtils.d(TAG, "skuDetailsList.size()---" + skuDetailsList.size());
-//                            for (SkuDetails skuDetails : skuDetailsList) {
-//                                String sku = skuDetails.getSku();
-//                                if (sku.equals(skuId)) {
-//                                    BillingFlowParams flowParams = BillingFlowParams.newBuilder().setDeveloperId(transactionId).setSkuDetails(skuDetails).build();
-//
-//                                    BillingResult bResult = billingClient.launchBillingFlow(SDKManager.getInstance().getActivity(), flowParams);
-//                                    if (bResult != null) {
-//                                        LogUtils.d(TAG, "launchBillingFlow---responseCode:" + bResult.getResponseCode() + "  msg:" + bResult.getDebugMessage());
-//                                    }
-//                                }
-//                            }
-//
-//                        }
 
                         if (billingResult == null) return;
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
@@ -360,7 +375,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             }
                         } else {
                             if (SDKManager.getInstance().getPurchaseCallBack() != null)
-                                SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getDebugMessage());
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode() + ":" + billingResult.getDebugMessage());
                         }
 
 
@@ -379,10 +394,11 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
+                if (billingResult == null) return;
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     //初始化成功
                     LogUtils.d(TAG, "Google 初始化成功");
-                    isConnected = true;
+                    setConnected(true);
 
 
                     queryPurchase(true);
@@ -624,8 +640,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
-                    setConnected(true);
-                    consumeSku(purchase);
+                    if (billingResult == null) return;
+
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        setConnected(true);
+                        consumeSku(purchase);
+                    }
                 }
 
                 @Override

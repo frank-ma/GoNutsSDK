@@ -24,14 +24,18 @@ public class SDKProgressDialog extends Dialog {
         super(context);
     }
 
+    private SDKProgressDialog(Context context,int themeResId){
+        super(context,themeResId);
+    }
+
     public static SDKProgressDialog createProgrssDialog(Context context, String message) {
         mMessage = message;
         return createProgrssDialog(context);
     }
 
     public static SDKProgressDialog createProgrssDialog(Context context) {
-        progressDialog = new SDKProgressDialog(context);
-//        progressDialog = new SDKProgressDialog(context, SDKResUtils.getResId(context,"DialogStyle","style"));
+//        progressDialog = new SDKProgressDialog(context);
+        progressDialog = new SDKProgressDialog(context, SDKResUtils.getResId(context,"DialogStyle","style"));
         progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
         if (progressDialog.getWindow()!=null) progressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         tv =  progressDialog.findViewById(SDKResUtils.getResId(context,"tv_dialog_info","id"));
@@ -43,6 +47,10 @@ public class SDKProgressDialog extends Dialog {
             public void onCancel(DialogInterface dialog) {
             }
         });
+
+        if (progressDialog.getWindow()!=null) {
+            progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
 
         return progressDialog;
     }

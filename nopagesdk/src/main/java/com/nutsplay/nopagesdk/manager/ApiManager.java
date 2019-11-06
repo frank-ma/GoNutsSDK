@@ -101,7 +101,7 @@ public class ApiManager {
 
             Init initBean = new Init();
             initBean.setClientID(mClientID);
-            if (SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
+            if (SDKManager.getInstance()!=null && SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
             }
             String jsonData = GsonUtils.tojsonString(initBean);

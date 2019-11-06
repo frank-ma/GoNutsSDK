@@ -38,9 +38,15 @@
 
 
         <activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
+            android:theme="@style/Theme.AppCompat"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
 
-        <activity android:name="com.nutsplay.nonutssdk.NoUIActivity"/>
+        <activity android:name="com.nutsplay.nonutssdk.NoUIActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
+
+        <activity android:name="com.nutsplay.nopagesdk.ui.ScreenShotActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
 
         <!--appsflyer-->
         <receiver

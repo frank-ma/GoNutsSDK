@@ -8,20 +8,23 @@
     android:paddingLeft="50dp"
     android:paddingTop="15dp"
     android:paddingRight="50dp"
+    android:background="@drawable/dialog_bg"
     android:paddingBottom="15dp">
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateDuration="10"
+        android:layout_gravity="center_vertical"
         android:indeterminateTint="@color/color_circle_blue" />
 
     <TextView
         android:id="@+id/tv_dialog_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:text="Loading..."
+        android:layout_gravity="center_vertical"
         android:textColor="@color/black" />
 
 </LinearLayout>

@@ -19,7 +19,6 @@ import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
-import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
 import com.nutsplay.nopagesdk.utils.encryption.RSAUtils;
@@ -143,7 +142,7 @@ public class PayWebActivity extends BaseActivity {
 
                         } else {
                             LogUtils.e(TAG, "SDKQueryOrderStatus---onSuccess:" + orderModel.getMessage());
-                            SDKGameUtils.showServiceInfo(orderModel.getCode(),orderModel.getMessage());
+//                            SDKGameUtils.showServiceInfo(orderModel.getCode(),orderModel.getMessage());
                             SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
                         }
                     } catch (Exception e) {
