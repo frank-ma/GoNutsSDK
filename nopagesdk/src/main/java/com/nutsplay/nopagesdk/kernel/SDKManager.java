@@ -102,14 +102,6 @@ public class SDKManager {
         this.purchaseCallBack = purchaseCallBack;
     }
 
-    public boolean isBind(){
-        return SPManager.getInstance(getActivity()).getBoolean(SPKey.key_sdk_has_bind, false);
-    }
-
-    public void setIsBind(boolean isBind){
-        SPManager.getInstance(getActivity()).putBoolean(SPKey.key_sdk_has_bind, isBind);
-    }
-
     public void setAuto(boolean auto) {
         SPManager.getInstance(getActivity()).putBoolean(SPKey.key_sdk_auto, auto);
     }
@@ -544,16 +536,16 @@ public class SDKManager {
                 if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
                     if (getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)) {
 
-                        if (!isBind()){
-                            if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
 
-                                BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
-                                builder.create().show();
-                                return;
-                            } else {
-                                SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
-                            }
+                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
+
+                            BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
+                            builder.create().show();
+                            return;
+                        } else {
+                            SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
                         }
+
                     }
                     showProgress(activity);
                     new Handler().postDelayed(new Runnable() {
@@ -1377,7 +1369,7 @@ public class SDKManager {
      * @param second      密码
      * @param callback
      */
-    public void sdkBindAccount2Dialog(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback, final ResultCallBack call) {
+    public void sdkBindAccount2Dialog(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback) {
 
         try {
 
@@ -1437,15 +1429,22 @@ public class SDKManager {
 
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
                             //ticket重新生成了，保存ticket
-                            SDKManager.getInstance().getUser().setTicket(loginModel.getData().getTicket());
-                            SDKManager.getInstance().setIsBind(true);
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
                             callback.onSuccess();
-                            call.onSuccess();
 
                         } else if (loginModel.getCode() == -8){
                             //游客账号已绑定
+                            User user = getUser();
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            SDKManager.getInstance().setIsBind(true);
+                            callback.onSuccess();
                         } else {
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
                             callback.onFailure(loginModel.getMessage());
@@ -1543,12 +1542,22 @@ public class SDKManager {
                             //绑定账号成功
 
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
-                            SDKManager.getInstance().getUser().setTicket(loginModel.getData().getTicket());
-                            SDKManager.getInstance().setIsBind(true);
+                            //ticket改变了，重新保存User
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
                             callback.onSuccess();
                         } else if (loginModel.getCode() == -8){
+                            //游客账号已绑定
+                            User user = getUser();
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            SDKManager.getInstance().setIsBind(true);
+                            callback.onSuccess();
 
                         } else {
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());

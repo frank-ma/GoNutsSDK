@@ -45,13 +45,11 @@ public class BindDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private ResultCallBack callBack;
         private LoginCallBack loginCallBack;
 
-        public Builder(Context context, LoginCallBack loginCallBack,ResultCallBack cCallBack) {
+        public Builder(Context context, LoginCallBack loginCallBack) {
             this.context = context;
             this.loginCallBack=loginCallBack;
-            this.callBack = cCallBack;
         }
 
         public BindDialog create() {
@@ -71,7 +69,7 @@ public class BindDialog extends Dialog {
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
 
-            //注册账号
+            //绑定一个新账号
             bind.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,9 +84,12 @@ public class BindDialog extends Dialog {
                         return;
                     }
                     String oauthid= Installations.id(context);
-                    SDKManager.getInstance().sdkBindAccount2Dialog((Activity) context, oauthid, SDKConstant.TYPE_GUEST, account, psw, callBack, new ResultCallBack() {
+                    SDKManager.getInstance().sdkBindAccount2Dialog((Activity) context, oauthid, SDKConstant.TYPE_GUEST, account, psw, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
+                            //绑定成功后，用新账号登录
+                            if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+
                             dialog.dismiss();
                         }
 

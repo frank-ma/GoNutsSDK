@@ -11,11 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
-import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
-import com.nutspower.commonlibrary.utils.LogUtils;
 
 /**
  * Created by frankma on 2019-10-09 18:22
@@ -80,17 +78,7 @@ public class FirstDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-                    BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack,new ResultCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            LogUtils.e("FirstDialog","Bind successful");
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                            LogUtils.e("FirstDialog","Bind failed:" + msg);
-                        }
-                    });
+                    BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack);
                     builder.create().show();
                 }
             });
