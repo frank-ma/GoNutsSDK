@@ -204,7 +204,7 @@ public class SDKManager {
         getPublicKey(activity, initCallBack);
 
         //获取keyHash
-//        SDKGameUtils.getKeyHash(activity);
+        SDKGameUtils.getKeyHash(activity);
     }
 
     /**

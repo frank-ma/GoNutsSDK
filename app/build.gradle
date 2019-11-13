@@ -2,9 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.2"
     defaultConfig {
-//        applicationId "com.petmonsters.game"
         applicationId "com.example.nonutssdkdemo"
         minSdkVersion 15
         targetSdkVersion 29
@@ -35,4 +34,10 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     //Stetho基本操作
     implementation 'com.facebook.stetho:stetho:1.5.0'
+
+
+
+
+    //Facebook SDK
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
