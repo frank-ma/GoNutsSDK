@@ -80,7 +80,6 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:backgroundTint="@color/colorPrimary"
             android:onClick="updateLanguage"
             android:text="切换语言"
@@ -95,6 +94,15 @@
             android:textColor="@color/white"
             android:visibility="visible" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="guestBindFB"
+            android:text="绑定FB账号"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
     </LinearLayout>
 
 
@@ -104,6 +112,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:onClick="defaultLogin"
+            android:text="默认登录"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:layout_width="wrap_content"

@@ -69,6 +69,15 @@ public class SDK {
     }
 
     /**
+     * 默认登录（自动初始化，初始化成功后默认游客登录）
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkDefaultLogin(Activity activity,InitParameter initParameter,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkDefaultLogin(activity,initParameter,loginCallBack);
+    }
+
+    /**
      * SDK登陆接口
      *
      * @param activity
@@ -206,6 +215,17 @@ public class SDK {
 
         SDKManager.getInstance().sdkBindAccount(activity,oauthid,oauthsource,account,pwd,callback);
 
+    }
+
+    /**
+     * 游客绑定FB等第三方账户
+     *
+     * @param activity
+     * @param callback
+     */
+    public void sdkGuestBindThird(Activity activity, final ResultCallBack callback) {
+
+        SDKManager.getInstance().sdkGuestBindFB(activity,callback);
     }
 
     /**

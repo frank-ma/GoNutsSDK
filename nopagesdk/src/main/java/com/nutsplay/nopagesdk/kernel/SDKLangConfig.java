@@ -1288,7 +1288,7 @@ public class SDKLangConfig {
         vi.setProperty("7", "Tài khoản đã cố định");
         th.setProperty("7", "ไอดีผูกมัดแล้ว");
         ar.setProperty("7", "الحساب موثق");
-        en.setProperty("7", "Account is bound");
+        en.setProperty("7", "Account has bound");
         kr.setProperty("7", "이미 연동되어있는 계정입니다");
         zh_hk.setProperty("7", "帳號已綁定");
         fr.setProperty("7", "Le compte a été lié");

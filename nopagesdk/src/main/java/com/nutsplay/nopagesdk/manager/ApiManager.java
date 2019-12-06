@@ -386,6 +386,42 @@ public class ApiManager {
         }
     }
 
+    /**
+     * 游客绑定FB等第三方账号
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param oauthid 用户唯一标识
+     * @param thirdId 第三方账号id
+     * @param thirdSource 第三方账号来源
+     * @param callBack
+     */
+    public void SDKGuestBindThirdAccount(String aesKey16, String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/tau";
+
+            GuestBindThird guestBind = new GuestBindThird();
+            guestBind.setClientID(mClientID);
+            guestBind.setOauthid(oauthid);
+            guestBind.setOauthsource("android");
+            guestBind.setNewoauthId(thirdId);
+            guestBind.setNewoauthSource(thirdSource);
+            String jsonData = GsonUtils.tojsonString(guestBind);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 /**
  * **************************************************************************************************
  */
@@ -544,6 +580,30 @@ public class ApiManager {
 
         public void setSecond(String second) {
             this.second = second;
+        }
+    }
+
+    private class GuestBindThird extends Bean implements Serializable{
+
+        private String oauthid;
+        private String oauthsource;
+        private String newoauthId;
+        private String newoauthSource;
+
+        public void setOauthid(String oauthid) {
+            this.oauthid = oauthid;
+        }
+
+        public void setOauthsource(String oauthsource) {
+            this.oauthsource = oauthsource;
+        }
+
+        public void setNewoauthId(String newoauthId) {
+            this.newoauthId = newoauthId;
+        }
+
+        public void setNewoauthSource(String newoauthSource) {
+            this.newoauthSource = newoauthSource;
         }
     }
 

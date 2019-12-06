@@ -50,8 +50,9 @@ public class NoUIActivity extends Activity {
         initB=findViewById(R.id.init);
 
 
-        initB.callOnClick();
+//        initB.callOnClick();
     }
+
 
     public void initSDK(View view) {
 
@@ -87,6 +88,36 @@ public class NoUIActivity extends Activity {
             @Override
             public void onFailure(String msg) {
                 showLog("visitor login fail:" + msg);
+            }
+        });
+    }
+
+    /**
+     * 默认登录，直接调用自动初始化
+     * @param view
+     */
+    public void defaultLogin(View view){
+
+        InitParameter initParameter = new InitParameter();
+        initParameter.setClientId(clientId);
+        initParameter.setAppsflyerId(appsflyerId);
+        initParameter.setBuglyId(buglyId);
+        initParameter.setLanguage("en_us");
+        initParameter.setDebug(true);
+        initParameter.setHasUI(true);
+        SDK.getInstance().sdkDefaultLogin(this, initParameter, new LoginCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                if (user == null) return;
+                //ticket传给游戏服务器做登录校验
+                String ticket = user.getTicket();
+                showLog("默认登录成功："+user.toString());
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("默认登录失败："+msg);
+
             }
         });
     }
@@ -280,6 +311,29 @@ public class NoUIActivity extends Activity {
             }
         });
     }
+
+    /**
+     * 游客绑定FB账号
+     *
+     * @param view
+     */
+    public void guestBindFB(View view) {
+        SDK.getInstance().sdkGuestBindThird(this, new ResultCallBack() {
+
+            @Override
+            public void onSuccess() {
+                showLog("绑定FB成功");
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("绑定FB失败：" + msg);
+            }
+
+        });
+    }
+
 
     @Override
     protected void onResume() {

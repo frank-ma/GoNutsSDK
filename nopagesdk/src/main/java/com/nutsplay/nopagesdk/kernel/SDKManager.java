@@ -19,6 +19,7 @@ import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.db.DBManager;
 import com.nutsplay.nopagesdk.db.PurchaseRecord;
 import com.nutsplay.nopagesdk.manager.ApiManager;
@@ -33,6 +34,7 @@ import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
 import com.nutsplay.nopagesdk.ui.ScreenShotActivity;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
+import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
 import com.nutsplay.nopagesdk.utils.encryption.RSAUtils;
@@ -276,8 +278,8 @@ public class SDKManager {
                         LogUtils.d(TAG, "initCode:" + initgoBean.getCode());
                         if (initgoBean.getCode() == 1) {
                             LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
-                            initCallBackListener.onSuccess();
                             setInitData(initgoBean);
+                            initCallBackListener.onSuccess();
                         } else if (initgoBean.getCode() == -6) {
                             //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
@@ -564,6 +566,43 @@ public class SDKManager {
 
 
         } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * 默认游客登录，自动初始化
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkDefaultLogin(final Activity activity, InitParameter initParameter, final LoginCallBack loginCallBack){
+
+        try{
+
+            if (loginCallBack == null) {
+                System.out.println("sdkDefaultLogin failed:loginCallBack is null.");
+                return;
+            }
+            if (activity == null) {
+                loginCallBack.onFailure("initSDK failed:Activity is null.");
+                return;
+            }
+            initSDK(activity, initParameter, new InitCallBack() {
+                @Override
+                public void onSuccess() {
+                    LoginManager.getInstance().visitorLogin(activity, loginCallBack);
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    loginCallBack.onFailure(msg);
+                }
+            });
+
+        }catch (Exception e){
             hideProgress();
             e.printStackTrace();
         }
@@ -1582,6 +1621,130 @@ public class SDKManager {
                     hideProgress();
                     callback.onFailure(msg);
                     LogUtils.e(TAG, "sdkBindAccount---onFailure:" + msg);
+                }
+            });
+
+        } catch (Exception e) {
+            if (callback != null) callback.onFailure(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 游客绑定FB账户
+     *
+     * @param activity
+     * @param callBack
+     */
+    public void sdkGuestBindFB(final Activity activity,final ResultCallBack callBack){
+
+        LoginManager.getInstance().facebookLogin(activity, new ThirdLoginResultCallBack() {
+            @Override
+            public void onSuccess(String thirdId) {
+                LogUtils.d(TAG,"FBId:"+thirdId);
+                sdkGuestBindThirdAccount(activity,thirdId,"facebook",callBack);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+
+    }
+
+    /**
+     * 游客绑定第三方账户
+     *
+     * @param activity
+     * @param thirdId     第三方账号ID
+     * @param thirdSource 第三方账号来源
+     * @param callback
+     */
+    private void sdkGuestBindThirdAccount(Activity activity, String thirdId, String thirdSource, final ResultCallBack callback) {
+
+        try {
+
+            if (activity == null) {
+                System.out.println("sdkGuestBindThirdAccount failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (callback == null) {
+                System.out.println("ResultCallBack == null");
+                return;
+            }
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                callback.onFailure("The SDK is not initialized.");
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            String oauthId = Installations.id(activity);
+            showProgress(activity);
+            ApiManager.getInstance().SDKGuestBindThirdAccount(aesKey, aesKey16byRSA, oauthId, thirdId,thirdSource, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+                    if (result == null || result.isEmpty()) {
+                        callback.onFailure("result is null.");
+                        return;
+                    }
+                    try {
+
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "游客绑定三方data:" + decodeData);
+                        SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
+                        if (loginModel == null) {
+                            callback.onFailure("sdkLoginModel is null.");
+                            return;
+                        }
+
+                        if (loginModel.getCode() == 1) {
+                            //绑定账号成功
+
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindSucess"), 1);
+                            //ticket改变了，重新保存User
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
+                            callback.onSuccess();
+                        } else if (loginModel.getCode() == -8){
+                            //游客账号已绑定
+                            User user = getUser();
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            SDKManager.getInstance().setUser(user);
+
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            callback.onSuccess();
+
+                        } else {
+                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                            callback.onFailure(loginModel.getMessage());
+                            LogUtils.e(TAG, "sdkGuestBindThirdAccount---onFailure:" + loginModel.getMessage());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callback.onFailure(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    hideProgress();
+                    callback.onFailure(msg);
+                    LogUtils.e(TAG, "sdkGuestBindThirdAccount---onFailure:" + msg);
                 }
             });
 

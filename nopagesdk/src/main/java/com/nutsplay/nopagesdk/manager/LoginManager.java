@@ -3,11 +3,13 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.ui.FBLoginActivity;
 import com.nutsplay.nopagesdk.ui.GoogleLoginActivity;
 import com.nutsplay.nopagesdk.utils.Installations;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
  * Created by frankma on 2019-09-23 22:05
@@ -84,6 +86,32 @@ public class LoginManager {
             @Override
             public void onFailure(String msg) {
                 loginCallBack.onFailure(msg);
+
+            }
+        });
+
+    }
+
+    /**
+     * FB登录
+     *
+     * @param activity
+     * @param resultCallBack
+     */
+    public void facebookLogin(final Activity activity, final ThirdLoginResultCallBack resultCallBack) {
+
+        if (activity == null || resultCallBack == null) return;
+
+        AppManager.startActivity(FBLoginActivity.class);
+        setFBLoginListener(new FbLoginListener() {
+            @Override
+            public void onSuccess(String fbId) {
+                if (StringUtils.isNotBlank(fbId)) resultCallBack.onSuccess(fbId);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                resultCallBack.onFailure(msg);
 
             }
         });

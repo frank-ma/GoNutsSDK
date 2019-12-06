@@ -23,6 +23,15 @@
         android:textColor="@color/white" />
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:onClick="defaultLogin"
+        android:text="默认登录"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorAccent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,7 +182,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="guestBindFB"
+            android:text="绑定FB账号"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
             android:onClick="purchase"
             android:text="支付"

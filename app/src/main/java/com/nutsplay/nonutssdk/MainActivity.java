@@ -15,6 +15,7 @@ import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -37,10 +38,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logTv = findViewById(R.id.log);
-        initB=findViewById(R.id.init);
+        initB = findViewById(R.id.init);
 
 
-        initB.callOnClick();
+//        initB.callOnClick();
     }
 
     public void initSDK(View view) {
@@ -66,12 +67,44 @@ public class MainActivity extends Activity {
 
     }
 
-    public void goToNoUIActivity(View view){
+    public void goToNoUIActivity(View view) {
 
-        Intent intent = new Intent(this,NoUIActivity.class);
+        Intent intent = new Intent(this, NoUIActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 默认登录，免初始化
+     *
+     * @param view
+     */
+    public void defaultLogin(View view) {
+
+        InitParameter initParameter = new InitParameter();
+        initParameter.setClientId(clientId);
+        initParameter.setAppsflyerId(appsflyerId);
+        initParameter.setBuglyId(buglyId);
+        initParameter.setLanguage("en_us");
+        initParameter.setDebug(true);
+        initParameter.setHasUI(true);
+
+        SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){
+
+            @Override
+            public void onSuccess(User user) {
+                //ticket传给游戏服务器做登录校验
+                String ticket = user.getTicket();
+                showLog("默认登录成功："+user.toString());
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("默认登录失败：" + msg);
+
+            }
+
+        });
+    }
 
     public void loginUI(View view) {
 
@@ -113,7 +146,7 @@ public class MainActivity extends Activity {
 
     public void logout(View view) {
 
-        SDK.getInstance().sdkLogout(this,new LogOutCallBack() {
+        SDK.getInstance().sdkLogout(this, new LogOutCallBack() {
             @Override
             public void onSuccess() {
                 showLog("注销成功");
@@ -132,8 +165,8 @@ public class MainActivity extends Activity {
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
-                if (payResult==null)return;
-                showLog("支付成功" +payResult.toString());
+                if (payResult == null) return;
+                showLog("支付成功" + payResult.toString());
             }
 
             @Override
@@ -149,15 +182,16 @@ public class MainActivity extends Activity {
 
     }
 
-    public void createRoleTracking(View view){
-        SDK.getInstance().sdkCreateRoleTracking(this,"0","001","xiaohao");
+    public void createRoleTracking(View view) {
+        SDK.getInstance().sdkCreateRoleTracking(this, "0", "001", "xiaohao");
     }
 
     /**
      * 新接口，没有最多20条的限制
+     *
      * @param view
      */
-    public void localPrice(View view){
+    public void localPrice(View view) {
 
         List<String> skuList = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -167,18 +201,18 @@ public class MainActivity extends Activity {
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
-                showLog("查询本地价格成功："+skuDetails.size());
-                if (skuDetails.size()==0)return;
-                for (SkuDetails sku:skuDetails){
-                    String skuId=sku.getSku();
-                    String localPrice=sku.getPrice();
-                    showLog(skuId+"    "+localPrice);
+                showLog("查询本地价格成功：" + skuDetails.size());
+                if (skuDetails.size() == 0) return;
+                for (SkuDetails sku : skuDetails) {
+                    String skuId = sku.getSku();
+                    String localPrice = sku.getPrice();
+                    showLog(skuId + "    " + localPrice);
                 }
             }
 
             @Override
             public void onFailure(String msg) {
-                showLog("查询本地价格失败："+msg);
+                showLog("查询本地价格失败：" + msg);
             }
         });
     }
@@ -200,17 +234,39 @@ public class MainActivity extends Activity {
      * idn，印度尼西亚语
      * by:俄语
      * tr:土耳其语
+     *
      * @param view
      */
-    public void updateLanguage(View view){
+    public void updateLanguage(View view) {
         SDK.getInstance().sdkUpdateLanguage("zh_hk");
     }
 
-    public void saveShot(View view){
+    public void saveShot(View view) {
         //截图保存
         SDKManager.getInstance().saveShot(this);
     }
 
+    /**
+     * 游客绑定FB账号
+     *
+     * @param view
+     */
+    public void guestBindFB(View view) {
+        SDK.getInstance().sdkGuestBindThird(this, new ResultCallBack() {
+
+            @Override
+            public void onSuccess() {
+                showLog("绑定FB成功");
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("绑定FB失败：" + msg);
+            }
+
+        });
+    }
 
     @Override
     protected void onResume() {
