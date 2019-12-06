@@ -281,9 +281,7 @@ public class SDKManager {
                         } else if (initgoBean.getCode() == -6) {
                             //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
-                            User user = new User();
-                            setUser(user);
-                            setAuto(false);
+                            handleLogout();
                             initCallBackListener.onFailure(initgoBean.getMessage());
 
                         } else {
@@ -713,9 +711,7 @@ public class SDKManager {
         }
 
         //登出操作
-        User user = new User();
-        setUser(user);
-        setAuto(false);
+        handleLogout();
 
         //登录操作
         sdkLogin(activity,loginCallBack);
@@ -747,9 +743,7 @@ public class SDKManager {
         }
 
         //登出操作
-        User user = new User();
-        setUser(user);
-        setAuto(false);
+        handleLogout();
 
         //登录操作
         sdkLoginNoUI(activity,userName,pwd,loginCallBack);
@@ -867,7 +861,7 @@ public class SDKManager {
             loginCallBack.onFailure("The SDK is not initialized.");
             return;
         }
-        LoginManager.getInstance().facebookLogin(activity, loginCallBack);
+//        LoginManager.getInstance().facebookLogin(activity, loginCallBack);
     }
 
     public void sdkLoginWithGoogle(Activity activity, LoginCallBack loginCallBack) {
@@ -888,7 +882,7 @@ public class SDKManager {
             return;
         }
 
-        LoginManager.getInstance().googleLogin(activity, loginCallBack);
+//        LoginManager.getInstance().googleLogin(activity, loginCallBack);
     }
 
     /**
@@ -1022,11 +1016,23 @@ public class SDKManager {
             return;
         }
 
+        handleLogout();
+
+        logOutCallBack.onSuccess();
+    }
+
+
+    /**
+     *
+     * 登出公共操作
+     *
+     */
+    private void handleLogout() {
         User user = new User();
         setUser(user);
         setAuto(false);
-
-        logOutCallBack.onSuccess();
+        //FB登出
+        com.facebook.login.LoginManager.getInstance().logOut();
     }
 
 

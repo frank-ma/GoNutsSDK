@@ -16,7 +16,8 @@ public class AppManager {
         Activity currActivity= SDKManager.getInstance().getActivity();
         Intent intent=new Intent(currActivity,activity);
         currActivity.startActivity(intent);
-        currActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+//        currActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        currActivity.overridePendingTransition(0,0);
     }
 
     public static void startActivityWithData(Class activity, String... data){

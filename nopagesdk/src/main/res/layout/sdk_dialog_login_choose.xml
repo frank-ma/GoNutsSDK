@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:background="@drawable/dialog_bg"
         android:orientation="vertical">
 
@@ -21,46 +21,40 @@
             <TextView
                 android:id="@+id/tv_visitor_sign_in"
                 android:layout_width="280dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="Guest login"
                 android:textSize="16sp"
                 style="@style/customButton"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"/>
-
-            <TextView
-                android:id="@+id/tv_bind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right"
-                android:textColor="@color/color_circle_blue"
-                android:text="Guest Bind"
-                android:visibility="gone"
-                android:textSize="16sp"
-                android:paddingLeft="8dp"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingRight="8dp"
-                android:layout_marginRight="40dp"
-                android:textStyle="italic|bold"/>
 
             <TextView
                 android:id="@+id/tv_create_account"
                 style="@style/customButton"
                 android:layout_width="280dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:text="Log in"
                 android:textSize="16sp"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:gravity="center_horizontal"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"/>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="282dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 

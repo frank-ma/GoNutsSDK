@@ -5,6 +5,8 @@ import android.app.Activity;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.ui.FBLoginActivity;
+import com.nutsplay.nopagesdk.ui.GoogleLoginActivity;
 import com.nutsplay.nopagesdk.utils.Installations;
 
 /**
@@ -28,46 +30,102 @@ public class LoginManager {
         return INSTANCE;
     }
 
-    public void facebookLogin(Activity activity,LoginCallBack loginCallBack) {
+    public interface FbLoginListener {
 
-        String facebookId = doFacebookLogin();
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, facebookId, SDKConstant.TYPE_FACEBOOK, loginCallBack);
+        void onSuccess(String fbId);
+
+        void onFailure(String msg);
     }
 
-    public void googleLogin(Activity activity,LoginCallBack loginCallBack) {
+    public interface GoogleLoginListener {
 
-        String googleId = doGoogleLogin();
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack);
+        void onSuccess(String googleId);
+
+        void onFailure(String msg);
+    }
+
+    private FbLoginListener fbloginListener;
+
+    private GoogleLoginListener googleLoginListener;
+
+    public FbLoginListener getFBLoginListener() {
+        return fbloginListener;
+    }
+
+    public void setFBLoginListener(FbLoginListener loginListener) {
+        this.fbloginListener = loginListener;
+    }
+
+    public GoogleLoginListener getGoogleLoginListener() {
+        return googleLoginListener;
+    }
+
+    public void setGoogleLoginListener(GoogleLoginListener googleLoginListener) {
+        this.googleLoginListener = googleLoginListener;
+    }
+
+    /**
+     * FB登录
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void facebookLogin(final Activity activity, final LoginCallBack loginCallBack) {
+
+        if (activity == null || loginCallBack == null) return;
+
+        AppManager.startActivity(FBLoginActivity.class);
+        setFBLoginListener(new FbLoginListener() {
+            @Override
+            public void onSuccess(String fbId) {
+                SDKManager.getInstance().sdkLoginThirdAccount(activity, fbId, SDKConstant.TYPE_FACEBOOK, loginCallBack);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                loginCallBack.onFailure(msg);
+
+            }
+        });
 
     }
 
+    /**
+     * Google登录
+     * @param activity
+     * @param loginCallBack
+     */
+    public void googleLogin(final Activity activity, final LoginCallBack loginCallBack) {
+
+        if (activity == null || loginCallBack == null) return;
+
+        AppManager.startActivity(GoogleLoginActivity.class);
+        setGoogleLoginListener(new GoogleLoginListener() {
+            @Override
+            public void onSuccess(String googleId) {
+                SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                loginCallBack.onFailure(msg);
+
+            }
+        });
+
+    }
+
+    /**
+     * 游客登录
+     *
+     * @param activity
+     * @param loginCallBack
+     */
     public void visitorLogin(Activity activity, LoginCallBack loginCallBack) {
 
         String visitor = Installations.id(activity);
         SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, SDKConstant.TYPE_GUEST, loginCallBack);
 
-    }
-
-
-
-    /**
-     * Facebook登录
-     *
-     * @return
-     */
-    private String doFacebookLogin() {
-
-        return "131192007929843";//马小风FacebookID
-    }
-
-    /**
-     * Google登录
-     *
-     * @return
-     */
-    private String doGoogleLogin() {
-
-        return "";
     }
 
 }

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.manager.LoginManager;
@@ -51,8 +53,9 @@ public class FirstDialog extends Dialog {
             View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
             TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
-            TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView loginTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
+            LoginButton loginButton = layout.findViewById(SDKResUtils.getResId(context,"login_button","id"));
+            SignInButton googleButton = layout.findViewById(SDKResUtils.getResId(context,"sign_in_button","id"));
 
             loginTips.setText(SDKLangConfig.getInstance().findMessage("str_login_tips"));
             visitorLogin.setText(SDKLangConfig.getInstance().findMessage("guest_login"));
@@ -74,12 +77,22 @@ public class FirstDialog extends Dialog {
                     dialog.dismiss();
                 }
             });
-            bind.setOnClickListener(new View.OnClickListener() {
+
+            //fb登录
+            loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    LoginManager.getInstance().facebookLogin((Activity) context,loginCallBack);
+                    dialog.dismiss();
+                }
+            });
 
-                    BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack);
-                    builder.create().show();
+            //Google登录
+            googleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoginManager.getInstance().googleLogin((Activity) context,loginCallBack);
+                    dialog.dismiss();
                 }
             });
 

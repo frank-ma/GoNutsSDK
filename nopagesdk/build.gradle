@@ -52,6 +52,11 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
     implementation 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
+    //Facebook
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+    //google
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
 }
 
 greendao {

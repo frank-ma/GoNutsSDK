@@ -4,7 +4,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.nonutssdkdemo"
+//        applicationId "com.example.nonutssdkdemo"
+        applicationId "com.nutspower.nutsgamesdk"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 4
@@ -39,5 +40,5 @@ dependencies {
 
 
     //Facebook SDK
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+//    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
