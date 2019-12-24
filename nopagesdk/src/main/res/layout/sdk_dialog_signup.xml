@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="6dp">
             <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:id="@+id/et_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="2dp"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Username"
             android:inputType="text"
@@ -51,7 +51,7 @@
             android:id="@+id/et_pwd"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="2dp"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Password"
             android:inputType="textPassword"
@@ -63,7 +63,7 @@
             android:id="@+id/et_repeat_pwd"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="2dp"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Repeat password"
             android:drawablePadding="10dp"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="26dp"
             android:text="Sign up"
             style="@style/customButton"/>

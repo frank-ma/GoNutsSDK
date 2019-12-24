@@ -1,8 +1,8 @@
 package com.nutsplay.nonutssdk;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ import com.nutspower.nutsgamesdk.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private String clientId = "5d7f63a6e73f2146c4b1e731";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         initB = findViewById(R.id.init);
 
 
-//        initB.callOnClick();
+        initB.callOnClick();
     }
 
     public void initSDK(View view) {
@@ -278,6 +278,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("TAG","onDestroy");
+        SDK.getInstance().sdkOnDestroy(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("TAG","onPause");
         SDK.getInstance().sdkOnDestroy(this);
     }
 

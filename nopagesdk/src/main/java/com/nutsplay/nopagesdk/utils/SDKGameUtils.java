@@ -38,7 +38,6 @@ import java.util.Random;
 public class SDKGameUtils {
 
 
-    static boolean googleserviceFlag = true;
     private static int lan;
 
     private static SDKGameUtils gameutils;
@@ -145,7 +144,7 @@ public class SDKGameUtils {
             return false;
         }
 
-        boolean isMatch = account.matches("\\w{6,24}");
+        boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38Reg"), 3);
 
@@ -162,7 +161,7 @@ public class SDKGameUtils {
             return false;
         }
 
-        boolean isMatch = pw.matches("\\w{6,24}");
+        boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("regspw"), 3);
 
@@ -182,7 +181,7 @@ public class SDKGameUtils {
             return false;
         }
 
-        boolean isMatch = account.matches("\\w{6,24}");
+        boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38"), 3);
 
@@ -302,7 +301,7 @@ public class SDKGameUtils {
             return false;
         }
 
-        boolean isMatch = pw.matches("\\w{6,24}");
+        boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
 
