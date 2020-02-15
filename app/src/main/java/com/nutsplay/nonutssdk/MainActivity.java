@@ -18,6 +18,7 @@ import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutspower.nutsgamesdk.R;
 
@@ -26,12 +27,12 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-    private String clientId = "5d7f63a6e73f2146c4b1e731";
+    private String clientId = "5dcbeab164b5b50deb76be93";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
 
     private TextView logTv;
-    private Button initB;
+    private Button initB,defaultLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,10 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         logTv = findViewById(R.id.log);
         initB = findViewById(R.id.init);
+        defaultLogin = findViewById(R.id.default_login);
 
 
-        initB.callOnClick();
+        defaultLogin.callOnClick();
     }
 
     public void initSDK(View view) {
@@ -74,7 +76,7 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 默认登录，免初始化
+     * 默认登录：自动执行初始化和游客登录
      *
      * @param view
      */
@@ -160,8 +162,14 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /**
+     * 受管理的商品
+     *
+     * @param view
+     */
+
     public void purchase(View view) {
-        String referenceId = "com.petmonsters.game.2";
+        String referenceId = "com.nutspower.nutsgamesdk.test1";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -182,23 +190,52 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * 发起订阅购买
+     * @param view
+     */
+    public void subscription(View view) {
+        String referenceId = "com.nutspower.nutsgamesdk.sub1";
+        SDK.getInstance().sdkSubscription(this, "0", referenceId,"", new PurchaseCallBack() {
+            @Override
+            public void onSuccess(PayResult payResult) {
+                if (payResult == null) return;
+                showLog("订阅成功" + payResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("订阅取消");
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("订阅失败：" + msg);
+            }
+        });
+
+    }
+
+    /**
+     * 创建角色追踪
+     * @param view
+     */
     public void createRoleTracking(View view) {
         SDK.getInstance().sdkCreateRoleTracking(this, "0", "001", "xiaohao");
     }
 
     /**
-     * 新接口，没有最多20条的限制
+     * 查询消耗型商品的本地货币价格
      *
      * @param view
      */
     public void localPrice(View view) {
 
         List<String> skuList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            skuList.add("com.nutsplay.iap.item1002");
-        }
+        skuList.add("com.nutspower.nutsgamesdk.test1");
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功：" + skuDetails.size());
@@ -213,6 +250,36 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFailure(String msg) {
                 showLog("查询本地价格失败：" + msg);
+            }
+        });
+    }
+
+    /**
+     * 查询订阅商品的本地货币价格
+     * 跟前面消耗型商品只是参数不同
+     *
+     * @param view
+     */
+    public void subsLocalPrice(View view) {
+
+        List<String> skuList = new ArrayList<>();
+        skuList.add("com.nutspower.nutsgamesdk.sub1");
+
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetSkuDetailsCallback() {
+            @Override
+            public void onSuccess(List<SkuDetails> skuDetails) {
+                showLog("查询订阅本地价格成功：" + skuDetails.size());
+                if (skuDetails.size() == 0) return;
+                for (SkuDetails sku : skuDetails) {
+                    String skuId = sku.getSku();
+                    String localPrice = sku.getPrice();
+                    showLog(skuId + "    " + localPrice);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("查询订阅本地价格失败：" + msg);
             }
         });
     }
@@ -268,6 +335,13 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
+
+
+    /**
+     * 生命周期方法
+     *
+     */
     @Override
     protected void onResume() {
         super.onResume();

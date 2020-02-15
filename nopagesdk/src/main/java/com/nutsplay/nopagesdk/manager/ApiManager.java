@@ -1,7 +1,7 @@
 package com.nutsplay.nopagesdk.manager;
 
+import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.beans.InitParameter;
-import com.nutsplay.nopagesdk.beans.Purchase;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;

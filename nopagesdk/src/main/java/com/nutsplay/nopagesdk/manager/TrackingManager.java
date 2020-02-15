@@ -8,6 +8,7 @@ import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFInAppEventType;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
@@ -86,8 +87,8 @@ public class TrackingManager {
         eventValue.put("accountId", accountId);
         AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Register", eventValue);
 //        DCTrackingPoint.createAccount(accountId);
-//        GooglePayHelp.getInstance().queryPurchase(false);
-        GooglePayHelp.getInstance().resentOrderByDbRecord();
+        GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+//        GooglePayHelp.getInstance().resentOrderByDbRecord();
     }
 
     /**
@@ -106,8 +107,8 @@ public class TrackingManager {
         AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Login", eventValue);
 
 //        DCTrackingPoint.login(accountId);
-//        GooglePayHelp.getInstance().queryPurchase(false);
-        GooglePayHelp.getInstance().resentOrderByDbRecord();
+        GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
+//        GooglePayHelp.getInstance().resentOrderByDbRecord();
     }
 
     /**

@@ -249,11 +249,11 @@ public class NoUIActivity extends BaseActivity {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList,SDKConstant.INAPP, new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功："+skuDetails.size());
-                if (skuDetails.size()==0)return;
+                if (skuDetails.size() == 0)return;
                 for (SkuDetails sku:skuDetails){
                     String skuId=sku.getSku();
                     String localPrice=sku.getPrice();

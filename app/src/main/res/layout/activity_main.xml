@@ -114,6 +114,7 @@
         android:layout_marginTop="20dp">
 
         <Button
+            android:id="@+id/default_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
@@ -132,11 +133,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/black"
-            android:onClick="localPrice"
-            android:text="查询本地商品价格"
+            android:onClick="subscription"
+            android:text="订阅"
             android:textColor="@color/colorAccent" />
+
+
 
     </LinearLayout>
 
@@ -146,13 +148,39 @@
         android:background="@color/color_circle_blue"
         android:layout_margin="5dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:onClick="saveShot"
-        android:text="截图保存"
-        android:textColor="@color/colorAccent" />
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="localPrice"
+            android:text="查询本地商品价格"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="subsLocalPrice"
+            android:text="查询订阅商品本地价格"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:onClick="saveShot"
+            android:text="截图保存"
+            android:visibility="gone"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

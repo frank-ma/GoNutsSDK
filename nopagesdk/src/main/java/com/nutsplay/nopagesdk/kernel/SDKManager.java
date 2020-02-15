@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 
+import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -1156,10 +1157,113 @@ public class SDKManager {
                                 //使用WebPay
                                 AppManager.startActivityWithData(PayWebActivity.class, payUrl, transactionId);
                             } else {
-                                //使用Google内购
-                                LogUtils.d(TAG, "发起Google内购");
-                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId);
+                                //使用Google内购一次性商品
+                                LogUtils.d(TAG, "发起Google内购一次性商品");
+                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.INAPP);
                             }
+
+                        } else {
+                            LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
+                            SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
+                            purchaseCallBack.onFailure(orderModel.getMessage());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "sdkMakeOrder---onFailure:" + errorMsg);
+                    purchaseCallBack.onFailure(errorMsg);
+                }
+            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * SDK订阅商品接口
+     *
+     * @param activity
+     * @param purchaseCallBack
+     */
+    public void sdkSubscription(final Activity activity, String serverId, final String referenceId,String gameExt, final PurchaseCallBack purchaseCallBack) {
+
+        try {
+            if (activity == null) {
+                System.out.println("sdkMakeOrder failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (purchaseCallBack == null) {
+                System.out.println("sdkMakeOrder failed:loginCallBack is null.");
+                return;
+            }
+
+            setPurchaseCallBack(purchaseCallBack);
+
+            if (serverId == null || referenceId == null || gameExt == null) {
+                purchaseCallBack.onFailure("serverId or referenceId or gameExt is null");
+                return;
+            }
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                purchaseCallBack.onFailure("The SDK is not initialized.");
+                return;
+            }
+
+            if (getUser() == null || getUser().getUserId() == null) {
+                SDKToast.getInstance().ToastShow("Please login first.", 3);
+                purchaseCallBack.onFailure("Please login first.");
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            showProgress(activity);
+            ApiManager.getInstance().SDKMakeOrder(aesKey, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+
+                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
+                    if (result == null || result.isEmpty()) {
+                        purchaseCallBack.onFailure("result is null.");
+                        return;
+                    }
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "下单:" + decodeData);
+                        SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
+                        if (orderModel == null) {
+                            purchaseCallBack.onFailure("orderModel is null.");
+                            return;
+                        }
+                        if (orderModel.getCode() == 1) {
+                            //创建订单成功
+                            String transactionId = orderModel.getData().getTransactionId();//订单号
+
+                            //DB插入数据
+                            PurchaseRecord purchaseRecord = new PurchaseRecord();
+                            purchaseRecord.setTransactionId(transactionId);
+                            purchaseRecord.setSkuId(referenceId);
+                            purchaseRecord.setStatus(0);
+                            DBManager.getInstance().insertOrReplace(purchaseRecord);
+
+
+                            //使用Google订阅
+                            LogUtils.d(TAG, "发起Google订阅");
+                            GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId,transactionId, BillingClient.SkuType.SUBS);
 
                         } else {
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
@@ -1192,7 +1296,7 @@ public class SDKManager {
      * @param skuList
      * @param callback
      */
-    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, final SDKGetSkuDetailsCallback callback) {
+    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList,String skuType, final SDKGetSkuDetailsCallback callback) {
 
         if (activity == null) {
             System.out.println("sdkQuerySkuLocalPrice failed:Activity is null.");
@@ -1215,7 +1319,7 @@ public class SDKManager {
             return;
         }
 
-        GooglePayHelp.getInstance().querySkuDetails(skuList, callback);
+        GooglePayHelp.getInstance().querySkuDetails(skuList,skuType, callback);
 
     }
 
@@ -1280,13 +1384,15 @@ public class SDKManager {
         if (!isInitStatus()) return;
 
         if (GooglePayHelp.getInstance().isConnected()) {
-            GooglePayHelp.getInstance().resentOrderByDbRecord();
+//            GooglePayHelp.getInstance().resentOrderByDbRecord();
+            GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
         }else {
             GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
                     GooglePayHelp.getInstance().setConnected(true);
-                    GooglePayHelp.getInstance().resentOrderByDbRecord();
+//                    GooglePayHelp.getInstance().resentOrderByDbRecord();
+                    GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
                 }
 
                 @Override

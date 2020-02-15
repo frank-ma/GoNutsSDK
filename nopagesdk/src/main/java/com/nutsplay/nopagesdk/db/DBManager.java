@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.db;
 
+import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
 
 import java.util.List;
@@ -66,8 +67,9 @@ public class DBManager {
      * 查询所有状态为2的订单：支付但未兑换
      * @return
      */
-    public List<PurchaseRecord> queryLostOrders(){
-        return getRecordDao().queryRaw("where status=2 order by transaction_id desc limit 50");
+    public List<Purchase> queryLostOrders(){
+//        return getRecordDao().queryRaw("where status=2 order by transaction_id desc limit 50");
+        return null;
     }
     /**
      * 查询所有状态为2的订单：支付但未兑换

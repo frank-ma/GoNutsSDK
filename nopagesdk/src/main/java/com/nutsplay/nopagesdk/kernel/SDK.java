@@ -153,15 +153,26 @@ public class SDK {
     }
 
     /**
+     * SDK订阅商品接口
+     *
+     * @param activity
+     * @param purchaseCallBack
+     */
+    public void sdkSubscription(final Activity activity, String serverId, final String referenceId,String gameExt, final PurchaseCallBack purchaseCallBack) {
+
+        SDKManager.getInstance().sdkSubscription(activity, serverId, referenceId,gameExt, purchaseCallBack);
+    }
+
+    /**
      * 查询内购商品的本地价格
      *
      * @param activity
      * @param skuList
      * @param callback
      */
-    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, final SDKGetSkuDetailsCallback callback) {
+    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType,final SDKGetSkuDetailsCallback callback) {
 
-        SDKManager.getInstance().sdkQuerySkuLocalPrice(activity, skuList, callback);
+        SDKManager.getInstance().sdkQuerySkuLocalPrice(activity, skuList, skuType,callback);
 
     }
 
