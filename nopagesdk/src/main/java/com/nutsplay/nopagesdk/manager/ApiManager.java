@@ -154,6 +154,8 @@ public class ApiManager {
 
     /**
      * 登录接口
+     * 为了避免这个接口被用来暴力探测账号是否存在, 于是我这边不会返回账号是否存在, 而是直接就返回密码错误
+     * 账号不存在时返回的是-3密码错误，提示时提示：账号或密码错误
      *
      * @param userName
      * @param pwd
@@ -422,6 +424,159 @@ public class ApiManager {
         }
     }
 
+
+    /**
+     * 申请绑定邮箱验证码接口
+     * 注意：
+     * 1.想要绑定邮箱，必须是一个自定义注册账号的用户或者是其他登录方式但绑定了自定义账号的用户
+     * 2.一个邮箱可以给多个账号绑定，但找回的时候，必须用户手动提供自定义账号是多少
+     * 2.验证码有效期20分钟
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param ticket 用户本地ticket
+     * @param email 要绑定的邮箱
+     * @param callBack
+     */
+    public void SDKRequestBindEmail(String aesKey16, String aesKey16byRSA,String ticket,String email, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/adam";
+
+            BindEmail bindEmail = new BindEmail();
+            bindEmail.setClientID(mClientID);
+            bindEmail.setTicket(ticket);
+            bindEmail.setEmail(email);
+            String jsonData = GsonUtils.tojsonString(bindEmail);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 确认绑定邮箱验证码接口
+     *
+     * 注意：绑定的邮箱必须和之前申请验证码的邮箱相同
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param ticket
+     * @param email
+     * @param verifyCode 邮箱收到的验证码
+     * @param callBack
+     */
+    public void SDKBindEmailConfirm(String aesKey16, String aesKey16byRSA,String ticket,String email,String verifyCode, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/mojo";
+
+            BindEmailConfirm bindEmail = new BindEmailConfirm();
+            bindEmail.setClientID(mClientID);
+            bindEmail.setTicket(ticket);
+            bindEmail.setEmail(email);
+            bindEmail.setVerifyCode(verifyCode);
+            String jsonData = GsonUtils.tojsonString(bindEmail);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     *
+     * 申请通过邮箱验证码重置密码
+     *
+     * 注意：
+     * 1.用户提供的是自定义账号，但系统会往用户账号的绑定邮箱内发送验证码邮件
+     * 2.返回结果中会包含用户邮箱信息，应该进行部分信息屏蔽，提示ma******12@gmail.com此类信息
+     * 3.验证码有效期20分钟
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param account
+     * @param callBack
+     */
+    public void SDKRequestResetPwd(String aesKey16, String aesKey16byRSA,String account, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/rush";
+
+            RequestResetPwd resetPwd = new RequestResetPwd();
+            resetPwd.setClientID(mClientID);
+            resetPwd.setAccount(account);
+            String jsonData = GsonUtils.tojsonString(resetPwd);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 通过邮箱验证码重置密码确认接口
+     *
+     * 注意：
+     * 用户提供的密码必须进行一致性验证，保证两次相同，且second是加密的结果，加密格式同注册接口
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param account 用户的自定义账号
+     * @param newSecond 新密码
+     * @param verifyCode 邮箱收到的验证码
+     * @param callBack
+     */
+    public void SDKResetPwdByVerifycode(String aesKey16, String aesKey16byRSA,String account,String verifyCode,String newSecond, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/swift";
+
+            ResetPwdByEmail resetPwdByEmail = new ResetPwdByEmail();
+            resetPwdByEmail.setClientID(mClientID);
+            resetPwdByEmail.setAccount(account);
+            resetPwdByEmail.setVerifycode(verifyCode);
+            resetPwdByEmail.setNewsecond(SHA1Utils.sha1UpperCase(newSecond));
+            String jsonData = GsonUtils.tojsonString(resetPwdByEmail);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
 /**
  * **************************************************************************************************
  */
@@ -606,5 +761,68 @@ public class ApiManager {
             this.newoauthSource = newoauthSource;
         }
     }
+
+    private class BindEmail extends Bean implements Serializable{
+
+        private String ticket;
+        private String email;
+
+        public void setTicket(String ticket) {
+            this.ticket = ticket;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    }
+
+    private class BindEmailConfirm extends Bean implements Serializable{
+
+        private String ticket;
+        private String email;
+        private String verifyCode;
+
+        public void setTicket(String ticket) {
+            this.ticket = ticket;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setVerifyCode(String verifyCode) {
+            this.verifyCode = verifyCode;
+        }
+    }
+
+    private class RequestResetPwd extends Bean implements Serializable{
+
+        private String account;
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+    }
+
+    private class ResetPwdByEmail extends Bean implements Serializable{
+
+        private String account;
+        private String verifycode;
+        private String newsecond;
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public void setVerifycode(String verifycode) {
+            this.verifycode = verifycode;
+        }
+
+        public void setNewsecond(String newsecond) {
+            this.newsecond = newsecond;
+        }
+    }
+
+
 
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:tint="@color/colorAccentLight"
+                android:src="@drawable/ic_back"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bind Email"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:backgroundTint="@color/colorAccentLight"
+                android:hint="Email Address"
+                android:ellipsize="end"
+                android:drawablePadding="10dp"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:drawableLeft="@drawable/ic_email"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/btn_send_verification_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:backgroundTint="@color/colorAccent"
+                android:background="@color/colorAccent"
+                android:padding="4dp"
+                android:textColor="@color/white"
+                android:text="Send Code"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_verification_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccentLight"
+            android:hint="Verification Code"
+            android:drawablePadding="10dp"
+            android:inputType="number"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/ic_pwd"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="26dp"
+            android:text="Bind"
+            style="@style/customButton"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

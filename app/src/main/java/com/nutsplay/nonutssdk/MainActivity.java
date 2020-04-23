@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutspower.nutsgamesdk.R;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class MainActivity extends BaseActivity {
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
 
-    private TextView logTv;
+    private TextView logTv,webTv;
     private Button initB,defaultLogin;
 
     @Override
@@ -41,6 +43,10 @@ public class MainActivity extends BaseActivity {
         logTv = findViewById(R.id.log);
         initB = findViewById(R.id.init);
         defaultLogin = findViewById(R.id.default_login);
+        webTv = findViewById(R.id.webUrl);
+        //通过html的形式实现超链接
+//        String csdnLink1 = "<a href=\"https://fb.gg/me/friendfinder/295570801431576\">好友列表</a>";
+//        webTv.setText(Html.fromHtml(csdnLink1));
 
 
         defaultLogin.callOnClick();
@@ -336,7 +342,78 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    /**
+     * 获取用户FB信息
+     *
+     * @param view
+     */
+    public void getFbUserInfo(View view){
+        SDK.getInstance().sdkGetFbUserInfo(this, new ResultCallBack(){
 
+            @Override
+            public void onFailure(String msg) {
+                showLog("获取用户信息失败：" + msg);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
+    }
+
+    /**
+     * FB游戏登录
+     * @param view
+     */
+    public void fbGameLogin(View view){
+        SDK.getInstance().facebookGameLogin(new LoginManager.FbLoginListener() {
+            @Override
+            public void onSuccess(String fbId,String name) {
+                //游戏名并不是每次都有
+                showLog("fb游戏登录成功：fbid-" + fbId);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                showLog("fb游戏登录失败："+msg);
+            }
+        });
+    }
+
+    /**
+     * FB好友查找
+     * @param view
+     */
+    public void fbFriendFinder(View view){
+        SDK.getInstance().facebookFriendFinder();
+        String url = "https://fb.gg/me/friendfinder/295570801431576";
+        WebView web = new WebView(this);
+        web.loadUrl(url);
+    }
+
+    /**
+     * FB游戏分享
+     * @param view
+     */
+    public void Fbsharing(View view){
+        SDK.getInstance().facebookSharing();
+    }
+
+    /**
+     * 坚果账号绑定邮箱
+     *
+     * @param view
+     */
+    public void userCenter(View view){
+        SDK.getInstance().openUserCenter(this);
+    }
+
+
+    /**
+     * *************************生命周期方法****************************
+     */
 
     /**
      * 生命周期方法

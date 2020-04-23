@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">花藤</string>
-    <string name="facebook_app_id">315192519335195</string>
-    <string name="fb_login_protocol_scheme">fb315192519335195</string>
+    <string name="app_name">FB游戏登录</string>
+    <string name="facebook_app_id">295570801431576</string>
+    <string name="fb_login_protocol_scheme">fb295570801431576</string>
+<!--    <string name="facebook_app_id">315192519335195</string>-->
+<!--    <string name="fb_login_protocol_scheme">fb315192519335195</string>-->
 
 </resources>

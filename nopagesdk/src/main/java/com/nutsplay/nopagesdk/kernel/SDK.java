@@ -9,6 +9,7 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.manager.LoginManager;
 
 import java.util.List;
 
@@ -255,4 +256,30 @@ public class SDK {
         SDKManager.getInstance().sdkOnDestroy();
     }
 
+    public void sdkGetFbUserInfo(Activity activity, ResultCallBack resultCallBack) {
+
+        if (activity == null)return;
+        SDKManager.getInstance().sdkGetFbUserInfo(activity,resultCallBack);
+    }
+
+    public void facebookGameLogin(LoginManager.FbLoginListener fbLoginListener) {
+        SDKManager.getInstance().facebookGameLogin(fbLoginListener);
+    }
+
+    public void facebookFriendFinder() {
+        SDKManager.getInstance().facebookFriendFinder();
+    }
+
+    public void facebookSharing() {
+        SDKManager.getInstance().facebookSharing();
+    }
+
+    /**
+     * 打开用户中心界面
+     *
+     * @param activity
+     */
+    public void openUserCenter(Activity activity) {
+        SDKManager.getInstance().openUserCenter(activity);
+    }
 }

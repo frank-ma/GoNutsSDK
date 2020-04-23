@@ -182,6 +182,83 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="userCenter"
+            android:text="用户中心"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:onClick="saveShot"
+            android:text="截图保存"
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="fbGameLogin"
+            android:text="FB游戏登录"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="fbFriendFinder"
+            android:text="FB好友查找"
+            android:visibility="gone"
+            android:textColor="@color/colorAccent" />
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:onClick="Fbsharing"
+            android:text="游戏屏幕分享"
+            android:visibility="gone"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/webUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://fb.gg/me/friendfinder/295570801431576"
+            android:visibility="gone"
+            android:autoLink="web"/>
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

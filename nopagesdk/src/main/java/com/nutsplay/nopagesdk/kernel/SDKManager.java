@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
+import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
@@ -31,9 +32,11 @@ import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
 import com.nutsplay.nopagesdk.ui.BindTipDialog;
+import com.nutsplay.nopagesdk.ui.FBLoginActivity;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
 import com.nutsplay.nopagesdk.ui.ScreenShotActivity;
+import com.nutsplay.nopagesdk.ui.UserCenterDialog;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
@@ -1067,7 +1070,7 @@ public class SDKManager {
      * 登出公共操作
      *
      */
-    private void handleLogout() {
+    public void handleLogout() {
         User user = new User();
         setUser(user);
         setAuto(false);
@@ -1861,6 +1864,313 @@ public class SDKManager {
 
     }
 
+
+    /**
+     *
+     * 用户中心：坚果账号绑定邮箱
+     * @param activity
+     * @param email 邮箱
+     */
+    public void sdkUserBindEmailSendCode(Activity activity, String email, final ResultCallBack resultCallBack) {
+
+        try {
+
+            if (resultCallBack == null)return;
+            if (activity == null) {
+                System.out.println("sdkUserBindEmailSendCode failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+
+            if (SDKManager.getInstance().getUser() == null) return;
+            String ticket = SDKManager.getInstance().getUser().getTicket();
+            showProgress(activity);
+            ApiManager.getInstance().SDKRequestBindEmail(aesKey, aesKey16byRSA, ticket, email, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+                    if (result == null || result.isEmpty()) return;
+                    try {
+
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "发送邮箱验证码data:" + decodeData);
+                        VerifyCodeResult verifyCodeResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
+                        if (verifyCodeResult == null) return;
+
+                        if (verifyCodeResult.getCode() == 1) {
+                            //发送邮箱验证码成功
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("sendVerifySuccess"), 1);
+                            resultCallBack.onSuccess();
+                        } else {
+                            SDKGameUtils.showServiceInfo(verifyCodeResult.getCode(), verifyCodeResult.getMessage());
+                            LogUtils.e(TAG, "sdkUserBindEmailSendCode---onFailure:" + verifyCodeResult.getMessage());
+                            resultCallBack.onFailure(verifyCodeResult.getMessage());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        resultCallBack.onFailure(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "sdkUserBindEmailSendCode---onFailure:" + msg);
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("Send VerifyCode Failed:" + msg), 3);
+                    resultCallBack.onFailure(msg);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * 坚果账号绑定邮箱
+     *
+     * @param activity
+     * @param email 邮箱
+     * @param verifyCode 邮箱验证码
+     */
+    public void sdkUserBindEmail(Activity activity, String email, String verifyCode, final ResultCallBack resultCallBack) {
+
+        try {
+
+            if (resultCallBack == null) return;
+            if (activity == null) {
+                System.out.println("sdkUserBindEmail failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+
+            if (SDKManager.getInstance().getUser() == null) return;
+            String ticket = SDKManager.getInstance().getUser().getTicket();
+            showProgress(activity);
+            ApiManager.getInstance().SDKBindEmailConfirm(aesKey, aesKey16byRSA, ticket, email, verifyCode, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+                    if (result == null || result.isEmpty()) {
+                        return;
+                    }
+                    try {
+
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "账号绑定邮箱data:" + decodeData);
+                        VerifyCodeResult sdkResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
+                        if (sdkResult == null) return;
+                        if (sdkResult.getCode() == 1) {
+                            //绑定账号成功
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindEmailSuccess"), 1);
+                            resultCallBack.onSuccess();
+                        } else {
+                            SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
+                            LogUtils.e(TAG, "SDKBindEmailConfirm---onFailure:" + sdkResult.getMessage());
+                            resultCallBack.onFailure(sdkResult.getMessage());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        resultCallBack.onFailure(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "SDKBindEmailConfirm---onFailure:" + msg);
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("Bind Email Failed:" + msg), 2);
+                    resultCallBack.onFailure(msg);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 重置密码：发送验证码
+     *
+     * @param activity
+     * @param account 用户的账号（需要绑定邮箱）
+     */
+    public void sdkResetPwdSendCode(Activity activity, String account, final ResultCallBack resultCallBack) {
+
+        try {
+
+            if (resultCallBack == null) return;
+            if (activity == null) {
+                System.out.println("sdkResetPwdSendCode failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+
+            if (SDKManager.getInstance().getUser() == null) return;
+            showProgress(activity);
+            ApiManager.getInstance().SDKRequestResetPwd(aesKey, aesKey16byRSA, account, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+                    if (result == null || result.isEmpty()) return;
+
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "重置密码发送验证码data:" + decodeData);
+                        VerifyCodeResult codeResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
+                        if (codeResult == null) return;
+
+                        if (codeResult.getCode() == 1) {
+                            //发送邮箱验证码成功
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("sendVerifySuccess"), 1);
+                            resultCallBack.onSuccess();
+                        } else {
+                            SDKGameUtils.showServiceInfo(codeResult.getCode(), codeResult.getMessage());
+                            LogUtils.e(TAG, "SDKRequestResetPwd---onFailure:" + codeResult.getMessage());
+                            resultCallBack.onFailure(codeResult.getMessage());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        resultCallBack.onFailure(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    hideProgress();
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("Send VerifyCode Failed:" + msg), 3);
+                    LogUtils.e(TAG, "SDKRequestResetPwd---onFailure:" + msg);
+                    resultCallBack.onFailure(msg);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * 重置密码
+     *
+     * @param activity
+     * @param account 邮箱
+     * @param verifyCode 邮箱验证码
+     * @param newPwd 新密码
+     */
+    public void sdkResetPwdByCode(Activity activity, String account, String verifyCode, String newPwd, final ResultCallBack resultCallBack) {
+
+        try {
+
+            if (resultCallBack == null)return;
+            if (activity == null) {
+                System.out.println("sdkResetPwdByCode failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+
+            if (SDKManager.getInstance().getUser() == null) return;
+            showProgress(activity);
+            ApiManager.getInstance().SDKResetPwdByVerifycode(aesKey, aesKey16byRSA, account, verifyCode ,newPwd, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    hideProgress();
+                    if (result == null || result.isEmpty()) return;
+                    try {
+
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.d(TAG, "请求账号绑定邮箱data:" + decodeData);
+                        VerifyCodeResult sdkResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
+                        if (sdkResult == null) return;
+                        if (sdkResult.getCode() == 1) {
+                            //绑定账号成功
+                            SDKManager.getInstance().handleLogout();
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("resetPwdSuccess"), 1);
+                            resultCallBack.onSuccess();
+                        } else {
+                            SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
+                            LogUtils.e(TAG, "SDKResetPwdByVerifyCode---onFailure:" + sdkResult.getMessage());
+                            resultCallBack.onFailure(sdkResult.getMessage());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        resultCallBack.onFailure(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "SDKResetPwdByVerifyCode---onFailure:" + msg);
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("Reset Password Failed:" + msg), 3);
+                    resultCallBack.onFailure(msg);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+     * 打开用户中心
+     */
+    public void openUserCenter(Activity activity){
+
+        UserCenterDialog.Builder builder = new UserCenterDialog.Builder(activity);
+        builder.create().show();
+    }
+
     /**
      *
      * 截图保存
@@ -1872,6 +2182,46 @@ public class SDKManager {
         if (activity == null) return;
         AppManager.startActivity(ScreenShotActivity.class);
 
+
+    }
+
+
+    /**
+     * 获取FB用户信息
+     *
+     * @param activity
+     * @param resultCallBack
+     */
+    public void sdkGetFbUserInfo(Activity activity, ResultCallBack resultCallBack) {
+
+        if (activity == null || resultCallBack==null) return;
+        AppManager.startActivity(FBLoginActivity.class);
+    }
+
+    public void facebookGameLogin(LoginManager.FbLoginListener fbLoginListener) {
+
+        if (fbLoginListener == null) return;
+        AppManager.startActivity(FBLoginActivity.class);
+        LoginManager.getInstance().setFBLoginListener(fbLoginListener);
+    }
+
+    public void facebookFriendFinder() {
+        AppManager.startActivity(FBLoginActivity.class);
+        LoginManager.getInstance().setFBLoginListener(new LoginManager.FbLoginListener() {
+            @Override
+            public void onSuccess(String fbId,String name) {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+
+    }
+
+    public void facebookSharing() {
 
     }
 }

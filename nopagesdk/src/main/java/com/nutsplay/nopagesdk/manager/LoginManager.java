@@ -34,7 +34,7 @@ public class LoginManager {
 
     public interface FbLoginListener {
 
-        void onSuccess(String fbId);
+        void onSuccess(String fbId,String playName);
 
         void onFailure(String msg);
     }
@@ -79,7 +79,7 @@ public class LoginManager {
         AppManager.startActivity(FBLoginActivity.class);
         setFBLoginListener(new FbLoginListener() {
             @Override
-            public void onSuccess(String fbId) {
+            public void onSuccess(String fbId,String name) {
                 SDKManager.getInstance().sdkLoginThirdAccount(activity, fbId, SDKConstant.TYPE_FACEBOOK, loginCallBack);
             }
 
@@ -105,7 +105,7 @@ public class LoginManager {
         AppManager.startActivity(FBLoginActivity.class);
         setFBLoginListener(new FbLoginListener() {
             @Override
-            public void onSuccess(String fbId) {
+            public void onSuccess(String fbId,String name) {
                 if (StringUtils.isNotBlank(fbId)) resultCallBack.onSuccess(fbId);
             }
 
@@ -155,5 +155,7 @@ public class LoginManager {
         SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, SDKConstant.TYPE_GUEST, loginCallBack);
 
     }
+
+
 
 }

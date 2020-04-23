@@ -2214,6 +2214,28 @@ public class SDKLangConfig {
         jp.setProperty("str_save_account", "アカウントをローカルアルバムに保存して、後で取得できるようにします。");
         idn.setProperty("str_save_account", "Simpan akun Anda ke album lokal sehingga Anda dapat mengambilnya nanti:");
         by.setProperty("str_save_account", "Сохраните свою учетную запись в локальном альбоме, чтобы вы могли получить ее позже:");
+
+
+        zh_cn.setProperty("str_bind_email","绑定邮箱");
+        en.setProperty("str_bind_email","Bind Email");
+
+
+        zh_cn.setProperty("str_reset_pwd","重置密码");
+        en.setProperty("str_reset_pwd","Reset Password");
+
+        en.setProperty("str_reset","Reset");
+
+        zh_cn.setProperty("reset_pwd","重置密码");
+        en.setProperty("reset_pwd","Reset Password");
+
+        //发送邮箱验证码成功
+        en.setProperty("sendVerifySuccess","Send successfully, please go to your mailbox to check the verification code.");
+
+        //绑定邮箱成功
+        en.setProperty("bindEmailSuccess","Bind mailbox successfully.");
+
+        //重置密码成功
+        en.setProperty("resetPwdSuccess","Reset password successfully.");
     }
 }
 
