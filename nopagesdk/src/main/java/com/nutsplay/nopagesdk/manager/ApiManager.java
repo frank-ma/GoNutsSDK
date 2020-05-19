@@ -1,5 +1,7 @@
 package com.nutsplay.nopagesdk.manager;
 
+import android.content.Context;
+
 import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
@@ -114,6 +116,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -145,6 +148,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -179,6 +183,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -210,6 +215,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -245,6 +251,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -279,6 +286,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -310,6 +318,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -346,6 +355,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -382,6 +392,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -418,6 +429,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -456,6 +468,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -493,6 +506,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -531,6 +545,7 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -569,6 +584,48 @@ public class ApiManager {
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 客户端上传报错日志接口
+     *
+     * @param aesKey16
+     * @param aesKey16byRSA
+     *  ticket 有则传，这样可以跟踪到单个用户，没有传空
+     * @param title 报错日志标题
+     * @param content 报错日志内容
+     * @param callBack
+     */
+    public void SDKUploadLog(Context context,String aesKey16, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+
+        try {
+            String url = addDomainName() + "/crash";
+
+            UploadLog uploadLog = new UploadLog();
+            uploadLog.setClientID(mClientID);
+            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
+                uploadLog.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
+            }
+            uploadLog.setPackageName(context.getPackageName());
+            uploadLog.setCrashTitle(title);
+            uploadLog.setCrashContent(content);
+            uploadLog.setDeviceID(identifier);
+            String jsonData = GsonUtils.tojsonString(uploadLog);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",aesKey16);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -820,6 +877,35 @@ public class ApiManager {
 
         public void setNewsecond(String newsecond) {
             this.newsecond = newsecond;
+        }
+    }
+
+    private class UploadLog extends Bean implements Serializable{
+
+        private String ticket;
+        private String crashTitle;
+        private String crashContent;
+        private String packageName;
+        private String deviceID;
+
+        public void setTicket(String ticket) {
+            this.ticket = ticket;
+        }
+
+        public void setCrashTitle(String crashTitle) {
+            this.crashTitle = crashTitle;
+        }
+
+        public void setCrashContent(String crashContent) {
+            this.crashContent = crashContent;
+        }
+
+        public void setPackageName(String packageName) {
+            this.packageName = packageName;
+        }
+
+        public void setDeviceID(String deviceID) {
+            this.deviceID = deviceID;
         }
     }
 

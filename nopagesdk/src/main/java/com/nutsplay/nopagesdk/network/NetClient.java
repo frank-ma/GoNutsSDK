@@ -131,6 +131,8 @@ public class NetClient {
                 LogUtils.e(TAG, "onError: " + ex.getMessage());
                 SDKToast.getInstance().ToastShow(ex.getMessage(), 3);
                 jsonReaderCallback.onFailure(ex.getMessage());
+//                SDKManager.getInstance().sdkUploadLog(SDKManager.getInstance().getActivity(),"Interface request failed",
+//                        "url-"+params.toString()+" errorMsg-"+ex.getMessage());//怕断网的时候死循环一直请求
             }
 
             @Override

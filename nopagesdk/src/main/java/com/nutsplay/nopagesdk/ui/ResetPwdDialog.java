@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
@@ -104,7 +105,7 @@ public class ResetPwdDialog extends BaseDialog {
                     String newSecondRepeat = newPwdRepeat.getText().toString();
 
                     if (account.isEmpty()){
-                        SDKToast.getInstance().ToastShow("Email cannot be empty.", 3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
                         return;
                     }
 

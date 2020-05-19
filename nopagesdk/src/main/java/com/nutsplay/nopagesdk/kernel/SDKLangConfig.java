@@ -1680,7 +1680,7 @@ public class SDKLangConfig {
         vi.setProperty("33", "Mật khẩu không thể trống");
         th.setProperty("33", "รหัสปล่อยว่างไม่ได้");
         ar.setProperty("33", "خانة كلمة المرور لا يمكن أن تكون فارغة");
-        en.setProperty("33", "Enter the correct ic_account and password");
+        en.setProperty("33", "Enter the correct account and password");
         kr.setProperty("33", "비밀 번호를 입력해주십시오");
         zh_hk.setProperty("33", "密碼不能為空白");
         fr.setProperty("33", "Le MDP doit contenir de 6 à 14 caractères ( lettres ou chiffres)");

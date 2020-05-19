@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity {
 
 
         defaultLogin.callOnClick();
+
     }
 
     public void initSDK(View view) {
@@ -310,8 +311,15 @@ public class MainActivity extends BaseActivity {
      *
      * @param view
      */
+    int lang = 0;
     public void updateLanguage(View view) {
-        SDK.getInstance().sdkUpdateLanguage("zh_hk");
+        if (lang == 0){
+            SDK.getInstance().sdkUpdateLanguage("zh_hk");
+            lang = 1;
+        }else {
+            SDK.getInstance().sdkUpdateLanguage("en_us");
+            lang = 0;
+        }
     }
 
     public void saveShot(View view) {

@@ -7,13 +7,13 @@ import android.util.Log;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
-import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.beans.SDKResult;
 import com.nutsplay.nopagesdk.beans.User;
+import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
@@ -305,7 +305,9 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
+                    sdkUploadLog(activity,"init interface error",errorMsg);
                     initCallBackListener.onFailure(errorMsg);
+
                 }
             });
         } catch (Exception e) {
@@ -405,6 +407,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKRegisterAccount---onFailure:" + errorMsg);
+                    sdkUploadLog(activity,"SDKRegisterAccount interface error",errorMsg);
                     loginCallBack.onFailure(errorMsg);
                 }
             });
@@ -559,6 +562,8 @@ public class SDKManager {
                             loginCallBack.onSuccess(getUser());
                             //登录追踪
                             TrackingManager.loginTracking(getUser().getUserId());
+
+
                         }
                     }, 1000);
                     return;
@@ -1030,6 +1035,73 @@ public class SDKManager {
                     hideProgress();
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onFailure:" + errorMsg);
                     loginCallBack.onFailure(errorMsg);
+                }
+            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 打点日志上传
+     *
+     * @param activity
+     */
+    public void sdkUploadLog(Activity activity, String title, String content) {
+
+        try {
+            if (activity == null) {
+                System.out.println("sdkLoginThirdAccount failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+//                callBack.onFailure("The SDK is not initialized.");
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            ApiManager.getInstance().SDKUploadLog(activity,aesKey, aesKey16byRSA, title, content, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + result);
+                    if (result == null || result.isEmpty()) {
+//                        callBack.onFailure("result is null.");
+                        return;
+                    }
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(decodeData, SDKResult.class);
+                        if (sdkResult == null) {
+//                            callBack.onFailure("loginModel is null.");
+                            return;
+                        }
+                        if (sdkResult.getCode() == 1) {
+                            //上传日志成功
+//                            callBack.onSuccess();
+
+                        } else {
+                            LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + sdkResult.getMessage());
+//                            callBack.onFailure(sdkResult.getMessage());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + errorMsg);
+//                    callBack.onFailure(errorMsg);
                 }
             });
 
