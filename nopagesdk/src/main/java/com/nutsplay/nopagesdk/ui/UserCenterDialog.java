@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 /**
@@ -43,10 +47,20 @@ public class UserCenterDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final UserCenterDialog dialog = new UserCenterDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
+            }
             TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
+            final TextView bindFb = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_fb", "id"));
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
+            //如果是Facebook用户就不显示绑定FB按钮了
+            if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                bindFb.setVisibility(View.GONE);
+            }
 
             //显示语言多样化
             bindEmail.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
@@ -61,6 +75,25 @@ public class UserCenterDialog extends Dialog {
 //                    dialog.dismiss();
                 }
             });
+            //绑定FB
+            bindFb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SDKManager.getInstance().sdkGuestBindFB((Activity) context, new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            //游客绑定FB成功
+                            bindFb.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+                }
+            });
+
             //重置密码
             resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override

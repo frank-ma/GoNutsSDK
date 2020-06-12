@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="300dp"
+        android:background="@drawable/log_bg_02"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:tint="@color/color_02b6bc"
+                android:src="@drawable/ic_back"/>
+
+            <TextView
+                android:id="@+id/tv_auto_generation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autogeneration"
+                android:layout_centerVertical="true"
+                android:textColor="@color/blue"
+                android:padding="4dp"
+                android:visibility="invisible"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:backgroundTint="@color/transaction"
+                android:hint="Username"
+                android:inputType="text"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_account"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/gray"/>
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:backgroundTint="@color/transaction"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:drawablePadding="10dp"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/gray"/>
+
+            <EditText
+                android:id="@+id/et_repeat_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:backgroundTint="@color/transaction"
+                android:hint="Repeat password"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="26dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/select"
+            android:text="Sign up"
+            style="@style/customButton"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

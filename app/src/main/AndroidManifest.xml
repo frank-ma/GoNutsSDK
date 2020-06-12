@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--存储照片-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
 
@@ -87,6 +88,50 @@
         </receiver>
 
 
+
+
+        <!--AIHelp需要的刘海屏适配 -->
+        <!--google刘海适配-->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+        <!--小米手机开启刘海适配-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
+        <!--AIHelp需要的Activity-->
+        <activity
+            android:name="com.ljoy.chatbot.ChatMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.ljoy.chatbot.OPActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.ljoy.chatbot.FAQActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.ljoy.chatbot.WebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.ljoy.chatbot.QAWebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!--需要的Activity -->
     </application>
 
 </manifest>

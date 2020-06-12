@@ -18,6 +18,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 import java.lang.reflect.Field;
@@ -152,8 +153,15 @@ public class Toasty {
             currentToast = new Toast(context);
 
         }
-        final View toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+        final View toastLayout;
+        if (SDKManager.getInstance().isCommonVersion()){
+            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast_normal","layout"), null);
+        }else {
+            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+        }
+
         currentToast.setGravity(Gravity.TOP,0,0);
         final ImageView toastIcon =toastLayout.findViewById(SDKResUtils.getResId(context,"toast_icon","id"));
         final TextView toastTextView = toastLayout.findViewById(SDKResUtils.getResId(context,"toast_text","id"));

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="300dp"
+        android:background="@drawable/log_bg_02"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:tint="@color/color_02b6bc"
+            android:visibility="invisible"
+            android:src="@drawable/ic_back"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transaction"
+                android:hint="Account"
+                android:drawableLeft="@drawable/ic_account"
+                android:inputType="text"
+                android:text=""
+                android:drawablePadding="10dp"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/gray"/>
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transaction"
+                android:hint="Password"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:inputType="textPassword"
+                android:text=""
+                android:drawablePadding="10dp"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/gray"/>
+
+            <EditText
+                android:id="@+id/et_new_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transaction"
+                android:hint="New password:"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:text=""
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_reset_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingLeft="20dp"
+            android:paddingTop="6dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp"
+            android:text="Reset password"
+            android:textColor="@color/blue"
+            android:textStyle="italic"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Sign in"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/select"
+            style="@style/customButton"/>
+
+        <TextView
+            android:id="@+id/tv_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:textStyle="italic"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="2dp"
+            android:text=" Create an account"
+            android:textColor="@color/blue" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

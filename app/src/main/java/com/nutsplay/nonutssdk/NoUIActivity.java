@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
@@ -64,7 +66,7 @@ public class NoUIActivity extends BaseActivity {
         initParameter.setHasUI(true);
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable User user) {
                 showLog("初始化成功");
             }
 

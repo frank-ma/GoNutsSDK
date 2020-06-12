@@ -83,6 +83,7 @@ public class FBLoginActivity extends BaseActivity {
                         //登录成功
                         AccessToken accessToken = loginResult.getAccessToken();
                         String userId = accessToken.getUserId();
+                        
 
 
                         String domain = accessToken.getGraphDomain();

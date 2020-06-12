@@ -199,6 +199,24 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="customerService"
+            android:text="在线客服"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="FAQ"
+            android:text="FAQ"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
             android:onClick="saveShot"
             android:text="截图保存"

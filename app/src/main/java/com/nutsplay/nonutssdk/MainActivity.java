@@ -8,6 +8,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
@@ -25,6 +27,7 @@ import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutspower.nutsgamesdk.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -32,9 +35,16 @@ public class MainActivity extends BaseActivity {
     private String clientId = "5dcbeab164b5b50deb76be93";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
+//    String referenceId = "com.nutspower.nutsgamesdk.sub1";
+    String referenceId = "com.nutspower.nutsgamesdk.sub2";
 
-    private TextView logTv,webTv;
+    private TextView logTv,webTv,login;
     private Button initB,defaultLogin;
+
+    //poly
+    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_18d51c55-b1e5-43f4-bcbe-daad1b7381a8";
+    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_b372655fc824460d8add46957ae8739c";
+    private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +54,14 @@ public class MainActivity extends BaseActivity {
         initB = findViewById(R.id.init);
         defaultLogin = findViewById(R.id.default_login);
         webTv = findViewById(R.id.webUrl);
+        login = findViewById(R.id.login);
         //通过html的形式实现超链接
 //        String csdnLink1 = "<a href=\"https://fb.gg/me/friendfinder/295570801431576\">好友列表</a>";
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
         defaultLogin.callOnClick();
+
 
     }
 
@@ -62,10 +74,24 @@ public class MainActivity extends BaseActivity {
         initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
+        initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
+
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable User user) {
+                //user为上次登录的用户，可能为空，所以客户端要做判断,客户端拿到这个信息之后，可以显示在登录界面左上角，告诉用户自动登录的是哪个账号，玩家就可以决定要不要切换账号
+//                右上角要放一个切换账号的按钮
+                if (user != null){
+                    showLog(user.toString());
+                    showLog("当前自动登录的用户类型是："+user.getSdkmemberType()+"-"+user.getUserId());
+                }else{
+                    showLog("当前没有自动登录的用户");
+                }
                 showLog("初始化成功");
+                login.callOnClick();
             }
 
             @Override
@@ -96,6 +122,10 @@ public class MainActivity extends BaseActivity {
         initParameter.setLanguage("en_us");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
+        initParameter.setUIVersion(0);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
 
         SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){
 
@@ -117,6 +147,11 @@ public class MainActivity extends BaseActivity {
 
     public void loginUI(View view) {
 
+        login();
+
+    }
+
+    private void login() {
         SDK.getInstance().sdkLogin(this, new LoginCallBack() {
             @Override
             public void onSuccess(User user) {
@@ -131,7 +166,6 @@ public class MainActivity extends BaseActivity {
                 showLog("登录失败：" + errorMsg);
             }
         });
-
     }
 
     public void switchAccount(View view) {
@@ -203,8 +237,8 @@ public class MainActivity extends BaseActivity {
      * @param view
      */
     public void subscription(View view) {
-        String referenceId = "com.nutspower.nutsgamesdk.sub1";
-        SDK.getInstance().sdkSubscription(this, "0", referenceId,"", new PurchaseCallBack() {
+
+        SDK.getInstance().sdkSubscription(this, "0", referenceId,"testSub", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 if (payResult == null) return;
@@ -418,7 +452,36 @@ public class MainActivity extends BaseActivity {
         SDK.getInstance().openUserCenter(this);
     }
 
+    /**
+     * 在线客服系统
+     *
+     * @param view
+     */
+    public void customerService(View view) {
 
+        //打开AIHelp客服聊天界面
+        HashMap<String,Object> customData = new HashMap<>();
+        customData.put("playerID","10001");
+        customData.put("level","2");
+        customData.put("coins","999");
+        customData.put("diamond","100");
+        SDK.getInstance().customerSupport( "Jack","0", customData);
+    }
+
+    /**
+     * 常见问题
+     *
+     * @param view
+     */
+    public void FAQ(View view){
+
+        HashMap<String,Object> customData = new HashMap<>();
+        customData.put("playerID","100011");
+        customData.put("level","12");
+        customData.put("coins","1999");
+        customData.put("diamond","0");
+        SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
+    }
     /**
      * *************************生命周期方法****************************
      */
@@ -456,4 +519,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+
 }

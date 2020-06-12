@@ -7,17 +7,16 @@ def static getProductName() {
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
 
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.4"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 7
+        versionName "1.5.1"
         multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -44,7 +43,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //Google内购
-    implementation 'com.android.billingclient:billing:2.0.3'
+    implementation 'com.android.billingclient:billing:2.2.1'//2.0.3
     // greenDao
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
@@ -65,6 +64,8 @@ dependencies {
 
     // Facebook Android SDK (everything)
     implementation 'com.facebook.android:facebook-android-sdk:6.2.0'
+    //AIHelp
+    implementation 'net.aihelp:elva:1.7.2.2'
 }
 
 greendao {

@@ -24,6 +24,10 @@ public class InitParameter implements Serializable {
     private String customerServiceAddress="";
     private boolean isDebug = false;
     private boolean hasUI = true;
+    private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+    private String aihelpAppkey="";
+    private String aihelpDomain="";
+    private String aihelpAppID="";
 
     public String getClientId() {
         return clientId;
@@ -100,5 +104,37 @@ public class InitParameter implements Serializable {
 
     public void setHasUI(boolean hasUI) {
         this.hasUI = hasUI;
+    }
+
+    public int getUIVersion() {
+        return UIVersion;
+    }
+
+    public void setUIVersion(int UIVersion) {
+        this.UIVersion = UIVersion;
+    }
+
+    public String getAihelpAppkey() {
+        return aihelpAppkey;
+    }
+
+    public void setAihelpAppkey(String aihelpAppkey) {
+        this.aihelpAppkey = aihelpAppkey;
+    }
+
+    public String getAihelpDomain() {
+        return aihelpDomain;
+    }
+
+    public void setAihelpDomain(String aihelpDomain) {
+        this.aihelpDomain = aihelpDomain;
+    }
+
+    public String getAihelpAppID() {
+        return aihelpAppID;
+    }
+
+    public void setAihelpAppID(String aihelpAppID) {
+        this.aihelpAppID = aihelpAppID;
     }
 }

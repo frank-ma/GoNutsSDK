@@ -2,7 +2,24 @@
 
 
                            更新日志：
+
 ****************************************************************
+
+sdk_v1.5.1.aar(2020-)
+新增客服系统（AIHelp）两个接口：
+customerSupport(String playerName,String serverId, @Nullable HashMap<String ,Object> customData)
+showFAQs(String userName,String serverId,HashMap<String,Object> data)
+
+****************************************************************
+
+sdk_v1.5.aar(2020-)
+新增一套通用UI，两套UI根据初始化的时候参数进行切换
+
+
+
+
+****************************************************************
+
 sdk_v1.4.aar(2020-4-23)
 新增用户中心：绑定邮箱和根据绑定邮箱重置密码两个功能
 

@@ -2,6 +2,8 @@ package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
 
+import androidx.annotation.Nullable;
+
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -11,6 +13,7 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -281,5 +284,13 @@ public class SDK {
      */
     public void openUserCenter(Activity activity) {
         SDKManager.getInstance().openUserCenter(activity);
+    }
+
+    public void customerSupport(String playerName,String serverId, @Nullable HashMap<String ,Object> customData) {
+        SDKManager.getInstance().customerSupport(playerName,serverId,customData);
+    }
+
+    public void showFAQs(String userName, String serverId, HashMap<String,Object> customData){
+        SDKManager.getInstance().showFAQs(userName,serverId,customData);
     }
 }

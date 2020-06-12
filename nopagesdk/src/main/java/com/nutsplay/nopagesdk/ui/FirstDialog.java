@@ -14,6 +14,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
@@ -50,7 +51,12 @@ public class FirstDialog extends Dialog {
 //            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final FirstDialog dialog = new FirstDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
+            }
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
             TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView loginTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));

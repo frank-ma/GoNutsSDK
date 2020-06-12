@@ -12,6 +12,7 @@ public class User implements Serializable {
     private String userId;
     private String ticket;
     private String sdkmemberType="";
+    private String userName;//账号登录的时候的用户名
 
     public String getUserId() {
         return userId;
@@ -33,6 +34,14 @@ public class User implements Serializable {
         return sdkmemberType;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setSdkmemberType(String sdkmemberType) {
         this.sdkmemberType = sdkmemberType;
     }
@@ -43,6 +52,7 @@ public class User implements Serializable {
                 "userId='" + userId + '\'' +
                 ", ticket='" + ticket + '\'' +
                 ", sdkmemberType='" + sdkmemberType + '\'' +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 }

@@ -55,7 +55,12 @@ public class RegisterDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final RegisterDialog dialog = new RegisterDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+            }
 
             TextView signUp = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));

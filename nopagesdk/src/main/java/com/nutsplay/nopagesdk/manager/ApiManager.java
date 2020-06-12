@@ -2,6 +2,7 @@ package com.nutsplay.nopagesdk.manager;
 
 import android.content.Context;
 
+import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
@@ -267,15 +268,19 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKPurchaseNotify(String aesKey16, String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
+    public void SDKPurchaseNotify(String type,String aesKey16, String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
         try {
             String url = addDomainName() + "/phi";
+            if (type.equals(BillingClient.SkuType.SUBS)){
+                url = addDomainName() + "/psk";
+            }
 
             Notify notify = new Notify();
             notify.setClientID(mClientID);
             notify.setTransactionId(transactionId);
             notify.setChannelCode("GOOGLE");
             String purchaseData=GsonUtils.tojsonString(purchase);
+            LogUtils.e(TAG,"purchaseData---" + purchaseData);
             notify.setPurchase(purchaseData);
             String jsonData = GsonUtils.tojsonString(notify);
 

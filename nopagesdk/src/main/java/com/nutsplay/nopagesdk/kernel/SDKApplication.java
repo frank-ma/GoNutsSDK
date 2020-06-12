@@ -25,7 +25,10 @@ public class SDKApplication extends Application {
         x.Ext.init(this);
         initGreenDao();
         context = this;
+//        initHelpShift();
     }
+
+
 
     public static SDKApplication getInstance() {
         return context;
@@ -42,4 +45,24 @@ public class SDKApplication extends Application {
     public DaoSession getDaoSession() {
         return daoSession;
     }
+
+//    /**
+//     * 初始化客服系统HelpShift
+//     *
+//     */
+//    private void initHelpShift() {
+//        Core.init(Support.getInstance());
+//        InstallConfig installConfig = new InstallConfig.Builder()
+//                .setEnableInAppNotification(true)
+//                .build();
+//        try {
+//            Core.install(this,
+//                    "ede1e4fac3a77f37b7742b273b1b8ceb",
+//                    "freetrialshenqiwangluo.helpshift.com",
+//                    "freetrialshenqiwangluo_platform_20200528025919539-3daee148250700c",
+//                    installConfig);
+//        } catch (InstallException e) {
+//            LogUtils.e("Helpshift install call : " + e);
+//        }
+//    }
 }

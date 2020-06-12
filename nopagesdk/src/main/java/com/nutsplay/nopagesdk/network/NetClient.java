@@ -49,6 +49,7 @@ public class NetClient {
      */
     public void clientGet(String url, Map<String, String> map, Map<String, String> headerMap, final NetCallBack jsonReaderCallback) {
         RequestParams params = new RequestParams(url);
+        params.setMaxRetryCount(5);
 
         if (headerMap != null && headerMap.size() > 0) {
             for (Map.Entry<String, String> entry : headerMap.entrySet()) {
@@ -102,6 +103,7 @@ public class NetClient {
         RequestParams params = new RequestParams(url);
         //要先设置请求方法，否则addBodyParameter添加的参数都给加到请求链接里面去了，本应该加到body里面的，url太长就会报错414 Uri too long
         params.setMethod(HttpMethod.POST);
+        params.setMaxRetryCount(5);
 
         if (map != null && map.size()>0 ) {
             for (Map.Entry<String, String> entry : map.entrySet()) {

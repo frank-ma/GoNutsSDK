@@ -49,7 +49,12 @@ public class ResetPwdDialog extends BaseDialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final ResetPwdDialog dialog = new ResetPwdDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+            }
 
             TextView reset = layout.findViewById(SDKResUtils.getResId(context, "tv_reset", "id"));
             final EditText accountEt = layout.findViewById(SDKResUtils.getResId(context, "et_account", "id"));

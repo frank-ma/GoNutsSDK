@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="360dp"
+        android:layout_height="300dp"
+        android:background="@drawable/log_bg_02">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/nuts_logo" />
+
+            <TextView
+                android:id="@+id/tv_visitor_sign_in"
+                style="@style/customButton"
+                android:layout_width="280dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/normal_btn_select"
+                android:gravity="center"
+                android:paddingLeft="0dp"
+                android:paddingTop="5dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="5dp"
+                android:text="Guest login"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_create_account"
+                style="@style/customButton"
+                android:layout_width="280dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/normal_btn_select"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Log in"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="282dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Please select one way to log in："
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

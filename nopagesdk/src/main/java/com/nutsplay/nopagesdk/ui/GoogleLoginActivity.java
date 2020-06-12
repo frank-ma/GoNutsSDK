@@ -70,7 +70,7 @@ public class GoogleLoginActivity extends BaseActivity {
         } catch (ApiException e) {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode());
-            LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getStatusCode()+"---"+e.getMessage());
+            LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getStatusCode()+"---"+e.getLocalizedMessage());
             finish();
         }
     }

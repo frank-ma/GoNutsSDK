@@ -48,7 +48,12 @@ public class EmailBindDialog extends BaseDialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final EmailBindDialog dialog = new EmailBindDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_email", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_email_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_email", "layout"), null);
+            }
 
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
             final EditText email = layout.findViewById(SDKResUtils.getResId(context, "et_email", "id"));

@@ -57,7 +57,12 @@ public class LoginDialog extends Dialog {
 //            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final LoginDialog dialog = new LoginDialog(context);
             if (inflater == null) return dialog;
-            View layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+            View layout;
+            if (SDKManager.getInstance().isCommonVersion()){
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_normal", "layout"), null);
+            }else {
+                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+            }
             final TextView signIn = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_in", "id"));
             final TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));

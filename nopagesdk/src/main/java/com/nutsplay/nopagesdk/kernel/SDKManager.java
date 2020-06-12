@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.ljoy.chatbot.sdk.ELvaChatServiceSdk;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
@@ -50,6 +56,7 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -143,7 +150,7 @@ public class SDKManager {
     public void showProgress(Activity activity) {
         if (null == progressDialog)
             if (activity.hasWindowFocus()) {
-                progressDialog = SDKProgressDialog.createProgrssDialog(activity,"Loading...");
+                progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
             }
         if (null != progressDialog) {
             if (activity.hasWindowFocus()) {
@@ -159,6 +166,16 @@ public class SDKManager {
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    /**
+     * 是不是通用UI版本
+     *
+     * @return
+     */
+    public boolean isCommonVersion() {
+        if (getInitParameter() == null) return true;
+        return getInitParameter().getUIVersion() == 0;
     }
 
     //*******************************************SDK接口*********************************************
@@ -202,7 +219,7 @@ public class SDKManager {
         }
 
         //初始化追踪
-        TrackingManager.trackingInit(activity,  initParameter.getAppsflyerId(), activity.getApplication());
+        TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
 
         showProgress(activity);
 
@@ -211,6 +228,25 @@ public class SDKManager {
 
         //获取keyHash
         SDKGameUtils.getKeyHash(activity);
+
+        initAiHelp(activity, initParameter);
+    }
+
+    /**
+     * 初始化AiHelp客服系统
+     */
+    private static void initAiHelp(Activity activity, InitParameter parameters) {
+
+        try {
+            ELvaChatServiceSdk.init(
+                    activity,
+                    parameters.getAihelpAppkey(),
+                    parameters.getAihelpDomain(),
+                    parameters.getAihelpAppID());
+            ELvaChatServiceSdk.setSDKLanguage(parameters.getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -283,11 +319,17 @@ public class SDKManager {
                         if (initgoBean.getCode() == 1) {
                             LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                             setInitData(initgoBean);
-                            initCallBackListener.onSuccess();
+
+                            //获取当前登录的用户信息
+                            if (getUser() == null || getUser().getUserId() == null || getUser().getTicket() == null) {
+                                initCallBackListener.onSuccess(null);
+                            } else {
+                                initCallBackListener.onSuccess(getUser());
+                            }
                         } else if (initgoBean.getCode() == -6) {
                             //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
-                            handleLogout();
+                            handleLogout(activity);
                             initCallBackListener.onFailure(initgoBean.getMessage());
 
                         } else {
@@ -305,7 +347,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
-                    sdkUploadLog(activity,"init interface error",errorMsg);
+                    sdkUploadLog(activity, "init interface error", errorMsg);
                     initCallBackListener.onFailure(errorMsg);
 
                 }
@@ -386,6 +428,7 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(userName);
                             loginCallBack.onSuccess(user);
                             //记住账号密码
                             SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
@@ -407,7 +450,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKRegisterAccount---onFailure:" + errorMsg);
-                    sdkUploadLog(activity,"SDKRegisterAccount interface error",errorMsg);
+                    sdkUploadLog(activity, "SDKRegisterAccount interface error", errorMsg);
                     loginCallBack.onFailure(errorMsg);
                 }
             });
@@ -480,6 +523,7 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(userName);
                             loginCallBack.onSuccess(user);
                             callBack.onSuccess();
                             //记住账号密码
@@ -581,15 +625,14 @@ public class SDKManager {
     }
 
     /**
-     *
      * 默认游客登录，自动初始化
      *
      * @param activity
      * @param loginCallBack
      */
-    public void sdkDefaultLogin(final Activity activity, InitParameter initParameter, final LoginCallBack loginCallBack){
+    public void sdkDefaultLogin(final Activity activity, InitParameter initParameter, final LoginCallBack loginCallBack) {
 
-        try{
+        try {
 
             if (loginCallBack == null) {
                 System.out.println("sdkDefaultLogin failed:loginCallBack is null.");
@@ -601,7 +644,7 @@ public class SDKManager {
             }
             initSDK(activity, initParameter, new InitCallBack() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(@Nullable User user) {
                     LoginManager.getInstance().visitorLogin(activity, loginCallBack);
                 }
 
@@ -611,7 +654,7 @@ public class SDKManager {
                 }
             });
 
-        }catch (Exception e){
+        } catch (Exception e) {
             hideProgress();
             e.printStackTrace();
         }
@@ -699,6 +742,7 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(userName);
                             setUser(user);
                             loginCallBack.onSuccess(user);
 
@@ -739,7 +783,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkSwitchAccount(Activity activity,LoginCallBack loginCallBack){
+    public void sdkSwitchAccount(Activity activity, LoginCallBack loginCallBack) {
 
         if (activity == null) {
             System.out.println("sdkSwitchAccount failed:Activity is null.");
@@ -759,10 +803,10 @@ public class SDKManager {
         }
 
         //登出操作
-        handleLogout();
+        handleLogout(activity);
 
         //登录操作
-        sdkLogin(activity,loginCallBack);
+        sdkLogin(activity, loginCallBack);
     }
 
     /**
@@ -771,7 +815,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkSwitchAccountNoUI(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
+    public void sdkSwitchAccountNoUI(Activity activity, String userName, String pwd, LoginCallBack loginCallBack) {
 
         if (activity == null) {
             System.out.println("sdkSwitchAccount failed:Activity is null.");
@@ -791,10 +835,10 @@ public class SDKManager {
         }
 
         //登出操作
-        handleLogout();
+        handleLogout(activity);
 
         //登录操作
-        sdkLoginNoUI(activity,userName,pwd,loginCallBack);
+        sdkLoginNoUI(activity, userName, pwd, loginCallBack);
     }
 
     public void sdkLogin2Dialog(final Activity activity, final String userName, final String pwd,
@@ -856,6 +900,7 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(userName);
                             setUser(user);
                             loginCallBack.onSuccess(user);
 
@@ -967,7 +1012,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginThirdAccount(Activity activity, String oauthId, final String oauthSource, final LoginCallBack loginCallBack) {
+    public void sdkLoginThirdAccount(Activity activity, final String oauthId, final String oauthSource, final LoginCallBack loginCallBack) {
 
         try {
             if (activity == null) {
@@ -1014,6 +1059,7 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(oauthSource);
+                            user.setUserName(oauthId);
                             setUser(user);
                             loginCallBack.onSuccess(user);
 
@@ -1069,7 +1115,7 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            ApiManager.getInstance().SDKUploadLog(activity,aesKey, aesKey16byRSA, title, content, new NetCallBack() {
+            ApiManager.getInstance().SDKUploadLog(activity, aesKey, aesKey16byRSA, title, content, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1131,23 +1177,25 @@ public class SDKManager {
             return;
         }
 
-        handleLogout();
+        handleLogout(activity);
 
         logOutCallBack.onSuccess();
     }
 
 
     /**
-     *
      * 登出公共操作
-     *
      */
-    public void handleLogout() {
+    public void handleLogout(Activity activity) {
         User user = new User();
         setUser(user);
         setAuto(false);
         //FB登出
         com.facebook.login.LoginManager.getInstance().logOut();
+        //Google登出
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+        GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
+        client.signOut();
     }
 
 
@@ -1268,7 +1316,7 @@ public class SDKManager {
      * @param activity
      * @param purchaseCallBack
      */
-    public void sdkSubscription(final Activity activity, String serverId, final String referenceId,String gameExt, final PurchaseCallBack purchaseCallBack) {
+    public void sdkSubscription(final Activity activity, String serverId, final String referenceId, String gameExt, final PurchaseCallBack purchaseCallBack) {
 
         try {
             if (activity == null) {
@@ -1338,7 +1386,7 @@ public class SDKManager {
 
                             //使用Google订阅
                             LogUtils.d(TAG, "发起Google订阅");
-                            GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId,transactionId, BillingClient.SkuType.SUBS);
+                            GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.SUBS);
 
                         } else {
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
@@ -1371,7 +1419,7 @@ public class SDKManager {
      * @param skuList
      * @param callback
      */
-    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList,String skuType, final SDKGetSkuDetailsCallback callback) {
+    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType, final SDKGetSkuDetailsCallback callback) {
 
         if (activity == null) {
             System.out.println("sdkQuerySkuLocalPrice failed:Activity is null.");
@@ -1394,7 +1442,7 @@ public class SDKManager {
             return;
         }
 
-        GooglePayHelp.getInstance().querySkuDetails(skuList,skuType, callback);
+        GooglePayHelp.getInstance().querySkuDetails(skuList, skuType, callback);
 
     }
 
@@ -1441,7 +1489,7 @@ public class SDKManager {
             System.out.println("The SDK is not initialized.");
             return;
         }
-        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language,language);
+        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language, language);
         SDKManager.getInstance().getInitParameter().setLanguage(language);
     }
 
@@ -1460,14 +1508,14 @@ public class SDKManager {
 
         if (GooglePayHelp.getInstance().isConnected()) {
 //            GooglePayHelp.getInstance().resentOrderByDbRecord();
-            GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
-        }else {
+            GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+        } else {
             GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
                     GooglePayHelp.getInstance().setConnected(true);
 //                    GooglePayHelp.getInstance().resentOrderByDbRecord();
-                    GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
+                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
                 }
 
                 @Override
@@ -1495,7 +1543,7 @@ public class SDKManager {
      * @param newPwd
      * @param callback
      */
-    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final LoginCallBack callback) {
+    public void sdkResetPwd(Activity activity, final String account, String oldPwd, String newPwd, final LoginCallBack callback) {
 
         try {
 
@@ -1555,6 +1603,8 @@ public class SDKManager {
                             User user = new User();
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(account);
                             setUser(user);
                             callback.onSuccess(user);
 
@@ -1595,7 +1645,7 @@ public class SDKManager {
      * @param second      密码
      * @param callback
      */
-    public void sdkBindAccount2Dialog(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback) {
+    public void sdkBindAccount2Dialog(Activity activity, String oauthid, String oauthsource, final String account, String second, final ResultCallBack callback) {
 
         try {
 
@@ -1659,11 +1709,12 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(account);
                             SDKManager.getInstance().setUser(user);
 
                             callback.onSuccess();
 
-                        } else if (loginModel.getCode() == -8){
+                        } else if (loginModel.getCode() == -8) {
                             //游客账号已绑定
                             User user = getUser();
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
@@ -1709,7 +1760,7 @@ public class SDKManager {
      * @param second      密码
      * @param callback
      */
-    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String second, final ResultCallBack callback) {
+    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, final String account, String second, final ResultCallBack callback) {
 
         try {
 
@@ -1773,10 +1824,11 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(account);
                             SDKManager.getInstance().setUser(user);
 
                             callback.onSuccess();
-                        } else if (loginModel.getCode() == -8){
+                        } else if (loginModel.getCode() == -8) {
                             //游客账号已绑定
                             User user = getUser();
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
@@ -1818,13 +1870,13 @@ public class SDKManager {
      * @param activity
      * @param callBack
      */
-    public void sdkGuestBindFB(final Activity activity,final ResultCallBack callBack){
+    public void sdkGuestBindFB(final Activity activity, final ResultCallBack callBack) {
 
         LoginManager.getInstance().facebookLogin(activity, new ThirdLoginResultCallBack() {
             @Override
             public void onSuccess(String thirdId) {
-                LogUtils.d(TAG,"FBId:"+thirdId);
-                sdkGuestBindThirdAccount(activity,thirdId,"facebook",callBack);
+                LogUtils.d(TAG, "FBId:" + thirdId);
+                sdkGuestBindThirdAccount(activity, thirdId, SDKConstant.TYPE_FACEBOOK, callBack);
             }
 
             @Override
@@ -1843,7 +1895,7 @@ public class SDKManager {
      * @param thirdSource 第三方账号来源
      * @param callback
      */
-    private void sdkGuestBindThirdAccount(Activity activity, String thirdId, String thirdSource, final ResultCallBack callback) {
+    private void sdkGuestBindThirdAccount(Activity activity, final String thirdId, final String thirdSource, final ResultCallBack callback) {
 
         try {
 
@@ -1870,7 +1922,7 @@ public class SDKManager {
 
             String oauthId = Installations.id(activity);
             showProgress(activity);
-            ApiManager.getInstance().SDKGuestBindThirdAccount(aesKey, aesKey16byRSA, oauthId, thirdId,thirdSource, new NetCallBack() {
+            ApiManager.getInstance().SDKGuestBindThirdAccount(aesKey, aesKey16byRSA, oauthId, thirdId, thirdSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -1896,14 +1948,15 @@ public class SDKManager {
                             User user = new User();
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
-                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setSdkmemberType(thirdSource);//绑定成功后，用户类型变成了第三方类型
+                            user.setUserName(thirdId);
                             SDKManager.getInstance().setUser(user);
 
                             callback.onSuccess();
-                        } else if (loginModel.getCode() == -8){
+                        } else if (loginModel.getCode() == -8) {
                             //游客账号已绑定
                             User user = getUser();
-                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setSdkmemberType(thirdSource);
                             SDKManager.getInstance().setUser(user);
 
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -1938,16 +1991,16 @@ public class SDKManager {
 
 
     /**
-     *
      * 用户中心：坚果账号绑定邮箱
+     *
      * @param activity
-     * @param email 邮箱
+     * @param email    邮箱
      */
     public void sdkUserBindEmailSendCode(Activity activity, String email, final ResultCallBack resultCallBack) {
 
         try {
 
-            if (resultCallBack == null)return;
+            if (resultCallBack == null) return;
             if (activity == null) {
                 System.out.println("sdkUserBindEmailSendCode failed:Activity is null.");
                 return;
@@ -2015,7 +2068,7 @@ public class SDKManager {
      * 坚果账号绑定邮箱
      *
      * @param activity
-     * @param email 邮箱
+     * @param email      邮箱
      * @param verifyCode 邮箱验证码
      */
     public void sdkUserBindEmail(Activity activity, String email, String verifyCode, final ResultCallBack resultCallBack) {
@@ -2090,7 +2143,7 @@ public class SDKManager {
      * 重置密码：发送验证码
      *
      * @param activity
-     * @param account 用户的账号（需要绑定邮箱）
+     * @param account  用户的账号（需要绑定邮箱）
      */
     public void sdkResetPwdSendCode(Activity activity, String account, final ResultCallBack resultCallBack) {
 
@@ -2163,15 +2216,15 @@ public class SDKManager {
      * 重置密码
      *
      * @param activity
-     * @param account 邮箱
+     * @param account    邮箱
      * @param verifyCode 邮箱验证码
-     * @param newPwd 新密码
+     * @param newPwd     新密码
      */
-    public void sdkResetPwdByCode(Activity activity, String account, String verifyCode, String newPwd, final ResultCallBack resultCallBack) {
+    public void sdkResetPwdByCode(final Activity activity, String account, String verifyCode, String newPwd, final ResultCallBack resultCallBack) {
 
         try {
 
-            if (resultCallBack == null)return;
+            if (resultCallBack == null) return;
             if (activity == null) {
                 System.out.println("sdkResetPwdByCode failed:Activity is null.");
                 return;
@@ -2190,7 +2243,7 @@ public class SDKManager {
 
             if (SDKManager.getInstance().getUser() == null) return;
             showProgress(activity);
-            ApiManager.getInstance().SDKResetPwdByVerifycode(aesKey, aesKey16byRSA, account, verifyCode ,newPwd, new NetCallBack() {
+            ApiManager.getInstance().SDKResetPwdByVerifycode(aesKey, aesKey16byRSA, account, verifyCode, newPwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -2203,7 +2256,7 @@ public class SDKManager {
                         if (sdkResult == null) return;
                         if (sdkResult.getCode() == 1) {
                             //绑定账号成功
-                            SDKManager.getInstance().handleLogout();
+                            SDKManager.getInstance().handleLogout(activity);
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("resetPwdSuccess"), 1);
                             resultCallBack.onSuccess();
                         } else {
@@ -2233,18 +2286,23 @@ public class SDKManager {
     }
 
 
-
     /**
      * 打开用户中心
      */
-    public void openUserCenter(Activity activity){
+    public void openUserCenter(Activity activity) {
 
+        if (activity == null) return;
+        setActivity(activity);
+
+        if (!isInitStatus()) {
+            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+            return;
+        }
         UserCenterDialog.Builder builder = new UserCenterDialog.Builder(activity);
         builder.create().show();
     }
 
     /**
-     *
      * 截图保存
      *
      * @param activity
@@ -2266,7 +2324,7 @@ public class SDKManager {
      */
     public void sdkGetFbUserInfo(Activity activity, ResultCallBack resultCallBack) {
 
-        if (activity == null || resultCallBack==null) return;
+        if (activity == null || resultCallBack == null) return;
         AppManager.startActivity(FBLoginActivity.class);
     }
 
@@ -2281,7 +2339,7 @@ public class SDKManager {
         AppManager.startActivity(FBLoginActivity.class);
         LoginManager.getInstance().setFBLoginListener(new LoginManager.FbLoginListener() {
             @Override
-            public void onSuccess(String fbId,String name) {
+            public void onSuccess(String fbId, String name) {
 
             }
 
@@ -2296,4 +2354,40 @@ public class SDKManager {
     public void facebookSharing() {
 
     }
+
+    /**
+     * 在线客服系统
+     * AIHelp
+     */
+    public void customerSupport(String userName, String serverId, HashMap<String, Object> customData) {
+
+        String nutsId = "";
+        if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+            nutsId = SDKManager.getInstance().getUser().getUserId();
+        }
+        ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+    }
+
+    /**
+     * 常见问题列表，
+     * 可以直接联系客服，有机器人客服，也可以转人工
+     *
+     * @param userName
+     * @param serverId
+     * @param customData
+     */
+    public void showFAQs(String userName, String serverId, HashMap<String, Object> customData) {
+        String nutsId = "";
+        if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+            nutsId = SDKManager.getInstance().getUser().getUserId();
+        }
+
+        HashMap<String, Object> config = new HashMap<>();
+        config.put("showContactButtonFlag", "1");
+        config.put("showConversationFlag", "1");
+        config.put("elva-custom-metadata", customData);
+        ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
+        ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+    }
+
 }

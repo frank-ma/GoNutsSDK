@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 
@@ -36,7 +37,13 @@ public class SDKProgressDialog extends Dialog {
     public static SDKProgressDialog createProgrssDialog(Context context) {
 //        progressDialog = new SDKProgressDialog(context);
         progressDialog = new SDKProgressDialog(context, SDKResUtils.getResId(context,"DialogStyle","style"));
-        progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
+
+        if (SDKManager.getInstance().isCommonVersion()){
+            progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading_normal","layout"));
+        }else {
+            progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
+        }
+
         if (progressDialog.getWindow()!=null) progressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         tv =  progressDialog.findViewById(SDKResUtils.getResId(context,"tv_dialog_info","id"));
         if (mMessage != null) {

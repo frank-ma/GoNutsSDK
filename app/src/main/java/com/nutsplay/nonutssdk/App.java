@@ -1,6 +1,9 @@
 package com.nutsplay.nonutssdk;
 
 
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
@@ -19,6 +22,33 @@ public class App extends SDKApplication {
 
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
+
+
     }
 
+//    private void initHelpShift() {
+//        /**
+//         * 初始化客服系统HelpShift
+//         *
+//         */
+//        Core.init(Support.getInstance());
+//        InstallConfig installConfig = new InstallConfig.Builder()
+//                .setEnableInAppNotification(true)
+//                .build();
+//        try {
+//            Core.install(this,
+//                    "ede1e4fac3a77f37b7742b273b1b8ceb",
+//                    "freetrialshenqiwangluo.helpshift.com",
+//                    "freetrialshenqiwangluo_platform_20200528025919539-3daee148250700c",
+//                    installConfig);
+//        } catch (InstallException e) {
+//            Log.e("Helpshift", "install call : " + e);
+//        }
+//    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

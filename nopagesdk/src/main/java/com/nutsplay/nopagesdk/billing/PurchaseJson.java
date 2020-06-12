@@ -18,6 +18,7 @@ public class PurchaseJson implements Serializable {
      * purchaseState : 0
      * purchaseToken : eodejijffafnknhfoneobmlj.AO-J1OwdlWmGScJ1he8PJGLtzaIHULmIJpShZVcHn9Tm-4_-jpROmlr0Z8BgXOo0jqoyIBfavRhVZaLqp_GPKSPDbZaWOSrVdOg7RXQFac5FHfxPrn9I0qO0lbSXASIjxWCNvi6zQU73mL5VdjQL0anOzQbwjr8TIg
      * acknowledged : false
+     * autoRenewing : true(订阅特有的，消耗型商品没有这个参数)
      */
 
     private String orderId;
@@ -27,6 +28,8 @@ public class PurchaseJson implements Serializable {
     private int purchaseState;
     private String purchaseToken;
     private boolean acknowledged;
+    private String developerPayload;
+    private boolean autoRenewing;
 
     public String getOrderId() {
         return orderId;
@@ -84,6 +87,22 @@ public class PurchaseJson implements Serializable {
         this.acknowledged = acknowledged;
     }
 
+    public String getDeveloperPayload() {
+        return developerPayload;
+    }
+
+    public void setDeveloperPayload(String developerPayload) {
+        this.developerPayload = developerPayload;
+    }
+
+    public boolean isAutoRenewing() {
+        return autoRenewing;
+    }
+
+    public void setAutoRenewing(boolean autoRenewing) {
+        this.autoRenewing = autoRenewing;
+    }
+
     @Override
     public String toString() {
         return "PurchaseJson{" +
@@ -94,6 +113,8 @@ public class PurchaseJson implements Serializable {
                 ", purchaseState=" + purchaseState +
                 ", purchaseToken='" + purchaseToken + '\'' +
                 ", acknowledged=" + acknowledged +
+                ", developerPayload='" + developerPayload + '\'' +
+                ", autoRenewing=" + autoRenewing +
                 '}';
     }
 }
