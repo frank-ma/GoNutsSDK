@@ -68,27 +68,28 @@ public class LoginDialog extends Dialog {
             final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
             createAccount.setText(SDKLangConfig.getInstance().findMessage("str_create_account"));
-            resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_password"));
+            resetPwd.setText(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_ResetPassword"));
 
 
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
             final EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
             final EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
+            final ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));
             fillAccount(context,userName, pwd);
 
 
-            //重置密码
+            //忘记密码
             resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    signIn.setText(SDKLangConfig.getInstance().findMessage("reset"));
-                    resetPwd.setVisibility(View.INVISIBLE);
-                    newPwd.setVisibility(View.VISIBLE);
-                    backIv.setVisibility(View.VISIBLE);
+
+                    ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
+                    builder.create().show();
+                    pwd.setText("");
                 }
             });
             //登录或重置密码
@@ -106,6 +107,10 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), loginCallBack, new ResultCallBack() {
                             @Override
                             public void onSuccess() {
+
+                                String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+                                TipDialog.Builder tipDialog=new TipDialog.Builder(context,"Tips",content);
+                                tipDialog.create().show();
                                 dialog.dismiss();
                             }
 
@@ -128,7 +133,18 @@ public class LoginDialog extends Dialog {
                             SDKToast.getInstance().ToastShow("The new password is same as old password.", 2);
                             return;
                         }
-                        SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), loginCallBack);
+                        SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), new ResultCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                backIv.callOnClick();
+                                pwd.setText("");
+                            }
+
+                            @Override
+                            public void onFailure(String msg) {
+
+                            }
+                        });
                     }
 
                 }
@@ -138,7 +154,7 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack, new RegisterResultCallBack() {
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
                         @Override
                         public void onSuccess(String account, String pas) {
                             if (account == null || pas == null) return;
@@ -160,11 +176,22 @@ public class LoginDialog extends Dialog {
             backIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fillAccount(context,userName,pwd);
+
+                    fillAccount(context, userName, pwd);
                     signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
                     resetPwd.setVisibility(View.VISIBLE);
                     newPwd.setVisibility(View.GONE);
                     backIv.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            //关闭按钮
+            closeIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    FirstDialog.Builder builder = new FirstDialog.Builder(context, loginCallBack);
+                    builder.create().show();
                 }
             });
 

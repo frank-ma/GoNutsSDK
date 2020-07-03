@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
@@ -56,16 +57,18 @@ public class EmailBindDialog extends BaseDialog {
             }
 
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
+            TextView title = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
             final EditText email = layout.findViewById(SDKResUtils.getResId(context, "et_email", "id"));
-            final TextView btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
             final EditText verificationCode = layout.findViewById(SDKResUtils.getResId(context, "et_verification_code", "id"));
+            final TextView btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
 
             //多语言适配
-//            ic_email.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
-//            btnSend.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
-//            code.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
-//            bind.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            title.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
+            email.setHint(SDKLangConfig.getInstance().findMessage("please_input_email"));
+            verificationCode.setHint(SDKLangConfig.getInstance().findMessage("44"));
+            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
+            bind.setText(SDKLangConfig.getInstance().findMessage("bind"));
 
 
             //发送邮箱验证码
@@ -74,7 +77,7 @@ public class EmailBindDialog extends BaseDialog {
                 public void onClick(View v) {
                     String emailAddress = email.getText().toString();
                     if (emailAddress.isEmpty()){
-                        SDKToast.getInstance().ToastShow("Email cannot be empty.", 3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
                         return;
                     }
                     if (!SDKGameUtils.matchEmail(emailAddress)) return;
@@ -100,14 +103,14 @@ public class EmailBindDialog extends BaseDialog {
                 public void onClick(View v) {
                     String emailAddress = email.getText().toString();
                     if (emailAddress.isEmpty()){
-                        SDKToast.getInstance().ToastShow("Email cannot be empty.", 3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
                         return;
                     }
                     if (!SDKGameUtils.matchEmail(emailAddress)) return;
 
                     String code = verificationCode.getText().toString();
                     if (code.isEmpty()) {
-                        SDKToast.getInstance().ToastShow("Verification code cannot be empty.",3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("39"),3);
                         return;
                     }
 

@@ -20,6 +20,7 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("en_us");
+        initParameter.setLanguage("ja");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
@@ -119,7 +120,7 @@ public class MainActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("en_us");
+        initParameter.setLanguage("ja");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setUIVersion(0);
@@ -158,6 +159,13 @@ public class MainActivity extends BaseActivity {
                 if (user == null) return;
                 //ticket传给游戏服务器做登录校验
                 String ticket = user.getTicket();
+                //如果用户是facebook登录的话，获取fb信息
+                if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                    String fbName = user.getFacebookName();
+                    String fbPortrait=user.getFacebookPortrait();
+                    String fbEmail=user.getFacebookEmail();
+                    String fbID=user.getFacebookId();
+                }
                 showLog("登录成功：" + user.toString());
             }
 
@@ -326,22 +334,21 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * zh_cn, 中文
-     * zh_hk, 中文
-     * en_us, 英文
-     * th_th, 泰语
-     * vi_vn, 越语
-     * ar_ar，阿拉伯语
+     * zh_CN, 中文
+     * zh_HK, 中文
+     * en, 英文
+     * th, 泰语
+     * vi, 越语
+     * ar，阿拉伯语
      * kr，韩语
-     * fr，法语
-     * br，葡萄牙语
-     * deu，德
+     * fo，法语
+     * pt，葡萄牙语
+     * de，德
      * sp，西班牙
      * it，意大利语
-     * jp，日语
-     * idn，印度尼西亚语
-     * by:俄语
-     * tr:土耳其语
+     * ja，日语
+     * id，印度尼西亚语
+     * ru:俄语
      *
      * @param view
      */
@@ -411,9 +418,8 @@ public class MainActivity extends BaseActivity {
     public void fbGameLogin(View view){
         SDK.getInstance().facebookGameLogin(new LoginManager.FbLoginListener() {
             @Override
-            public void onSuccess(String fbId,String name) {
-                //游戏名并不是每次都有
-                showLog("fb游戏登录成功：fbid-" + fbId);
+            public void onSuccess(FacebookUser user) {
+                showLog("fb游戏登录成功：fbid-" + user.getId());
             }
 
             @Override
@@ -482,6 +488,18 @@ public class MainActivity extends BaseActivity {
         customData.put("diamond","0");
         SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
     }
+
+    /**
+     * Firebase功能测试
+     *
+     * @param view
+     */
+    public void FirebaseFunction(View view){
+        SDK.getInstance().fireBaseTrackingLevelUp(this,"beat_boss",10);
+        SDK.getInstance().fireBaseTrackingTutorialBegin(this);
+        SDK.getInstance().fireBaseTrackingTutorialComplete(this);
+    }
+
     /**
      * *************************生命周期方法****************************
      */
@@ -491,22 +509,16 @@ public class MainActivity extends BaseActivity {
      *
      */
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDK.getInstance().sdkOnResume(this);
+        SDK.getInstance().sdkOnRestart(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.e("TAG","onDestroy");
-        SDK.getInstance().sdkOnDestroy(this);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("TAG","onPause");
         SDK.getInstance().sdkOnDestroy(this);
     }
 

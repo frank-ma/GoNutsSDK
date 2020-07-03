@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
@@ -42,12 +41,10 @@ public class RegisterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private LoginCallBack loginCallBack;
         private RegisterResultCallBack registerCallBack;
 
-        public Builder(Context context, LoginCallBack loginCallBack,RegisterResultCallBack registerCallBack) {
+        public Builder(Context context,RegisterResultCallBack registerCallBack) {
             this.context = context;
-            this.loginCallBack = loginCallBack;
             this.registerCallBack = registerCallBack;
         }
 
@@ -97,7 +94,7 @@ public class RegisterDialog extends Dialog {
                         SDKToast.getInstance().ToastShow("You should enter the same password.", 3);
                         return;
                     }
-                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, loginCallBack, new ResultCallBack() {
+                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             registerCallBack.onSuccess(account,psw);

@@ -12,11 +12,18 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.gamingservices.FriendFinderDialog;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.nutsplay.nopagesdk.facebook.FacebookUser;
+import com.nutsplay.nopagesdk.facebook.UserRequest;
 import com.nutspower.commonlibrary.utils.LogUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -29,12 +36,13 @@ public class FBLoginActivity extends BaseActivity {
 
     private static final String TAG = "FBLoginActivity";
     private CallbackManager callbackManager;
-    private String name="";
+    private static final String EMAIL = "email";
+    private static final String USER_POSTS = "user_posts";
+    private static final String AUTH_TYPE = "rerequest";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         HandlerFacebookLogin();
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -45,28 +53,15 @@ public class FBLoginActivity extends BaseActivity {
                 Log.e("facebook","当前用户已迁移到Facebook Login for games");
             }
         }
-        Profile profile = Profile.getCurrentProfile();
-        if (profile != null) {
-            name = profile.getName();
-            Uri uri = profile.getProfilePictureUri(50,50);//头像
-            Log.e("facebook","游戏名:" + name + "  "+uri);
-        }else{
-            name = "";
-        }
-
-
-
 
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if (isLoggedIn){
             String facebookId = accessToken.getUserId();
             LogUtils.e("FacebookID",facebookId);
-            if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener() != null) {
-                com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onSuccess(facebookId,name);
-            }
+            getFacebookUserInfo();
             finish();
         }else {
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","user_friends"));
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL));//"public_profile","user_friends"
         }
     }
 
@@ -81,24 +76,7 @@ public class FBLoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         //登录成功
-                        AccessToken accessToken = loginResult.getAccessToken();
-                        String userId = accessToken.getUserId();
-                        
-
-
-                        String domain = accessToken.getGraphDomain();
-//                        openFriendFinderDeepLink(FBLoginActivity.this);
-
-                        LogUtils.e("FacebookID",userId);
-
-                        Profile profile = Profile.getCurrentProfile();
-                        if (profile!=null){
-                            name = profile.getName();
-                        }
-
-
-
-                        com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onSuccess(userId , name);
+                        getFacebookUserInfo();
                         finish();
                     }
 
@@ -114,6 +92,57 @@ public class FBLoginActivity extends BaseActivity {
                         finish();
                     }
                 });
+    }
+
+    /**
+     * 获取用户FB信息
+     */
+    private void getFacebookUserInfo() {
+        UserRequest.makeUserRequest(new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+
+                try {
+                    JSONObject userObj = response.getJSONObject();
+                    if (userObj == null)return;
+
+                    FacebookUser facebookUser = jsonToUser(userObj);
+                    if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener() != null) {
+                        com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onSuccess(facebookUser);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private FacebookUser jsonToUser(JSONObject userObj) {
+        try {
+            Uri picture = Uri.parse(userObj.getJSONObject("picture").getJSONObject("data").getString("url"));
+            String name = userObj.getString("name");
+            String id = userObj.getString("id");
+            String email = "";
+            if (userObj.has("email")) {
+                email = userObj.getString("email");
+            }
+            // Build permissions display string
+            StringBuilder builder = new StringBuilder();
+            JSONArray perms = userObj.getJSONObject("permissions").getJSONArray("data");
+            builder.append("Permissions:\n");
+            for (int i = 0; i < perms.length(); i++) {
+                builder
+                        .append(perms.getJSONObject(i).get("permission"))
+                        .append(": ")
+                        .append(perms.getJSONObject(i).get("status"))
+                        .append("\n");
+            }
+            String permissions = builder.toString();
+            return new FacebookUser(picture,name,id,email,permissions);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new FacebookUser();
     }
 
     /**
@@ -149,7 +178,7 @@ public class FBLoginActivity extends BaseActivity {
 
     @Override
     public void finish() {
-        super.finish();
         overridePendingTransition(0,0);
+        super.finish();
     }
 }

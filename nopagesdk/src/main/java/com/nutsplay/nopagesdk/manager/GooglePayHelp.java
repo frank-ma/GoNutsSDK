@@ -199,16 +199,17 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         Purchase.PurchasesResult purchasesResult = billingClient.queryPurchases(type);
         List<Purchase> purchasesList = purchasesResult.getPurchasesList();
         if (purchasesList == null) return;
+        if (!isBuy && purchasesList.size() == 0) return;
         LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
 
         //如果是订阅，直接进行购买，如果有订阅是不能购买的
         if (type.equals(BillingClient.SkuType.SUBS)) {
-            launchBillingFlow(skuId, type);
+            if (isBuy) launchBillingFlow(skuId, type);
         } else {
             //消耗型商品
             if (purchasesList.size() == 0) {
                 //没有掉单，直接购买
-                launchBillingFlow(skuId, itemType);
+                if (isBuy) launchBillingFlow(skuId, itemType);
             } else {
                 //有掉单，先补单
                 LogUtils.d("lost order", "lost order size:" + purchasesList.size());
@@ -221,30 +222,11 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     notifyServerForLostOrder(itemType, purchase);
                 }
                 //要买的item没有掉单可以直接购买
-                if (!isItemLost) {
+                if (!isItemLost && isBuy) {
                     launchBillingFlow(skuId, itemType);
                 }
             }
         }
-
-//
-//        if (purchasesList.size() > 0){
-//            //有掉单，先进行补单操作
-//            LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
-//            for (Purchase purchase : purchasesList) {
-//                if (purchase == null ) continue;
-//                LogUtils.d(TAG, purchase.toString());
-//                String orderId = purchase.getOrderId();
-//                LogUtils.d(TAG, orderId);
-//
-//                //补单机制
-//                if (type.equals(BillingClient.SkuType.INAPP)){
-//                    notifyServer(type,transactionId,true,purchase);
-//                }
-//            }
-//        }
-//        //执行购买操作
-//        if (isBuy) launchBillingFlow(skuId,type);
 
     }
 
@@ -487,13 +469,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                                 for (SkuDetails skuDetails : skuDetailsList) {
                                     String sku = skuDetails.getSku();
                                     if (sku.equals(skuId)) {
-//                                        BillingFlowParams flowParams = BillingFlowParams.newBuilder().setDeveloperId(transactionId).setSkuDetails(skuDetails).build();
                                         BillingFlowParams flowParams = BillingFlowParams.newBuilder().setObfuscatedAccountId(transactionId).setSkuDetails(skuDetails).build();
-
                                         BillingResult bResult = billingClient.launchBillingFlow(SDKManager.getInstance().getActivity(), flowParams);
-                                        if (bResult != null) {
-                                            LogUtils.d(TAG, "launchBillingFlow---responseCode:" + bResult.getResponseCode() + "  msg:" + bResult.getDebugMessage());
-                                        }
+                                        LogUtils.d(TAG, "launchBillingFlow---responseCode:" + bResult.getResponseCode() + "  msg:" + bResult.getDebugMessage());
                                     }
                                 }
 
@@ -829,8 +807,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             String publicKey = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-
-            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, purchase.getDeveloperPayload(), purchase, new NetCallBack() {
+            String transactionId = purchase.getAccountIdentifiers() == null?"":purchase.getAccountIdentifiers().getObfuscatedAccountId();
+            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     LogUtils.d(TAG, "notifyServerForLostOrder---onSuccess:" + result);

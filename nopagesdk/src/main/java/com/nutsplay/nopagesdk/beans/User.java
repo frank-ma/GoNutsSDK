@@ -9,10 +9,15 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-    private String userId;
-    private String ticket;
+    private String userId="";
+    private String ticket="";
     private String sdkmemberType="";
-    private String userName;//账号登录的时候的用户名
+    private String userName="";//账号登录的时候的用户名
+    private String facebookName="";//玩家用Facebook登录时的Facebook昵称
+    private String facebookId="";//FacebookID
+    private String facebookPortrait="";//Facebook头像
+    private String facebookEmail="";//Facebook邮箱
+
 
     public String getUserId() {
         return userId;
@@ -46,6 +51,38 @@ public class User implements Serializable {
         this.sdkmemberType = sdkmemberType;
     }
 
+    public String getFacebookName() {
+        return facebookName;
+    }
+
+    public void setFacebookName(String facebookName) {
+        this.facebookName = facebookName;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getFacebookPortrait() {
+        return facebookPortrait;
+    }
+
+    public void setFacebookPortrait(String facebookPortrait) {
+        this.facebookPortrait = facebookPortrait;
+    }
+
+    public String getFacebookEmail() {
+        return facebookEmail;
+    }
+
+    public void setFacebookEmail(String facebookEmail) {
+        this.facebookEmail = facebookEmail;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -53,6 +90,10 @@ public class User implements Serializable {
                 ", ticket='" + ticket + '\'' +
                 ", sdkmemberType='" + sdkmemberType + '\'' +
                 ", userName='" + userName + '\'' +
+                ", facebookName='" + facebookName + '\'' +
+                ", facebookId='" + facebookId + '\'' +
+                ", facebookPortrait='" + facebookPortrait + '\'' +
+                ", facebookEmail='" + facebookEmail + '\'' +
                 '}';
     }
 }

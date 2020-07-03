@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
+import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.ui.FBLoginActivity;
@@ -34,7 +35,7 @@ public class LoginManager {
 
     public interface FbLoginListener {
 
-        void onSuccess(String fbId,String playName);
+        void onSuccess(FacebookUser facebookUser);
 
         void onFailure(String msg);
     }
@@ -79,8 +80,8 @@ public class LoginManager {
         AppManager.startActivity(FBLoginActivity.class);
         setFBLoginListener(new FbLoginListener() {
             @Override
-            public void onSuccess(String fbId,String name) {
-                SDKManager.getInstance().sdkLoginThirdAccount(activity, fbId, SDKConstant.TYPE_FACEBOOK, loginCallBack);
+            public void onSuccess(FacebookUser user) {
+                SDKManager.getInstance().sdkLoginThirdAccount(activity, user, SDKConstant.TYPE_FACEBOOK, loginCallBack);
             }
 
             @Override
@@ -105,8 +106,8 @@ public class LoginManager {
         AppManager.startActivity(FBLoginActivity.class);
         setFBLoginListener(new FbLoginListener() {
             @Override
-            public void onSuccess(String fbId,String name) {
-                if (StringUtils.isNotBlank(fbId)) resultCallBack.onSuccess(fbId);
+            public void onSuccess(FacebookUser user) {
+                if (StringUtils.isNotBlank(user.getId())) resultCallBack.onSuccess(user.getId());
             }
 
             @Override

@@ -2,17 +2,27 @@
 
 
                            更新日志：
+****************************************************************
+
+sdk_v1.6(2020-7-3)
+1.登录页面修改：修改密码改为忘记密码，忘记密码功能比较常用；登录页面可以关闭，返回登录方式选择页面，但是选择页面就不能关闭了，必须选择一种方式登录
+2.修改bug:注册成功回调给客户端的是登录成功，应该只关闭注册页面返回到登录页面，登录成功才回调登录成功
+3.Facebook登录成功的时候，返回Facebook用户头像，id,name,email,没有的话返回空字符串
+4.添加Firebase接入，minsdkversion>=16
+5.升级fb SDK从6.2到7.1
+6.修改SDK语言使其符合ISO标准
+7.增加了提示信息的语言国际化
 
 ****************************************************************
 
-sdk_v1.5.1.aar(2020-)
+sdk_v1.5.1.aar(2020-6-12)
 新增客服系统（AIHelp）两个接口：
 customerSupport(String playerName,String serverId, @Nullable HashMap<String ,Object> customData)
 showFAQs(String userName,String serverId,HashMap<String,Object> data)
 
 ****************************************************************
 
-sdk_v1.5.aar(2020-)
+sdk_v1.5.aar(2020-6-)
 新增一套通用UI，两套UI根据初始化的时候参数进行切换
 
 

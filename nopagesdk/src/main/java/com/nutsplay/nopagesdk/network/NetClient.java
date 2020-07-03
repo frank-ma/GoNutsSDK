@@ -118,7 +118,7 @@ public class NetClient {
             }
         }
 
-        LogUtils.e(TAG, "url:" + params.toString());
+//        LogUtils.e(TAG, "url:" + params.toString());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

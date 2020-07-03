@@ -9,6 +9,7 @@ import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
+import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.manager.LoginManager;
@@ -56,11 +57,11 @@ public class SDK {
      * @param activity
      * @param userName
      * @param pwd
-     * @param loginCallBack
+     * @param resultCallBack
      */
-    public void sdkRegister(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
+    public void sdkRegister(final Activity activity, final String userName, final String pwd, final RegisterCallBack resultCallBack) {
 
-        SDKManager.getInstance().sdkRegister(activity,userName,pwd,loginCallBack);
+        SDKManager.getInstance().sdkRegister(activity,userName,pwd,resultCallBack);
     }
 
     /**
@@ -212,7 +213,7 @@ public class SDK {
      * @param newPwd
      * @param callback
      */
-    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final LoginCallBack callback){
+    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final ResultCallBack callback){
         SDKManager.getInstance().sdkResetPwd(activity,account,oldPwd,newPwd,callback);
     }
 
@@ -244,11 +245,11 @@ public class SDK {
     }
 
     /**
-     * 在activity的onResume()方法中调用
+     * 在activity的onRestart()方法中调用
      */
-    public void sdkOnResume(Activity activity) {
+    public void sdkOnRestart(Activity activity) {
 
-        SDKManager.getInstance().sdkOnResume(activity);
+        SDKManager.getInstance().sdkOnRestart(activity);
     }
 
     /**
@@ -292,5 +293,17 @@ public class SDK {
 
     public void showFAQs(String userName, String serverId, HashMap<String,Object> customData){
         SDKManager.getInstance().showFAQs(userName,serverId,customData);
+    }
+
+    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
+        SDKManager.getInstance().fireBaseTrackingLevelUp(activity,character,level);
+    }
+
+    public void fireBaseTrackingTutorialBegin(Activity activity){
+        SDKManager.getInstance().fireBaseTrackingTutorialBegin(activity);
+    }
+
+    public void fireBaseTrackingTutorialComplete(Activity activity){
+        SDKManager.getInstance().fireBaseTrackingTutorialComplete(activity);
     }
 }

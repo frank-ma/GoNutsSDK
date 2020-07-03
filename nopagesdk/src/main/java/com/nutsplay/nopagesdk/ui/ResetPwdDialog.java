@@ -56,6 +56,7 @@ public class ResetPwdDialog extends BaseDialog {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
             }
 
+            TextView resetTitle = layout.findViewById(SDKResUtils.getResId(context, "reset_title", "id"));
             TextView reset = layout.findViewById(SDKResUtils.getResId(context, "tv_reset", "id"));
             final EditText accountEt = layout.findViewById(SDKResUtils.getResId(context, "et_account", "id"));
             final TextView btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
@@ -65,11 +66,13 @@ public class ResetPwdDialog extends BaseDialog {
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
 
             //多语言适配
-//            accountEt.setHint(SDKLangConfig.getInstance().findMessage("your_account"));
-//            btnSend.setHint(SDKLangConfig.getInstance().findMessage("send_verify_code"));
-//            verificationCode.setHint(SDKLangConfig.getInstance().findMessage("verify_code"));
-//            newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));
-//            reset.setText(SDKLangConfig.getInstance().findMessage("reset"));
+            resetTitle.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
+            accountEt.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
+            verificationCode.setHint(SDKLangConfig.getInstance().findMessage("44"));
+            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
+            newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));
+            newPwdRepeat.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
+            reset.setText(SDKLangConfig.getInstance().findMessage("reset"));
 
 
             //发送邮箱验证码
@@ -78,7 +81,7 @@ public class ResetPwdDialog extends BaseDialog {
                 public void onClick(View v) {
                     String account = accountEt.getText().toString();
                     if (account.isEmpty()){
-                        SDKToast.getInstance().ToastShow("Account cannot be empty.", 3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
                         return;
                     }
                     if (!SDKGameUtils.matchAccount(account)) return;
@@ -115,17 +118,17 @@ public class ResetPwdDialog extends BaseDialog {
                     }
 
                     if (code.isEmpty()) {
-                        SDKToast.getInstance().ToastShow("Verification code cannot be empty.",3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("39"),3);
                         return;
                     }
 
                     if (newSecond.isEmpty() || newSecondRepeat.isEmpty()) {
-                        SDKToast.getInstance().ToastShow("New password  cannot be empty.",3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("33"),3);
                         return;
                     }
 
                     if (!newSecond.equals(newSecondRepeat)){
-                        SDKToast.getInstance().ToastShow("Passwords are inconsistent.",3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"),3);
                         return;
                     }
 

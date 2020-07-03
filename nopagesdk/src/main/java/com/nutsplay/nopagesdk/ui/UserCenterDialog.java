@@ -64,6 +64,7 @@ public class UserCenterDialog extends Dialog {
 
             //显示语言多样化
             bindEmail.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
+            bindFb.setText(SDKLangConfig.getInstance().findMessage("str_bind_facebook"));
             resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
             //绑定邮箱

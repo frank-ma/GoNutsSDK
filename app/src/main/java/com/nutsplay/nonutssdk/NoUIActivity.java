@@ -16,6 +16,7 @@ import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
+import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
@@ -125,7 +126,7 @@ public class NoUIActivity extends BaseActivity {
 
     public void register(View view) {
 
-        SDK.getInstance().sdkRegister(this, userNameEt.getText().toString(), pwdEt.getText().toString(),new LoginCallBack() {
+        SDK.getInstance().sdkRegister(this, userNameEt.getText().toString(), pwdEt.getText().toString(),new RegisterCallBack() {
             @Override
             public void onSuccess(User user) {
 
@@ -185,10 +186,10 @@ public class NoUIActivity extends BaseActivity {
      */
     public void resetPwd(View view){
 
-        SDK.getInstance().sdkResetPwd(this, userNameEt.getText().toString(), pwdEt.getText().toString(), newPwdEdt.getText().toString(), new LoginCallBack() {
+        SDK.getInstance().sdkResetPwd(this, userNameEt.getText().toString(), pwdEt.getText().toString(), newPwdEdt.getText().toString(), new ResultCallBack() {
             @Override
-            public void onSuccess(User user) {
-                showLog("修改密码成功,ticket:"+user.getTicket());
+            public void onSuccess() {
+                showLog("修改密码成功");
             }
 
             @Override
@@ -271,22 +272,21 @@ public class NoUIActivity extends BaseActivity {
     }
 
     /**
-     * zh_cn, 中文
-     * zh_hk, 中文
-     * en_us, 英文
-     * th_th, 泰语
-     * vi_vn, 越语
-     * ar_ar，阿拉伯语
+     * zh_CN, 中文
+     * zh_HK, 中文
+     * en, 英文
+     * th, 泰语
+     * vi, 越语
+     * ar，阿拉伯语
      * kr，韩语
-     * fr，法语
-     * br，葡萄牙语
-     * deu，德
+     * fo，法语
+     * pt，葡萄牙语
+     * de，德
      * sp，西班牙
      * it，意大利语
-     * jp，日语
-     * idn，印度尼西亚语
-     * by:俄语
-     * tr:土耳其语
+     * ja，日语
+     * id，印度尼西亚语
+     * ru:俄语
      * @param view
      */
     public void updateLanguage(View view){
@@ -337,10 +337,10 @@ public class NoUIActivity extends BaseActivity {
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         //游戏退到后台，再回到前台时，检查是否有未完成的订单
-        SDK.getInstance().sdkOnResume(this);
+        SDK.getInstance().sdkOnRestart(this);
     }
 
     @Override
