@@ -46,7 +46,7 @@
                 android:backgroundTint="@color/transaction"
                 android:hint="Username"
                 android:inputType="text"
-                android:drawablePadding="10dp"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ic_account"
                 android:textColor="@color/black" />
 
@@ -63,7 +63,7 @@
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/ic_pwd"
-                android:drawablePadding="10dp"
+                android:drawablePadding="5dp"
                 android:textColor="@color/black" />
         </LinearLayout>
 

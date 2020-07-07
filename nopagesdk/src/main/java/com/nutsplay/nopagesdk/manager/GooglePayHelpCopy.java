@@ -750,7 +750,7 @@ public class GooglePayHelpCopy implements PurchasesUpdatedListener {
             ApiManager.getInstance().SDKPurchaseNotify(itemType,aesKey, aesKey16byRSA, purchase.getDeveloperPayload(), purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    LogUtils.d(TAG, "notifyServerForLostOrder---onSuccess:" + result);
+
                     if (result == null || result.isEmpty()) {
                         LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---result is null.");
                         return;

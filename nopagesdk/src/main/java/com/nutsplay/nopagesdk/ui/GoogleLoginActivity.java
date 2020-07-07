@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.nutsplay.nopagesdk.manager.LoginManager;
@@ -68,9 +69,9 @@ public class GoogleLoginActivity extends BaseActivity {
                 finish();
             }
         } catch (ApiException e) {
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode());
-            LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getStatusCode()+"---"+e.getLocalizedMessage());
+            String errorInfo = GoogleSignInStatusCodes.getStatusCodeString(e.getStatusCode());
+            Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode()+"---"+errorInfo);
+            LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getStatusCode()+"---" +errorInfo);
             finish();
         }
     }

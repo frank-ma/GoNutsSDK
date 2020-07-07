@@ -1,10 +1,5 @@
 package com.nutsplay.nopagesdk.beans;
 
-import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.utils.sputil.SPKey;
-import com.nutsplay.nopagesdk.utils.sputil.SPManager;
-import com.nutspower.commonlibrary.utils.StringUtils;
-
 import java.io.Serializable;
 
 /**
@@ -24,6 +19,7 @@ public class InitParameter implements Serializable {
     private String customerServiceAddress="";
     private boolean isDebug = false;
     private boolean hasUI = true;
+    private boolean showUserAgreement = true;
     private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
     private String aihelpAppkey="";
     private String aihelpDomain="";
@@ -70,12 +66,13 @@ public class InitParameter implements Serializable {
     }
 
     public String getLanguage() {
-        String lan = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.key_sdk_language,"");
-        if (StringUtils.isBlank(lan)){
-            return language;
-        }else {
-            return lan;
-        }
+//        String lan = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.key_sdk_language,"");
+//        if (StringUtils.isBlank(lan)){
+//            return language;
+//        }else {
+//            return lan;
+//        }
+        return language;
     }
 
     public void setLanguage(String language) {
@@ -136,5 +133,13 @@ public class InitParameter implements Serializable {
 
     public void setAihelpAppID(String aihelpAppID) {
         this.aihelpAppID = aihelpAppID;
+    }
+
+    public boolean isShowUserAgreement() {
+        return showUserAgreement;
+    }
+
+    public void setShowUserAgreement(boolean showUserAgreement) {
+        this.showUserAgreement = showUserAgreement;
     }
 }

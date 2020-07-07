@@ -548,20 +548,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
-//
-//                PurchaseJson purchaseJson = new PurchaseJson();
-//                purchaseJson.setOrderId(purchase.getOrderId());
-//                purchaseJson.setPackageName(purchase.getPackageName());
-//                purchaseJson.setProductId(purchase.getSku());
-//                purchaseJson.setPurchaseTime(purchase.getPurchaseTime());
-//                purchaseJson.setPurchaseState(purchase.getPurchaseState());
-//                purchaseJson.setPurchaseToken(purchase.getPurchaseToken());
-//                purchaseJson.setAutoRenewing(purchase.isAutoRenewing());
-//                purchaseJson.setAcknowledged(purchase.isAcknowledged());
-//                purchaseJson.setDeveloperPayload(transactionId);
-//                purchase.get
-
-
                 notifyServer(itemType, transactionId, false, purchase);
 
             }
@@ -634,7 +620,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    LogUtils.d(TAG, "SDKPurchaseNotify---onSuccess:" + result);
+
                     if (result == null || result.isEmpty()) {
                         if (SDKManager.getInstance().getPurchaseCallBack() != null && !isBudan)
                             SDKManager.getInstance().getPurchaseCallBack().onFailure("result is null.");
@@ -642,7 +628,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.d(TAG, "Google IAP Notify:" + decodeData);
+//                        LogUtils.d(TAG, "Google IAP Notify:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             if (SDKManager.getInstance().getPurchaseCallBack() != null && !isBudan)
@@ -709,90 +695,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
     }
 
-//    private void notifyServer(final PurchaseJson purchase) {
-//        if (purchase == null) return;
-//
-//        try {
-//            final String aesKey = AESUtils.generate16SecretKey();
-//            String publicKey = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.PUBLIC_KEY);
-//            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-//
-//
-//            com.nutsplay.nopagesdk.beans.Purchase pur = new com.nutsplay.nopagesdk.beans.Purchase();
-//            pur.setOrderId(purchase.getOrderId());
-//            pur.setPackageName(purchase.getPackageName());
-//            pur.setProductId(purchase.getProductId());
-//            pur.setPurchaseTime(purchase.getPurchaseTime());
-//            pur.setPurchaseState(purchase.getPurchaseState());
-//            pur.setPurchaseToken(purchase.getPurchaseToken());
-//
-//
-//            List<PurchaseRecord> records = DBManager.getInstance().query(purchase.getOrderId());
-//            if (records == null || records.size() == 0) return;
-//            PurchaseRecord pr = records.get(0);
-//            if (pr == null) return;
-//            pur.setDeveloperPayload(pr.getTransactionId());
-//
-//            LogUtils.e(TAG, "purchase.getDeveloperPayload()--------" + pr.getTransactionId());
-//            ApiManager.getInstance().SDKPurchaseNotify(aesKey, aesKey16byRSA, pr.getTransactionId(), pur, new NetCallBack() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    LogUtils.d(TAG, "SDKPurchaseNotify---onSuccess:" + result);
-//                    if (result == null || result.isEmpty()) {
-//                        if (SDKManager.getInstance().getPurchaseCallBack() != null)
-//                            SDKManager.getInstance().getPurchaseCallBack().onFailure("result is null.");
-//                        return;
-//                    }
-//                    try {
-//                        String decodeData = AESUtils.decrypt(result, aesKey);
-//                        LogUtils.d(TAG, "Google IAP Notify:" + decodeData);
-//                        SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
-//                        if (orderModel == null) {
-//                            if (SDKManager.getInstance().getPurchaseCallBack() != null)
-//                                SDKManager.getInstance().getPurchaseCallBack().onFailure("orderModel is null.");
-//                            return;
-//                        }
-//                        if (orderModel.getCode() == 1) {
-//
-//                            LogUtils.d(TAG, "通知服务器成功");
-//                            String orderId = orderModel.getData().getTransactionId();
-//                            double price = orderModel.getData().getPrice();
-//                            String currency = orderModel.getData().getCurrency();
-//                            String type = "GoogleIAP";
-//
-//                            handleAfterPurchaseSuccess(true, purchase, orderId, String.valueOf(price), currency, type);
-//
-//
-//                            //消费商品
-//                            consumeSku(purchase);
-//
-//                        } else {
-//                            LogUtils.e(TAG, "SDKPurchaseNotify---onSuccess:" + orderModel.getMessage());
-//                            SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
-//                            if (SDKManager.getInstance().getPurchaseCallBack() != null)
-//                                SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onFailure(String msg) {
-//
-//                    LogUtils.e(TAG, "SDKPurchaseNotify:onFailure---" + msg);
-//                    if (SDKManager.getInstance().getPurchaseCallBack() != null)
-//                        SDKManager.getInstance().getPurchaseCallBack().onFailure(msg);
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (SDKManager.getInstance().getPurchaseCallBack() != null)
-//                SDKManager.getInstance().getPurchaseCallBack().onFailure(e.getMessage());
-//        }
-//    }
-
     /**
      * 支付成功，回调服务器，然后消费掉商品以便继续购买
      * 补单回调服务器
@@ -811,14 +713,14 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    LogUtils.d(TAG, "notifyServerForLostOrder---onSuccess:" + result);
+
                     if (result == null || result.isEmpty()) {
                         LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.d(TAG, "Google IAP Notify:" + decodeData);
+
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---orderModel is null.");
@@ -865,7 +767,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
         ConsumeParams consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.getPurchaseToken())
-                .setDeveloperPayload(purchase.getDeveloperPayload())
+
                 .build();
         if (billingClient == null) {
             initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {

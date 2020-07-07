@@ -821,20 +821,20 @@ public class SDKLangConfig {
         ja.setProperty("nutsplay_viewstring_cscenter", "問い合わせ");
         id.setProperty("nutsplay_viewstring_cscenter", "Customer Service");
 
-        zh_CN.setProperty("nutsplay_viewstring_account_tips", "请输入账号");
-        vi.setProperty("nutsplay_viewstring_account_tips", "Nhập tài khoản");
-        th.setProperty("nutsplay_viewstring_account_tips", "กรุณาระบุบัญชี");
-        ar.setProperty("nutsplay_viewstring_account_tips", "الرجاء إدخال اسم المستخدم");
-        en.setProperty("nutsplay_viewstring_account_tips", "Please enter an username");
-        ko.setProperty("nutsplay_viewstring_account_tips", "아이디를 입력해주세요");
-        zh_HK.setProperty("nutsplay_viewstring_account_tips", "請輸入帳號");
-        fr.setProperty("nutsplay_viewstring_account_tips", "Veuillez entrer votre compte");
-        pt.setProperty("nutsplay_viewstring_account_tips", "Insira a sua conta");
-        de.setProperty("nutsplay_viewstring_account_tips", "Bitte Konto eingeben");
-        es.setProperty("nutsplay_viewstring_account_tips", "Introduce tu cuenta");
-        it.setProperty("nutsplay_viewstring_account_tips", "Inserisci il tuo ic_account");
-        ja.setProperty("nutsplay_viewstring_account_tips", "アカウントを入力してください");
-        id.setProperty("nutsplay_viewstring_account_tips", "Masukkan akun anda");
+        zh_CN.setProperty("nutsplay_viewstring_account_tips", "请输入账号(6-14字母或数字)");
+        vi.setProperty("nutsplay_viewstring_account_tips", "Nhập tài khoản(6-14)");
+        th.setProperty("nutsplay_viewstring_account_tips", "กรุณาระบุบัญชี(6-14)");
+        ar.setProperty("nutsplay_viewstring_account_tips", "الرجاء إدخال اسم المستخدم(6-14)");
+        en.setProperty("nutsplay_viewstring_account_tips", "Please enter an username(6-14)");
+        ko.setProperty("nutsplay_viewstring_account_tips", "아이디를 입력해주세요(6-14)");
+        zh_HK.setProperty("nutsplay_viewstring_account_tips", "請輸入帳號(6-14位字母或數字)");
+        fr.setProperty("nutsplay_viewstring_account_tips", "Veuillez entrer votre compte(6-14)");
+        pt.setProperty("nutsplay_viewstring_account_tips", "Insira a sua conta(6-14)");
+        de.setProperty("nutsplay_viewstring_account_tips", "Bitte Konto eingeben(6-14)");
+        es.setProperty("nutsplay_viewstring_account_tips", "Introduce tu cuenta(6-14)");
+        it.setProperty("nutsplay_viewstring_account_tips", "Inserisci il tuo ic_account(6-14)");
+        ja.setProperty("nutsplay_viewstring_account_tips", "アカウントを入力してください（6-14)");
+        id.setProperty("nutsplay_viewstring_account_tips", "Masukkan akun anda(6-14)");
 
         zh_CN.setProperty("nutsplay_viewstring_password_tips", "请输入用户密码");
         vi.setProperty("nutsplay_viewstring_password_tips", "Nhập mật khẩu");
@@ -2266,6 +2266,28 @@ public class SDKLangConfig {
         ru.setProperty("pwd_different","Пароли несовместимы.");
         it.setProperty("pwd_different","Le password sono incoerenti.");
         ja.setProperty("pwd_different","パスワードに矛盾があります.");
+
+
+        //接受（协议）
+        en.setProperty("accept","Agree");
+        zh_CN.setProperty("accept","同意");
+//        zh_HK.setProperty("accept","Accept");
+
+        //请输入已绑定邮箱的用户账号
+        en.setProperty("account_which_bind_email","the account of the bound mailbox");
+        zh_CN.setProperty("account_which_bind_email","已绑定邮箱的账号");
+        zh_HK.setProperty("account_which_bind_email","已綁定郵箱的賬號");
+        es.setProperty("account_which_bind_email","Cuenta con correo electrónico vinculado");
+        fr.setProperty("account_which_bind_email","Compte avec e-mail lié");
+        de.setProperty("account_which_bind_email","Konto mit gebundener E-Mail");
+        it.setProperty("account_which_bind_email","Account con email associata");
+        pt.setProperty("account_which_bind_email","Conta com e-mail vinculado");
+        ja.setProperty("account_which_bind_email","メールがバインドされたアカウント");
+        ko.setProperty("account_which_bind_email","바운드 이메일 계정");
+        ar.setProperty("account_which_bind_email","الحساب ببريد إلكتروني مرتبط");
+        th.setProperty("account_which_bind_email","บัญชีที่มีอีเมลที่ถูกผูกไว้");
+        ru.setProperty("account_which_bind_email","Аккаунт со связанной электронной почтой");
+
 
     }
 }

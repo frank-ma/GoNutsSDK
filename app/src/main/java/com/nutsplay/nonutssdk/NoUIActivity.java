@@ -62,7 +62,7 @@ public class NoUIActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("en_us");
+        initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -104,7 +104,7 @@ public class NoUIActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("en_us");
+        initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         SDK.getInstance().sdkDefaultLogin(this, initParameter, new LoginCallBack() {

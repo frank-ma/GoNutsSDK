@@ -21,7 +21,6 @@ import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
-import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 /**
@@ -81,10 +80,6 @@ public class BindDialog extends Dialog {
                     String account = userName.getText().toString();
                     String psw = pwd.getText().toString();
 
-                    if (account.isEmpty()||psw.isEmpty()){
-                        SDKToast.getInstance().ToastShow("The account and password cannot be empty.",2);
-                        return;
-                    }
                     if (!SDKGameUtils.matchAccount(account)|| !SDKGameUtils.matchPw(psw)){
                         return;
                     }

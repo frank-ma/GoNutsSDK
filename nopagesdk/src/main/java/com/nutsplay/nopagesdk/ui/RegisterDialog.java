@@ -65,7 +65,7 @@ public class RegisterDialog extends Dialog {
             final EditText repeatPwd = layout.findViewById(SDKResUtils.getResId(context, "et_repeat_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             final TextView autoGenerationTv = layout.findViewById(SDKResUtils.getResId(context, "tv_auto_generation", "id"));
-            userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
+            userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
@@ -86,12 +86,11 @@ public class RegisterDialog extends Dialog {
                     final String psw = pwd.getText().toString();
                     String rePsw = repeatPwd.getText().toString();
 
-                    if (account.isEmpty()||psw.isEmpty()|| rePsw.isEmpty()){
-                        SDKToast.getInstance().ToastShow("The account and password cannot be empty.",2);
+                    if (!SDKGameUtils.matchAccountReg(account)||!SDKGameUtils.matchPw(psw)||!SDKGameUtils.matchPw(rePsw)){
                         return;
                     }
                     if (!psw.equals(rePsw)) {
-                        SDKToast.getInstance().ToastShow("You should enter the same password.", 3);
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                         return;
                     }
                     SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {

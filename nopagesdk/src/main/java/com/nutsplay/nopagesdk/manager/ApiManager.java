@@ -280,7 +280,7 @@ public class ApiManager {
             notify.setTransactionId(transactionId);
             notify.setChannelCode("GOOGLE");
             String purchaseData = purchase.getOriginalJson();
-            LogUtils.e(TAG,"purchaseData---" + purchaseData);
+
             notify.setPurchase(purchaseData);
             String jsonData = GsonUtils.tojsonString(notify);
 

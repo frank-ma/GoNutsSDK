@@ -33,7 +33,8 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-    private String clientId = "5dcbeab164b5b50deb76be93";
+//    private String clientId = "5dcbeab164b5b50deb76be93";
+    private String clientId = "5ef872ec64b5b50defb667dc";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "1ee9849782";
 //    String referenceId = "com.nutspower.nutsgamesdk.sub1";
@@ -72,13 +73,14 @@ public class MainActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("ja");
-        initParameter.setDebug(true);
+        initParameter.setLanguage("en");
+        initParameter.setDebug(false);
         initParameter.setHasUI(true);
-        initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setShowUserAgreement(true);
+        initParameter.setUIVersion(1);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+//        initParameter.setAihelpAppID(AIHelpAppID);
+//        initParameter.setAihelpAppkey(AIHelpAppKey);
+//        initParameter.setAihelpDomain(AIHelpDomain);
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -120,10 +122,11 @@ public class MainActivity extends BaseActivity {
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("ja");
+        initParameter.setLanguage("zh_hk");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setUIVersion(0);
+        initParameter.setShowUserAgreement(true);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpDomain(AIHelpDomain);
@@ -487,6 +490,15 @@ public class MainActivity extends BaseActivity {
         customData.put("coins","1999");
         customData.put("diamond","0");
         SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
+    }
+
+    /**
+     * 打开用户协议页面，登录界面可以留一个常驻按钮，展示用户协议
+     *
+     * @param view
+     */
+    public void showUserAgreement(View view){
+        SDK.getInstance().showUserAgreement(this);
     }
 
     /**

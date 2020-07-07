@@ -45,7 +45,7 @@
             android:drawableLeft="@drawable/ic_account"
             android:inputType="text"
             android:text=""
-            android:drawablePadding="10dp"
+            android:drawablePadding="5dp"
             android:textColor="@color/black" />
 
         <EditText
@@ -57,7 +57,7 @@
             android:drawableLeft="@drawable/ic_pwd"
             android:inputType="textPassword"
             android:text=""
-            android:drawablePadding="10dp"
+            android:drawablePadding="5dp"
             android:textColor="@color/black" />
 
         <EditText

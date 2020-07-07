@@ -17,6 +17,7 @@ import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
@@ -54,7 +55,6 @@ public class LoginDialog extends Dialog {
 
         public LoginDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final LoginDialog dialog = new LoginDialog(context);
             if (inflater == null) return dialog;
             View layout;
@@ -96,14 +96,13 @@ public class LoginDialog extends Dialog {
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if (!SDKGameUtils.matchAccount(userName.getText().toString())||!SDKGameUtils.matchPw(pwd.getText().toString())){
+                        return;
+                    }
+
                     if (signIn.getText().equals(SDKLangConfig.getInstance().findMessage("sign_in"))) {
                         //登录账号
-
-                        if (userName.getText().toString().isEmpty() || pwd.getText().toString().isEmpty()) {
-
-                            SDKToast.getInstance().ToastShow("The account and password cannot be empty.", 2);
-                            return;
-                        }
                         SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), loginCallBack, new ResultCallBack() {
                             @Override
                             public void onSuccess() {
@@ -122,15 +121,11 @@ public class LoginDialog extends Dialog {
 
                     } else {
                         //重置密码
-
-                        if (userName.getText().toString().isEmpty() || pwd.getText().toString().isEmpty() || newPwd.getText().toString().isEmpty()) {
-
-                            SDKToast.getInstance().ToastShow("The account and password cannot be empty.", 2);
+                        if (!SDKGameUtils.matchPw(newPwd.getText().toString())){
                             return;
                         }
                         if (pwd.getText().toString().equals(newPwd.getText().toString())) {
-
-                            SDKToast.getInstance().ToastShow("The new password is same as old password.", 2);
+                            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                             return;
                         }
                         SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), new ResultCallBack() {

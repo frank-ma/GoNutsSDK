@@ -306,4 +306,12 @@ public class SDK {
     public void fireBaseTrackingTutorialComplete(Activity activity){
         SDKManager.getInstance().fireBaseTrackingTutorialComplete(activity);
     }
+
+    /**
+     * 展示用户协议界面
+     * @param activity
+     */
+    public void showUserAgreement(Activity activity){
+        SDKManager.getInstance().showUserAgreement(activity);
+    }
 }

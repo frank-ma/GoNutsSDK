@@ -245,6 +245,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/black"
+            android:onClick="showUserAgreement"
+            android:text="用户协议"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
             android:onClick="fbFriendFinder"
             android:text="FB好友查找"
             android:visibility="gone"

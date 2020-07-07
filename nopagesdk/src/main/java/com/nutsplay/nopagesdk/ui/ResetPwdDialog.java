@@ -67,7 +67,7 @@ public class ResetPwdDialog extends BaseDialog {
 
             //多语言适配
             resetTitle.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
-            accountEt.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));
+            accountEt.setHint(SDKLangConfig.getInstance().findMessage("account_which_bind_email"));
             verificationCode.setHint(SDKLangConfig.getInstance().findMessage("44"));
             btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
             newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));

@@ -47,6 +47,7 @@ import com.nutsplay.nopagesdk.ui.FBLoginActivity;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
 import com.nutsplay.nopagesdk.ui.ScreenShotActivity;
+import com.nutsplay.nopagesdk.ui.UserAgreementDialog;
 import com.nutsplay.nopagesdk.ui.UserCenterDialog;
 import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.Installations;
@@ -263,7 +264,6 @@ public class SDKManager {
      * @param initCallBack
      */
     private void getPublicKey(final Activity activity, final InitCallBack initCallBack) {
-
         ApiManager.getInstance().getRASPublicKey(new NetCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -293,6 +293,65 @@ public class SDKManager {
                 initCallBack.onFailure(errorMsg);
             }
         });
+    }
+
+    /**
+     * 打开用户协议界面
+     *
+     * @param activity
+     */
+    private void openUserAgreement(final Activity activity, final InitCallBack initCallBack){
+        if (!getInitParameter().isShowUserAgreement()){
+            doCallback(initCallBack);
+            return;
+        }
+        boolean isFirstOpen = SPManager.getInstance(activity).getBoolean(SPKey.key_first_open,true);
+        if (isFirstOpen){
+            UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, new ResultCallBack() {
+                @Override
+                public void onSuccess() {
+                    doCallback(initCallBack);
+                }
+                @Override
+                public void onFailure(String msg) {
+                    initCallBack.onFailure(msg);
+                }
+            });
+            builder.create().show();
+
+        }else {
+            doCallback(initCallBack);
+        }
+    }
+
+    private void doCallback(InitCallBack initCallBack) {
+        //获取当前登录的用户信息
+        if (getUser() == null || getUser().getUserId() == null || getUser().getTicket() == null) {
+            initCallBack.onSuccess(null);
+        } else {
+            initCallBack.onSuccess(getUser());
+        }
+    }
+
+    /**
+     * 展示用户协议
+     *
+     * @param activity
+     */
+    public void showUserAgreement(Activity activity){
+        if (!getInitParameter().isShowUserAgreement()) return;
+        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, new ResultCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+        builder.create().show();
     }
 
     /**
@@ -327,12 +386,7 @@ public class SDKManager {
                             LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                             setInitData(initgoBean);
 
-                            //获取当前登录的用户信息
-                            if (getUser() == null || getUser().getUserId() == null || getUser().getTicket() == null) {
-                                initCallBackListener.onSuccess(null);
-                            } else {
-                                initCallBackListener.onSuccess(getUser());
-                            }
+                            openUserAgreement(activity,initCallBackListener);
                         } else if (initgoBean.getCode() == -6) {
                             //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
@@ -492,7 +546,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+            if (!SDKGameUtils.matchAccountReg(userName) || !SDKGameUtils.matchPw(pwd)) {
                 return;
             }
 
@@ -1584,7 +1638,7 @@ public class SDKManager {
             System.out.println("The SDK is not initialized.");
             return;
         }
-        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language, language);
+//        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language, language);
         SDKManager.getInstance().getInitParameter().setLanguage(language);
     }
 
