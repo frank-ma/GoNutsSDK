@@ -89,7 +89,12 @@ public class LoginDialog extends Dialog {
 
                     ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
                     builder.create().show();
-                    pwd.setText("");
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pwd.setText("");
+                        }
+                    });
                 }
             });
             //登录或重置密码
@@ -131,8 +136,13 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
-                                backIv.callOnClick();
-                                pwd.setText("");
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        backIv.callOnClick();
+                                        pwd.setText("");
+                                    }
+                                });
                             }
 
                             @Override
@@ -151,10 +161,20 @@ public class LoginDialog extends Dialog {
 
                     RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
                         @Override
-                        public void onSuccess(String account, String pas) {
-                            if (account == null || pas == null) return;
-                            userName.setText(account);
-                            pwd.setText(pas);
+                        public void onSuccess(final String account, final String pas) {
+                            try{
+                                if (account == null || pas == null) return;
+                                //回调中修改UI应该在UI线程中操作
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        userName.setText(account);
+                                        pwd.setText(pas);
+                                    }
+                                });
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
 
                         @Override
@@ -171,12 +191,17 @@ public class LoginDialog extends Dialog {
             backIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fillAccount(context, userName, pwd);
+                            signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+                            resetPwd.setVisibility(View.VISIBLE);
+                            newPwd.setVisibility(View.GONE);
+                            backIv.setVisibility(View.INVISIBLE);
+                        }
+                    });
 
-                    fillAccount(context, userName, pwd);
-                    signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
-                    resetPwd.setVisibility(View.VISIBLE);
-                    newPwd.setVisibility(View.GONE);
-                    backIv.setVisibility(View.INVISIBLE);
                 }
             });
 

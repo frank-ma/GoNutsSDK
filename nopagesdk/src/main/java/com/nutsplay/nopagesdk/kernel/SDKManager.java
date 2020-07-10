@@ -23,6 +23,7 @@ import com.nutsplay.nopagesdk.beans.SDKResult;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
+import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
@@ -38,6 +39,7 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
+import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
@@ -314,6 +316,7 @@ public class SDKManager {
                 }
                 @Override
                 public void onFailure(String msg) {
+                    setInitStatus(false);
                     initCallBack.onFailure(msg);
                 }
             });
@@ -325,6 +328,7 @@ public class SDKManager {
     }
 
     private void doCallback(InitCallBack initCallBack) {
+        setInitStatus(true);
         //获取当前登录的用户信息
         if (getUser() == null || getUser().getUserId() == null || getUser().getTicket() == null) {
             initCallBack.onSuccess(null);
@@ -374,14 +378,14 @@ public class SDKManager {
                         return;
                     }
                     try {
+                        LogUtils.d(TAG, "SDKInitGo---" + aesKey+"|"+result);
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.d(TAG, "SDKInitGo---" + decodeData);
                         SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
                         if (initgoBean == null) {
                             initCallBackListener.onFailure("InitGoBean is null.");
                             return;
                         }
-                        LogUtils.d(TAG, "initCode:" + initgoBean.getCode());
+//                        LogUtils.d(TAG, "initCode:" + initgoBean.getCode());
                         if (initgoBean.getCode() == 1) {
                             LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                             setInitData(initgoBean);
@@ -423,7 +427,7 @@ public class SDKManager {
     private void setInitData(SDKInitModel initGoBean) {
 
         if (initGoBean == null) return;
-        setInitStatus(true);
+
         SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_init, initGoBean);
     }
 
@@ -438,7 +442,6 @@ public class SDKManager {
     public void sdkRegister(final Activity activity, final String userName, final String pwd, final RegisterCallBack registerCallBack) {
 
         try {
-
             if (activity == null) {
                 System.out.println("sdkRegister failed:Activity is null.");
                 return;
@@ -471,14 +474,13 @@ public class SDKManager {
                 public void onSuccess(String result) {
                     hideProgress();
 
-                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + result);
+                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
                         registerCallBack.onFailure("result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             registerCallBack.onFailure("loginModel is null.");
@@ -566,14 +568,13 @@ public class SDKManager {
                 public void onSuccess(String result) {
                     hideProgress();
 
-                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + result);
+                    LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
                         registerCallBack.onFailure("result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             registerCallBack.onFailure("loginModel is null.");
@@ -585,13 +586,14 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(userName);
-                            callBack.onSuccess();
                             //记住账号密码
                             SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
                             SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
-
                             //注册追踪
                             TrackingManager.registerTracking(loginModel.getData().getPassportId());
+
+                            callBack.onSuccess();
+
                         } else {
                             LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -635,10 +637,20 @@ public class SDKManager {
                 System.out.println("sdkLogin failed:loginCallBack is null.");
                 return;
             }
-
+            //未初始化则重新初始化一次
             if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
+                Log.e(TAG,"The SDK is not initialized.");
+                initSDK(activity, getInitParameter(), new InitCallBack() {
+                    @Override
+                    public void onSuccess(@Nullable User user) {
+                        sdkLogin(activity,loginCallBack);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        loginCallBack.onFailure(msg);
+                    }
+                });
                 return;
             }
 
@@ -1102,7 +1114,7 @@ public class SDKManager {
                 public void onSuccess(String result) {
                     hideProgress();
 
-                    LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + result);
+                    LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
                         loginCallBack.onFailure("result is null.");
                         return;
@@ -1249,16 +1261,10 @@ public class SDKManager {
 
         try {
             if (activity == null) {
-                System.out.println("sdkLoginThirdAccount failed:Activity is null.");
+                System.out.println("sdkUploadLog failed:Activity is null.");
                 return;
             }
             setActivity(activity);
-
-            if (!isInitStatus()) {
-                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-//                callBack.onFailure("The SDK is not initialized.");
-                return;
-            }
 
             final String aesKey = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
@@ -1268,7 +1274,7 @@ public class SDKManager {
                 @Override
                 public void onSuccess(String result) {
 
-                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + result);
+                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
 //                        callBack.onFailure("result is null.");
                         return;
@@ -1301,7 +1307,6 @@ public class SDKManager {
             });
 
         } catch (Exception e) {
-            hideProgress();
             e.printStackTrace();
         }
     }
@@ -1954,8 +1959,8 @@ public class SDKManager {
                     }
                     try {
 
+                        LogUtils.d(TAG, "绑定账号data:" + aesKey+"|"+result);
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.d(TAG, "绑定账号data:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             callback.onFailure("sdkLoginModel is null.");
@@ -2447,6 +2452,20 @@ public class SDKManager {
         }
         UserCenterDialog.Builder builder = new UserCenterDialog.Builder(activity);
         builder.create().show();
+
+        //TODO
+        //打开用户中心的时候，进行埋点
+        SDKManager.getInstance().installReferrer(activity, new InstallCallBack() {
+            @Override
+            public void onSuccess(String msg) {
+                Log.d(TAG,"installReferrer-"+msg);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Log.d(TAG,"installReferrer-"+msg);
+            }
+        });
     }
 
     /**
@@ -2577,5 +2596,15 @@ public class SDKManager {
             firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
         }
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
+    }
+
+    /**
+     * 获取用户安装归因
+     *
+     * @param activity
+     * @param installCallBack
+     */
+    public void installReferrer(Activity activity, InstallCallBack installCallBack) {
+        InstallManager.getInstance().getInstallReferrer(activity,installCallBack);
     }
 }

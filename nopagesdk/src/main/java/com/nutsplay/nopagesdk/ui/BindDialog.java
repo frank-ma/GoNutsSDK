@@ -89,7 +89,6 @@ public class BindDialog extends Dialog {
                         public void onSuccess() {
                             //绑定成功后，用新账号登录
                             if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-
                             dialog.dismiss();
                         }
 

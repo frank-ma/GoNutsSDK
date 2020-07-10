@@ -84,7 +84,6 @@ public class BindTipDialog extends Dialog {
                         loginCallBack.onSuccess(SDKManager.getInstance().getUser());
                         //登录追踪
                         TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
-
                         dialog.dismiss();
                     }
                 }

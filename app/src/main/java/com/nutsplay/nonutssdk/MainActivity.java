@@ -15,6 +15,7 @@ import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
+import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
@@ -102,6 +103,8 @@ public class MainActivity extends BaseActivity {
                 showLog("初始化失败：" + errorMsg);
             }
         });
+
+        login();
 
     }
 
@@ -513,6 +516,29 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
+     * 安装来源归因
+     *
+     * @param view
+     */
+    public void installReferrer(View view) {
+        SDK.getInstance().installReferrer(this,new InstallCallBack(){
+            @Override
+            public void onFailure(String msg) {
+                showLog("获取用户归因失败："+msg);
+            }
+
+            @Override
+            public void onSuccess(String msg) {
+                if (msg == null) return;
+                if (msg.contains("fb")||msg.contains("facebook")){
+                    showLog("用户是Facebook广告引导来的流量");
+                }
+            }
+        });
+
+    }
+
+    /**
      * *************************生命周期方法****************************
      */
 
@@ -535,6 +561,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showLog(final String msg) {
+        Log.d("LOG",msg);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

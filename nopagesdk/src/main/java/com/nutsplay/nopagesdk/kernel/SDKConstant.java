@@ -38,6 +38,13 @@ public class SDKConstant {
     public static final int STATUS_PRODUCTION_DO_NOT_EXIST = -26;     //购买商品未配置
     public static final int STATUS_THIRD_ACCOUNT_USED = -29;          //第三方账号已被占用
     public static final int STATUS_ANTIADDICTIVE_ALREADY_EXIST = -32; //防沉迷资料已存在
+
+    public static final int STATUS_TEMPEMAILBIND_NOT_EXIST = -33;      //临时绑定记录不存在
+    public static final int STATUS_TEMPEMAILBIND_CODE_INVALID = -34;    //临时绑定验证码不正确
+    public static final int STATUS_TEMPEMAILBIND_EMAIL_NOT_MATCH = -35; //邮箱不一致
+    public static final int STATUS_TEMPEMAILBIND_SEND_EMAIL_FAIL = -36; //往邮箱发送邮件失败
+    public static final int STATUS_ACCOUNT_NOT_BOUND = -37;             //此ID尚未绑定过自定义账号(用于申请email绑定时)
+    public static final int STATUS_TEMPEMAILBIND_ALREADY_EXIST = -38;   //临时绑定记录已存在
     public static final String INAPP = "inapp";
     public static final String SUBS = "subs";
 }

@@ -3,6 +3,34 @@
 
                            更新日志：
 ****************************************************************
+sdk_v1.8（20200710）
+1.更新bugly：替换bugly jar包，改为依赖引入，便于以后升级
+2.初始化失败后，点登录会重新初始化
+3.修复bug:回调后修改UI调整至主线程
+4.新增接口    public void installReferrer(Activity activity, InstallCallBack installCallBack) {}获取用户安装来源归因
+调用示例：
+ SDK.getInstance().installReferrer(this,new InstallCallBack(){
+            @Override
+            public void onFailure(String msg) {
+                showLog("获取用户归因失败："+msg);
+            }
+
+            @Override
+            public void onSuccess(String msg) {
+                if (msg == null) return;
+                if (msg.contains("fb")||msg.contains("facebook")){
+                    showLog("用户是Facebook广告引导来的流量");
+                }
+            }
+        });
+=======================================================
+更新步骤：
+1.替换aar
+2.添加依赖：
+    //Bugly
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+3.增加安装归因接口，你可以在登录成功后需要的时候调用获取用户安装来源，如果用户是来源于Facebook广告引导安装的，可以发放一些奖励之类的，一些游戏有类似的需求：
+****************************************************************
 sdk_v1.7(2020-7-7)
 
 1.添加用户协议功能，CP可以在通过设置初始化参数initParameter.setShowUserAgreement(true);

@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
+import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
@@ -313,5 +314,9 @@ public class SDK {
      */
     public void showUserAgreement(Activity activity){
         SDKManager.getInstance().showUserAgreement(activity);
+    }
+
+    public void installReferrer(Activity activity, InstallCallBack installCallBack) {
+        SDKManager.getInstance().installReferrer(activity,installCallBack);
     }
 }

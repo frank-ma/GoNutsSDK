@@ -58,7 +58,9 @@ public class UserCenterDialog extends Dialog {
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
             //如果是Facebook用户就不显示绑定FB按钮了
-            if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+            if (SDKManager.getInstance().getUser()!=null&&
+                    SDKManager.getInstance().getUser().getSdkmemberType()!=null&&
+                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
                 bindFb.setVisibility(View.GONE);
             }
 
@@ -73,7 +75,6 @@ public class UserCenterDialog extends Dialog {
                 public void onClick(View v) {
                     EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context);
                     builder.create().show();
-//                    dialog.dismiss();
                 }
             });
             //绑定FB
@@ -84,7 +85,12 @@ public class UserCenterDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             //游客绑定FB成功
-                            bindFb.setVisibility(View.GONE);
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bindFb.setVisibility(View.GONE);
+                                }
+                            });
                         }
 
                         @Override
@@ -102,7 +108,6 @@ public class UserCenterDialog extends Dialog {
 
                     ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
                     builder.create().show();
-//                    dialog.dismiss();
                 }
             });
             //关闭

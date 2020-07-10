@@ -703,7 +703,7 @@ public class SDKLangConfig {
         ar.setProperty("tourist_signin_alert", "حسابك هنا معد فقط للاستخدام في اللعبة، ينصح بتوثيق حسابك لتأمينه وحمايته");
         en.setProperty("tourist_signin_alert", "The guest account is only for experience, for your account security, please bind a new account.");
         ko.setProperty("tourist_signin_alert", "이 계정을 안전하게 사용하기를 위하여 등록한 계정번호를 연동해주시기 바랍니다");
-        zh_HK.setProperty("tourist_signin_alert", "遊客帳號僅供使用，為了您的帳號安全，請及時綁定註冊帳號");
+        zh_HK.setProperty("tourist_signin_alert", "遊客帳號僅供体验，為了您的帳號安全，請及時綁定註冊帳號");
         fr.setProperty("tourist_signin_alert", "Le compte de jeu est destiné uniquement à l’utilisation, pour la sécurité de votre compte, veuillez lier ce compte");
         pt.setProperty("tourist_signin_alert", "A conta do jogo se destina apenas para utilização. Por motivo de segurança deve vincular a conta");
         de.setProperty("tourist_signin_alert", "Das Spielkonto dient nur deiner Sicherheit, bitte registriertes Konto verbinden.");

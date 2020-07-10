@@ -381,12 +381,24 @@ public class SDKGameUtils {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_service_err"), 3);
         } else if (code == SDKConstant.STATUS_PRODUCTION_DO_NOT_EXIST) {
             SDKToast.getInstance().ToastShow("status_production_do_not_exist", 3);
-        } else if (code==SDKConstant.STATUS_THIRD_ACCOUNT_USED){
+        } else if (code == SDKConstant.STATUS_THIRD_ACCOUNT_USED){
             SDKToast.getInstance().ToastShow("third account used",3);
-        } else if (code==SDKConstant.STATUS_ANTIADDICTIVE_ALREADY_EXIST){
+        } else if (code == SDKConstant.STATUS_ANTIADDICTIVE_ALREADY_EXIST){
             SDKToast.getInstance().ToastShow("antiaddictive already exist",3);
+        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_NOT_EXIST) {//临时绑定记录不存在
+            SDKToast.getInstance().ToastShow("The binding record does not exist", 3);
+        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_CODE_INVALID) {//临时绑定验证码不正确
+            SDKToast.getInstance().ToastShow("Code invalid", 3);
+        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_EMAIL_NOT_MATCH) {//邮箱不一致
+            SDKToast.getInstance().ToastShow("Email not match", 3);
+        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_SEND_EMAIL_FAIL) {//往邮箱发送邮件失败
+            SDKToast.getInstance().ToastShow("Failed to send mail to mailbox", 3);
+        } else if (code == SDKConstant.STATUS_ACCOUNT_NOT_BOUND) {//此ID尚未绑定过自定义账号(用于申请email绑定时)
+            SDKToast.getInstance().ToastShow("Please bind an account before you can bind the mailbox, or directly bind your Facebook account.", 3);
+        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_ALREADY_EXIST) {//临时绑定记录已存在
+            SDKToast.getInstance().ToastShow("Email is bound", 3);
         } else {
-            SDKToast.getInstance().ToastShow(msg,3);
+            SDKToast.getInstance().ToastShow(msg, 3);
         }
 
     }

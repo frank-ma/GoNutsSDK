@@ -118,14 +118,13 @@ public class PayWebActivity extends BaseActivity {
             ApiManager.getInstance().SDKQueryOrderStatus(aesKey, aesKey16byRSA, transactionId, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    LogUtils.d(TAG, "查询订单成功：" + result);
+                    LogUtils.d(TAG, "查询订单成功：" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
                         SDKManager.getInstance().getPurchaseCallBack().onFailure("SDKQueryOrderStatus:result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.d(TAG, "查询订单支付状态:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             SDKManager.getInstance().getPurchaseCallBack().onFailure("orderModel is null.");
