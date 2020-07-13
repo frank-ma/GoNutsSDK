@@ -3,6 +3,8 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,7 +40,7 @@ public class UserCenterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-
+        private Handler handler;
         public Builder(Context context) {
             this.context = context;
         }
@@ -69,6 +71,22 @@ public class UserCenterDialog extends Dialog {
             bindFb.setText(SDKLangConfig.getInstance().findMessage("str_bind_facebook"));
             resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
+
+            handler = new Handler(){
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what){
+                        case 0:
+                            bindFb.setVisibility(View.GONE);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            };
+
             //绑定邮箱
             bindEmail.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,12 +103,7 @@ public class UserCenterDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             //游客绑定FB成功
-                            ((Activity)context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bindFb.setVisibility(View.GONE);
-                                }
-                            });
+                            handler.sendEmptyMessage(0);
                         }
 
                         @Override

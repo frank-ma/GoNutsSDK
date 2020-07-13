@@ -74,13 +74,7 @@ public class RegisterDialog extends Dialog {
             autoGenerationTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            autoGenerationAccountPwd(userName,pwd,repeatPwd);
-                        }
-                    });
-
+                    autoGenerationAccountPwd(userName,pwd,repeatPwd);
                 }
             });
 

@@ -3,6 +3,8 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.beans.TempUser;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -47,6 +50,7 @@ public class LoginDialog extends Dialog {
     public static class Builder {
         private Context context;
         private LoginCallBack loginCallBack;
+        private Handler handler;
 
         public Builder(Context context, LoginCallBack loginCallBack) {
             this.context = context;
@@ -82,6 +86,28 @@ public class LoginDialog extends Dialog {
             fillAccount(context,userName, pwd);
 
 
+            handler = new Handler(){
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what){
+                        case 0:
+                            backIv.callOnClick();
+                            pwd.setText("");
+                            break;
+                        case 1:
+                            TempUser tempUser= (TempUser) msg.obj;
+                            if (tempUser==null)return;
+                            userName.setText(tempUser.getAccount());
+                            pwd.setText(tempUser.getPwd());
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            };
+
             //忘记密码
             resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,12 +115,7 @@ public class LoginDialog extends Dialog {
 
                     ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
                     builder.create().show();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pwd.setText("");
-                        }
-                    });
+                    pwd.setText("");
                 }
             });
             //登录或重置密码
@@ -136,13 +157,8 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        backIv.callOnClick();
-                                        pwd.setText("");
-                                    }
-                                });
+                                handler.sendEmptyMessage(0);
+
                             }
 
                             @Override
@@ -165,13 +181,13 @@ public class LoginDialog extends Dialog {
                             try{
                                 if (account == null || pas == null) return;
                                 //回调中修改UI应该在UI线程中操作
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        userName.setText(account);
-                                        pwd.setText(pas);
-                                    }
-                                });
+                                Message message=new Message();
+                                message.what=1;
+                                TempUser tempUser = new TempUser();
+                                tempUser.setAccount(account);
+                                tempUser.setPwd(pas);
+                                message.obj = tempUser;
+                                handler.sendMessage(message);
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -191,17 +207,11 @@ public class LoginDialog extends Dialog {
             backIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            fillAccount(context, userName, pwd);
-                            signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
-                            resetPwd.setVisibility(View.VISIBLE);
-                            newPwd.setVisibility(View.GONE);
-                            backIv.setVisibility(View.INVISIBLE);
-                        }
-                    });
-
+                    fillAccount(context, userName, pwd);
+                    signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+                    resetPwd.setVisibility(View.VISIBLE);
+                    newPwd.setVisibility(View.GONE);
+                    backIv.setVisibility(View.INVISIBLE);
                 }
             });
 

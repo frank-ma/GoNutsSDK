@@ -1575,7 +1575,7 @@ public class SDKLangConfig {
         vi.setProperty("26", "Gửi mã xác nhận");
         th.setProperty("26", "ส่งรหัสยืนยัน");
         ar.setProperty("26", "إرسال رمز التحقق");
-        en.setProperty("26", "Send the code");
+        en.setProperty("26", "Send the Code");
         ko.setProperty("26", "인증번호 보내기");
         zh_HK.setProperty("26", "發送驗證碼");
         fr.setProperty("26", "Envoyer le code");

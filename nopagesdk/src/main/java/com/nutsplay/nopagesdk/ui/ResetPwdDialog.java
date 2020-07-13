@@ -1,7 +1,11 @@
 package com.nutsplay.nopagesdk.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +27,7 @@ import com.nutsplay.nopagesdk.utils.toast.SDKToast;
  * Email: frankma9103@gmail.com
  * Desc: 通过绑定的邮箱发送验证码进行重置密码
  */
-public class ResetPwdDialog extends BaseDialog {
+public class ResetPwdDialog extends Dialog {
 
     public ResetPwdDialog(@NonNull Context context) {
         super(context);
@@ -40,6 +44,7 @@ public class ResetPwdDialog extends BaseDialog {
     public static class Builder {
 
         private Context context;
+        private Handler handler;
 
         public Builder(Context context) {
             this.context = context;
@@ -74,6 +79,28 @@ public class ResetPwdDialog extends BaseDialog {
             newPwdRepeat.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             reset.setText(SDKLangConfig.getInstance().findMessage("reset"));
 
+            handler = new Handler(){
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what){
+                        case 0:
+                            String time = (String) msg.obj;
+                            if (time == null) return;
+                            btnSend.setText(time);
+                            break;
+                        case 1:
+                            btnSend.setEnabled(true);
+                            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
+                            break;
+                        case 2:
+                            btnSend.setEnabled(false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            };
 
             //发送邮箱验证码
             btnSend.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +116,7 @@ public class ResetPwdDialog extends BaseDialog {
                         @Override
                         public void onSuccess() {
                             //开始倒计时
-                            countDown(context,btnSend);
+                            countDown(btnSend);
 
                         }
 
@@ -163,5 +190,30 @@ public class ResetPwdDialog extends BaseDialog {
             dialog.setCancelable(false);
             return dialog;
         }
+
+        /**
+         * 倒计时显示
+         */
+        private void countDown(final TextView button) {
+            handler.sendEmptyMessage(2);
+            CountDownTimer timer = new CountDownTimer(20000,1000) {
+                @Override
+                public void onTick(final long millisUntilFinished) {
+                    Message message = new Message();
+                    message.what = 0;
+                    message.obj = millisUntilFinished / 1000 + "s";
+                    handler.sendMessage(message);
+
+                }
+
+                @Override
+                public void onFinish() {
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+            }.start();
+        }
+
     }
 }

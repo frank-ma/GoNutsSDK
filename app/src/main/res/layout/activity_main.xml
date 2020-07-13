@@ -81,8 +81,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="updateLanguage"
-            android:text="切换语言"
+            android:onClick="updateLanguagezhCN"
+            android:text="切换中文"
+            android:textColor="@color/white" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="updateLanguageEN"
+            android:text="切换英文"
             android:textColor="@color/white" />
 
         <Button

@@ -37,7 +37,8 @@ public class MainActivity extends BaseActivity {
 //    private String clientId = "5dcbeab164b5b50deb76be93";
     private String clientId = "5ef872ec64b5b50defb667dc";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
-    private String buglyId = "1ee9849782";
+//    private String buglyId = "1ee9849782";
+    private String buglyId = "36386748bb";
 //    String referenceId = "com.nutspower.nutsgamesdk.sub1";
     String referenceId = "com.nutspower.nutsgamesdk.sub2";
 
@@ -347,7 +348,7 @@ public class MainActivity extends BaseActivity {
      * vi, 越语
      * ar，阿拉伯语
      * kr，韩语
-     * fo，法语
+     * fr，法语
      * pt，葡萄牙语
      * de，德
      * sp，西班牙
@@ -358,15 +359,13 @@ public class MainActivity extends BaseActivity {
      *
      * @param view
      */
-    int lang = 0;
-    public void updateLanguage(View view) {
-        if (lang == 0){
-            SDK.getInstance().sdkUpdateLanguage("zh_hk");
-            lang = 1;
-        }else {
-            SDK.getInstance().sdkUpdateLanguage("en_us");
-            lang = 0;
-        }
+
+    public void updateLanguagezhCN(View view) {
+        SDK.getInstance().sdkUpdateLanguage("zh_CN");
+    }
+
+    public void updateLanguageEN(View view){
+        SDK.getInstance().sdkUpdateLanguage("en");
     }
 
     public void saveShot(View view) {

@@ -405,54 +405,51 @@ public class SDKGameUtils {
 
     public synchronized static int getLanguage(String langugae) {
 
-        if (langugae.contains("cn")) {
+        if (langugae.contains("cn")||langugae.contains("CN")) {
             lan = 1;
         }
         if (langugae.contains("en")) {
             lan = 2;
-
         }
-
         if (langugae.contains("th")) {
             lan = 3;
         }
-        if (langugae.contains("vn")) {
+        if (langugae.contains("vi")) {
             lan = 4;
         }
-
         if (langugae.contains("ar")) {
             lan = 5;
         }
-        if (langugae.contains("kr")) {
+        if (langugae.contains("kr")||langugae.contains("ko")) {
             lan = 6;
         }
-        if (langugae.contains("hk")) {
+        if (langugae.contains("hk")||langugae.contains("HK")) {
             lan = 7;
         }
-
-        if (langugae.contains("fr")) {
+        if (langugae.contains("fr")||langugae.contains("fo")) {
             lan = 8;
         }
-        if (langugae.contains("br")) {
-            lan = 9;
+        if (langugae.contains("br")||langugae.contains("pt")) {
+            lan = 9;//葡萄牙
         }
         if (langugae.contains("de")) {
             lan = 10;
         }
-        if (langugae.contains("sp")) {
+        if (langugae.contains("sp")||langugae.contains("es")) {
             lan = 11;
         }
         if (langugae.contains("it")) {
             lan = 12;
         }
-        if (langugae.contains("jp")) {
+        if (langugae.contains("ja")||langugae.contains("jp")) {
             lan = 13;
         }
-        if (langugae.contains("idn")) {
+        if (langugae.contains("id")||langugae.contains("idn")) {
             lan = 14;
         }
-
-
+        if (langugae.contains("ru")){
+            lan = 15;
+        }
         return lan;
     }
 
