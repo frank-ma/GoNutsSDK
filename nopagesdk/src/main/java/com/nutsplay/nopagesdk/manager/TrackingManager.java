@@ -97,18 +97,31 @@ public class TrackingManager {
      */
     public static void loginTracking(String accountId){
 
-        SDKManager.getInstance().setAuto(true);
-        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
+        try {
+            SDKManager.getInstance().setAuto(true);
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
 
 
-
-        Map<String, Object> eventValue = new HashMap<>();
-        eventValue.put("accountId", accountId);
-        AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Login", eventValue);
+            Map<String, Object> eventValue = new HashMap<>();
+            eventValue.put("accountId", accountId);
+            AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Login", eventValue);
 
 //        DCTrackingPoint.login(accountId);
-        GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
-//        GooglePayHelp.getInstance().resentOrderByDbRecord();
+            GooglePayHelp.getInstance().queryPurchase(false,SDKConstant.INAPP);
+
+
+
+
+            //AIHelp轮询作业，每300S自动拉取一次当前未读消息
+//            String userID ="";
+//            if (SDKManager.getInstance().getUser()!=null && SDKManager.getInstance().getUser().getUserId()!=null){
+//                userID = SDKManager.getInstance().getUser().getUserId();
+//            }
+//            ELvaChatServiceSdk.setUnreadMessageFetchUid(userID);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

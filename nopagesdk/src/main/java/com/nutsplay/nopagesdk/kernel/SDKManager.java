@@ -1,8 +1,13 @@
 package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -32,6 +37,7 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.db.DBManager;
 import com.nutsplay.nopagesdk.db.PurchaseRecord;
@@ -64,6 +70,8 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,6 +91,8 @@ public class SDKManager {
     private Activity activity;
 
     private PurchaseCallBack purchaseCallBack;
+
+    private ShareResultCallBack shareResultCallBack;
 
     private SDKProgressDialog progressDialog;
 
@@ -121,6 +131,14 @@ public class SDKManager {
 
     public void setPurchaseCallBack(PurchaseCallBack purchaseCallBack) {
         this.purchaseCallBack = purchaseCallBack;
+    }
+
+    public ShareResultCallBack getShareResultCallBack() {
+        return shareResultCallBack;
+    }
+
+    public void setShareResultCallBack(ShareResultCallBack shareResultCallBack) {
+        this.shareResultCallBack = shareResultCallBack;
     }
 
     public void setAuto(boolean auto) {
@@ -189,6 +207,22 @@ public class SDKManager {
     //*******************************************SDK接口*********************************************
 
     /**
+     * 注册未读消息回调接口
+     * @param onMessageArrivedCallback
+     */
+    public void beforeInitSDK(ELvaChatServiceSdk.OnMessageArrivedCallback onMessageArrivedCallback){
+        ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+            @Override
+            public void onInitialized() {
+                //初始化完成
+                System.out.println("AIHelp初始化完成");
+            }
+        });
+
+        ELvaChatServiceSdk.setOnMessageArrivedCallback(onMessageArrivedCallback);
+    }
+
+    /**
      * 初始化接口
      *
      * @param activity
@@ -253,7 +287,8 @@ public class SDKManager {
                     parameters.getAihelpAppkey(),
                     parameters.getAihelpDomain(),
                     parameters.getAihelpAppID());
-            ELvaChatServiceSdk.setSDKLanguage(parameters.getLanguage());
+//            ELvaChatServiceSdk.setSDKLanguage(parameters.getLanguage());
+            ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -962,6 +997,7 @@ public class SDKManager {
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
+                        LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             loginCallBack.onFailure("loginModel is null.");
@@ -1376,19 +1412,19 @@ public class SDKManager {
             setPurchaseCallBack(purchaseCallBack);
 
             if (serverId == null || referenceId == null || gameExt == null) {
-                purchaseCallBack.onFailure("serverId or referenceId or gameExt is null");
+                purchaseCallBack.onFailure(SDKConstant.parameter_is_null,"serverId or referenceId or gameExt is null");
                 return;
             }
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                purchaseCallBack.onFailure("The SDK is not initialized.");
+                purchaseCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
                 return;
             }
 
             if (getUser() == null || getUser().getUserId() == null) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
-                purchaseCallBack.onFailure("Please login first.");
+                purchaseCallBack.onFailure(SDKConstant.not_login,"Please login first.");
                 return;
             }
 
@@ -1404,7 +1440,7 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        purchaseCallBack.onFailure("result is null.");
+                        purchaseCallBack.onFailure(SDKConstant.result_is_null,"Make Order:result is null.");
                         return;
                     }
                     try {
@@ -1412,7 +1448,7 @@ public class SDKManager {
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            purchaseCallBack.onFailure("orderModel is null.");
+                            purchaseCallBack.onFailure(SDKConstant.orderModel_is_null,"Make Order:orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -1442,7 +1478,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
-                            purchaseCallBack.onFailure(orderModel.getMessage());
+                            purchaseCallBack.onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1453,7 +1489,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "sdkMakeOrder---onFailure:" + errorMsg);
-                    purchaseCallBack.onFailure(errorMsg);
+                    purchaseCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
             });
 
@@ -1487,19 +1523,19 @@ public class SDKManager {
             setPurchaseCallBack(purchaseCallBack);
 
             if (serverId == null || referenceId == null || gameExt == null) {
-                purchaseCallBack.onFailure("serverId or referenceId or gameExt is null");
+                purchaseCallBack.onFailure(SDKConstant.parameter_is_null,"serverId or referenceId or gameExt is null");
                 return;
             }
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                purchaseCallBack.onFailure("The SDK is not initialized.");
+                purchaseCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
                 return;
             }
 
             if (getUser() == null || getUser().getUserId() == null) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
-                purchaseCallBack.onFailure("Please login first.");
+                purchaseCallBack.onFailure(SDKConstant.not_login,"Please login first.");
                 return;
             }
 
@@ -1515,7 +1551,7 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        purchaseCallBack.onFailure("result is null.");
+                        purchaseCallBack.onFailure(SDKConstant.result_is_null,"Make order result is null.");
                         return;
                     }
                     try {
@@ -1523,7 +1559,7 @@ public class SDKManager {
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            purchaseCallBack.onFailure("orderModel is null.");
+                            purchaseCallBack.onFailure(SDKConstant.orderModel_is_null,"Make order orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -1545,7 +1581,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
-                            purchaseCallBack.onFailure(orderModel.getMessage());
+                            purchaseCallBack.onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1556,7 +1592,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "sdkMakeOrder---onFailure:" + errorMsg);
-                    purchaseCallBack.onFailure(errorMsg);
+                    purchaseCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
             });
 
@@ -1643,8 +1679,8 @@ public class SDKManager {
             System.out.println("The SDK is not initialized.");
             return;
         }
-//        SPManager.getInstance(getActivity()).putString(SPKey.key_sdk_language, language);
         SDKManager.getInstance().getInitParameter().setLanguage(language);
+        ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
     }
 
 
@@ -2517,8 +2553,17 @@ public class SDKManager {
 
     }
 
-    public void facebookSharing() {
-
+    public void facebookShareLink(Activity activity, String url, ShareResultCallBack callBack) {
+//        FacebookManager.getInstance().facebookShareUrl(activity,url,callBack);
+        if (callBack == null){
+            System.out.println("ShareResultCallBack is null");
+            return;
+        }
+        setShareResultCallBack(callBack);
+        Intent intent = new Intent(activity,FBLoginActivity.class);
+        intent.putExtra(SDKConstant.openType,1);
+        intent.putExtra(SDKConstant.share_url,url);
+        AppManager.startActivityWithData(activity,intent);
     }
 
     /**
@@ -2527,6 +2572,7 @@ public class SDKManager {
      */
     public void customerSupport(String userName, String serverId, HashMap<String, Object> customData) {
 
+        if (!isInitStatus()) return;
         String nutsId = "";
         if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
             nutsId = SDKManager.getInstance().getUser().getUserId();
@@ -2543,6 +2589,8 @@ public class SDKManager {
      * @param customData
      */
     public void showFAQs(String userName, String serverId, HashMap<String, Object> customData) {
+        if (!isInitStatus()) return;
+
         String nutsId = "";
         if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
             nutsId = SDKManager.getInstance().getUser().getUserId();
@@ -2606,5 +2654,63 @@ public class SDKManager {
      */
     public void installReferrer(Activity activity, InstallCallBack installCallBack) {
         InstallManager.getInstance().getInstallReferrer(activity,installCallBack);
+    }
+
+    /**
+     * 系统原生的分享功能
+     *
+     * @param activity
+     */
+    public void systemSharePhoto(Activity activity, Uri uri) {
+        if (activity == null){
+            Log.e("systemSharePhoto","activity == null");
+            return;
+        }
+        if (uri == null){
+            Log.e("systemSharePhoto","uri == null");
+            return;
+        }
+        Log.e("systemSharePhoto",uri.toString());
+        Intent imageIntent = new Intent(Intent.ACTION_SEND);
+        imageIntent.setType("image/*");
+        imageIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        activity.startActivityForResult(Intent.createChooser(imageIntent, "SHARE VIA"),SDKConstant.SHARE_PHOTO_REQUEST_CODE);
+    }
+
+    /**
+     * 系统原生分享图片功能
+     * @param activity
+     * @param filePath
+     */
+    public void systemSharePhoto(Activity activity,String filePath){
+        if (activity == null){
+            Log.e("systemSharePhoto","activity == null");
+            return;
+        }
+        if (filePath == null){
+            Log.e("systemSharePhoto","filePath == null");
+            return;
+        }
+        FileInputStream fs = null;
+        try {
+            fs = new FileInputStream(filePath);
+            Bitmap bitmap =  BitmapFactory.decodeStream(fs);
+            Uri imageUri = Uri.parse(MediaStore.Images.Media.insertImage(activity.getContentResolver(),bitmap , null,null));
+
+            Log.e("systemSharePhoto","path---"+filePath);
+            Intent imageIntent = new Intent(Intent.ACTION_SEND);
+            imageIntent.setType("image/*");
+            imageIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            activity.startActivityForResult(Intent.createChooser(imageIntent, "SHARE VIA"),SDKConstant.SHARE_PHOTO_REQUEST_CODE);
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fs != null) fs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

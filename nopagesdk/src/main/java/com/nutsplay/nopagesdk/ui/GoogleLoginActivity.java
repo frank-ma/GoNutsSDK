@@ -73,6 +73,10 @@ public class GoogleLoginActivity extends BaseActivity {
             Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode()+"---"+errorInfo);
             LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getStatusCode()+"---" +errorInfo);
             finish();
+        } catch (Exception e){
+            e.printStackTrace();
+            LoginManager.getInstance().getGoogleLoginListener().onFailure("signInResult:failed code=" + e.getMessage());
+            finish();
         }
     }
 }

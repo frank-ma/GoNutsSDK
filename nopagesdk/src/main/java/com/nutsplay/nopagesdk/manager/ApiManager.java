@@ -108,7 +108,7 @@ public class ApiManager {
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
             }
             String jsonData = GsonUtils.tojsonString(initBean);
-            LogUtils.d(TAG,"InitGo初始化请求body："+jsonData);
+            LogUtils.d(TAG,"InitGobody："+jsonData);
 
             String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
             Map<String, String> data = new TreeMap<>();
@@ -141,6 +141,7 @@ public class ApiManager {
             registerAccount.setAccount(userName);
             registerAccount.setSecond(SHA1Utils.sha1UpperCase(pwd));
             String jsonData = GsonUtils.tojsonString(registerAccount);
+//            LogUtils.d("注册",jsonData);
 
             String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
             Map<String, String> data = new TreeMap<>();
@@ -176,6 +177,7 @@ public class ApiManager {
             accountLogin.setAccount(userName);
             accountLogin.setSecond(SHA1Utils.sha1UpperCase(pwd));
             String jsonData = GsonUtils.tojsonString(accountLogin);
+//            LogUtils.d("登录",jsonData);
 
             String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
             Map<String, String> data = new TreeMap<>();

@@ -29,4 +29,9 @@ public class AppManager {
         currActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
+    public static void startActivityWithData(Activity activity,Intent intent){
+        activity.startActivity(intent);
+        activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
 }

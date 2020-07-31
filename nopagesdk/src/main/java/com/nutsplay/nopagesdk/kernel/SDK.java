@@ -1,6 +1,7 @@
 package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
+import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
@@ -13,6 +14,7 @@ import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 
 import java.util.HashMap;
@@ -275,8 +277,16 @@ public class SDK {
         SDKManager.getInstance().facebookFriendFinder();
     }
 
-    public void facebookSharing() {
-        SDKManager.getInstance().facebookSharing();
+    public void facebookShareLink(Activity activity, String url, ShareResultCallBack callBack) {
+        SDKManager.getInstance().facebookShareLink(activity,url,callBack);
+    }
+
+    public void systemSharePhoto(Activity activity, Uri uri){
+        SDKManager.getInstance().systemSharePhoto(activity,uri);
+    }
+
+    public void systemSharePhoto(Activity activity, String path){
+        SDKManager.getInstance().systemSharePhoto(activity,path);
     }
 
     /**

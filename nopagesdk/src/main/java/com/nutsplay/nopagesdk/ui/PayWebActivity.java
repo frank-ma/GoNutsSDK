@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
@@ -120,14 +121,14 @@ public class PayWebActivity extends BaseActivity {
                 public void onSuccess(String result) {
                     LogUtils.d(TAG, "查询订单成功：" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
-                        SDKManager.getInstance().getPurchaseCallBack().onFailure("SDKQueryOrderStatus:result is null.");
+                        SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.result_is_null,"SDKQueryOrderStatus:result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure("orderModel is null.");
+                            SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.orderModel_is_null,"orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -142,7 +143,7 @@ public class PayWebActivity extends BaseActivity {
                         } else {
                             LogUtils.e(TAG, "SDKQueryOrderStatus---onSuccess:" + orderModel.getMessage());
 //                            SDKGameUtils.showServiceInfo(orderModel.getCode(),orderModel.getMessage());
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getMessage());
+                            SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -193,7 +194,7 @@ public class PayWebActivity extends BaseActivity {
             LogUtil.e("第三方支付失败-----fail_story()");
             try {
                 if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                    SDKManager.getInstance().getPurchaseCallBack().onFailure("第三方支付失败");
+                    SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.third_pay_failed,"third pay failed");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

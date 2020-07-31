@@ -60,10 +60,12 @@ public class SPManager {
     }
 
     public String getString(String key) {
+        if (mPreferences == null)return "";
         return mPreferences.getString(key, "");
     }
 
     public String getString(String key, String defValue) {
+        if (mPreferences == null)return "";
         return mPreferences.getString(key, defValue);
     }
 

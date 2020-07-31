@@ -47,4 +47,32 @@ public class SDKConstant {
     public static final int STATUS_TEMPEMAILBIND_ALREADY_EXIST = -38;   //临时绑定记录已存在
     public static final String INAPP = "inapp";
     public static final String SUBS = "subs";
+    public static final String share_url = "share_url";
+    public static final String openType="open_type";//Facebook页面的打开类型
+    public static final int SHARE_PHOTO_REQUEST_CODE = 0x101;
+
+
+    //Google官方支付错误码
+    static int SERVICE_TIMEOUT = -3;
+    static int FEATURE_NOT_SUPPORTED = -2;
+    static int SERVICE_DISCONNECTED = -1;
+    static int OK = 0;
+    static int USER_CANCELED = 1;
+    static int SERVICE_UNAVAILABLE = 2;
+    static int BILLING_UNAVAILABLE = 3;
+    static int ITEM_UNAVAILABLE = 4;
+    static int DEVELOPER_ERROR = 5;
+    static int ERROR = 6;
+    static int ITEM_ALREADY_OWNED = 7;
+    static int ITEM_NOT_OWNED = 8;
+    public static final int result_is_null = 111; //接口返回数据为空
+    public static final int orderModel_is_null = 112;//接口返回数据异常
+    public static final int network_error = 113;//网络异常
+    public static final int other_error = 114;//其他错误，try catch的异常
+    public static final int no_upload_apk = 115; //Google Play does not have the item id
+    public static final int third_pay_failed = 116; //第三方支付失败
+    public static final int parameter_is_null = 117; //参数错误
+    public static final int not_init = 118; //未初始化
+    public static final int not_login = 119; //未登录
+
 }

@@ -7,9 +7,11 @@ import com.nutsplay.nopagesdk.beans.PayResult;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface PurchaseCallBack extends CallBack {
+public interface PurchaseCallBack {
 
     void onSuccess(PayResult payResult);
 
     void onCancel();
+
+    void onFailure(int code,String msg);
 }

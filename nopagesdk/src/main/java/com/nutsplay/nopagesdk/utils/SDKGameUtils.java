@@ -405,52 +405,54 @@ public class SDKGameUtils {
 
     public synchronized static int getLanguage(String langugae) {
 
-        if (langugae.contains("cn")||langugae.contains("CN")) {
+        if (langugae == null || langugae.isEmpty()) {
+            lan = 2;
+        } else if (langugae.contains("cn") || langugae.contains("CN")) {
             lan = 1;
-        }
-        if (langugae.contains("en")) {
+        } else if (langugae.contains("en")) {
+            lan = 2;
+        } else if (langugae.contains("th")) {
+            lan = 3;
+        } else if (langugae.contains("vi") || langugae.contains("vn")) {
+            lan = 4;
+        } else if (langugae.contains("ar")) {
+            lan = 5;
+        } else if (langugae.contains("kr") || langugae.contains("ko")) {
+            lan = 6;
+        } else if (langugae.contains("hk") || langugae.contains("HK")) {
+            lan = 7;
+        } else if (langugae.contains("fr") || langugae.contains("fo")) {
+            lan = 8;
+        } else if (langugae.contains("br") || langugae.contains("pt")) {
+            lan = 9;//葡萄牙
+        } else if (langugae.contains("de") || langugae.contains("deu")) {
+            lan = 10;
+        } else if (langugae.contains("sp") || langugae.contains("es")) {
+            lan = 11;
+        } else if (langugae.contains("it")) {
+            lan = 12;
+        } else if (langugae.contains("ja") || langugae.contains("jp")) {
+            lan = 13;
+        } else if (langugae.contains("id") || langugae.contains("idn")) {
+            lan = 14;
+        } else if (langugae.contains("ru")) {
+            lan = 15;
+        } else {
             lan = 2;
         }
-        if (langugae.contains("th")) {
-            lan = 3;
-        }
-        if (langugae.contains("vi")) {
-            lan = 4;
-        }
-        if (langugae.contains("ar")) {
-            lan = 5;
-        }
-        if (langugae.contains("kr")||langugae.contains("ko")) {
-            lan = 6;
-        }
-        if (langugae.contains("hk")||langugae.contains("HK")) {
-            lan = 7;
-        }
-        if (langugae.contains("fr")||langugae.contains("fo")) {
-            lan = 8;
-        }
-        if (langugae.contains("br")||langugae.contains("pt")) {
-            lan = 9;//葡萄牙
-        }
-        if (langugae.contains("de")) {
-            lan = 10;
-        }
-        if (langugae.contains("sp")||langugae.contains("es")) {
-            lan = 11;
-        }
-        if (langugae.contains("it")) {
-            lan = 12;
-        }
-        if (langugae.contains("ja")||langugae.contains("jp")) {
-            lan = 13;
-        }
-        if (langugae.contains("id")||langugae.contains("idn")) {
-            lan = 14;
-        }
-        if (langugae.contains("ru")){
-            lan = 15;
-        }
         return lan;
+    }
+
+    /**
+     * 获取AIhelp的语言代码
+     * @param lang
+     * @return
+     */
+    public static String getAIHelpLanguage(String lang){
+        int index = getLanguage(lang)-1;
+        if (index < 0) index = 1;
+        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru"};
+        return aihelpLang[index];
     }
 
 

@@ -275,19 +275,40 @@
             android:visibility="gone"
             android:textColor="@color/colorAccent" />
 
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:backgroundTint="@color/black"
-            android:onClick="Fbsharing"
-            android:text="游戏屏幕分享"
-            android:visibility="gone"
+            android:onClick="shareLink"
+            android:text="FB分享链接"
+            android:visibility="visible"
+            android:textColor="@color/colorAccent" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="systemShare"
+            android:text="FB系统分享"
+            android:visibility="visible"
+            android:textColor="@color/colorAccent" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="openApp"
+            android:text="打开应用"
             android:textColor="@color/colorAccent" />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -1,6 +1,9 @@
 package com.nutsplay.nonutssdk;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
@@ -46,8 +50,13 @@ public class MainActivity extends BaseActivity {
     private Button initB,defaultLogin;
 
     //poly
-    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_18d51c55-b1e5-43f4-bcbe-daad1b7381a8";
-    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_b372655fc824460d8add46957ae8739c";
+//    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_18d51c55-b1e5-43f4-bcbe-daad1b7381a8";
+//    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_b372655fc824460d8add46957ae8739c";
+//    private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
+
+    //Dragon Home
+    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_a84456e0-2d9b-4c65-8e83-0f49630aa2d2";
+    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_a070e2a9a3bf4259bcb19301bdc33a4e";
     private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
 
     @Override
@@ -64,25 +73,32 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-        defaultLogin.callOnClick();
+//        defaultLogin.callOnClick();
 
 
     }
 
+    /**
+     * ****************************************接口方法*********************************************
+     */
     public void initSDK(View view) {
+//        SDKManager.getInstance().beforeInitSDK();
+
+
+
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
         initParameter.setBuglyId(buglyId);
-        initParameter.setLanguage("en");
-        initParameter.setDebug(false);
+        initParameter.setLanguage("zh_CN");
+        initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
-        initParameter.setUIVersion(1);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
-//        initParameter.setAihelpAppID(AIHelpAppID);
-//        initParameter.setAihelpAppkey(AIHelpAppKey);
-//        initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -96,7 +112,6 @@ public class MainActivity extends BaseActivity {
                     showLog("当前没有自动登录的用户");
                 }
                 showLog("初始化成功");
-                login.callOnClick();
             }
 
             @Override
@@ -104,8 +119,6 @@ public class MainActivity extends BaseActivity {
                 showLog("初始化失败：" + errorMsg);
             }
         });
-
-        login();
 
     }
 
@@ -225,7 +238,8 @@ public class MainActivity extends BaseActivity {
      */
 
     public void purchase(View view) {
-        String referenceId = "com.nutspower.nutsgamesdk.test1";
+//        String referenceId = "com.nutspower.nutsgamesdk.test1";
+        String referenceId = "com.nutspower.dragon.monthcard399";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -239,7 +253,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code, String msg) {
                 showLog("支付失败：" + msg);
             }
         });
@@ -266,7 +280,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("订阅失败：" + msg);
             }
         });
@@ -289,7 +303,8 @@ public class MainActivity extends BaseActivity {
     public void localPrice(View view) {
 
         List<String> skuList = new ArrayList<>();
-        skuList.add("com.nutspower.nutsgamesdk.test1");
+//        skuList.add("com.nutspower.nutsgamesdk.test1");
+        skuList.add("com.nutspower.dragon.paidland3");
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override
@@ -342,20 +357,25 @@ public class MainActivity extends BaseActivity {
 
     /**
      * zh_CN, 中文
-     * zh_HK, 中文
+     * zh_HK, 粤语中文
+     * zh_TW, 繁体中文
      * en, 英文
      * th, 泰语
      * vi, 越语
      * ar，阿拉伯语
-     * kr，韩语
+     * kr，韩语  ko
      * fr，法语
      * pt，葡萄牙语
      * de，德
-     * sp，西班牙
+     * sp，西班牙 es
      * it，意大利语
      * ja，日语
      * id，印度尼西亚语
      * ru:俄语
+     *
+     *
+     * 荷兰af
+     * 孟加拉bn
      *
      * @param view
      */
@@ -447,14 +467,6 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * FB游戏分享
-     * @param view
-     */
-    public void Fbsharing(View view){
-        SDK.getInstance().facebookSharing();
-    }
-
-    /**
      * 坚果账号绑定邮箱
      *
      * @param view
@@ -465,7 +477,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 在线客服系统
-     *
+     * Key-Value可以自己根据需要自定义，会显示在客服后台中
      * @param view
      */
     public void customerService(View view) {
@@ -476,12 +488,13 @@ public class MainActivity extends BaseActivity {
         customData.put("level","2");
         customData.put("coins","999");
         customData.put("diamond","100");
+//        customData.put("private_welcome_str","What can I do?");//key是固定的，value可以自定义人工客服的欢迎语
         SDK.getInstance().customerSupport( "Jack","0", customData);
     }
 
     /**
      * 常见问题
-     *
+     * Key-Value可以自己根据需要自定义，会显示在客服后台中
      * @param view
      */
     public void FAQ(View view){
@@ -491,6 +504,7 @@ public class MainActivity extends BaseActivity {
         customData.put("level","12");
         customData.put("coins","1999");
         customData.put("diamond","0");
+//        customData.put("private_welcome_str","What can I do for you?");//key是固定的，value可以自定义人工客服的欢迎语
         SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
     }
 
@@ -516,6 +530,14 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 安装来源归因
+     * https://developers.google.com/analytics/devguides/collection/android/v4/campaigns?hl=zh-cn
+     * utm_source	广告系列来源，用于确定具体的搜索引擎、简报或其他来源	utm_source=google
+     * utm_medium	广告系列媒介，用于确定电子邮件或采用每次点击费用 (CPC) 的广告等媒介。	utm_medium=cpc
+     * utm_term	广告系列字词，用于付费搜索，为广告提供关键字	utm_term=running+shoes
+     * utm_content	广告系列内容，用于 A/B 测试和内容定位广告，以区分指向相同网址的不同广告或链接	utm_content=logolink
+     * utm_content=textlink
+     * utm_campaign	广告系列名称，用于关键字分析，以标识具体的产品推广活动或战略广告系列	utm_campaign=spring_sale
+     * gclid	Google Ads 自动标记参数，用于衡量广告。此值会动态生成，请勿修改。
      *
      * @param view
      */
@@ -529,12 +551,98 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg) {
                 if (msg == null) return;
+                showLog("安装归因："+msg);
                 if (msg.contains("fb")||msg.contains("facebook")){
                     showLog("用户是Facebook广告引导来的流量");
                 }
             }
         });
 
+    }
+
+    /**
+     * 分享链接
+     *
+     * @param view
+     */
+    public void shareLink(View view){
+//        String link = "https://play.google.com/store/apps/details?id=com.nutspower.mergegame";
+        String link = "https://play.google.com/store/apps/details?id=com.dyhd.slg01.pgangtai";
+        SDK.getInstance().facebookShareLink(this, link, new ShareResultCallBack() {
+            @Override
+            public void onSuccess() {
+                showLog("分享成功");
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("分享取消");
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("分享失败："+msg);
+            }
+        });
+    }
+
+    /**
+     * 系统原生的分享图片功能，系统分享没有回调
+     *
+     * @param view
+     */
+    public void systemShare(View view){
+        //方法一：文件路径
+//        String filePath = "/storage/emulated/0/DCIM/Camera/IMG_20191125_210352.jpg";
+//        SDK.getInstance().systemSharePhoto(this,filePath);
+
+        //方法二：选择相册图片，传Uri
+        selectPhoto();
+    }
+
+    public void openApp(View view){
+//        PackageManager packageManager = this.getPackageManager();
+//        Intent intent= packageManager.getLaunchIntentForPackage("com.nutspower.mergegame");
+//        startActivity(intent);
+
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.nutspower.mergegame", "com.idgame.nutlibrary.SDKUtils");
+        intent.setComponent(comp);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    /**
+     * *************************其他方法****************************
+     */
+
+
+    public static final int IMAGE_REQUEST_CODE = 0x102;
+    private void selectPhoto() {
+        Intent intent = new Intent();
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        if (Build.VERSION.SDK_INT < 19) {
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        }
+        startActivityForResult(intent, IMAGE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST_CODE && data != null){
+            Uri uri = data.getData();
+            if (uri == null) return;
+            //调用方法二
+            SDK.getInstance().systemSharePhoto(this,uri);
+        }else if (requestCode == SDKConstant.SHARE_PHOTO_REQUEST_CODE && data !=null){
+            Uri uri = data.getData();
+            if (uri == null) return;
+            showLog(uri.getPath());
+        }
     }
 
     /**

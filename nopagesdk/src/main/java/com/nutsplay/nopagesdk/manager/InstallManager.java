@@ -99,7 +99,7 @@ public class InstallManager {
             String content = referrerUrl;
             if (SDKManager.getInstance().getUser()!=null && SDKManager.getInstance().getUser().getUserId()!=null){
                 String userID = SDKManager.getInstance().getUser().getUserId();
-                content = userID+"|"+referrerUrl;
+                content = referrerUrl;
             }
             SDKManager.getInstance().sdkUploadLog(activity,"installReferrer",content);
             callBack.onSuccess(referrerUrl);

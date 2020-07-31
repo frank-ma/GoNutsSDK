@@ -67,7 +67,7 @@ public class NetClient {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                LogUtils.e(TAG, "onSuccess: " + result);
+//                LogUtils.e(TAG, "onSuccess: " + result);
                 jsonReaderCallback.onSuccess(result);
 
             }

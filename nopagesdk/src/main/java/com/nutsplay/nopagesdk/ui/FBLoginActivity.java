@@ -17,8 +17,13 @@ import com.facebook.GraphResponse;
 import com.facebook.gamingservices.FriendFinderDialog;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.facebook.UserRequest;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 import org.json.JSONArray;
@@ -43,6 +48,18 @@ public class FBLoginActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        callbackManager = CallbackManager.Factory.create();
+        int openType = getIntent().getIntExtra(SDKConstant.openType,0);
+        if (openType == 1){
+            //分享链接
+            facebookShareUrl(this);
+        }else {
+            //登录
+            doLogin();
+        }
+    }
+
+    private void doLogin(){
         HandlerFacebookLogin();
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -65,11 +82,13 @@ public class FBLoginActivity extends BaseActivity {
         }
     }
 
+
+
     /**
      * 处理FB登录回调
      */
     private void HandlerFacebookLogin() {
-        callbackManager = CallbackManager.Factory.create();
+
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -143,6 +162,42 @@ public class FBLoginActivity extends BaseActivity {
             e.printStackTrace();
         }
         return new FacebookUser();
+    }
+
+    /**
+     * Facebook分享应用链接
+     * @param context
+     */
+    public void facebookShareUrl(Activity context){
+
+        String shareUrl = getIntent().getStringExtra(SDKConstant.share_url);
+        if (shareUrl == null || shareUrl.isEmpty()) return;
+
+        ShareDialog shareDialog = new ShareDialog(context);
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                SDKManager.getInstance().getShareResultCallBack().onSuccess();
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                SDKManager.getInstance().getShareResultCallBack().onCancel();
+                finish();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                SDKManager.getInstance().getShareResultCallBack().onFailure(error.getMessage());
+                finish();
+            }
+        });
+
+        ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(shareUrl))
+                .build();
+        shareDialog.show(shareLinkContent, ShareDialog.Mode.AUTOMATIC);
     }
 
     /**

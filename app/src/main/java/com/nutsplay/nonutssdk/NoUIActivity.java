@@ -1,6 +1,7 @@
 package com.nutsplay.nonutssdk;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -230,7 +231,7 @@ public class NoUIActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("支付失败：" + msg);
             }
         });
@@ -350,6 +351,7 @@ public class NoUIActivity extends BaseActivity {
     }
 
     private void showLog(final String msg) {
+        Log.e("MainActivity",msg);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
