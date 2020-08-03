@@ -92,6 +92,11 @@ public class NoUIActivity extends BaseActivity {
             public void onFailure(String msg) {
                 showLog("visitor login fail:" + msg);
             }
+
+            @Override
+            public void onCancel() {
+                showLog("游客登录取消");
+            }
         });
     }
 
@@ -121,6 +126,11 @@ public class NoUIActivity extends BaseActivity {
             public void onFailure(String msg) {
                 showLog("默认登录失败："+msg);
 
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("默认登录取消");
             }
         });
     }
@@ -157,6 +167,11 @@ public class NoUIActivity extends BaseActivity {
             public void onFailure(String errorMsg) {
                 showLog("登录失败：" + errorMsg);
             }
+
+            @Override
+            public void onCancel() {
+                showLog("登录取消");
+            }
         });
     }
 
@@ -175,6 +190,11 @@ public class NoUIActivity extends BaseActivity {
             @Override
             public void onFailure(String errorMsg) {
                 showLog("切换账号失败：" + errorMsg);
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("切换账号取消");
             }
         });
 

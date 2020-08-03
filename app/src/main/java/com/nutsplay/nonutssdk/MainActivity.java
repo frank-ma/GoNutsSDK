@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-//        defaultLogin.callOnClick();
+        defaultLogin.callOnClick();
 
 
     }
@@ -163,6 +163,11 @@ public class MainActivity extends BaseActivity {
 
             }
 
+            @Override
+            public void onCancel() {
+                showLog("默认登录取消");
+            }
+
         });
     }
 
@@ -190,6 +195,11 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
+            public void onCancel() {
+                showLog("登录取消");
+            }
+
+            @Override
             public void onFailure(String errorMsg) {
                 showLog("登录失败：" + errorMsg);
             }
@@ -208,9 +218,15 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
+            public void onCancel() {
+                showLog("切换账号取消");
+            }
+
+            @Override
             public void onFailure(String errorMsg) {
                 showLog("切换账号失败：" + errorMsg);
             }
+
         });
 
     }
@@ -507,6 +523,7 @@ public class MainActivity extends BaseActivity {
 //        customData.put("private_welcome_str","What can I do for you?");//key是固定的，value可以自定义人工客服的欢迎语
         SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
     }
+
 
     /**
      * 打开用户协议页面，登录界面可以留一个常驻按钮，展示用户协议

@@ -659,7 +659,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack) {
+    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack, final boolean isLogin) {
 
         try {
             if (activity == null) {
@@ -678,7 +678,7 @@ public class SDKManager {
                 initSDK(activity, getInitParameter(), new InitCallBack() {
                     @Override
                     public void onSuccess(@Nullable User user) {
-                        sdkLogin(activity,loginCallBack);
+                        sdkLogin(activity,loginCallBack,isLogin);
                     }
 
                     @Override
@@ -721,7 +721,7 @@ public class SDKManager {
 
                 }
             }
-            FirstDialog.Builder builder = new FirstDialog.Builder(activity, loginCallBack);
+            FirstDialog.Builder builder = new FirstDialog.Builder(activity, loginCallBack,isLogin);
             builder.create().show();
 
 
@@ -910,10 +910,12 @@ public class SDKManager {
         }
 
         //登出操作
-        handleLogout(activity);
+//        handleLogout(activity);
+        //取消自动登录
+        SDKManager.getInstance().setAuto(false);
 
         //登录操作
-        sdkLogin(activity, loginCallBack);
+        sdkLogin(activity, loginCallBack,false);
     }
 
     /**

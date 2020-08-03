@@ -220,7 +220,7 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    FirstDialog.Builder builder = new FirstDialog.Builder(context, loginCallBack);
+                    FirstDialog.Builder builder = new FirstDialog.Builder(context, loginCallBack,true);
                     builder.create().show();
                 }
             });

@@ -73,7 +73,7 @@ public class SDK {
      * @param loginCallBack
      */
     public void sdkLogin(Activity activity,LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkLogin(activity,loginCallBack);
+        SDKManager.getInstance().sdkLogin(activity,loginCallBack,true);
     }
 
     /**

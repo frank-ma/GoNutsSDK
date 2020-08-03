@@ -11,4 +11,5 @@ public interface LoginCallBack extends CallBack{
 
     void onSuccess(User user);
 
+    void onCancel();
 }

@@ -3,11 +3,39 @@
 
                            更新日志：
 ****************************************************************
+sdk_v1.14（20200803）
+1.切换账号接口增加关闭按钮，登录回调LoginCallBack增加登录取消回调onCancel()
+更新方法：
+替换aar
+LoginCallBack增加登录取消回调，例如：
+SDK.getInstance().sdkSwitchAccount(this, new LoginCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                if (user == null) return;
+                //ticket传给游戏服务器做登录校验
+                String ticket = user.getTicket();
+                showLog("切换账号成功：" + user.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("切换账号取消");
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                showLog("切换账号失败：" + errorMsg);
+            }
+
+        });
+
+
+****************************************************************
 sdk_v1.13（20200731）
 修改：切换SDK语言时也切换AIhelp客服语言；
 增加fb分享和系统分享功能；
 升级AIhelp版本，增加未读消息回调功能
-    implementation 'net.aihelp:elva:1.7.4.0'
+implementation 'net.aihelp:elva:1.7.4.0'
 
 
 ****************************************************************
