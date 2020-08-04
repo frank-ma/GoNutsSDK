@@ -63,7 +63,7 @@ public class BindTipDialog extends Dialog {
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
             tvContent.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_alert"));
             bind.setText(SDKLangConfig.getInstance().findMessage("viewstring_Bind_Account"));
-            enterGame.setText(SDKLangConfig.getInstance().findMessage("viewstring_enter_game"));
+            enterGame.setText(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_confirm"));
 
             //绑定账号
             bind.setOnClickListener(new View.OnClickListener() {

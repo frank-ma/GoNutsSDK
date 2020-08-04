@@ -60,7 +60,7 @@ public class TipDialog extends Dialog {
             TextView enterGame = layout.findViewById(SDKResUtils.getResId(context, "tv_enter_game", "id"));
 
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
-            enterGame.setText(SDKLangConfig.getInstance().findMessage("viewstring_enter_game"));
+            enterGame.setText(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_confirm"));
 
             //内容
 //            tvContent.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_alert"));
