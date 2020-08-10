@@ -51,10 +51,12 @@ public class LoginDialog extends Dialog {
         private Context context;
         private LoginCallBack loginCallBack;
         private Handler handler;
+        private boolean isLogin = true;//是登录还是切换账号
 
-        public Builder(Context context, LoginCallBack loginCallBack) {
+        public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
             this.loginCallBack = loginCallBack;
+            this.isLogin = isLogin;
         }
 
         public LoginDialog create() {
@@ -220,7 +222,7 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    FirstDialog.Builder builder = new FirstDialog.Builder(context, loginCallBack,true);
+                    FirstDialog.Builder builder = new FirstDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                 }
             });

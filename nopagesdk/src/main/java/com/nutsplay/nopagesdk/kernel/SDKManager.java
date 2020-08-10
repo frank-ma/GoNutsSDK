@@ -910,9 +910,9 @@ public class SDKManager {
         }
 
         //登出操作
-//        handleLogout(activity);
-        //取消自动登录
-        SDKManager.getInstance().setAuto(false);
+        handleLogout(activity);
+//        取消自动登录
+//        SDKManager.getInstance().setAuto(false);
 
         //登录操作
         sdkLogin(activity, loginCallBack,false);

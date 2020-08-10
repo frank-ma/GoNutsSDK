@@ -51,7 +51,6 @@ public class FirstDialog extends Dialog {
 
         public FirstDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            final FirstDialog dialog = new FirstDialog(context,SDKResUtils.getResId(context,"NutsDialogStyle","style"));
             final FirstDialog dialog = new FirstDialog(context);
             if (inflater == null) return dialog;
             View layout;
@@ -81,7 +80,7 @@ public class FirstDialog extends Dialog {
             visitorLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SDKManager.getInstance().handleLogout((Activity) context);
+//                    SDKManager.getInstance().handleLogout((Activity) context);
                     LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack);
                     dialog.dismiss();
                 }
@@ -89,8 +88,8 @@ public class FirstDialog extends Dialog {
             accountLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SDKManager.getInstance().handleLogout((Activity) context);
-                    LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack);
+//                    SDKManager.getInstance().handleLogout((Activity) context);
+                    LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }
@@ -100,7 +99,7 @@ public class FirstDialog extends Dialog {
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SDKManager.getInstance().handleLogout((Activity) context);
+//                    SDKManager.getInstance().handleLogout((Activity) context);
                     LoginManager.getInstance().facebookLogin((Activity) context,loginCallBack);
                     dialog.dismiss();
                 }
@@ -110,7 +109,7 @@ public class FirstDialog extends Dialog {
             googleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SDKManager.getInstance().handleLogout((Activity) context);
+//                    SDKManager.getInstance().handleLogout((Activity) context);
                     LoginManager.getInstance().googleLogin((Activity) context,loginCallBack);
                     dialog.dismiss();
                 }
@@ -120,7 +119,7 @@ public class FirstDialog extends Dialog {
             closeImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SDKManager.getInstance().setAuto(true);
+//                    SDKManager.getInstance().setAuto(true);
                     if (loginCallBack != null) loginCallBack.onCancel();
                     dialog.dismiss();
                 }
