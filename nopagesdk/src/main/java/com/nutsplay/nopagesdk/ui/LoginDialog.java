@@ -131,14 +131,20 @@ public class LoginDialog extends Dialog {
 
                     if (signIn.getText().equals(SDKLangConfig.getInstance().findMessage("sign_in"))) {
                         //登录账号
-                        SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), loginCallBack, new ResultCallBack() {
+                        SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
 
                                 String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                TipDialog.Builder tipDialog=new TipDialog.Builder(context,"Tips",content);
+                                TipDialog.Builder tipDialog = new TipDialog.Builder(context,"Tips",content);
+                                tipDialog.setOnConfirmBtnClickListener(new TipDialog.onConfirmBtnClickListener() {
+                                    @Override
+                                    public void onConfirmBtnClick() {
+                                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                                        dialog.dismiss();
+                                    }
+                                });
                                 tipDialog.create().show();
-                                dialog.dismiss();
                             }
 
                             @Override

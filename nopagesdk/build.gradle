@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 17
-        versionName "1.16"
+        versionCode 18
+        versionName "1.17"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -68,6 +68,8 @@ dependencies {
     implementation 'net.aihelp:elva:1.7.4.0'
     //Firebase
     implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics-ndk:17.1.1'
     //Bugly
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'

@@ -32,10 +32,22 @@ public class TipDialog extends Dialog {
         super(context, cancelable, cancelListener);
     }
 
+    public interface onConfirmBtnClickListener{
+        void onConfirmBtnClick();
+    }
+
     public static class Builder {
         private Context context;
         private String title,content;
+        private onConfirmBtnClickListener onConfirmBtnClickListener;
 
+        public TipDialog.onConfirmBtnClickListener getOnConfirmBtnClickListener() {
+            return onConfirmBtnClickListener;
+        }
+
+        public void setOnConfirmBtnClickListener(TipDialog.onConfirmBtnClickListener onConfirmBtnClickListener) {
+            this.onConfirmBtnClickListener = onConfirmBtnClickListener;
+        }
 
         public Builder(Context context, String title,String content) {
             this.context = context;
@@ -62,14 +74,13 @@ public class TipDialog extends Dialog {
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
             enterGame.setText(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_confirm"));
 
-            //内容
-//            tvContent.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_alert"));
             tvContent.setText(content);
 
             //进入游戏按钮
             enterGame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    getOnConfirmBtnClickListener().onConfirmBtnClick();
                     dialog.dismiss();
                 }
             });

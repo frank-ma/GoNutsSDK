@@ -951,7 +951,7 @@ public class SDKManager {
     }
 
     public void sdkLogin2Dialog(final Activity activity, final String userName, final String pwd,
-                                final LoginCallBack loginCallBack, final ResultCallBack resultCallBack) {
+                                final ResultCallBack resultCallBack) {
 
         try {
             if (activity == null) {
@@ -960,14 +960,14 @@ public class SDKManager {
             }
             setActivity(activity);
 
-            if (loginCallBack == null) {
+            if (resultCallBack == null) {
                 System.out.println("sdkLogin failed:loginCallBack is null.");
                 return;
             }
 
             if (StringUtils.isBlank(userName) || StringUtils.isBlank(pwd)) {
                 SDKToast.getInstance().ToastShow("UserName or password can't be empty.", 3);
-                loginCallBack.onFailure("userName or pwd is null.");
+                resultCallBack.onFailure("userName or pwd is null.");
                 return;
             }
 
@@ -978,7 +978,7 @@ public class SDKManager {
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
+                resultCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
 
@@ -994,7 +994,7 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        loginCallBack.onFailure("result is null.");
+                        resultCallBack.onFailure("result is null.");
                         return;
                     }
                     try {
@@ -1002,7 +1002,7 @@ public class SDKManager {
                         LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
-                            loginCallBack.onFailure("loginModel is null.");
+                            resultCallBack.onFailure("loginModel is null.");
                             return;
                         }
                         if (loginModel.getCode() == 1) {
@@ -1012,7 +1012,7 @@ public class SDKManager {
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(userName);
                             setUser(user);
-                            loginCallBack.onSuccess(user);
+//                            loginCallBack.onSuccess(user);
 
                             //记住账号密码
                             SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
@@ -1026,7 +1026,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            loginCallBack.onFailure(loginModel.getMessage());
+                            resultCallBack.onFailure(loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1037,7 +1037,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKLoginGo---onFailure:" + errorMsg);
-                    loginCallBack.onFailure(errorMsg);
+                    resultCallBack.onFailure(errorMsg);
                 }
             });
 
