@@ -52,6 +52,8 @@ public class LoginDialog extends Dialog {
         private LoginCallBack loginCallBack;
         private Handler handler;
         private boolean isLogin = true;//是登录还是切换账号
+        private TipDialog.Builder tipDialog;
+        private long lastTime = System.currentTimeMillis();
 
         public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
@@ -124,6 +126,14 @@ public class LoginDialog extends Dialog {
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
 
                     if (!SDKGameUtils.matchAccount(userName.getText().toString())||!SDKGameUtils.matchPw(pwd.getText().toString())){
                         return;

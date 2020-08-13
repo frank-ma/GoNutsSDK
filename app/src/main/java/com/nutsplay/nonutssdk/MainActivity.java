@@ -505,6 +505,16 @@ public class MainActivity extends BaseActivity {
         customData.put("coins","999");
         customData.put("diamond","100");
 //        customData.put("private_welcome_str","What can I do?");//key是固定的，value可以自定义人工客服的欢迎语
+
+
+        HashMap<String,Object> map = new HashMap();
+        ArrayList<String> tags = new ArrayList();
+        // the tag names are variables
+        tags.add("ticket111100000000");
+        // "elva-tags" 是key值 不可以变
+        map.put("elva-tags",tags);
+        // "elva-custom-metadata" 是key值 不可以变
+        customData.put("elva-custom-metadata",map);
         SDK.getInstance().customerSupport( "Jack","0", customData);
     }
 
@@ -515,13 +525,20 @@ public class MainActivity extends BaseActivity {
      */
     public void FAQ(View view){
 
-        HashMap<String,Object> customData = new HashMap<>();
-        customData.put("playerID","100011");
-        customData.put("level","12");
-        customData.put("coins","1999");
-        customData.put("diamond","0");
-//        customData.put("private_welcome_str","What can I do for you?");//key是固定的，value可以自定义人工客服的欢迎语
-        SDK.getInstance().showFAQs("Liuxiaobei","0",customData);
+        String userTagKey = "elva-tags";
+        String sdkConfigKey = "elva-custom-metadata";
+        HashMap<String,Object> sdkParamConfig = new HashMap<>();
+        HashMap<String,Object> sdkUserConfig = new HashMap<>();
+
+        ArrayList<String> userTagList = new ArrayList<>();
+        userTagList.add("HWSJ11");
+        userTagList.add("account");
+        sdkUserConfig.put(userTagKey,userTagList);
+        sdkUserConfig.put("userLevel","100");
+        sdkUserConfig.put("UID","4179");
+        sdkUserConfig.put("userName","1008090");
+        sdkParamConfig.put(sdkConfigKey,sdkUserConfig);
+        SDK.getInstance().showFAQs("Liuxiaobei1","10",sdkParamConfig);
     }
 
 
