@@ -53,7 +53,7 @@ public class LoginDialog extends Dialog {
         private Handler handler;
         private boolean isLogin = true;//是登录还是切换账号
         private TipDialog.Builder tipDialog;
-        private long lastTime = System.currentTimeMillis();
+        private long lastTime = 0;
 
         public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
@@ -104,6 +104,7 @@ public class LoginDialog extends Dialog {
                             if (tempUser==null)return;
                             userName.setText(tempUser.getAccount());
                             pwd.setText(tempUser.getPwd());
+                            SDKGameUtils.getInstance().setFirstAccountLogin(context,true);
                             break;
                         default:
                             break;
@@ -145,16 +146,24 @@ public class LoginDialog extends Dialog {
                             @Override
                             public void onSuccess() {
 
-                                String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                TipDialog.Builder tipDialog = new TipDialog.Builder(context,"Tips",content);
-                                tipDialog.setOnConfirmBtnClickListener(new TipDialog.onConfirmBtnClickListener() {
-                                    @Override
-                                    public void onConfirmBtnClick() {
-                                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-                                        dialog.dismiss();
-                                    }
-                                });
-                                tipDialog.create().show();
+                                //新用户第一次登录不弹绑定提示，第二次再弹
+                                if (SDKGameUtils.getInstance().isFirstAccountLogin(context)){
+                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                                    SDKGameUtils.getInstance().setFirstAccountLogin(context,false);
+                                    dialog.dismiss();
+                                }else {
+                                    String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+                                    TipDialog.Builder tipDialog = new TipDialog.Builder(context,"Tips",content);
+                                    tipDialog.setOnConfirmBtnClickListener(new TipDialog.onConfirmBtnClickListener() {
+                                        @Override
+                                        public void onConfirmBtnClick() {
+                                            loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    tipDialog.create().show();
+                                }
+
                             }
 
                             @Override

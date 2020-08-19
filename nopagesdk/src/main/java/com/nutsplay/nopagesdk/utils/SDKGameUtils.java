@@ -16,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.utils.sputil.SPKey;
+import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
 import java.io.UnsupportedEncodingException;
@@ -51,6 +53,13 @@ public class SDKGameUtils {
         return gameutils;
     }
 
+    public boolean isFirstAccountLogin(Context context){
+        return SPManager.getInstance(context).getBoolean(SPKey.key_first_account_login,true);
+    }
+
+    public void setFirstAccountLogin(Context context,boolean value){
+        SPManager.getInstance(context).putBoolean(SPKey.key_first_account_login,value);
+    }
 
     public static String mapToParamString(Map<String, Object> map) throws UnsupportedEncodingException {
         if (map == null || map.size() == 0) {
