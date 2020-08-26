@@ -287,7 +287,6 @@ public class SDKManager {
                     parameters.getAihelpAppkey(),
                     parameters.getAihelpDomain(),
                     parameters.getAihelpAppID());
-//            ELvaChatServiceSdk.setSDKLanguage(parameters.getLanguage());
             ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -307,7 +306,7 @@ public class SDKManager {
 
                 SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(result, SDKResult.class);
                 if (sdkResult == null) {
-                    initCallBack.onFailure("sdkResult is null：json解析格式错误");
+                    initCallBack.onFailure(SDKConstant.get_public_key_null,"sdkResult is null：json解析格式错误");
                     return;
                 }
                 if (sdkResult.getCode() == 1) {
@@ -319,7 +318,8 @@ public class SDKManager {
                     doSdkInit(activity, initCallBack);
                 } else {
                     SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
-                    initCallBack.onFailure(sdkResult.getMessage());
+                    initCallBack.onFailure(SDKConstant.get_public_key_other_code+sdkResult.getCode(),sdkResult.getMessage());
+                    SDKManager.getInstance().sdkUploadLog(activity,"get_public_key_other_code","getRASPublicKey:resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
                 }
             }
 
@@ -327,7 +327,7 @@ public class SDKManager {
             public void onFailure(String errorMsg) {
                 hideProgress();
                 LogUtils.e("getRASPublicKey", "onFailure----" + errorMsg);
-                initCallBack.onFailure(errorMsg);
+                initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
             }
         });
     }
@@ -352,7 +352,7 @@ public class SDKManager {
                 @Override
                 public void onFailure(String msg) {
                     setInitStatus(false);
-                    initCallBack.onFailure(msg);
+                    initCallBack.onFailure(SDKConstant.refuse_protocol,msg);
                 }
             });
             builder.create().show();
@@ -409,7 +409,7 @@ public class SDKManager {
                 public void onSuccess(String result) {
                     hideProgress();
                     if (result == null || result.isEmpty()) {
-                        initCallBackListener.onFailure("server response is empty.");
+                        initCallBackListener.onFailure(SDKConstant.init_response_null,"server response is empty.");
                         return;
                     }
                     try {
@@ -417,10 +417,9 @@ public class SDKManager {
                         String decodeData = AESUtils.decrypt(result, aesKey);
                         SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
                         if (initgoBean == null) {
-                            initCallBackListener.onFailure("InitGoBean is null.");
+                            initCallBackListener.onFailure(SDKConstant.init_initgoBean_null,"InitGoBean is null.");
                             return;
                         }
-//                        LogUtils.d(TAG, "initCode:" + initgoBean.getCode());
                         if (initgoBean.getCode() == 1) {
                             LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                             setInitData(initgoBean);
@@ -430,12 +429,13 @@ public class SDKManager {
                             //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                             handleLogout(activity);
-                            initCallBackListener.onFailure(initgoBean.getMessage());
+                            initCallBackListener.onFailure(SDKConstant.init_other_code_6,initgoBean.getMessage());
 
                         } else {
                             LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                             SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
-                            initCallBackListener.onFailure(initgoBean.getMessage());
+                            initCallBackListener.onFailure(SDKConstant.init_other_code+initgoBean.getCode(),initgoBean.getMessage());
+                            SDKManager.getInstance().sdkUploadLog(activity,"SDKInitGo","SDKInitGo:resultCode-"+initgoBean.getCode()+" msg:"+initgoBean.getMessage());
                         }
 
                     } catch (Exception e) {
@@ -448,7 +448,7 @@ public class SDKManager {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
                     sdkUploadLog(activity, "init interface error", errorMsg);
-                    initCallBackListener.onFailure(errorMsg);
+                    initCallBackListener.onFailure(SDKConstant.init_net_error,errorMsg);
 
                 }
             });
@@ -682,7 +682,7 @@ public class SDKManager {
                     }
 
                     @Override
-                    public void onFailure(String msg) {
+                    public void onFailure(int code,String msg) {
                         loginCallBack.onFailure(msg);
                     }
                 });
@@ -756,7 +756,7 @@ public class SDKManager {
                 }
 
                 @Override
-                public void onFailure(String msg) {
+                public void onFailure(int code,String msg) {
                     loginCallBack.onFailure(msg);
                 }
             });

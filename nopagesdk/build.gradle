@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 20
-        versionName "1.19"
+        versionCode 21
+        versionName "1.20"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,6 +61,8 @@ dependencies {
 //    implementation 'com.facebook.android:facebook-login:6.2.0'
     //google登录
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //Google评价用到核心库
+//    implementation 'com.google.android.play:core:1.8.0'
 
     // Facebook Android SDK (everything)
     implementation 'com.facebook.android:facebook-android-sdk:7.1.0'

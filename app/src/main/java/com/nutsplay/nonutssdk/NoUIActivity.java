@@ -73,8 +73,8 @@ public class NoUIActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String errorMsg) {
-                showLog("初始化失败：" + errorMsg);
+            public void onFailure(int code,String errorMsg) {
+                showLog("初始化失败：" + code+" "+errorMsg);
             }
         });
 

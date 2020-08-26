@@ -75,4 +75,21 @@ public class SDKConstant {
     public static final int not_init = 118; //未初始化
     public static final int not_login = 119; //未登录
 
+    //init初始化失败错误码
+    public static final int refuse_protocol = 120; //玩家拒绝协议
+
+    public static final int get_public_key_net_error = 121; //获取公钥接口失败，网络错误
+    public static final int get_public_key_null = 122;//获取公钥接口失败，接口返回信息格式化失败
+    public static final int get_public_key_other_code = 123; //获取公钥接口失败，其他错误码
+
+    public static final int init_net_error = 124; //初始化接口失败，网络错误
+    public static final int init_initgoBean_null = 125; //初始化接口失败，接口返回信息格式化失败
+    public static final int init_response_null = 126; //初始化接口失败：接口返回信息为空
+    public static final int init_other_code = 127; //初始化接口失败，其他错误码
+    public static final int init_other_code_6 = 128; //初始化接口失败，-6：ticket无效
+
+
+
+
+
 }

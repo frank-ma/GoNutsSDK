@@ -9,8 +9,9 @@ import com.nutsplay.nopagesdk.beans.User;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface InitCallBack extends CallBack{
+public interface InitCallBack{
 
     void onSuccess(@Nullable User user);
 
+    void onFailure(int code,String msg);
 }

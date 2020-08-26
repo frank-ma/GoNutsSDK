@@ -307,6 +307,14 @@
             android:onClick="openApp"
             android:text="打开应用"
             android:textColor="@color/colorAccent" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/black"
+            android:onClick="evaluate"
+            android:text="评论"
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
     <LinearLayout
