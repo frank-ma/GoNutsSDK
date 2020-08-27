@@ -337,7 +337,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         setConnected(true);
                         querySkuDetails(skuList, type, callback);
                     } else {
-                        callback.onFailure(billingResult.getResponseCode() + ":" + billingResult.getDebugMessage());
+                        callback.onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                     }
                 }
 
@@ -391,13 +391,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                                     callback.onSuccess(skus);
                                 }
                             } else {
-                                callback.onFailure("skuDetailsList is null or skuDetailsList.size() == 0,Please make sure the app has been uploaded to Google Play.");
+                                callback.onFailure(SDKConstant.developer_error,"skuDetailsList is null or skuDetailsList.size() == 0,Please make sure the app has been uploaded to Google Play.");
 
                             }
 
                         } else {
 
-                            callback.onFailure(billingResult.getResponseCode() + ":" + billingResult.getDebugMessage());
+                            callback.onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                         }
 
                     }
@@ -632,7 +632,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             if (SDKManager.getInstance().getPurchaseCallBack() != null && !isBudan)
-                                SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.orderModel_is_null,"orderModel is null.");
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.model_is_null,"orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {

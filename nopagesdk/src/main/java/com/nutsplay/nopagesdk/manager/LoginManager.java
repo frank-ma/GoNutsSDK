@@ -44,7 +44,7 @@ public class LoginManager {
 
         void onSuccess(String googleId);
 
-        void onFailure(String msg);
+        void onFailure(int code,String msg);
     }
 
     private FbLoginListener fbloginListener;
@@ -86,7 +86,7 @@ public class LoginManager {
 
             @Override
             public void onFailure(String msg) {
-                loginCallBack.onFailure(msg);
+                loginCallBack.onFailure(SDKConstant.fb_login_error,msg);
 
             }
         });
@@ -136,8 +136,8 @@ public class LoginManager {
             }
 
             @Override
-            public void onFailure(String msg) {
-                loginCallBack.onFailure(msg);
+            public void onFailure(int code,String msg) {
+                loginCallBack.onFailure(code,msg);
 
             }
         });

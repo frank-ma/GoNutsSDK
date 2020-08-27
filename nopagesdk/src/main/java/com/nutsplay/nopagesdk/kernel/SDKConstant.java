@@ -66,7 +66,7 @@ public class SDKConstant {
     static int ITEM_ALREADY_OWNED = 7;
     static int ITEM_NOT_OWNED = 8;
     public static final int result_is_null = 111; //接口返回数据为空
-    public static final int orderModel_is_null = 112;//接口返回数据异常
+    public static final int model_is_null = 112;//接口返回的json数据格式化异常
     public static final int network_error = 113;//网络异常
     public static final int other_error = 114;//其他错误，try catch的异常
     public static final int no_upload_apk = 115; //Google Play does not have the item id
@@ -80,16 +80,18 @@ public class SDKConstant {
 
     public static final int get_public_key_net_error = 121; //获取公钥接口失败，网络错误
     public static final int get_public_key_null = 122;//获取公钥接口失败，接口返回信息格式化失败
-    public static final int get_public_key_other_code = 123; //获取公钥接口失败，其他错误码
+    public static final int get_public_key_format_error = 123;//获取公钥接口失败，接口返回信息格式化失败
+    public static final int get_public_key_other_code = 124; //获取公钥接口失败，其他错误码
 
-    public static final int init_net_error = 124; //初始化接口失败，网络错误
-    public static final int init_initgoBean_null = 125; //初始化接口失败，接口返回信息格式化失败
-    public static final int init_response_null = 126; //初始化接口失败：接口返回信息为空
-    public static final int init_other_code = 127; //初始化接口失败，其他错误码
-    public static final int init_other_code_6 = 128; //初始化接口失败，-6：ticket无效
+    public static final int init_net_error = 125; //初始化接口失败，网络错误
+    public static final int init_initgoBean_null = 126; //初始化接口失败，接口返回信息格式化失败
+    public static final int init_response_null = 127; //初始化接口失败：接口返回信息为空
+    public static final int init_other_code = 128; //初始化接口失败，其他错误码
+    public static final int init_other_code_6 = 129; //初始化接口失败，-6：ticket无效
 
-
-
-
-
+    //登录失败错误码
+    public static int developer_error = 130;//开发者错误：查不到商品，检查是否上传到商店，或者商品id是否配置成功
+    public static int fb_share_error = 131;//facebook分享失败
+    public static int fb_login_error = 132;//facebook登录失败
+    public static int google_login_error = 133;//google登录失败
 }

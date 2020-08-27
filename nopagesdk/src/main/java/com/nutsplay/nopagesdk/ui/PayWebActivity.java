@@ -128,7 +128,7 @@ public class PayWebActivity extends BaseActivity {
                         String decodeData = AESUtils.decrypt(result, aesKey);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.orderModel_is_null,"orderModel is null.");
+                            SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.model_is_null,"orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {

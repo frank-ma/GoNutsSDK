@@ -11,6 +11,7 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 
 /**
  * Created by frankma on 2020/7/8 10:55 AM
@@ -56,7 +57,7 @@ public class FacebookManager {
 
             @Override
             public void onError(FacebookException error) {
-                resultCallBack.onFailure(error.getMessage());
+                resultCallBack.onFailure(SDKConstant.fb_share_error,error.getMessage());
             }
         });
 

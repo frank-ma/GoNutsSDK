@@ -10,7 +10,9 @@ import java.util.List;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface SDKGetSkuDetailsCallback extends CallBack {
+public interface SDKGetSkuDetailsCallback {
 
     void onSuccess(List<SkuDetails> skuDetails);
+
+    void onFailure(int code,String msg);
 }

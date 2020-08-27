@@ -5,10 +5,11 @@ package com.nutsplay.nopagesdk.callback;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface ShareResultCallBack extends CallBack{
+public interface ShareResultCallBack {
 
     void onSuccess();
 
     void onCancel();
 
+    void onFailure(int code,String msg);
 }

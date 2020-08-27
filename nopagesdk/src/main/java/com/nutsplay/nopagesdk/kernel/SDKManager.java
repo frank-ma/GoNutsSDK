@@ -74,6 +74,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by frank-ma on 2019-09-19 10:05
@@ -300,36 +301,50 @@ public class SDKManager {
      * @param initCallBack
      */
     private void getPublicKey(final Activity activity, final InitCallBack initCallBack) {
-        ApiManager.getInstance().getRASPublicKey(new NetCallBack() {
-            @Override
-            public void onSuccess(String result) {
+        try {
+            ApiManager.getInstance().getRASPublicKey(new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
 
-                SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(result, SDKResult.class);
-                if (sdkResult == null) {
-                    initCallBack.onFailure(SDKConstant.get_public_key_null,"sdkResult is null：json解析格式错误");
-                    return;
+                    if (result == null || result.isEmpty()){
+                        initCallBack.onFailure(SDKConstant.get_public_key_null,"response null");
+                        return;
+                    }
+                    SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(result, SDKResult.class);
+                    if (sdkResult == null) {
+                        initCallBack.onFailure(SDKConstant.get_public_key_format_error,"sdkResult is null：json解析格式错误");
+                        return;
+                    }
+                    if (sdkResult.getCode() == 1) {
+                        String publickey = NetUtils.decode(sdkResult.getData());
+                        publickey = publickey.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
+                        SPManager.getInstance(activity).putString(SPKey.PUBLIC_KEY, publickey);
+
+                        //初始化接口go
+                        doSdkInit(activity, initCallBack);
+                    } else {
+                        SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
+                        initCallBack.onFailure(SDKConstant.get_public_key_other_code+sdkResult.getCode(),sdkResult.getMessage());
+                        SDKManager.getInstance().sdkUploadLog(activity,"get_public_key_other_code","getRASPublicKey:resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
+                    }
                 }
-                if (sdkResult.getCode() == 1) {
-                    String publickey = NetUtils.decode(sdkResult.getData());
-                    publickey = publickey.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
-                    SPManager.getInstance(activity).putString(SPKey.PUBLIC_KEY, publickey);
 
-                    //初始化接口go
-                    doSdkInit(activity, initCallBack);
-                } else {
-                    SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
-                    initCallBack.onFailure(SDKConstant.get_public_key_other_code+sdkResult.getCode(),sdkResult.getMessage());
-                    SDKManager.getInstance().sdkUploadLog(activity,"get_public_key_other_code","getRASPublicKey:resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
+                @Override
+                public void onFailure(String errorMsg) {
+                    hideProgress();
+                    LogUtils.e("getRASPublicKey", "onFailure----" + errorMsg);
+                    initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
+
+                    //用AF统计失败事件
+                    Map<String,Object> map=new HashMap<>();
+                    map.put("msg",errorMsg);
+                    TrackingManager.EventTracking(activity,"get_public_key_net_error",map);
                 }
-            }
+            });
 
-            @Override
-            public void onFailure(String errorMsg) {
-                hideProgress();
-                LogUtils.e("getRASPublicKey", "onFailure----" + errorMsg);
-                initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
-            }
-        });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -449,6 +464,10 @@ public class SDKManager {
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
                     sdkUploadLog(activity, "init interface error", errorMsg);
                     initCallBackListener.onFailure(SDKConstant.init_net_error,errorMsg);
+                    //用AF统计失败事件
+                    Map<String,Object> map=new HashMap<>();
+                    map.put("msg",errorMsg);
+                    TrackingManager.EventTracking(activity,"init_net_error",map);
 
                 }
             });
@@ -683,7 +702,7 @@ public class SDKManager {
 
                     @Override
                     public void onFailure(int code,String msg) {
-                        loginCallBack.onFailure(msg);
+                        loginCallBack.onFailure(code,msg);
                     }
                 });
                 return;
@@ -746,7 +765,7 @@ public class SDKManager {
                 return;
             }
             if (activity == null) {
-                loginCallBack.onFailure("initSDK failed:Activity is null.");
+                loginCallBack.onFailure(SDKConstant.parameter_is_null,"initSDK failed:Activity is null.");
                 return;
             }
             initSDK(activity, initParameter, new InitCallBack() {
@@ -757,7 +776,7 @@ public class SDKManager {
 
                 @Override
                 public void onFailure(int code,String msg) {
-                    loginCallBack.onFailure(msg);
+                    loginCallBack.onFailure(code,msg);
                 }
             });
 
@@ -789,7 +808,7 @@ public class SDKManager {
 
             if (StringUtils.isBlank(userName) || StringUtils.isBlank(pwd)) {
                 SDKToast.getInstance().ToastShow("UserName or password can't be empty.", 3);
-                loginCallBack.onFailure("userName or pwd is null.");
+                loginCallBack.onFailure(SDKConstant.parameter_is_null,"userName or pwd is null.");
                 return;
             }
 
@@ -800,7 +819,7 @@ public class SDKManager {
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
+                loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
                 return;
             }
 
@@ -833,7 +852,7 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        loginCallBack.onFailure("result is null.");
+                        loginCallBack.onFailure(SDKConstant.result_is_null,"result is null.");
                         return;
                     }
                     try {
@@ -841,7 +860,7 @@ public class SDKManager {
                         LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
-                            loginCallBack.onFailure("loginModel is null.");
+                            loginCallBack.onFailure(SDKConstant.model_is_null,"loginModel is null.");
                             return;
                         }
                         if (loginModel.getCode() == 1) {
@@ -863,7 +882,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            loginCallBack.onFailure(loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -874,7 +893,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKLoginGo---onFailure:" + errorMsg);
-                    loginCallBack.onFailure(errorMsg);
+                    loginCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
             });
 
@@ -905,7 +924,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
+            loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
 
@@ -939,7 +958,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
+            loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
 
@@ -1061,7 +1080,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
+            loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
 //        LoginManager.getInstance().facebookLogin(activity, loginCallBack);
@@ -1081,7 +1100,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
+            loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
 
@@ -1109,7 +1128,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            loginCallBack.onFailure("The SDK is not initialized.");
+            loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
         LoginManager.getInstance().visitorLogin(activity, loginCallBack);
@@ -1138,7 +1157,7 @@ public class SDKManager {
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
+                loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
                 return;
             }
 
@@ -1154,14 +1173,14 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
-                        loginCallBack.onFailure("result is null.");
+                        loginCallBack.onFailure(SDKConstant.result_is_null,"result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
-                            loginCallBack.onFailure("loginModel is null.");
+                            loginCallBack.onFailure(SDKConstant.model_is_null,"loginModel is null.");
                             return;
                         }
                         if (loginModel.getCode() == 1) {
@@ -1179,7 +1198,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            loginCallBack.onFailure(loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1190,7 +1209,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onFailure:" + errorMsg);
-                    loginCallBack.onFailure(errorMsg);
+                    loginCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
             });
 
@@ -1221,7 +1240,7 @@ public class SDKManager {
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                loginCallBack.onFailure("The SDK is not initialized.");
+                loginCallBack.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
                 return;
             }
 
@@ -1237,14 +1256,14 @@ public class SDKManager {
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
-                        loginCallBack.onFailure("result is null.");
+                        loginCallBack.onFailure(SDKConstant.result_is_null,"result is null.");
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
-                            loginCallBack.onFailure("loginModel is null.");
+                            loginCallBack.onFailure(SDKConstant.model_is_null,"loginModel is null.");
                             return;
                         }
                         if (loginModel.getCode() == 1) {
@@ -1268,7 +1287,7 @@ public class SDKManager {
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            loginCallBack.onFailure(loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1279,7 +1298,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
 //                    hideProgress();
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onFailure:" + errorMsg);
-                    loginCallBack.onFailure(errorMsg);
+                    loginCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
             });
 
@@ -1450,7 +1469,7 @@ public class SDKManager {
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            purchaseCallBack.onFailure(SDKConstant.orderModel_is_null,"Make Order:orderModel is null.");
+                            purchaseCallBack.onFailure(SDKConstant.model_is_null,"Make Order:orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -1561,7 +1580,7 @@ public class SDKManager {
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            purchaseCallBack.onFailure(SDKConstant.orderModel_is_null,"Make order orderModel is null.");
+                            purchaseCallBack.onFailure(SDKConstant.model_is_null,"Make order orderModel is null.");
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -1625,12 +1644,12 @@ public class SDKManager {
         }
 
         if (skuList == null || skuList.size() == 0) {
-            callback.onFailure("skuList is null or skuList.size() == 0");
+            callback.onFailure(SDKConstant.parameter_is_null,"skuList is null or skuList.size() == 0");
             return;
         }
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-            callback.onFailure("The SDK is not initialized.");
+            callback.onFailure(SDKConstant.not_init,"The SDK is not initialized.");
             return;
         }
 

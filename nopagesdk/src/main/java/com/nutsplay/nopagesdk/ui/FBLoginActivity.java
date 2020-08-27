@@ -189,7 +189,7 @@ public class FBLoginActivity extends BaseActivity {
 
             @Override
             public void onError(FacebookException error) {
-                SDKManager.getInstance().getShareResultCallBack().onFailure(error.getMessage());
+                SDKManager.getInstance().getShareResultCallBack().onFailure(SDKConstant.fb_share_error,error.getMessage());
                 finish();
             }
         });

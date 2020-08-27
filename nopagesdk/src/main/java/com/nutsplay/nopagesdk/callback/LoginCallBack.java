@@ -7,9 +7,11 @@ import com.nutsplay.nopagesdk.beans.User;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface LoginCallBack extends CallBack{
+public interface LoginCallBack{
 
     void onSuccess(User user);
 
     void onCancel();
+
+    void onFailure(int code,String msg);
 }

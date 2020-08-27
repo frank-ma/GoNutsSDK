@@ -158,7 +158,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("默认登录失败：" + msg);
 
             }
@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String errorMsg) {
+            public void onFailure(int code,String errorMsg) {
                 showLog("登录失败：" + errorMsg);
             }
         });
@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String errorMsg) {
+            public void onFailure(int code,String errorMsg) {
                 showLog("切换账号失败：" + errorMsg);
             }
 
@@ -240,7 +240,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("注销失败：" + msg);
             }
         });
@@ -335,7 +335,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("查询本地价格失败：" + msg);
             }
         });
@@ -365,7 +365,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("查询订阅本地价格失败：" + msg);
             }
         });
@@ -614,7 +614,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 showLog("分享失败："+msg);
             }
         });
@@ -712,5 +712,11 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 商店评价
+     * @param view
+     */
+    public void evaluate(View view) {
 
+    }
 }
