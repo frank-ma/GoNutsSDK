@@ -68,7 +68,6 @@ import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutsplay.nopagesdk.view.SDKProgressDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -258,10 +257,10 @@ public class SDKManager {
         DeviceUtils.checkPermission(activity);
 
         //初始化bugly
-        CrashReport.initCrashReport(activity.getApplicationContext(), initParameter.getBuglyId(), false);
-        if (initParameter.getBuglyChannel() != null && !initParameter.getBuglyChannel().isEmpty()) {
-            CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
-        }
+//        CrashReport.initCrashReport(activity.getApplicationContext(), initParameter.getBuglyId(), false);
+//        if (initParameter.getBuglyChannel() != null && !initParameter.getBuglyChannel().isEmpty()) {
+//            CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
+//        }
 
         //初始化追踪
         TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());

@@ -5,6 +5,11 @@ def static getProductName() {
     return "sdk"
 }
 
+// 发布时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
@@ -13,8 +18,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 22
-        versionName "1.21"
+        versionCode 23
+        versionName "1.22"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
