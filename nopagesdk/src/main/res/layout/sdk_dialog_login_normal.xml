@@ -99,10 +99,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:paddingTop="6dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="6dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="1dp"
             android:text="Forgot password"
             android:textColor="@color/blue"
             android:textStyle="italic"
@@ -115,6 +115,7 @@
             android:text="Sign in"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/select"
             style="@style/customButton"/>
 
@@ -125,9 +126,9 @@
             android:layout_gravity="center"
             android:paddingLeft="20dp"
             android:textStyle="italic"
-            android:paddingTop="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="2dp"
             android:text=" Create an account"
             android:textColor="@color/blue" />
 

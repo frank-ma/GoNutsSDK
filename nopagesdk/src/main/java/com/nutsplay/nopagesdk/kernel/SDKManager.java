@@ -358,7 +358,7 @@ public class SDKManager {
         }
         boolean isFirstOpen = SPManager.getInstance(activity).getBoolean(SPKey.key_first_open,true);
         if (isFirstOpen){
-            UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, new ResultCallBack() {
+            UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, false,new ResultCallBack() {
                 @Override
                 public void onSuccess() {
                     doCallback(initCallBack);
@@ -393,7 +393,7 @@ public class SDKManager {
      */
     public void showUserAgreement(Activity activity){
         if (!getInitParameter().isShowUserAgreement()) return;
-        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, new ResultCallBack() {
+        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, true,new ResultCallBack() {
             @Override
             public void onSuccess() {
 
@@ -645,6 +645,8 @@ public class SDKManager {
                             //注册追踪
                             TrackingManager.registerTracking(loginModel.getData().getPassportId());
 
+                            //注册成功的新账号，第一次不弹出绑定提示
+                            SDKGameUtils.getInstance().setFirstAccountLogin(activity,true);
                             callBack.onSuccess();
 
                         } else {

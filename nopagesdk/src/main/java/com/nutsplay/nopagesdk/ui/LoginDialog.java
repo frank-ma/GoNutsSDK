@@ -104,7 +104,7 @@ public class LoginDialog extends Dialog {
                             if (tempUser==null)return;
                             userName.setText(tempUser.getAccount());
                             pwd.setText(tempUser.getPwd());
-                            SDKGameUtils.getInstance().setFirstAccountLogin(context,true);
+//                            SDKGameUtils.getInstance().setFirstAccountLogin(context,true);
                             break;
                         default:
                             break;

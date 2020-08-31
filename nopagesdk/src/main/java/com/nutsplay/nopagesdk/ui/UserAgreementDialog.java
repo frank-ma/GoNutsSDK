@@ -40,10 +40,12 @@ public class UserAgreementDialog extends Dialog {
 
     public static class Builder {
         private Context context;
+        private boolean isCanClose;
         private ResultCallBack resultCallBack;
 
-        public Builder(Context context, ResultCallBack resultCallBack) {
+        public Builder(Context context, boolean isCanClose,ResultCallBack resultCallBack) {
             this.context = context;
+            this.isCanClose = isCanClose;
             this.resultCallBack = resultCallBack;
         }
 
@@ -61,6 +63,12 @@ public class UserAgreementDialog extends Dialog {
             ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
             TextView protocolContent = layout.findViewById(SDKResUtils.getResId(context, "user_agreement", "id"));
             TextView accept = layout.findViewById(SDKResUtils.getResId(context, "tv_accept", "id"));
+
+            if (isCanClose){
+                closeIv.setVisibility(View.VISIBLE);
+            }else {
+                closeIv.setVisibility(View.GONE);
+            }
 
 
 //            accept.setText(SDKLangConfig.getInstance().findMessage("accept"));
@@ -92,7 +100,7 @@ public class UserAgreementDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-                    resultCallBack.onFailure("The user refused policy.");
+//                    resultCallBack.onFailure("The user refused policy.");
                     dialog.dismiss();
                 }
             });
