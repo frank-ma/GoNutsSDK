@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
@@ -42,6 +43,7 @@ public class FirstDialog extends Dialog {
         private Context context;
         private LoginCallBack loginCallBack;
         private boolean isLogin = true;//是登录还是切换账号
+        private long lastTime = 0;
 
         public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
@@ -63,8 +65,8 @@ public class FirstDialog extends Dialog {
             TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView loginTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
             LoginButton loginButton = layout.findViewById(SDKResUtils.getResId(context,"login_button","id"));
-            SignInButton googleButton = layout.findViewById(SDKResUtils.getResId(context,"sign_in_button","id"));
-            ImageView closeImg = layout.findViewById(SDKResUtils.getResId(context,"ic_close","id"));
+            final SignInButton googleButton = layout.findViewById(SDKResUtils.getResId(context,"sign_in_button","id"));
+            final ImageView closeImg = layout.findViewById(SDKResUtils.getResId(context,"ic_close","id"));
 
             //切换账号时显示关闭按钮
             if (isLogin){
@@ -80,15 +82,23 @@ public class FirstDialog extends Dialog {
             visitorLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    SDKManager.getInstance().handleLogout((Activity) context);
-                    LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack);
-                    dialog.dismiss();
+                    LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+
                 }
             });
             accountLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    SDKManager.getInstance().handleLogout((Activity) context);
                     LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
@@ -99,9 +109,24 @@ public class FirstDialog extends Dialog {
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    SDKManager.getInstance().handleLogout((Activity) context);
-                    LoginManager.getInstance().facebookLogin((Activity) context,loginCallBack);
-                    dialog.dismiss();
+                    //防止快速点击
+                    long count = System.currentTimeMillis() - lastTime;
+                    if (count <= 2000) {
+                        return;
+                    }else {
+                        lastTime = System.currentTimeMillis();
+                    }
+                    LoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
                 }
             });
 
@@ -109,9 +134,18 @@ public class FirstDialog extends Dialog {
             googleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    SDKManager.getInstance().handleLogout((Activity) context);
-                    LoginManager.getInstance().googleLogin((Activity) context,loginCallBack);
-                    dialog.dismiss();
+                    LoginManager.getInstance().googleLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+
                 }
             });
 
@@ -119,7 +153,6 @@ public class FirstDialog extends Dialog {
             closeImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    SDKManager.getInstance().setAuto(true);
                     if (loginCallBack != null) loginCallBack.onCancel();
                     dialog.dismiss();
                 }

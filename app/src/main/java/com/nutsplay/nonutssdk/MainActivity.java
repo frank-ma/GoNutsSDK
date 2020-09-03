@@ -38,8 +38,8 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-//    private String clientId = "5dcbeab164b5b50deb76be93";
-    private String clientId = "5ef872ec64b5b50defb667dc";
+    private String clientId = "5dcbeab164b5b50deb76be93";
+//    private String clientId = "5ef872ec64b5b50defb667dc";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "1ee9849782";
     private String buglyId = "36386748bb";
@@ -254,8 +254,9 @@ public class MainActivity extends BaseActivity {
      */
 
     public void purchase(View view) {
-//        String referenceId = "com.nutspower.nutsgamesdk.test1";
-        String referenceId = "com.nutspower.dragon.monthcard399";
+        String referenceId = "com.nutspower.nutsgamesdk.test2";
+//        String referenceId = "nuts_product_1";
+//        String referenceId = "com.nutspower.dragon.monthcard399";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {

@@ -134,7 +134,17 @@ public class SDK {
      */
     public void sdkLoginThirdAccount(Activity activity, String oauthId, String oauthSource, final LoginCallBack loginCallBack) {
 
-        SDKManager.getInstance().sdkLoginThirdAccount(activity,oauthId,oauthSource,loginCallBack);
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, oauthId, oauthSource, loginCallBack, new ResultCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
     }
 
     /**

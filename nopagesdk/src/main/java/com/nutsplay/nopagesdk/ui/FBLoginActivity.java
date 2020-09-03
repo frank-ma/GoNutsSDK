@@ -231,9 +231,9 @@ public class FBLoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void finish() {
-        overridePendingTransition(0,0);
-        super.finish();
-    }
+//    @Override
+//    public void finish() {
+//        overridePendingTransition(0,0);
+//        super.finish();
+//    }
 }
