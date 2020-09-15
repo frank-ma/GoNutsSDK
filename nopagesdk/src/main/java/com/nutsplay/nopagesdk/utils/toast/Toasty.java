@@ -149,10 +149,9 @@ public class Toasty {
     Toast custom(@NonNull Context context, @NonNull String message, Drawable icon,
                  @ColorInt int textColor, @ColorInt int tintColor, int duration,
                  boolean withIcon, boolean shouldTint) {
-        if (currentToast==null){
+//        if (currentToast==null){
             currentToast = new Toast(context);
-
-        }
+//        }
         final View toastLayout;
         if (SDKManager.getInstance().isCommonVersion()){
             toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
@@ -212,6 +211,12 @@ public class Toasty {
             return field.get(object);
         }
         return null;
+    }
+
+    public static void cancel(){
+        if (currentToast!=null){
+            currentToast.cancel();
+        }
     }
 
 }

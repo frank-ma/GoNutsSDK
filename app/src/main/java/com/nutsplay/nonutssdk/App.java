@@ -7,7 +7,6 @@ import androidx.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by frankma on 2019-09-29 01:35
@@ -20,7 +19,7 @@ public class App extends SDKApplication {
     public void onCreate() {
         super.onCreate();
 
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
 
 

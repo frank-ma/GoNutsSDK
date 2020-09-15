@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -64,7 +63,8 @@ public class FirstDialog extends Dialog {
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
             TextView accountLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView loginTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
-            LoginButton loginButton = layout.findViewById(SDKResUtils.getResId(context,"login_button","id"));
+//            LoginButton loginButton = layout.findViewById(SDKResUtils.getResId(context,"login_button","id"));
+            TextView loginButton = layout.findViewById(SDKResUtils.getResId(context,"login_button","id"));
             final SignInButton googleButton = layout.findViewById(SDKResUtils.getResId(context,"sign_in_button","id"));
             final ImageView closeImg = layout.findViewById(SDKResUtils.getResId(context,"ic_close","id"));
 

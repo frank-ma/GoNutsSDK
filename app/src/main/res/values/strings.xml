@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FB游戏登录</string>
+    <string name="app_name">NutsSDKDemo</string>
     <string name="facebook_app_id">294899665027169</string>
     <string name="fb_login_protocol_scheme">fb294899665027169</string>
 <!--    <string name="facebook_app_id">315192519335195</string>-->

@@ -851,20 +851,35 @@ public class SDKLangConfig {
         ja.setProperty("nutsplay_viewstring_password_tips", "パスワードを入力してください");
         id.setProperty("nutsplay_viewstring_password_tips", "Masukkan password user");
 
-        zh_CN.setProperty("nuts_email", "请输入您的邮箱");
-        vi.setProperty("nuts_email", "Email của bạn");
-        th.setProperty("nuts_email", "กรุณาใส่ E-Mail");
-        ar.setProperty("nuts_email", "الرجاء إدخال عنوان بريدك الإلكتروني");
-        en.setProperty("nuts_email", "Please enter your email address");
-        ko.setProperty("nuts_email", "이메일 주소를 입력해주세요");
-        zh_HK.setProperty("nuts_email", "請輸入您的電子信箱");
-        fr.setProperty("nuts_email", "Veuillez entrer votre adresse email");
-        pt.setProperty("nuts_email", "Insira o endereço de Email");
-        de.setProperty("nuts_email", "Bitte E-Mail-Adresse eingeben");
-        es.setProperty("nuts_email", "Introduce tu correo");
-        it.setProperty("nuts_email", "Inserisci l'email");
-        ja.setProperty("nuts_email", "メールアドレスを入力してください");
-        id.setProperty("nuts_email", "Masukkan alamat email anda");
+//        zh_CN.setProperty("nuts_email", "请输入您的邮箱");
+//        vi.setProperty("nuts_email", "Email của bạn");
+//        th.setProperty("nuts_email", "กรุณาใส่ E-Mail");
+//        ar.setProperty("nuts_email", "الرجاء إدخال عنوان بريدك الإلكتروني");
+//        en.setProperty("nuts_email", "Please enter your email address");
+//        ko.setProperty("nuts_email", "이메일 주소를 입력해주세요");
+//        zh_HK.setProperty("nuts_email", "請輸入您的電子信箱");
+//        fr.setProperty("nuts_email", "Veuillez entrer votre adresse email");
+//        pt.setProperty("nuts_email", "Insira o endereço de Email");
+//        de.setProperty("nuts_email", "Bitte E-Mail-Adresse eingeben");
+//        es.setProperty("nuts_email", "Introduce tu correo");
+//        it.setProperty("nuts_email", "Inserisci l'email");
+//        ja.setProperty("nuts_email", "メールアドレスを入力してください");
+//        id.setProperty("nuts_email", "Masukkan alamat email anda");
+
+        ar.setProperty("nuts_email", "البريد الإلكتروني");
+        de.setProperty("nuts_email", "Email");
+        en.setProperty("nuts_email", "email");
+        es.setProperty("nuts_email", "correo electrónico");
+        fr.setProperty("nuts_email", "email");
+        id.setProperty("nuts_email", "surel");
+        it.setProperty("nuts_email", "e-mail");
+        ja.setProperty("nuts_email", "Eメール");
+        ko.setProperty("nuts_email", "이메일");
+        pt.setProperty("nuts_email", "o email");
+        th.setProperty("nuts_email", "อีเมล์");
+        vi.setProperty("nuts_email", "email");
+        zh_CN.setProperty("nuts_email", "电子邮件");
+        zh_HK.setProperty("nuts_email", "電子郵件");
 
         zh_CN.setProperty("nuts_username_null", "用户名不能为空");
         vi.setProperty("nuts_username_null", "Tên người dùng không thể trống");
@@ -1877,21 +1892,35 @@ public class SDKLangConfig {
         id.setProperty("43", "Tutup");
 
 
-        zh_CN.setProperty("44", "请输入验证码");
-        vi.setProperty("44", "Nhập mã xác nhận");
-        th.setProperty("44", "กรุณาใส่รหัสยืนยัน");
-        ar.setProperty("44", "الرجاء إدخال رمز التحقق");
-        en.setProperty("44", "Please enter the verification code");
-        ko.setProperty("44", "인증번호를 입력해 주십시오.");
-        zh_HK.setProperty("44", "請輸入驗證碼");
-        fr.setProperty("44", "Veuillez entrer le code de vérification");
-        pt.setProperty("44", "Insira o código de verificação");
-        de.setProperty("44", "Bestätigungscode eingeben");
-        es.setProperty("44", "Introduce el código de verificación");
-        it.setProperty("44", "Si prega di inserire il codice di conferma");
-        ja.setProperty("44", "認証コードを入力してください");
-        id.setProperty("44", "Masukkan kode verifikasi");
+//        zh_CN.setProperty("44", "请输入验证码");
+//        vi.setProperty("44", "Nhập mã xác nhận");
+//        th.setProperty("44", "กรุณาใส่รหัสยืนยัน");
+//        ar.setProperty("44", "الرجاء إدخال رمز التحقق");
+//        en.setProperty("44", "Please enter the verification code");
+//        ko.setProperty("44", "인증번호를 입력해 주십시오.");
+//        zh_HK.setProperty("44", "請輸入驗證碼");
+//        fr.setProperty("44", "Veuillez entrer le code de vérification");
+//        pt.setProperty("44", "Insira o código de verificação");
+//        de.setProperty("44", "Bestätigungscode eingeben");
+//        es.setProperty("44", "Introduce el código de verificación");
+//        it.setProperty("44", "Si prega di inserire il codice di conferma");
+//        ja.setProperty("44", "認証コードを入力してください");
+//        id.setProperty("44", "Masukkan kode verifikasi");
 
+        ar.setProperty("44", "رمز التحقق");
+        de.setProperty("44", "Bestätigungscode");
+        en.setProperty("44", "Verification code");
+        es.setProperty("44", "Código de verificación");
+        fr.setProperty("44", "Code de vérification");
+        id.setProperty("44", "Kode verifikasi");
+        it.setProperty("44", "Codice di verifica");
+        ja.setProperty("44", "検証コード");
+        ko.setProperty("44", "확인 코드");
+        pt.setProperty("44", "Código de verificação");
+        th.setProperty("44", "รหัสยืนยัน");
+        vi.setProperty("44", "Mã xác nhận");
+        zh_CN.setProperty("44", "验证码");
+        zh_HK.setProperty("44", "驗證碼");
 
         zh_CN.setProperty("45", "Facebook");
         vi.setProperty("45", "Facebook");
@@ -1981,20 +2010,35 @@ public class SDKLangConfig {
         id.setProperty("nutspayinfo", "mua");
 
         //新增的提示说明
-        zh_CN.setProperty("login_first", "请先登录");
-        th.setProperty("login_first", "login first");
-        vi.setProperty("login_first", "login first");
-        ar.setProperty("login_first", "login first");
-        en.setProperty("login_first", "login first");
-        ko.setProperty("login_first", "login first");
-        zh_HK.setProperty("login_first", "login first");
-        fr.setProperty("login_first", "login first");
-        pt.setProperty("login_first", "login first");
-        de.setProperty("login_first", "login first");
-        es.setProperty("login_first", "login first");
-        it.setProperty("login_first", "login first");
-        ja.setProperty("login_first", "login first");
-        id.setProperty("login_first", "login first");
+//        zh_CN.setProperty("login_first", "请先登录");
+//        th.setProperty("login_first", "login first");
+//        vi.setProperty("login_first", "login first");
+//        ar.setProperty("login_first", "login first");
+//        en.setProperty("login_first", "login first");
+//        ko.setProperty("login_first", "login first");
+//        zh_HK.setProperty("login_first", "login first");
+//        fr.setProperty("login_first", "login first");
+//        pt.setProperty("login_first", "login first");
+//        de.setProperty("login_first", "login first");
+//        es.setProperty("login_first", "login first");
+//        it.setProperty("login_first", "login first");
+//        ja.setProperty("login_first", "login first");
+//        id.setProperty("login_first", "login first");
+
+        ar.setProperty("nuts_pleaseloginfirst", "الرجاء تسجيل الدخول أولا");
+        de.setProperty("nuts_pleaseloginfirst", "Bitte loggen Sie sich zuerst ein");
+        en.setProperty("nuts_pleaseloginfirst", "please login first");
+        es.setProperty("nuts_pleaseloginfirst", "por favor ingresa primero");
+        fr.setProperty("nuts_pleaseloginfirst", "s'il vous plait Connectez-vous d'abord");
+        id.setProperty("nuts_pleaseloginfirst", "silahkan masuk terlebih dahulu");
+        it.setProperty("nuts_pleaseloginfirst", "per favore fai prima il log in");
+        ja.setProperty("nuts_pleaseloginfirst", "最初にログインしてください");
+        ko.setProperty("nuts_pleaseloginfirst", "먼저 로그인을 해주세요");
+        pt.setProperty("nuts_pleaseloginfirst", "por favor faça o login primeiro");
+        th.setProperty("nuts_pleaseloginfirst", "กรุณาเข้าสู่ระบบก่อน");
+        vi.setProperty("nuts_pleaseloginfirst", "vui lòng đăng nhập trước");
+        zh_CN.setProperty("nuts_pleaseloginfirst", "请先登录");
+        zh_HK.setProperty("nuts_pleaseloginfirst", "請先登錄");
 
         zh_CN.setProperty("str_bind_account_tip", "游戏账号仅供使用，为了您的账户安全，请及时绑定注册账号");
         zh_CN.setProperty("str_bind_account", "绑定账户");
@@ -2219,14 +2263,48 @@ public class SDKLangConfig {
         zh_CN.setProperty("str_bind_email","绑定邮箱");
         zh_HK.setProperty("str_bind_email","綁定郵箱");
         en.setProperty("str_bind_email","Bind Email");
+        ar.setProperty("str_bind_email", "ربط البريد الإلكتروني");
+        de.setProperty("str_bind_email", "E-Mail binden");
+        es.setProperty("str_bind_email", "Enlazar correo electrónico");
+        fr.setProperty("str_bind_email", "Lier l'e-mail");
+        id.setProperty("str_bind_email", "Ikat Email");
+        it.setProperty("str_bind_email", "Bind Email");
+        ja.setProperty("str_bind_email", "メールをバインド");
+        ko.setProperty("str_bind_email", "이메일 바인딩");
+        pt.setProperty("str_bind_email", "Bind Email");
+        th.setProperty("str_bind_email", "ผูกอีเมล");
+        vi.setProperty("str_bind_email", "Ràng buộc Email");
 
         zh_CN.setProperty("str_bind_facebook","绑定Facebook");
         zh_HK.setProperty("str_bind_facebook","綁定Facebook");
         en.setProperty("str_bind_facebook","Bind Facebook");
+        ar.setProperty("str_bind_facebook", "ربط الفيسبوك");
+        de.setProperty("str_bind_facebook", "Facebook binden");
+        es.setProperty("str_bind_facebook", "Vincular Facebook");
+        fr.setProperty("str_bind_facebook", "Lier Facebook");
+        id.setProperty("str_bind_facebook", "Ikat Facebook");
+        it.setProperty("str_bind_facebook", "Bind Facebook");
+        ja.setProperty("str_bind_facebook", "Facebookをバインド");
+        ko.setProperty("str_bind_facebook", "Facebook 바인딩");
+        pt.setProperty("str_bind_facebook", "Ligar Facebook");
+        th.setProperty("str_bind_facebook", "ผูก Facebook");
+        vi.setProperty("str_bind_facebook", "Ràng buộc Facebook");
 
-        zh_CN.setProperty("str_reset_pwd","重置密码");
-        zh_HK.setProperty("str_reset_pwd","重置密碼");
-        en.setProperty("str_reset_pwd","Reset Password");
+
+        ar.setProperty("str_reset_pwd", "إعادة تعيين كلمة المرور");
+        de.setProperty("str_reset_pwd", "Passwort zurücksetzen");
+        en.setProperty("str_reset_pwd", "Reset Password");
+        es.setProperty("str_reset_pwd", "Restablecer la contraseña");
+        fr.setProperty("str_reset_pwd", "réinitialiser le mot de passe");
+        id.setProperty("str_reset_pwd", "Atur Ulang Kata Sandi");
+        it.setProperty("str_reset_pwd", "Resetta la password");
+        ja.setProperty("str_reset_pwd", "パスワードを再設定する");
+        ko.setProperty("str_reset_pwd", "암호를 재설정");
+        pt.setProperty("str_reset_pwd", "Redefinir senha");
+        th.setProperty("str_reset_pwd", "รีเซ็ตรหัสผ่าน");
+        vi.setProperty("str_reset_pwd", "Đặt lại mật khẩu");
+        zh_CN.setProperty("str_reset_pwd", "重设密码");
+        zh_HK.setProperty("str_reset_pwd", "重設密碼");
 
 
         en.setProperty("str_reset","Reset");
@@ -2274,21 +2352,50 @@ public class SDKLangConfig {
 //        zh_HK.setProperty("accept","Accept");
 
         //请输入已绑定邮箱的用户账号
-        en.setProperty("account_which_bind_email","the account of the bound mailbox");
-        zh_CN.setProperty("account_which_bind_email","已绑定邮箱的账号");
-        zh_HK.setProperty("account_which_bind_email","已綁定郵箱的賬號");
-        es.setProperty("account_which_bind_email","Cuenta con correo electrónico vinculado");
-        fr.setProperty("account_which_bind_email","Compte avec e-mail lié");
-        de.setProperty("account_which_bind_email","Konto mit gebundener E-Mail");
-        it.setProperty("account_which_bind_email","Account con email associata");
-        pt.setProperty("account_which_bind_email","Conta com e-mail vinculado");
-        ja.setProperty("account_which_bind_email","メールがバインドされたアカウント");
-        ko.setProperty("account_which_bind_email","바운드 이메일 계정");
-        ar.setProperty("account_which_bind_email","الحساب ببريد إلكتروني مرتبط");
-        th.setProperty("account_which_bind_email","บัญชีที่มีอีเมลที่ถูกผูกไว้");
-        ru.setProperty("account_which_bind_email","Аккаунт со связанной электронной почтой");
+//        en.setProperty("account_which_bind_email","the account of the bound mailbox");
+//        zh_CN.setProperty("account_which_bind_email","已绑定邮箱的账号");
+//        zh_HK.setProperty("account_which_bind_email","已綁定郵箱的賬號");
+//        es.setProperty("account_which_bind_email","Cuenta con correo electrónico vinculado");
+//        fr.setProperty("account_which_bind_email","Compte avec e-mail lié");
+//        de.setProperty("account_which_bind_email","Konto mit gebundener E-Mail");
+//        it.setProperty("account_which_bind_email","Account con email associata");
+//        pt.setProperty("account_which_bind_email","Conta com e-mail vinculado");
+//        ja.setProperty("account_which_bind_email","メールがバインドされたアカウント");
+//        ko.setProperty("account_which_bind_email","바운드 이메일 계정");
+//        ar.setProperty("account_which_bind_email","الحساب ببريد إلكتروني مرتبط");
+//        th.setProperty("account_which_bind_email","บัญชีที่มีอีเมลที่ถูกผูกไว้");
+//        ru.setProperty("account_which_bind_email","Аккаунт со связанной электронной почтой");
 
+        ar.setProperty("account_which_bind_email", "اسم المستخدم");
+        de.setProperty("account_which_bind_email", "Nutzername");
+        en.setProperty("account_which_bind_email", "Username");
+        es.setProperty("account_which_bind_email", "Nombre de usuario");
+        fr.setProperty("account_which_bind_email", "Nom d'utilisateur");
+        id.setProperty("account_which_bind_email", "Nama pengguna");
+        it.setProperty("account_which_bind_email", "Nome utente");
+        ja.setProperty("account_which_bind_email", "ユーザー名");
+        ko.setProperty("account_which_bind_email", "사용자 이름");
+        pt.setProperty("account_which_bind_email", "Nome do usuário");
+        th.setProperty("account_which_bind_email", "ชื่อผู้ใช้");
+        vi.setProperty("account_which_bind_email", "tên tài khoản");
+        zh_CN.setProperty("account_which_bind_email", "用户名");
+        zh_HK.setProperty("account_which_bind_email", "用戶名");
 
+        //绑定的邮箱：
+        ar.setProperty("nuts_BoundEmail", "بريد إلكتروني منضم:");
+        de.setProperty("nuts_BoundEmail", "Gebundene E-Mail:");
+        en.setProperty("nuts_BoundEmail", "Bound Email:");
+        es.setProperty("nuts_BoundEmail", "Correo electrónico vinculado:");
+        fr.setProperty("nuts_BoundEmail", "Email lié:");
+        id.setProperty("nuts_BoundEmail", "Email Terikat:");
+        it.setProperty("nuts_BoundEmail", "Email vincolata:");
+        ja.setProperty("nuts_BoundEmail", "バインドされたメール：");
+        ko.setProperty("nuts_BoundEmail", "바운드 이메일:");
+        pt.setProperty("nuts_BoundEmail", "Email vinculado:");
+        th.setProperty("nuts_BoundEmail", "อีเมลผูกมัด:");
+        vi.setProperty("nuts_BoundEmail", "Email ràng buộc:");
+        zh_CN.setProperty("nuts_BoundEmail", "绑定的邮箱:");
+        zh_HK.setProperty("nuts_BoundEmail", "綁定的電郵:");
     }
 }
 

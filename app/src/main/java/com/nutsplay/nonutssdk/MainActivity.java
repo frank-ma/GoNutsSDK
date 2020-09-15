@@ -84,9 +84,6 @@ public class MainActivity extends BaseActivity {
     public void initSDK(View view) {
 //        SDKManager.getInstance().beforeInitSDK();
 
-
-
-
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
         initParameter.setAppsflyerId(appsflyerId);
@@ -398,11 +395,45 @@ public class MainActivity extends BaseActivity {
      */
 
     public void updateLanguagezhCN(View view) {
-        SDK.getInstance().sdkUpdateLanguage("zh_CN");
+        SDK.getInstance().sdkUpdateLanguage("es");
     }
 
     public void updateLanguageEN(View view){
-        SDK.getInstance().sdkUpdateLanguage("en");
+        SDK.getInstance().sdkUpdateLanguage("ko");
+    }
+
+    public void de(View view){
+        SDK.getInstance().sdkUpdateLanguage("de");
+    }
+    public void ko(View view){
+        SDK.getInstance().sdkUpdateLanguage("ko");
+    }
+    public void ru(View view){
+        SDK.getInstance().sdkUpdateLanguage("ru");
+    }
+    public void it(View view){
+        SDK.getInstance().sdkUpdateLanguage("it");
+    }
+    public void jp(View view){
+        SDK.getInstance().sdkUpdateLanguage("jp");
+    }
+    public void zh_CN(View view){
+        SDK.getInstance().sdkUpdateLanguage("zh_CN");
+    }
+    public void zh_TW(View view){
+        SDK.getInstance().sdkUpdateLanguage("zh_TW");
+    }
+    public void es(View view){
+        SDK.getInstance().sdkUpdateLanguage("es");
+    }
+    public void pt(View view){
+        SDK.getInstance().sdkUpdateLanguage("pt");
+    }
+    public void ar(View view){
+        SDK.getInstance().sdkUpdateLanguage("ar");
+    }
+    public void fr(View view){
+        SDK.getInstance().sdkUpdateLanguage("fr");
     }
 
     public void saveShot(View view) {

@@ -17,6 +17,7 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 /**
@@ -58,12 +59,22 @@ public class UserCenterDialog extends Dialog {
             TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
             final TextView bindFb = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_fb", "id"));
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
+            TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
-            //如果是Facebook用户就不显示绑定FB按钮了
-            if (SDKManager.getInstance().getUser()!=null&&
-                    SDKManager.getInstance().getUser().getSdkmemberType()!=null&&
-                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+            //如果是Facebook用户就不显示绑定FB按钮了,账号登录也不能绑定
+            if (SDKManager.getInstance().getUser()!=null &&
+                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)||
+                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
                 bindFb.setVisibility(View.GONE);
+            }
+            if (SDKManager.getInstance().getUser()!=null){
+                if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()){
+                    bindEmail.setVisibility(View.VISIBLE);
+                }else {
+                    bindEmail.setVisibility(View.GONE);
+                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+                    emailTip.setText(textContent);
+                }
             }
 
             //显示语言多样化

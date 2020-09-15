@@ -89,7 +89,7 @@ public class LoginManager {
             @Override
             public void onFailure(String msg) {
 //                loginCallBack.onFailure(SDKConstant.fb_login_error,msg);
-                if (msg!=null||msg.isEmpty()) SDKToast.getInstance().ToastShow(msg,3);
+                if (msg!=null && !msg.isEmpty()) SDKToast.getInstance().ToastShow(msg,3);
                 resultCallBack.onFailure(msg);
             }
         });

@@ -52,7 +52,6 @@ public class LoginDialog extends Dialog {
         private LoginCallBack loginCallBack;
         private Handler handler;
         private boolean isLogin = true;//是登录还是切换账号
-        private TipDialog.Builder tipDialog;
         private long lastTime = 0;
 
         public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
@@ -145,25 +144,37 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
-
+                                String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+                                SDKToast.getInstance().ToastShow(content,1);
+                                loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                                dialog.dismiss();
                                 //新用户第一次登录不弹绑定提示，第二次再弹
-                                if (SDKGameUtils.getInstance().isFirstAccountLogin(context)){
-                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-                                    SDKGameUtils.getInstance().setFirstAccountLogin(context,false);
-                                    dialog.dismiss();
-                                }else {
-                                    String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                    TipDialog.Builder tipDialog = new TipDialog.Builder(context,"Tips",content);
-                                    tipDialog.setOnConfirmBtnClickListener(new TipDialog.onConfirmBtnClickListener() {
-                                        @Override
-                                        public void onConfirmBtnClick() {
-                                            loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    tipDialog.create().show();
-                                }
-
+//                                if (SDKGameUtils.getInstance().isFirstAccountLogin(context)){
+//                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+//                                    SDKGameUtils.getInstance().setFirstAccountLogin(context,false);
+//                                    dialog.dismiss();
+//                                }else {
+//
+////                                    if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()) {
+////                                        String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+////                                        TipDialog.Builder tipDialog = new TipDialog.Builder(context,"Tips",content);
+////                                        tipDialog.setOnConfirmBtnClickListener(new TipDialog.onConfirmBtnClickListener() {
+////                                            @Override
+////                                            public void onConfirmBtnClick() {
+////                                                loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+////                                                dialog.dismiss();
+////                                            }
+////                                        });
+////                                        tipDialog.create().show();
+////                                    } else {
+////                                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+////                                        dialog.dismiss();
+////                                    }
+//                                    String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+//                                    SDKToast.getInstance().ToastShow(content,1);
+//                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+//                                    dialog.dismiss();
+//                                }
                             }
 
                             @Override

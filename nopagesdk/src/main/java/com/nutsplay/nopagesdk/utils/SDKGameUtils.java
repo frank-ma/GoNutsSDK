@@ -320,6 +320,16 @@ public class SDKGameUtils {
 
     }
 
+    /**
+     * 邮箱用****号隐藏前面的字母
+     *
+     * @return
+     */
+    public static String hideEmail(String email) {
+        if (email == null || email.isEmpty()) return "";
+        return email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
+    }
+
 
     public static String getSha1(String str) {
         if (str == null || str.length() == 0) {

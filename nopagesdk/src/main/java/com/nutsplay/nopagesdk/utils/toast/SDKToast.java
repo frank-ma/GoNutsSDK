@@ -41,5 +41,12 @@ public class SDKToast {
         }
     }
 
+    /**
+     * 在onDestroy方法里面取消Toast,否则会关掉应用还弹Toast
+     */
+    public void toastCancel(){
+        Toasty.cancel();
+    }
+
 
 }

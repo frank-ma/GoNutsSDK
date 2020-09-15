@@ -48,12 +48,27 @@
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
-            <com.facebook.login.widget.LoginButton
+<!--            <com.facebook.login.widget.LoginButton-->
+<!--                android:id="@+id/login_button"-->
+<!--                android:layout_width="280dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="20dp"/>-->
+            <TextView
                 android:id="@+id/login_button"
                 android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"/>
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_corner_3c5899_5"
+                android:gravity="center"
+                android:visibility="gone"
+                android:fontFamily="sans-serif"
+                android:text="Log In with Facebook"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"

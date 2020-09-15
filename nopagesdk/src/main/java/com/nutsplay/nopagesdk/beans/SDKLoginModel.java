@@ -56,6 +56,7 @@ public class SDKLoginModel implements Serializable {
         private String clientId;
         private String ticket;//就是以前的ticket，直接返回给CP
         private String expire;
+        private String bindEmail;//绑定的邮箱
 
         public String getPassportId() {
             return passportId;
@@ -87,6 +88,14 @@ public class SDKLoginModel implements Serializable {
 
         public void setExpire(String expire) {
             this.expire = expire;
+        }
+
+        public String getBindEmail() {
+            return bindEmail;
+        }
+
+        public void setBindEmail(String bindEmail) {
+            this.bindEmail = bindEmail;
         }
     }
 }

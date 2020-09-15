@@ -174,16 +174,36 @@ public class SDKManager {
     }
 
     public void showProgress(Activity activity) {
-        if (null == progressDialog)
-            if (activity.hasWindowFocus()) {
-                progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
+        try {
+            if (null == progressDialog)
+                if (activity.hasWindowFocus()) {
+                    progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
+                }
+            if (null != progressDialog) {
+                if (activity.hasWindowFocus()) {
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+                }
             }
-        if (null != progressDialog) {
-            if (activity.hasWindowFocus()) {
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    public void showProgress(Activity activity,String msg) {
+        try {
+            if (null == progressDialog)
+                if (activity.hasWindowFocus()) {
+                    progressDialog = SDKProgressDialog.createProgrssDialog(activity, msg);
+                }
+            if (null != progressDialog) {
+                if (activity.hasWindowFocus()) {
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -233,16 +253,13 @@ public class SDKManager {
      * @param initParameter
      * @param initCallBack
      */
-    public void initSDK(Activity activity, InitParameter initParameter, InitCallBack initCallBack) {
+    public void initSDK(final Activity activity, final InitParameter initParameter,final InitCallBack initCallBack) {
         try {
             if (activity == null) {
                 System.out.println("initSDK failed:Activity is null.");
                 return;
             }
             setActivity(activity);
-
-            //初始化Firebase
-            firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 
             if (initParameter == null) {
                 System.out.println("initSDK failed:InitParameter is null.");
@@ -254,6 +271,8 @@ public class SDKManager {
                 System.out.println("initSDK failed:InitCallBack is null.");
                 return;
             }
+
+            showProgress(activity);
 
             //配置debug模式
             LogUtils.setIsDeBug(initParameter.isDebug());
@@ -267,19 +286,29 @@ public class SDKManager {
 //            CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
 //        }
 
-            //初始化追踪
-            TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //初始化追踪
+                        TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
 
-            showProgress(activity);
+                        //获取keyHash
+                        SDKGameUtils.getKeyHash(activity);
 
-            //获取keyHash
-            SDKGameUtils.getKeyHash(activity);
+                        //初始化客服系统
+                        initAiHelp(activity, initParameter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 
             //获取公钥
             getPublicKey(activity, initCallBack);
 
-            initAiHelp(activity, initParameter);
         }catch (Exception e){
+            hideProgress();
             e.printStackTrace();
         }
     }
@@ -296,8 +325,8 @@ public class SDKManager {
                     parameters.getAihelpDomain(),
                     parameters.getAihelpAppID());
             ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e){
+//            e.printStackTrace();
         }
     }
 
@@ -350,6 +379,7 @@ public class SDKManager {
             });
 
         }catch (Exception e){
+            hideProgress();
             e.printStackTrace();
         }
     }
@@ -387,7 +417,7 @@ public class SDKManager {
     private void doCallback(InitCallBack initCallBack) {
         setInitStatus(true);
         //获取当前登录的用户信息
-        if (getUser() == null || getUser().getUserId() == null || getUser().getTicket() == null) {
+        if (getUser() == null || StringUtils.isBlank(getUser().getUserId()) || StringUtils.isBlank(getUser().getTicket())) {
             initCallBack.onSuccess(null);
         } else {
             initCallBack.onSuccess(getUser());
@@ -462,6 +492,7 @@ public class SDKManager {
                         }
 
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -877,6 +908,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(userName);
+                            user.setBindEmail(loginModel.getData().getBindEmail());
                             setUser(user);
                             loginCallBack.onSuccess(user);
 
@@ -1035,6 +1067,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(userName);
+                            user.setBindEmail(loginModel.getData().getBindEmail());
                             setUser(user);
 //                            loginCallBack.onSuccess(user);
 
@@ -1196,7 +1229,7 @@ public class SDKManager {
                             user.setUserName(oauthId);
                             setUser(user);
                             loginCallBack.onSuccess(user);
-                            if (resultCallBack!=null) resultCallBack.onSuccess();
+                            if (resultCallBack != null) resultCallBack.onSuccess();
 
                             //游客登录追踪
                             TrackingManager.loginTracking(loginModel.getData().getPassportId());
@@ -1255,11 +1288,11 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-//            showProgress(activity);
+            showProgress(activity);
             ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, facebookUser.getId(), oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-//                    hideProgress();
+                    hideProgress();
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1306,7 +1339,7 @@ public class SDKManager {
 
                 @Override
                 public void onFailure(String errorMsg) {
-//                    hideProgress();
+                    hideProgress();
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onFailure:" + errorMsg);
                     loginCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
@@ -1352,10 +1385,9 @@ public class SDKManager {
                             return;
                         }
                         if (sdkResult.getCode() == 1) {
-                            //上传日志成功
-//                            callBack.onSuccess();
+                            LogUtils.e(TAG, "SDKUploadLog---onSuccess");
                         } else {
-                            LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + sdkResult.getMessage());
+                            LogUtils.e(TAG, "SDKUploadLog---" + sdkResult.getCode()+"---"+sdkResult.getMessage());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1447,7 +1479,7 @@ public class SDKManager {
                 return;
             }
 
-            if (getUser() == null || getUser().getUserId() == null) {
+            if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
                 return;
             }
@@ -1460,7 +1492,6 @@ public class SDKManager {
             ApiManager.getInstance().SDKMakeOrder(aesKey, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    hideProgress();
 
                     LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1500,11 +1531,13 @@ public class SDKManager {
                             }
 
                         } else {
+                            hideProgress();
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
                             purchaseCallBack.onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -1556,7 +1589,7 @@ public class SDKManager {
                 return;
             }
 
-            if (getUser() == null || getUser().getUserId() == null) {
+            if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
                 return;
             }
@@ -1569,7 +1602,6 @@ public class SDKManager {
             ApiManager.getInstance().SDKMakeOrder(aesKey, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    hideProgress();
 
                     LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1601,11 +1633,13 @@ public class SDKManager {
                             GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.SUBS);
 
                         } else {
+                            hideProgress();
                             LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
                             purchaseCallBack.onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -1741,6 +1775,7 @@ public class SDKManager {
     public void sdkOnDestroy() {
 
 //        if (!isInitStatus()) return;
+        SDKToast.getInstance().toastCancel();
     }
 
     /**
@@ -1814,6 +1849,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(account);
+                            user.setBindEmail(loginModel.getData().getBindEmail());
                             setUser(user);
                             callback.onSuccess();
 
@@ -1919,6 +1955,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(account);
+                            user.setBindEmail(loginModel.getData().getBindEmail());
                             SDKManager.getInstance().setUser(user);
 
                             callback.onSuccess();
@@ -2034,6 +2071,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                             user.setUserName(account);
+                            user.setBindEmail(loginModel.getData().getBindEmail());
                             SDKManager.getInstance().setUser(user);
 
                             callback.onSuccess();

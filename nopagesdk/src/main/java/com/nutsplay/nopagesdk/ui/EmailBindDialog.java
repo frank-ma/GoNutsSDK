@@ -70,7 +70,7 @@ public class EmailBindDialog extends Dialog {
 
             //多语言适配
             title.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
-            email.setHint(SDKLangConfig.getInstance().findMessage("please_input_email"));
+            email.setHint(SDKLangConfig.getInstance().findMessage("nuts_email"));
             verificationCode.setHint(SDKLangConfig.getInstance().findMessage("44"));
             btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
             bind.setText(SDKLangConfig.getInstance().findMessage("bind"));

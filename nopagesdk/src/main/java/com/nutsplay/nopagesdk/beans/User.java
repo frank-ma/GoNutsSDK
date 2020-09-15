@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String facebookId="";//FacebookID
     private String facebookPortrait="";//Facebook头像
     private String facebookEmail="";//Facebook邮箱
+    private String bindEmail="";//绑定的邮箱
 
 
     public String getUserId() {
@@ -83,6 +84,14 @@ public class User implements Serializable {
         this.facebookEmail = facebookEmail;
     }
 
+    public String getBindEmail() {
+        return bindEmail;
+    }
+
+    public void setBindEmail(String bindEmail) {
+        this.bindEmail = bindEmail;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -94,6 +103,7 @@ public class User implements Serializable {
                 ", facebookId='" + facebookId + '\'' +
                 ", facebookPortrait='" + facebookPortrait + '\'' +
                 ", facebookEmail='" + facebookEmail + '\'' +
+                ", bindEmail='" + bindEmail + '\'' +
                 '}';
     }
 }
