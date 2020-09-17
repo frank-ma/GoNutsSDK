@@ -80,6 +80,7 @@ public class LoginManager {
         if (activity == null || loginCallBack == null) return;
 
         AppManager.startActivity(FBLoginActivity.class);
+        SDKManager.getInstance().showProgress(activity);
         setFBLoginListener(new FbLoginListener() {
             @Override
             public void onSuccess(FacebookUser user) {
@@ -134,6 +135,7 @@ public class LoginManager {
         setGoogleLoginListener(new GoogleLoginListener() {
             @Override
             public void onSuccess(String googleId) {
+                SDKManager.getInstance().showProgress(activity);
                 SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack,resultCallBack);
             }
 

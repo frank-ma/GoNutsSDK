@@ -2396,6 +2396,38 @@ public class SDKLangConfig {
         vi.setProperty("nuts_BoundEmail", "Email ràng buộc:");
         zh_CN.setProperty("nuts_BoundEmail", "绑定的邮箱:");
         zh_HK.setProperty("nuts_BoundEmail", "綁定的電郵:");
+
+        //注册账号
+        ar.setProperty("nuts_Createaccount", "إصنع حساب");
+        de.setProperty("nuts_Createaccount", "Konto erstellen");
+        en.setProperty("nuts_Createaccount", "Create account");
+        es.setProperty("nuts_Createaccount", "Crear una cuenta");
+        fr.setProperty("nuts_Createaccount", "Créer un compte");
+        id.setProperty("nuts_Createaccount", "Buat Akun");
+        it.setProperty("nuts_Createaccount", "Creare un profilo");
+        ja.setProperty("nuts_Createaccount", "アカウントを作成する");
+        ko.setProperty("nuts_Createaccount", "계정 생성");
+        pt.setProperty("nuts_Createaccount", "Criar Conta");
+        th.setProperty("nuts_Createaccount", "สร้างบัญชี");
+        vi.setProperty("nuts_Createaccount", "Tạo tài khoản");
+        zh_CN.setProperty("nuts_Createaccount", "创建帐号");
+        zh_HK.setProperty("nuts_Createaccount", "創建帳號");
+
+        //邮箱已绑定
+        ar.setProperty("nuts_Emailhasbeenbound", "تم ربط البريد الإلكتروني");
+        de.setProperty("nuts_Emailhasbeenbound", "E-Mail wurde gebunden");
+        en.setProperty("nuts_Emailhasbeenbound", "Email has been bound");
+        es.setProperty("nuts_Emailhasbeenbound", "El correo electrónico ha sido enlazado");
+        fr.setProperty("nuts_Emailhasbeenbound", "L'e-mail a été lié");
+        id.setProperty("nuts_Emailhasbeenbound", "Email telah diikat");
+        it.setProperty("nuts_Emailhasbeenbound", "L'email è stata associata");
+        ja.setProperty("nuts_Emailhasbeenbound", "メールがバインドされました");
+        ko.setProperty("nuts_Emailhasbeenbound", "이메일이 바인딩되었습니다");
+        pt.setProperty("nuts_Emailhasbeenbound", "Email foi vinculado");
+        th.setProperty("nuts_Emailhasbeenbound", "อีเมลถูกผูกไว้");
+        vi.setProperty("nuts_Emailhasbeenbound", "Email đã bị ràng buộc");
+        zh_CN.setProperty("nuts_Emailhasbeenbound", "电子邮件已绑定");
+        zh_HK.setProperty("nuts_Emailhasbeenbound", "電子郵件已綁定");
     }
 }
 

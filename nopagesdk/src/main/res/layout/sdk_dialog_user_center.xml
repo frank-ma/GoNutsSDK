@@ -23,6 +23,7 @@
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"/>
 
             <TextView
@@ -79,7 +80,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/tv_tips"
@@ -99,6 +103,17 @@
                 android:tint="@color/black"/>
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@drawable/nothing"
+            android:text="Empty"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:visibility="gone"
+            android:drawablePadding="5dp"/>
 
     </RelativeLayout>
 

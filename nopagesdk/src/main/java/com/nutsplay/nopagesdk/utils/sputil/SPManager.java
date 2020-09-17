@@ -39,8 +39,10 @@ public class SPManager {
     private SharedPreferences.Editor mEditor;
 
     private static SPManager mSPHelper;
+    private static Context context;
 
     public static SPManager getInstance(Context app) {
+        context = app;
         if (mSPHelper == null)
             mSPHelper = new SPManager(app);
 
@@ -55,6 +57,10 @@ public class SPManager {
     }
 
     public boolean putString(String key, String value) {
+        if (mEditor == null){
+            mPreferences = context.getSharedPreferences(SharedPreferenceFileName, Context.MODE_PRIVATE);
+            mEditor = mPreferences.edit();
+        }
         mEditor.putString(key, value);
         return mEditor.commit();
     }

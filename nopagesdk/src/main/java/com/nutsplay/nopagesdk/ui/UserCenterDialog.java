@@ -61,19 +61,44 @@ public class UserCenterDialog extends Dialog {
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
+            TextView emptyTxt = layout.findViewById(SDKResUtils.getResId(context, "nothing", "id"));
             //如果是Facebook用户就不显示绑定FB按钮了,账号登录也不能绑定
-            if (SDKManager.getInstance().getUser()!=null &&
-                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)||
-                    SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
-                bindFb.setVisibility(View.GONE);
-            }
-            if (SDKManager.getInstance().getUser()!=null){
-                if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()){
-                    bindEmail.setVisibility(View.VISIBLE);
-                }else {
+
+            if (SDKManager.getInstance().getUser() != null){
+                //游客登录用户
+                if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)){
+                    //游客绑定FB之后，游客和FB指向的是同一个账号
                     bindEmail.setVisibility(View.GONE);
-                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-                    emailTip.setText(textContent);
+                    resetPwd.setVisibility(View.GONE);
+                    bindFb.setVisibility(View.VISIBLE);
+                }
+                //账号登录用户
+                if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
+                    bindFb.setVisibility(View.GONE);
+                    if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()){
+                        bindEmail.setVisibility(View.VISIBLE);
+                        resetPwd.setVisibility(View.GONE);
+                    } else{
+                        bindEmail.setVisibility(View.GONE);
+                        emailTip.setVisibility(View.VISIBLE);
+                        resetPwd.setVisibility(View.VISIBLE);
+                        String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+                        emailTip.setText(textContent);
+                    }
+                }
+                //FB登录用户
+                if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                    bindFb.setVisibility(View.GONE);
+                    bindEmail.setVisibility(View.GONE);
+                    resetPwd.setVisibility(View.GONE);
+                    emptyTxt.setVisibility(View.VISIBLE);
+                }
+                //Google用户
+                if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)){
+                    bindFb.setVisibility(View.GONE);
+                    bindEmail.setVisibility(View.GONE);
+                    resetPwd.setVisibility(View.GONE);
+                    emptyTxt.setVisibility(View.VISIBLE);
                 }
             }
 

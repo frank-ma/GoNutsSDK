@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-        defaultLogin.callOnClick();
+//        defaultLogin.callOnClick();
 
 
     }
@@ -394,14 +394,12 @@ public class MainActivity extends BaseActivity {
      * @param view
      */
 
-    public void updateLanguagezhCN(View view) {
-        SDK.getInstance().sdkUpdateLanguage("es");
+    public void en(View view) {
+        SDK.getInstance().sdkUpdateLanguage("en");
     }
-
-    public void updateLanguageEN(View view){
-        SDK.getInstance().sdkUpdateLanguage("ko");
+    public void th(View view){
+        SDK.getInstance().sdkUpdateLanguage("th");
     }
-
     public void de(View view){
         SDK.getInstance().sdkUpdateLanguage("de");
     }
@@ -415,7 +413,7 @@ public class MainActivity extends BaseActivity {
         SDK.getInstance().sdkUpdateLanguage("it");
     }
     public void jp(View view){
-        SDK.getInstance().sdkUpdateLanguage("jp");
+        SDK.getInstance().sdkUpdateLanguage("ja");
     }
     public void zh_CN(View view){
         SDK.getInstance().sdkUpdateLanguage("zh_CN");
@@ -547,7 +545,13 @@ public class MainActivity extends BaseActivity {
         map.put("elva-tags",tags);
         // "elva-custom-metadata" 是key值 不可以变
         customData.put("elva-custom-metadata",map);
-        SDK.getInstance().customerSupport( "Jack","0", customData);
+
+        InitParameter initParameter = new InitParameter();
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setLanguage("en");
+        SDK.getInstance().customerSupport( this,initParameter,"Jack","0", customData);
     }
 
     /**
@@ -570,7 +574,13 @@ public class MainActivity extends BaseActivity {
         sdkUserConfig.put("UID","4179");
         sdkUserConfig.put("userName","1008090");
         sdkParamConfig.put(sdkConfigKey,sdkUserConfig);
-        SDK.getInstance().showFAQs("Liuxiaobei1","10",sdkParamConfig);
+
+        InitParameter initParameter = new InitParameter();
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setLanguage("en");
+        SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","10",sdkParamConfig);
     }
 
 

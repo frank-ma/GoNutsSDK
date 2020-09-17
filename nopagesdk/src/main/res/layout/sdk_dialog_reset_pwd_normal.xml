@@ -97,7 +97,7 @@
                 android:inputType="number"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:drawableLeft="@drawable/ic_pwd"
+                android:drawableLeft="@drawable/ic_code"
                 android:textColor="@color/black" />
 
             <View

@@ -1200,11 +1200,11 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            showProgress(activity);
+//            showProgress(activity);
             ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, oauthId, oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    hideProgress();
+//                    hideProgress();
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
@@ -1229,6 +1229,7 @@ public class SDKManager {
                             user.setUserName(oauthId);
                             setUser(user);
                             loginCallBack.onSuccess(user);
+                            hideProgress();
                             if (resultCallBack != null) resultCallBack.onSuccess();
 
                             //游客登录追踪
@@ -1241,6 +1242,7 @@ public class SDKManager {
 //                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -1292,7 +1294,7 @@ public class SDKManager {
             ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, facebookUser.getId(), oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    hideProgress();
+//                    hideProgress();
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1321,6 +1323,7 @@ public class SDKManager {
 
                             setUser(user);
                             loginCallBack.onSuccess(user);
+                            hideProgress();
                             if (resultCallBack!=null) resultCallBack.onSuccess();
 
                             //游客登录追踪
@@ -1333,6 +1336,7 @@ public class SDKManager {
 //                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -2629,14 +2633,29 @@ public class SDKManager {
      * 在线客服系统
      * AIHelp
      */
-    public void customerSupport(String userName, String serverId, HashMap<String, Object> customData) {
+    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String serverId, final HashMap<String, Object> customData) {
 
-        if (!isInitStatus()) return;
-        String nutsId = "";
-        if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-            nutsId = SDKManager.getInstance().getUser().getUserId();
-        }
-        ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!isInitStatus()) {
+                        initAiHelp(activity, initParameter);
+                        Thread.sleep(2000);
+                    }
+                    String nutsId = "";
+                    if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+                        nutsId = SDKManager.getInstance().getUser().getUserId();
+                    }
+                    Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
+                    ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     /**
@@ -2647,20 +2666,34 @@ public class SDKManager {
      * @param serverId
      * @param customData
      */
-    public void showFAQs(String userName, String serverId, HashMap<String, Object> customData) {
-        if (!isInitStatus()) return;
+    public void showFAQs(final Activity activity,final InitParameter initParameter,final String userName,final String serverId,final HashMap<String, Object> customData) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        String nutsId = "";
-        if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-            nutsId = SDKManager.getInstance().getUser().getUserId();
-        }
+                try {
+                    if (!isInitStatus()) {
+                        initAiHelp(activity, initParameter);
+                        Thread.sleep(2000);
+                    }
+                    String nutsId = "";
+                    if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+                        nutsId = SDKManager.getInstance().getUser().getUserId();
+                    }
 
-        HashMap<String, Object> config = new HashMap<>();
-        config.put("showContactButtonFlag", "1");
-        config.put("showConversationFlag", "1");
-        config.put("elva-custom-metadata", customData);
-        ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
-        ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+                    HashMap<String, Object> config = new HashMap<>();
+                    config.put("showContactButtonFlag", "1");
+                    config.put("showConversationFlag", "1");
+                    config.put("elva-custom-metadata", customData);
+                    ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
+                    Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
+                    ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     /**

@@ -24,6 +24,7 @@
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="30dp"/>
 
             <TextView
@@ -77,8 +78,6 @@
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"/>
 
-
-
         </LinearLayout>
 
         <ImageView
@@ -87,16 +86,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:src="@drawable/nuts_logo" />
-
-<!--        <TextView-->
-<!--            android:id="@+id/tv_tips"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="40dp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="18sp"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:text="User Center" />-->
 
         <ImageView
             android:id="@+id/img_close"
@@ -107,6 +96,18 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="26dp"
             android:tint="@color/black"/>
+
+        <TextView
+            android:id="@+id/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@drawable/nothing"
+            android:text="Empty"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:visibility="gone"
+            android:drawablePadding="5dp"/>
 
     </RelativeLayout>
 

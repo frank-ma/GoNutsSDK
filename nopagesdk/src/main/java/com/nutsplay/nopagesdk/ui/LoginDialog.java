@@ -96,14 +96,13 @@ public class LoginDialog extends Dialog {
                     switch (msg.what){
                         case 0:
                             backIv.callOnClick();
-                            pwd.setText("");
+                            if (pwd !=null) pwd.setText("");
                             break;
                         case 1:
                             TempUser tempUser= (TempUser) msg.obj;
-                            if (tempUser==null)return;
-                            userName.setText(tempUser.getAccount());
-                            pwd.setText(tempUser.getPwd());
-//                            SDKGameUtils.getInstance().setFirstAccountLogin(context,true);
+                            if (tempUser == null)return;
+                            if (userName!=null) userName.setText(tempUser.getAccount());
+                            if (pwd!=null) pwd.setText(tempUser.getPwd());
                             break;
                         default:
                             break;
@@ -144,10 +143,17 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
-                                String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                SDKToast.getInstance().ToastShow(content,1);
-                                loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+
+                                if (SDKManager.getInstance().getUser() != null){
+                                    if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()){
+                                        String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
+                                        SDKToast.getInstance().ToastShow(content,1);
+                                    }
+                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                                }
                                 dialog.dismiss();
+
+
                                 //新用户第一次登录不弹绑定提示，第二次再弹
 //                                if (SDKGameUtils.getInstance().isFirstAccountLogin(context)){
 //                                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());

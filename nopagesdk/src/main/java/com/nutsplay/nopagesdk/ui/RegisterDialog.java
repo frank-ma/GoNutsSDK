@@ -65,10 +65,12 @@ public class RegisterDialog extends Dialog {
             final EditText repeatPwd = layout.findViewById(SDKResUtils.getResId(context, "et_repeat_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             final TextView autoGenerationTv = layout.findViewById(SDKResUtils.getResId(context, "tv_auto_generation", "id"));
+            final TextView titleTv = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            titleTv.setText(SDKLangConfig.getInstance().findMessage("nuts_Createaccount"));
 
             //自动生成账号密码
             autoGenerationTv.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +98,11 @@ public class RegisterDialog extends Dialog {
                     SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            registerCallBack.onSuccess(account,psw);
+                            if (registerCallBack != null) registerCallBack.onSuccess(account,psw);
+                            dialog.dismiss();
                             //注册成功
 //                            SaveUserInfoDialog.Builder builder = new SaveUserInfoDialog.Builder(context,account,psw);
 //                            builder.create().show();
-                            dialog.dismiss();
                         }
 
                         @Override

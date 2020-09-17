@@ -33,6 +33,16 @@
                 android:padding="4dp"
                 android:visibility="invisible"
                 android:layout_alignParentRight="true"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Create an account"
+                android:textColor="@color/color_02b6bc"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
 
