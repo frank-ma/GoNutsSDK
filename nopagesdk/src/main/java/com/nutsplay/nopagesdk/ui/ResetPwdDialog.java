@@ -45,7 +45,7 @@ public class ResetPwdDialog extends Dialog {
 
         private Context context;
         private Handler handler;
-
+        private long lastTime = 0;
         public Builder(Context context) {
             this.context = context;
         }
@@ -112,6 +112,15 @@ public class ResetPwdDialog extends Dialog {
                         return;
                     }
                     if (!SDKGameUtils.matchAccount(account)) return;
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 600000) {
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
                     SDKManager.getInstance().sdkResetPwdSendCode((Activity) context, account, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
@@ -133,6 +142,14 @@ public class ResetPwdDialog extends Dialog {
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
 
                     String account = accountEt.getText().toString();
                     String code = verificationCode.getText().toString();

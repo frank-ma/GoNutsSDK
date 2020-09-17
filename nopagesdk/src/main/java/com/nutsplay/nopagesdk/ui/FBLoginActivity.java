@@ -101,13 +101,18 @@ public class FBLoginActivity extends BaseActivity {
 
                     @Override
                     public void onCancel() {
+                        if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener()!=null){
+                            com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onCancel();
+                        }
                         finish();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
                         LogUtils.e("FacebookID",exception.getMessage());
-                        com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onFailure(exception.getMessage());
+                        if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener()!=null){
+                            com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onFailure(exception.getMessage());
+                        }
                         finish();
                     }
                 });

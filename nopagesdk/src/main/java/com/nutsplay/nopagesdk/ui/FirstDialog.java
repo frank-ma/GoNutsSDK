@@ -82,15 +82,24 @@ public class FirstDialog extends Dialog {
             visitorLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long count = System.currentTimeMillis() - lastTime;
+                    if (count <= 2000) {
+                        return;
+                    }else {
+                        lastTime = System.currentTimeMillis();
+                    }
+                    SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
                     });
 
@@ -99,6 +108,14 @@ public class FirstDialog extends Dialog {
             accountLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long count = System.currentTimeMillis() - lastTime;
+                    if (count <= 2000) {
+                        return;
+                    }else {
+                        lastTime = System.currentTimeMillis();
+                    }
+
                     LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
@@ -116,15 +133,17 @@ public class FirstDialog extends Dialog {
                     }else {
                         lastTime = System.currentTimeMillis();
                     }
+                    SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
                     });
                 }
@@ -134,15 +153,24 @@ public class FirstDialog extends Dialog {
             googleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long count = System.currentTimeMillis() - lastTime;
+                    if (count <= 2000) {
+                        return;
+                    }else {
+                        lastTime = System.currentTimeMillis();
+                    }
+                    SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().googleLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            SDKManager.getInstance().hideEmptyProgress();
                         }
                     });
 

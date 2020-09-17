@@ -37,6 +37,7 @@ public class BindTipDialog extends Dialog {
     public static class Builder {
         private Context context;
         private LoginCallBack loginCallBack;
+        private long lastTime=0;
 
         public Builder(Context context, LoginCallBack loginCallBack) {
             this.context = context;
@@ -69,6 +70,14 @@ public class BindTipDialog extends Dialog {
             bind.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
 
                     BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack);
                     builder.create().show();

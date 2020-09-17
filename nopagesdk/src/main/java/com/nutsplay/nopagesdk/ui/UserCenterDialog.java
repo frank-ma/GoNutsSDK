@@ -42,6 +42,7 @@ public class UserCenterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private Handler handler;
+        private long lastTime=0;
         public Builder(Context context) {
             this.context = context;
         }
@@ -127,6 +128,14 @@ public class UserCenterDialog extends Dialog {
             bindEmail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
                     EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context);
                     builder.create().show();
                 }
@@ -135,6 +144,14 @@ public class UserCenterDialog extends Dialog {
             bindFb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
                     SDKManager.getInstance().sdkGuestBindFB((Activity) context, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
@@ -154,6 +171,14 @@ public class UserCenterDialog extends Dialog {
             resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
 
                     ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
                     builder.create().show();

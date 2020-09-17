@@ -140,6 +140,7 @@ public class LoginDialog extends Dialog {
 
                     if (signIn.getText().equals(SDKLangConfig.getInstance().findMessage("sign_in"))) {
                         //登录账号
+                        SDKManager.getInstance().showEmptyProgress((Activity) context);
                         SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
@@ -152,6 +153,7 @@ public class LoginDialog extends Dialog {
                                     loginCallBack.onSuccess(SDKManager.getInstance().getUser());
                                 }
                                 dialog.dismiss();
+                                SDKManager.getInstance().hideEmptyProgress();
 
 
                                 //新用户第一次登录不弹绑定提示，第二次再弹
@@ -185,6 +187,7 @@ public class LoginDialog extends Dialog {
 
                             @Override
                             public void onFailure(String msg) {
+                                SDKManager.getInstance().hideEmptyProgress();
                                 LogUtils.d("sdkLogin2Dialog", msg);
                             }
                         });
@@ -219,6 +222,13 @@ public class LoginDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
                     RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
                         @Override
                         public void onSuccess(final String account, final String pas) {

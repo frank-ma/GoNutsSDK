@@ -2413,21 +2413,21 @@ public class SDKLangConfig {
         zh_CN.setProperty("nuts_Createaccount", "创建帐号");
         zh_HK.setProperty("nuts_Createaccount", "創建帳號");
 
-        //邮箱已绑定
-        ar.setProperty("nuts_Emailhasbeenbound", "تم ربط البريد الإلكتروني");
-        de.setProperty("nuts_Emailhasbeenbound", "E-Mail wurde gebunden");
-        en.setProperty("nuts_Emailhasbeenbound", "Email has been bound");
-        es.setProperty("nuts_Emailhasbeenbound", "El correo electrónico ha sido enlazado");
-        fr.setProperty("nuts_Emailhasbeenbound", "L'e-mail a été lié");
-        id.setProperty("nuts_Emailhasbeenbound", "Email telah diikat");
-        it.setProperty("nuts_Emailhasbeenbound", "L'email è stata associata");
-        ja.setProperty("nuts_Emailhasbeenbound", "メールがバインドされました");
-        ko.setProperty("nuts_Emailhasbeenbound", "이메일이 바인딩되었습니다");
-        pt.setProperty("nuts_Emailhasbeenbound", "Email foi vinculado");
-        th.setProperty("nuts_Emailhasbeenbound", "อีเมลถูกผูกไว้");
-        vi.setProperty("nuts_Emailhasbeenbound", "Email đã bị ràng buộc");
-        zh_CN.setProperty("nuts_Emailhasbeenbound", "电子邮件已绑定");
-        zh_HK.setProperty("nuts_Emailhasbeenbound", "電子郵件已綁定");
+        //验证码已发送，请勿频繁发送
+        ar.setProperty("nuts_Emailhasbeenbound", "لا ترسل بشكل متكرر ، حاول مرة أخرى خلال 10 دقائق");
+        de.setProperty("nuts_Emailhasbeenbound", "Nicht häufig senden, versuchen Sie es in 10 Minuten erneut");
+        en.setProperty("nuts_Emailhasbeenbound", "Do not send frequently, try again in 10 minutes");
+        es.setProperty("nuts_Emailhasbeenbound", "No envíe con frecuencia, vuelva a intentarlo en 10 minutos");
+        fr.setProperty("nuts_Emailhasbeenbound", "N'envoyez pas fréquemment, réessayez dans 10 minutes");
+        id.setProperty("nuts_Emailhasbeenbound", "Jangan sering mengirim, coba lagi dalam 10 menit");
+        it.setProperty("nuts_Emailhasbeenbound", "Non inviare frequentemente, riprova tra 10 minuti");
+        ja.setProperty("nuts_Emailhasbeenbound", "頻繁に送信せず、10分後に再試行してください");
+        ko.setProperty("nuts_Emailhasbeenbound", "자주 보내지 말고 10 분 후에 다시 시도하십시오.");
+        pt.setProperty("nuts_Emailhasbeenbound", "Não envie com frequência, tente novamente em 10 minutos");
+        th.setProperty("nuts_Emailhasbeenbound", "อย่าส่งบ่อยลองอีกครั้งใน 10 นาที");
+        vi.setProperty("nuts_Emailhasbeenbound", "Không gửi thường xuyên, hãy thử lại sau 10 phút");
+        zh_CN.setProperty("nuts_Emailhasbeenbound", "请勿频繁发送，10分钟后重试");
+        zh_HK.setProperty("nuts_Emailhasbeenbound", "請勿頻繁發送，10分鐘後重試");
     }
 }
 

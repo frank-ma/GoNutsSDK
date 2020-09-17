@@ -30,6 +30,7 @@
                 android:textColor="@color/colorAccent"
                 android:padding="6dp"
                 android:onClick="goToNoUIActivity"
+                android:visibility="gone"
                 android:text="无UI接口-->"/>
 
         </RelativeLayout>

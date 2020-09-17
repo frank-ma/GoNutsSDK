@@ -73,9 +73,7 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-//        defaultLogin.callOnClick();
-
-
+        initB.callOnClick();
     }
 
     /**
@@ -497,6 +495,11 @@ public class MainActivity extends BaseActivity {
             public void onFailure(String msg) {
 
                 showLog("fb游戏登录失败："+msg);
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
     }

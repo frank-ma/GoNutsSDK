@@ -66,6 +66,7 @@ import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutsplay.nopagesdk.view.SDKProgressDialog;
+import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
@@ -95,6 +96,7 @@ public class SDKManager {
     private ShareResultCallBack shareResultCallBack;
 
     private SDKProgressDialog progressDialog;
+    private SDKProgressEmptyDialog emptyDialog;
 
     private boolean initStatus = false;
 
@@ -176,14 +178,28 @@ public class SDKManager {
     public void showProgress(Activity activity) {
         try {
             if (null == progressDialog)
-                if (activity.hasWindowFocus()) {
+//                if (activity.hasWindowFocus()) {
                     progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
-                }
+//                }
             if (null != progressDialog) {
-                if (activity.hasWindowFocus()) {
+//                if (activity.hasWindowFocus()) {
                     progressDialog.show();
                     progressDialog.setCancelable(false);
-                }
+//                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void showEmptyProgress(Activity activity) {
+        try {
+            if (null == emptyDialog){
+                emptyDialog = SDKProgressEmptyDialog.createProgrssDialog(activity);
+            }
+            if (null != emptyDialog) {
+                emptyDialog.show();
+                emptyDialog.setCancelable(true);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -211,6 +227,13 @@ public class SDKManager {
         if (null != progressDialog) {
             progressDialog.dismiss();
             progressDialog = null;
+        }
+    }
+
+    public void hideEmptyProgress() {
+        if (null != emptyDialog) {
+            emptyDialog.dismiss();
+            emptyDialog = null;
         }
     }
 
@@ -430,6 +453,10 @@ public class SDKManager {
      * @param activity
      */
     public void showUserAgreement(Activity activity){
+        if (!isInitStatus()) {
+            System.out.println("请先初始化SDK");
+            return;
+        }
         if (!getInitParameter().isShowUserAgreement()) return;
         UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, true,new ResultCallBack() {
             @Override
@@ -501,7 +528,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
-                    sdkUploadLog(activity, "init interface error", errorMsg);
+//                    sdkUploadLog(activity, "init interface error", errorMsg);
                     initCallBackListener.onFailure(SDKConstant.init_net_error,errorMsg);
                     //用AF统计失败事件
                     Map<String,Object> map=new HashMap<>();
@@ -606,7 +633,7 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKRegisterAccount---onFailure:" + errorMsg);
-                    sdkUploadLog(activity, "SDKRegisterAccount interface error", errorMsg);
+//                    sdkUploadLog(activity, "SDKRegisterAccount interface error", errorMsg);
                     registerCallBack.onFailure(errorMsg);
                 }
             });
@@ -1200,11 +1227,9 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-//            showProgress(activity);
             ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, oauthId, oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-//                    hideProgress();
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + aesKey+"|"+result);
                     if (result == null || result.isEmpty()) {
@@ -1229,7 +1254,7 @@ public class SDKManager {
                             user.setUserName(oauthId);
                             setUser(user);
                             loginCallBack.onSuccess(user);
-                            hideProgress();
+
                             if (resultCallBack != null) resultCallBack.onSuccess();
 
                             //游客登录追踪
@@ -1243,6 +1268,7 @@ public class SDKManager {
                         }
                     } catch (Exception e) {
                         hideProgress();
+                        hideEmptyProgress();
                         e.printStackTrace();
                     }
                 }
@@ -1250,6 +1276,7 @@ public class SDKManager {
                 @Override
                 public void onFailure(String errorMsg) {
                     hideProgress();
+                    hideEmptyProgress();
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onFailure:" + errorMsg);
                     loginCallBack.onFailure(SDKConstant.network_error,errorMsg);
                 }
@@ -1257,6 +1284,7 @@ public class SDKManager {
 
         } catch (Exception e) {
             hideProgress();
+            hideEmptyProgress();
             e.printStackTrace();
         }
     }
@@ -1290,11 +1318,10 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            showProgress(activity);
+
             ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, facebookUser.getId(), oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-//                    hideProgress();
 
                     LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1323,7 +1350,7 @@ public class SDKManager {
 
                             setUser(user);
                             loginCallBack.onSuccess(user);
-                            hideProgress();
+
                             if (resultCallBack!=null) resultCallBack.onSuccess();
 
                             //游客登录追踪
@@ -1420,6 +1447,10 @@ public class SDKManager {
 
         if (activity == null) {
             System.out.println("sdkLogout failed:Activity is null.");
+            return;
+        }
+        if (!isInitStatus()){
+            System.out.println("未初始化");
             return;
         }
         setActivity(activity);
@@ -2123,6 +2154,14 @@ public class SDKManager {
      */
     public void sdkGuestBindFB(final Activity activity, final ResultCallBack callBack) {
 
+        if (activity==null){
+            System.out.println("activity is null");
+            return;
+        }
+        if (!isInitStatus()){
+            System.out.println("The SDK is not initialized.");
+            return;
+        }
         LoginManager.getInstance().facebookLogin(activity, new ThirdLoginResultCallBack() {
             @Override
             public void onSuccess(String thirdId) {
@@ -2612,12 +2651,21 @@ public class SDKManager {
             public void onFailure(String msg) {
 
             }
+
+            @Override
+            public void onCancel() {
+
+            }
         });
 
     }
 
     public void facebookShareLink(Activity activity, String url, ShareResultCallBack callBack) {
-//        FacebookManager.getInstance().facebookShareUrl(activity,url,callBack);
+
+        if (activity == null){
+            System.out.println("parameter is null");
+            return;
+        }
         if (callBack == null){
             System.out.println("ShareResultCallBack is null");
             return;
@@ -2635,13 +2683,24 @@ public class SDKManager {
      */
     public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String serverId, final HashMap<String, Object> customData) {
 
+        if (activity == null || initParameter==null){
+            System.out.println("parameter is null");
+            return;
+        }
+        //防止快速点击
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastTime < 2000) {
+            return;
+        }else {
+            lastTime = currentTime;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     if (!isInitStatus()) {
                         initAiHelp(activity, initParameter);
-                        Thread.sleep(2000);
+                        Thread.sleep(3000);
                     }
                     String nutsId = "";
                     if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
@@ -2666,7 +2725,22 @@ public class SDKManager {
      * @param serverId
      * @param customData
      */
+    private long lastTime = 0;
     public void showFAQs(final Activity activity,final InitParameter initParameter,final String userName,final String serverId,final HashMap<String, Object> customData) {
+
+        if (activity == null || initParameter==null){
+            System.out.println("parameter is null");
+            return;
+        }
+
+        //防止快速点击
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastTime < 2000) {
+            return;
+        }else {
+            lastTime = currentTime;
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -2674,7 +2748,7 @@ public class SDKManager {
                 try {
                     if (!isInitStatus()) {
                         initAiHelp(activity, initParameter);
-                        Thread.sleep(2000);
+                        Thread.sleep(3000);
                     }
                     String nutsId = "";
                     if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
@@ -2757,6 +2831,10 @@ public class SDKManager {
      * @param installCallBack
      */
     public void installReferrer(Activity activity, InstallCallBack installCallBack) {
+        if (!isInitStatus()){
+            System.out.println("请先初始化SDK");
+            return;
+        }
         InstallManager.getInstance().getInstallReferrer(activity,installCallBack);
     }
 

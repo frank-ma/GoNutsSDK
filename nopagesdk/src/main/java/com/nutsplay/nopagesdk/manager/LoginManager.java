@@ -40,6 +40,8 @@ public class LoginManager {
         void onSuccess(FacebookUser facebookUser);
 
         void onFailure(String msg);
+
+        void onCancel();
     }
 
     public interface GoogleLoginListener {
@@ -80,18 +82,22 @@ public class LoginManager {
         if (activity == null || loginCallBack == null) return;
 
         AppManager.startActivity(FBLoginActivity.class);
-        SDKManager.getInstance().showProgress(activity);
         setFBLoginListener(new FbLoginListener() {
             @Override
             public void onSuccess(FacebookUser user) {
+
                 SDKManager.getInstance().sdkLoginThirdAccount(activity, user, SDKConstant.TYPE_FACEBOOK, loginCallBack,resultCallBack);
             }
 
             @Override
             public void onFailure(String msg) {
-//                loginCallBack.onFailure(SDKConstant.fb_login_error,msg);
                 if (msg!=null && !msg.isEmpty()) SDKToast.getInstance().ToastShow(msg,3);
                 resultCallBack.onFailure(msg);
+            }
+
+            @Override
+            public void onCancel() {
+                resultCallBack.onFailure("cancel");
             }
         });
 
@@ -118,6 +124,11 @@ public class LoginManager {
             public void onFailure(String msg) {
                 resultCallBack.onFailure(msg);
             }
+
+            @Override
+            public void onCancel() {
+
+            }
         });
 
     }
@@ -135,7 +146,6 @@ public class LoginManager {
         setGoogleLoginListener(new GoogleLoginListener() {
             @Override
             public void onSuccess(String googleId) {
-                SDKManager.getInstance().showProgress(activity);
                 SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack,resultCallBack);
             }
 

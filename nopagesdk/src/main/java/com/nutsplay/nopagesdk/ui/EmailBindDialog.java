@@ -45,6 +45,7 @@ public class EmailBindDialog extends Dialog {
 
         private Context context;
         private static Handler handler;
+        private long lastTime = 0;
 
         public Builder(Context context) {
             this.context = context;
@@ -109,6 +110,15 @@ public class EmailBindDialog extends Dialog {
                         return;
                     }
                     if (!SDKGameUtils.matchEmail(emailAddress)) return;
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 600000) {
+                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
                     SDKManager.getInstance().sdkUserBindEmailSendCode((Activity) context, emailAddress, new ResultCallBack() {
                         @Override
                         public void onSuccess() {

@@ -42,7 +42,7 @@ public class RegisterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private RegisterResultCallBack registerCallBack;
-
+        private long lastTime = 0;
         public Builder(Context context,RegisterResultCallBack registerCallBack) {
             this.context = context;
             this.registerCallBack = registerCallBack;
@@ -84,6 +84,14 @@ public class RegisterDialog extends Dialog {
             signUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //防止快速点击
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTime < 2000) {
+                        return;
+                    }else {
+                        lastTime = currentTime;
+                    }
+
                     final String account = userName.getText().toString();
                     final String psw = pwd.getText().toString();
                     String rePsw = repeatPwd.getText().toString();
