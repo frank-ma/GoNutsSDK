@@ -28,6 +28,7 @@ public class SDKToast {
 
     public void ToastShow(String tvString, int Toast_Length, int type) {
 
+        if (SDKManager.getInstance().getActivity() == null) return;
         if (type == 1) {
             Toasty.success(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
         } else if (type == 2) {

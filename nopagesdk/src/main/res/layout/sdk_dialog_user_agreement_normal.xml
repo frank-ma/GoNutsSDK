@@ -47,17 +47,16 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white">
             <TextView
                 android:id="@+id/user_agreement"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/white"
+                android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:scrollbars="vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"/>
         </ScrollView>
 

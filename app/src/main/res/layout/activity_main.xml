@@ -100,6 +100,15 @@
                 android:textColor="@color/white"
                 android:visibility="visible" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="initAihelp"
+                android:text="初始化AIHelp"
+                android:textColor="@color/white"
+                android:visibility="visible" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -207,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:onClick="ru"
-                android:text="俄语"
+                android:text="俄"
                 android:layout_margin="10dp"
                 android:textColor="@color/colorAccent" />
             <TextView
@@ -215,7 +224,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:onClick="es"
-                android:text="西班牙语"
+                android:text="西班牙"
                 android:layout_margin="10dp"
                 android:textColor="@color/colorAccent" />
             <TextView
@@ -223,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:onClick="pt"
-                android:text="葡萄牙语"
+                android:text="葡萄牙"
                 android:layout_margin="10dp"
                 android:textColor="@color/colorAccent" />
 

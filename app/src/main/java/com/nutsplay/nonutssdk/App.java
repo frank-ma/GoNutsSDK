@@ -1,10 +1,6 @@
 package com.nutsplay.nonutssdk;
 
 
-import android.content.Context;
-
-import androidx.multidex.MultiDex;
-
 import com.facebook.stetho.Stetho;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
 
@@ -45,9 +41,5 @@ public class App extends SDKApplication {
 //        }
 //    }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+
 }

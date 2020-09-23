@@ -117,15 +117,14 @@ public class ResetPwdDialog extends Dialog {
                     if (currentTime - lastTime < 600000) {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
                     SDKManager.getInstance().sdkResetPwdSendCode((Activity) context, account, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
+                            lastTime = System.currentTimeMillis();
                             //开始倒计时
-                            countDown(btnSend);
+//                            countDown(btnSend);
 
                         }
 

@@ -89,6 +89,7 @@ public class UserAgreementDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
+                    if (context == null) return;
                     resultCallBack.onSuccess();
                     SPManager.getInstance(context).putBoolean(SPKey.key_first_open,false);
                     dialog.dismiss();
@@ -100,7 +101,6 @@ public class UserAgreementDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-//                    resultCallBack.onFailure("The user refused policy.");
                     dialog.dismiss();
                 }
             });

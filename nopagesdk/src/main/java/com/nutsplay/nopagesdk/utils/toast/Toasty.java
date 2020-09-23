@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -185,20 +184,20 @@ public class Toasty {
         currentToast.setView(toastLayout);
         currentToast.setDuration(duration);
 
-        try {
-            Object mTN;
-            mTN = getField(currentToast, "mTN");
-            if (mTN != null) {
-                Object mParams = getField(mTN, "mParams");
-                if (mParams != null
-                        && mParams instanceof WindowManager.LayoutParams) {
-                    WindowManager.LayoutParams params = (WindowManager.LayoutParams) mParams;
-                    params.windowAnimations =SDKResUtils.getResId(context,"Nuts_Style","style");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Object mTN;
+//            mTN = getField(currentToast, "mTN");
+//            if (mTN != null) {
+//                Object mParams = getField(mTN, "mParams");
+//                if (mParams != null
+//                        && mParams instanceof WindowManager.LayoutParams) {
+//                    WindowManager.LayoutParams params = (WindowManager.LayoutParams) mParams;
+//                    params.windowAnimations =SDKResUtils.getResId(context,"Nuts_Style","style");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return currentToast;
     }

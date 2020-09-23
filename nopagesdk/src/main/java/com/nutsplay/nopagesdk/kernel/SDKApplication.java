@@ -1,6 +1,6 @@
 package com.nutsplay.nopagesdk.kernel;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 
 import com.nutsplay.nopagesdk.db.DaoMaster;
 import com.nutsplay.nopagesdk.db.DaoSession;
@@ -13,7 +13,8 @@ import org.xutils.x;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public class SDKApplication extends Application {
+
+public class SDKApplication extends MultiDexApplication {
 
     private DaoSession daoSession;
     private static SDKApplication context;
@@ -46,23 +47,4 @@ public class SDKApplication extends Application {
         return daoSession;
     }
 
-//    /**
-//     * 初始化客服系统HelpShift
-//     *
-//     */
-//    private void initHelpShift() {
-//        Core.init(Support.getInstance());
-//        InstallConfig installConfig = new InstallConfig.Builder()
-//                .setEnableInAppNotification(true)
-//                .build();
-//        try {
-//            Core.install(this,
-//                    "ede1e4fac3a77f37b7742b273b1b8ceb",
-//                    "freetrialshenqiwangluo.helpshift.com",
-//                    "freetrialshenqiwangluo_platform_20200528025919539-3daee148250700c",
-//                    installConfig);
-//        } catch (InstallException e) {
-//            LogUtils.e("Helpshift install call : " + e);
-//        }
-//    }
 }

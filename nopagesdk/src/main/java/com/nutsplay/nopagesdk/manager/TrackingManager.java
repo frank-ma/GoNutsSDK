@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFInAppEventType;
@@ -107,10 +108,12 @@ public class TrackingManager {
 
 //        DCTrackingPoint.login(accountId);
             //登录成功之后检查掉单
-            SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());
-
-
-
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());
+                }
+            }, 5000);
 
             //AIHelp轮询作业，每300S自动拉取一次当前未读消息
 //            String userID ="";

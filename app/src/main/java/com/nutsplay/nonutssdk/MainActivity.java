@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-        initB.callOnClick();
+//        initB.callOnClick();
     }
 
     /**
@@ -121,6 +121,16 @@ public class MainActivity extends BaseActivity {
 
         Intent intent = new Intent(this, NoUIActivity.class);
         startActivity(intent);
+    }
+
+    public void initAihelp(View view) {
+        SDKManager.getInstance().beforeInitSDK();
+        InitParameter initParameter = new InitParameter();
+        initParameter.setLanguage("zh_hk");
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpDomain(AIHelpDomain);
+        SDKManager.initAiHelp(this,initParameter);
     }
 
     /**
@@ -417,7 +427,7 @@ public class MainActivity extends BaseActivity {
         SDK.getInstance().sdkUpdateLanguage("zh_CN");
     }
     public void zh_TW(View view){
-        SDK.getInstance().sdkUpdateLanguage("zh_TW");
+        SDK.getInstance().sdkUpdateLanguage("zh_HK");
     }
     public void es(View view){
         SDK.getInstance().sdkUpdateLanguage("es");
@@ -684,11 +694,16 @@ public class MainActivity extends BaseActivity {
 //        Intent intent= packageManager.getLaunchIntentForPackage("com.nutspower.mergegame");
 //        startActivity(intent);
 
-        Intent intent = new Intent();
-        ComponentName comp = new ComponentName("com.nutspower.mergegame", "com.idgame.nutlibrary.SDKUtils");
-        intent.setComponent(comp);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        try {
+            Intent intent = new Intent();
+            ComponentName comp = new ComponentName("com.nutspower.mergegame", "com.idgame.nutlibrary.SDKUtils");
+            intent.setComponent(comp);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -764,4 +779,6 @@ public class MainActivity extends BaseActivity {
     public void evaluate(View view) {
 
     }
+
+
 }

@@ -454,7 +454,7 @@ public class SDKGameUtils {
             lan = 13;
         } else if (langugae.contains("id") || langugae.contains("idn")) {
             lan = 14;
-        } else if (langugae.contains("ru")) {
+        } else if (langugae.contains("ru") || langugae.contains("by")) {
             lan = 15;
         } else {
             lan = 2;
@@ -469,7 +469,7 @@ public class SDKGameUtils {
      */
     public static String getAIHelpLanguage(String lang){
         int index = getLanguage(lang)-1;
-        if (index < 0) index = 1;
+        if (index < 0 || index > 14) index = 1;
         String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru"};
         return aihelpLang[index];
     }

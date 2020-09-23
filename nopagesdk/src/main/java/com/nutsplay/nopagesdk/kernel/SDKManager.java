@@ -208,15 +208,12 @@ public class SDKManager {
 
     public void showProgress(Activity activity,String msg) {
         try {
-            if (null == progressDialog)
-                if (activity.hasWindowFocus()) {
-                    progressDialog = SDKProgressDialog.createProgrssDialog(activity, msg);
-                }
+            if (null == progressDialog){
+                progressDialog = SDKProgressDialog.createProgrssDialog(activity, msg);
+            }
             if (null != progressDialog) {
-                if (activity.hasWindowFocus()) {
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-                }
+                progressDialog.show();
+                progressDialog.setCancelable(false);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -263,7 +260,25 @@ public class SDKManager {
                 }
             });
 
+            if (onMessageArrivedCallback == null) return;
             ELvaChatServiceSdk.setOnMessageArrivedCallback(onMessageArrivedCallback);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 注册未读消息回调接口
+     */
+    public void beforeInitSDK(){
+        try {
+            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+                @Override
+                public void onInitialized() {
+                    //初始化完成
+                    System.out.println("AIHelp初始化完成");
+                }
+            });
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -339,7 +354,7 @@ public class SDKManager {
     /**
      * 初始化AiHelp客服系统
      */
-    private static void initAiHelp(Activity activity, InitParameter parameters) {
+    public static void initAiHelp(Activity activity, InitParameter parameters) {
 
         try {
             ELvaChatServiceSdk.init(

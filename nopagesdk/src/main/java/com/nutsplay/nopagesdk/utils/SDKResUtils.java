@@ -9,6 +9,7 @@ import android.content.Context;
  */
 public class SDKResUtils {
     public static int getResId(Context context, String resName, String rClassName){
+        if (context == null) return 0;
         return context.getResources().getIdentifier(resName, rClassName, context.getPackageName());
     }
 }

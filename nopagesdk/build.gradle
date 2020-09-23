@@ -11,15 +11,15 @@ def releaseTime() {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion '29.0.3'
 
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 28
-        versionName "1.27"
+        targetSdkVersion 30
+        versionCode 29
+        versionName "1.28"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

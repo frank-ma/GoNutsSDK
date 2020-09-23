@@ -821,7 +821,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * 会重新弹出支付框
      */
     public void destroy() {
-        Log.d(TAG, "Destroying the manager.");
+        Log.d(TAG, "Destroy GooglePayHelp");
         if (billingClient != null && billingClient.isReady()) {
             billingClient.endConnection();
             billingClient = null;

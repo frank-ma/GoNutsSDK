@@ -130,12 +130,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="24dp"
             android:textStyle="italic"
+            android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
-            android:paddingRight="24dp"
+            android:paddingLeft="26dp"
+            android:paddingRight="26dp"
             android:paddingTop="3dp"
+            android:paddingBottom="1dp"
             android:text=" Create an account"
             android:textColor="@color/blue" />
 

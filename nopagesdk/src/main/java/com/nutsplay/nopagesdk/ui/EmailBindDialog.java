@@ -115,15 +115,14 @@ public class EmailBindDialog extends Dialog {
                     if (currentTime - lastTime < 600000) {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
                     SDKManager.getInstance().sdkUserBindEmailSendCode((Activity) context, emailAddress, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
+                            lastTime = System.currentTimeMillis();
                             //发送验证码成功，开始计时20s
-                            countDown(context,btnSend);
+//                            countDown(context,btnSend);
                         }
 
                         @Override

@@ -42,7 +42,7 @@ public class UserCenterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private Handler handler;
-        private long lastTime=0;
+        private long lastTime = 0;
         public Builder(Context context) {
             this.context = context;
         }
