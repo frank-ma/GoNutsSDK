@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class FirstDialog extends Dialog {
 
     public FirstDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public FirstDialog(@NonNull Context context, int themeResId) {

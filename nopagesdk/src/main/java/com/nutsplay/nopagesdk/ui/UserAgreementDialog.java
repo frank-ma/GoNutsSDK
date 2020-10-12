@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class UserAgreementDialog extends Dialog {
 
     public UserAgreementDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public UserAgreementDialog(@NonNull Context context, int themeResId) {

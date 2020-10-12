@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +33,9 @@ public class EmailBindDialog extends Dialog {
 
     public EmailBindDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public EmailBindDialog(@NonNull Context context, int themeResId) {
@@ -77,7 +82,7 @@ public class EmailBindDialog extends Dialog {
             bind.setText(SDKLangConfig.getInstance().findMessage("bind"));
 
 
-            handler = new Handler(){
+            handler = new Handler(Looper.getMainLooper()){
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     super.handleMessage(msg);

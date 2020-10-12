@@ -11,35 +11,38 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
-                android:text="有UI接口："/>
+                android:text="有UI接口：" />
 
             <TextView
                 android:id="@+id/no_ui_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorAccent"
-                android:padding="6dp"
                 android:onClick="goToNoUIActivity"
-                android:visibility="gone"
-                android:text="无UI接口-->"/>
+                android:padding="6dp"
+                android:text="无UI接口-->"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="必选接口："/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/init"
@@ -67,6 +70,7 @@
                 android:text="注销"
                 android:textColor="@color/white" />
 
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,46 +79,92 @@
                 android:text="切换账号"
                 android:textColor="@color/white" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
-                android:onClick="createRoleTracking"
-                android:text="创角追踪"
-                android:textColor="@color/white"
-                android:visibility="visible" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:onClick="guestBindFB"
-                android:text="绑定FB账号"
-                android:textColor="@color/white"
-                android:visibility="visible" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:onClick="initAihelp"
-                android:text="初始化AIHelp"
-                android:textColor="@color/white"
-                android:visibility="visible" />
+                android:onClick="userCenter"
+                android:text="用户中心"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="localPrice"
+                android:text="查询本地商品价格"
+                android:textSize="8sp"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="subsLocalPrice"
+                android:text="查询订阅本地价格"
+                android:textSize="8sp"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="purchase"
+                android:text="支付"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="subscription"
+                android:text="订阅"
+                android:textColor="@color/white" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="customerService"
+                android:text="在线客服"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="FAQ"
+                android:text="FAQ"
+                android:textColor="@color/white" />
+
+
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/color_circle_blue"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:text="可选接口："/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/default_login"
@@ -129,136 +179,107 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="purchase"
-                android:text="支付"
+                android:onClick="initAihelp"
+                android:text="初始化AIHelp"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="fbGameLogin"
+                android:text="FB游戏登录"
                 android:textColor="@color/colorAccent" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="subscription"
-                android:text="订阅"
+                android:onClick="showUserAgreement"
+                android:text="用户协议"
                 android:textColor="@color/colorAccent" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="createRoleTracking"
+                android:text="创角追踪"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="saveShot"
+                android:text="截图保存"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
+            android:layout_height="wrap_content">
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="zh_CN"
-                android:text="简中"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="zh_TW"
-                android:text="繁中"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="en"
-                android:text="英语"
-                android:layout_margin="10dp"
+                android:onClick="installReferrer"
+                android:text="安装归因"
                 android:textColor="@color/colorAccent" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="ko"
-                android:text="韩语"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="jp"
-                android:text="日语"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="de"
-                android:text="德语"
-                android:layout_margin="10dp"
+                android:onClick="fbFriendFinder"
+                android:text="FB好友查找"
+                android:visibility="gone"
                 android:textColor="@color/colorAccent" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="fr"
-                android:text="法语"
-                android:layout_margin="10dp"
+                android:onClick="shareLink"
+                android:text="FB分享链接"
+                android:visibility="visible"
                 android:textColor="@color/colorAccent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="ru"
-                android:text="俄"
-                android:layout_margin="10dp"
+                android:onClick="systemShare"
+                android:text="FB系统分享"
+                android:visibility="visible"
                 android:textColor="@color/colorAccent" />
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="es"
-                android:text="西班牙"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="pt"
-                android:text="葡萄牙"
-                android:layout_margin="10dp"
+                android:onClick="openApp"
+                android:text="打开应用"
                 android:textColor="@color/colorAccent" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="ar"
-                android:text="阿拉伯"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
+                android:onClick="guestBindFB"
+                android:text="绑定FB"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="it"
-                android:text="意大利"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorAccent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="th"
-                android:text="泰语"
-                android:layout_margin="10dp"
+                android:onClick="evaluate"
+                android:text="评论"
+                android:visibility="gone"
                 android:textColor="@color/colorAccent" />
 
         </LinearLayout>
@@ -269,166 +290,126 @@
             android:background="@color/color_circle_blue"
             android:layout_margin="5dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/black"
-                android:onClick="localPrice"
-                android:text="查询本地商品价格"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/black"
-                android:onClick="subsLocalPrice"
-                android:text="查询订阅商品本地价格"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="saveShot"
-                android:text="截图保存"
-                android:visibility="gone"
-                android:textColor="@color/colorAccent" />
-
-        </LinearLayout>
+            android:text="多语言："/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
+            android:layout_height="wrap_content">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="userCenter"
-                android:text="用户中心"
+                android:onClick="zh_CN"
+                android:text="简中"
                 android:textColor="@color/colorAccent" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="customerService"
-                android:text="在线客服"
+                android:onClick="zh_TW"
+                android:text="繁中"
                 android:textColor="@color/colorAccent" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="FAQ"
-                android:text="FAQ"
+                android:onClick="en"
+                android:text="英"
                 android:textColor="@color/colorAccent" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:onClick="saveShot"
-                android:text="截图保存"
-                android:textColor="@color/colorAccent"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
+                android:onClick="ko"
+                android:text="韩语"
+                android:textColor="@color/colorAccent" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="fbGameLogin"
-                android:text="FB游戏登录"
+                android:onClick="jp"
+                android:text="日语"
+                android:textColor="@color/colorAccent" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="de"
+                android:text="德语"
                 android:textColor="@color/colorAccent" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="showUserAgreement"
-                android:text="用户协议"
+                android:onClick="fr"
+                android:text="法语"
                 android:textColor="@color/colorAccent" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="installReferrer"
-                android:text="安装归因"
+                android:onClick="vi"
+                android:text="越南语"
                 android:textColor="@color/colorAccent" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/black"
-                android:onClick="fbFriendFinder"
-                android:text="FB好友查找"
-                android:visibility="gone"
-                android:textColor="@color/colorAccent" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="ru"
+                android:text="俄"
+                android:textColor="@color/colorAccent" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="es"
+                android:text="西班牙"
+                android:textColor="@color/colorAccent" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="pt"
+                android:text="葡萄牙"
+                android:textColor="@color/colorAccent" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="shareLink"
-                android:text="FB分享链接"
-                android:visibility="visible"
+                android:onClick="ar"
+                android:text="阿拉伯"
                 android:textColor="@color/colorAccent" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="systemShare"
-                android:text="FB系统分享"
-                android:visibility="visible"
+                android:onClick="it"
+                android:text="意大利"
                 android:textColor="@color/colorAccent" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="openApp"
-                android:text="打开应用"
+                android:onClick="th"
+                android:text="泰语"
                 android:textColor="@color/colorAccent" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/black"
-                android:onClick="evaluate"
-                android:text="评论"
-                android:visibility="gone"
+                android:onClick="idn"
+                android:text="印尼语"
                 android:textColor="@color/colorAccent" />
 
         </LinearLayout>
@@ -446,17 +427,14 @@
 
         </LinearLayout>
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
 
-            <TextView
+        <TextView
                 android:id="@+id/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="20dp" />
-<!--        </ScrollView>-->
+
     </LinearLayout>
 
 </ScrollView>

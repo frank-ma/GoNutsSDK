@@ -47,11 +47,11 @@ public class SDKLangConfig {
     public SDKLangConfig() {
 
         Properties zh_CN = new Properties();
-        Properties th = new Properties();
+        Properties th = new Properties();//泰
         Properties vi = new Properties();//越南语
-        Properties ar = new Properties();
-        Properties en = new Properties();
-        Properties zh_HK = new Properties();
+        Properties ar = new Properties();//阿拉伯
+        Properties en = new Properties();//英
+        Properties zh_HK = new Properties();//繁体中文
         Properties ko = new Properties();//朝鲜语
 
         Properties fr = new Properties();//法语
@@ -1818,6 +1818,39 @@ public class SDKLangConfig {
         zh_CN.setProperty("nuts_Emailhasbeenbound", "请勿频繁发送，10分钟后重试");
         zh_HK.setProperty("nuts_Emailhasbeenbound", "請勿頻繁發送，10分鐘後重試");
         ru.setProperty("nuts_Emailhasbeenbound", "Не отправляйте часто, попробуйте еще раз через 10 минут");
+
+        //网络错误
+        ar.setProperty("network_error", "خطأ في الشبكة");
+        de.setProperty("network_error", "Netzwerkfehler");
+        en.setProperty("network_error", "Network Error");
+        es.setProperty("network_error", "Error de red");
+        fr.setProperty("network_error", "Erreur réseau");
+        id.setProperty("network_error", "Kesalahan Jaringan");
+        it.setProperty("network_error", "Errore di rete");
+        ja.setProperty("network_error", "ネットワークエラー");
+        ko.setProperty("network_error", "네트워크 오류");
+        pt.setProperty("network_error", "Erro de rede");
+        th.setProperty("network_error", "ข้อผิดพลาดของเครือข่าย");
+        vi.setProperty("network_error", "Lỗi mạng");
+        zh_CN.setProperty("network_error", "网络错误");
+        zh_HK.setProperty("network_error", "網絡錯誤");
+        ru.setProperty("network_error", "Сетевая ошибка");
+
+        ar.setProperty("email_no_bind", "حسابك ليس مرتبطًا بالبريد الإلكتروني ، يرجى ربط البريد الإلكتروني في مركز المستخدم أولاً");
+        de.setProperty("email_no_bind", "Ihr Konto ist nicht an eine E-Mail gebunden. Bitte binden Sie die E-Mail zuerst im User Center");
+        en.setProperty("email_no_bind", "Your account is not bound to an email, please bind the email in the user center first");
+        es.setProperty("email_no_bind", "Su cuenta no está vinculada a un correo electrónico, primero enlace el correo electrónico en el centro de usuarios");
+        fr.setProperty("email_no_bind", "Votre compte n'est pas lié à un e-mail, veuillez d'abord lier l'e-mail dans le centre utilisateur");
+        id.setProperty("email_no_bind", "Akun Anda tidak terikat dengan email, harap ikat email di pusat pengguna terlebih dahulu");
+        it.setProperty("email_no_bind", "Il tuo account non è vincolato a un'e-mail, prima associa l'e-mail nel centro utenti");
+        ja.setProperty("email_no_bind", "アカウントはメールにバインドされていません。まずユーザーセンターでメールをバインドしてください");
+        ko.setProperty("email_no_bind", "귀하의 계정은 이메일에 연결되어 있지 않습니다. 먼저 사용자 센터에서 이메일을 연결하세요.");
+        pt.setProperty("email_no_bind", "Sua conta não está vinculada a um e-mail, vincule o e-mail na central do usuário primeiro");
+        th.setProperty("email_no_bind", "บัญชีของคุณไม่ผูกมัดกับอีเมลโปรดผูกอีเมลในศูนย์ผู้ใช้ก่อน");
+        vi.setProperty("email_no_bind", "Tài khoản của bạn không bị ràng buộc với một email, trước tiên hãy liên kết email trong trung tâm người dùng");
+        zh_CN.setProperty("email_no_bind", "您的账号未绑定邮箱,请先在用户中心绑定邮箱");
+        zh_HK.setProperty("email_no_bind", "您的賬號未綁定郵箱,請先在用戶中心綁定郵箱");
+        ru.setProperty("email_no_bind", "Ваша учетная запись не привязана к электронной почте, пожалуйста, сначала привяжите электронную почту в центре пользователей");
     }
 }
 

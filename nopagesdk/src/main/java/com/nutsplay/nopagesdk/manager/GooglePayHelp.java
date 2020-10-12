@@ -473,6 +473,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                                     String sku = skuDetails.getSku();
                                     if (sku.equals(skuId)) {
                                         BillingFlowParams flowParams = BillingFlowParams.newBuilder().setObfuscatedAccountId(transactionId).setSkuDetails(skuDetails).build();
+                                        if (billingClient == null) continue;
                                         BillingResult bResult = billingClient.launchBillingFlow(SDKManager.getInstance().getActivity(), flowParams);
                                         LogUtils.d(TAG, "launchBillingFlow---responseCode:" + bResult.getResponseCode() + "  msg:" + bResult.getDebugMessage());
                                     }

@@ -31,6 +31,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.nutsplay.nonutssdk.MainActivity"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +41,7 @@
         </activity>
 
         <activity android:name="com.nutsplay.nonutssdk.NoUIActivity"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
 
 
@@ -108,32 +110,46 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/showBgStyleFullscreen"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.ljoy.chatbot.OPActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/showBgStyleFullscreen"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.ljoy.chatbot.FAQActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/showBgStyleFullscreen"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.ljoy.chatbot.WebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/showBgStyleFullscreen"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.ljoy.chatbot.QAWebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/showBgStyleFullscreen"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--需要的Activity -->
+        <!--AIhelp需要的Activity -->
+
+        <!--监听网络状态-->
+<!--        <receiver android:name="com.nutsplay.nopagesdk.receiver.NetworkChangeReceiver" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+<!--                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
+<!--                <action android:name="android.net.wifi.STATE_CHANGE" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

@@ -48,17 +48,34 @@
             android:drawablePadding="5dp"
             android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/et_pwd"
+        <RelativeLayout
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccentLight"
-            android:hint="Password"
-            android:drawableLeft="@drawable/ic_pwd"
-            android:inputType="textPassword"
-            android:text=""
-            android:drawablePadding="5dp"
-            android:textColor="@color/black" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccentLight"
+                android:hint="Password"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:inputType="textPassword"
+                android:text=""
+                android:drawablePadding="5dp"
+                android:textColor="@color/black" />
+
+            <ToggleButton
+                android:id="@+id/pwd_toggle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/eyes_open"
+                android:layout_marginRight="10dp"
+                android:textOn=""
+                android:textOff=""/>
+        </RelativeLayout>
+
 
         <EditText
             android:id="@+id/et_new_pwd"

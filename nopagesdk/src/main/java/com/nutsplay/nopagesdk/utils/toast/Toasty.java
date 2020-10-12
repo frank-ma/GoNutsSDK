@@ -172,12 +172,14 @@ public class Toasty {
         ToastyUtils.setBackground(toastLayout, drawableFrame);
 
         if (withIcon) {
-            if (icon == null)
-                throw new IllegalArgumentException("Avoid passing 'icon' as null if 'withIcon' is set to true");
-            ToastyUtils.setBackground(toastIcon, icon);
-        } else
+            if (icon != null){
+                ToastyUtils.setBackground(toastIcon, icon);
+            }else {
+                toastIcon.setVisibility(View.GONE);
+            }
+        } else {
             toastIcon.setVisibility(View.GONE);
-
+        }
         toastTextView.setTextColor(textColor);
         toastTextView.setText(message);
         toastTextView.setTypeface(Typeface.create(TOAST_TYPEFACE, Typeface.NORMAL));

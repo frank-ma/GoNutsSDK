@@ -23,4 +23,9 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
+    <style name="dialog_anim_style">
+<!--        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/slide_out_right</item>-->
+    </style>
 </resources>

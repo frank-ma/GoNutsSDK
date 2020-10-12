@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,9 @@ public class TipDialog extends Dialog {
 
     public TipDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public TipDialog(@NonNull Context context, int themeResId) {

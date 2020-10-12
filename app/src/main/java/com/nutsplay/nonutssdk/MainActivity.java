@@ -30,6 +30,7 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
+import com.nutsplay.nopagesdk.ui.BaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
 import java.util.ArrayList;
@@ -73,14 +74,13 @@ public class MainActivity extends BaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-//        initB.callOnClick();
+        initB.callOnClick();
     }
 
     /**
      * ****************************************接口方法*********************************************
      */
     public void initSDK(View view) {
-//        SDKManager.getInstance().beforeInitSDK();
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
@@ -124,13 +124,23 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initAihelp(View view) {
-        SDKManager.getInstance().beforeInitSDK();
+
         InitParameter initParameter = new InitParameter();
         initParameter.setLanguage("zh_hk");
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpDomain(AIHelpDomain);
-        SDKManager.initAiHelp(this,initParameter);
+        SDKManager.getInstance().initAiHelp(this, initParameter, new ResultCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
     }
 
     /**
@@ -440,6 +450,12 @@ public class MainActivity extends BaseActivity {
     }
     public void fr(View view){
         SDK.getInstance().sdkUpdateLanguage("fr");
+    }
+    public void vi(View view){
+        SDK.getInstance().sdkUpdateLanguage("vi");
+    }
+    public void idn(View view){
+        SDK.getInstance().sdkUpdateLanguage("idn");
     }
 
     public void saveShot(View view) {

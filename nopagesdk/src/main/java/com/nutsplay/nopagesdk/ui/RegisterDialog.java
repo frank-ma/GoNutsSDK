@@ -3,11 +3,16 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +34,9 @@ public class RegisterDialog extends Dialog {
 
     public RegisterDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public RegisterDialog(@NonNull Context context, int themeResId) {
@@ -66,11 +74,42 @@ public class RegisterDialog extends Dialog {
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             final TextView autoGenerationTv = layout.findViewById(SDKResUtils.getResId(context, "tv_auto_generation", "id"));
             final TextView titleTv = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
+            final ToggleButton pwdToggle1 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle1", "id"));
+            final ToggleButton pwdToggle2 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle2", "id"));
+
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
             titleTv.setText(SDKLangConfig.getInstance().findMessage("nuts_Createaccount"));
+
+            //显隐密码
+            pwdToggle1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked){
+                        pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                    }else {
+                        pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                    }
+                }
+            });
+
+            //显隐密码
+            pwdToggle2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked){
+                        repeatPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                    }else {
+                        repeatPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                    }
+                }
+            });
 
             //自动生成账号密码
             autoGenerationTv.setOnClickListener(new View.OnClickListener() {

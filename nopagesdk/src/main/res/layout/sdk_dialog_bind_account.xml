@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:gravity="center">
     <LinearLayout
         android:layout_width="340dp"
@@ -42,17 +43,33 @@
             android:drawableLeft="@drawable/ic_account"
             android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/et_pwd"
+        <RelativeLayout
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:backgroundTint="@color/colorAccentLight"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:drawableLeft="@drawable/ic_pwd"
-            android:drawablePadding="5dp"
-            android:textColor="@color/black" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccentLight"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_pwd"
+                android:drawablePadding="5dp"
+                android:textColor="@color/black" />
+
+            <ToggleButton
+                android:id="@+id/pwd_toggle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/eyes_open"
+                android:layout_marginRight="10dp"
+                android:textOn=""
+                android:textOff=""/>
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_bind"

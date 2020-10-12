@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,9 @@ public class UserCenterDialog extends Dialog {
 
     public UserCenterDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public UserCenterDialog(@NonNull Context context, int themeResId) {
@@ -60,9 +65,9 @@ public class UserCenterDialog extends Dialog {
             TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
             final TextView bindFb = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_fb", "id"));
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
-            TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
+            final TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
-            TextView emptyTxt = layout.findViewById(SDKResUtils.getResId(context, "nothing", "id"));
+            final TextView emptyTxt = layout.findViewById(SDKResUtils.getResId(context, "nothing", "id"));
             //如果是Facebook用户就不显示绑定FB按钮了,账号登录也不能绑定
 
             if (SDKManager.getInstance().getUser() != null){
@@ -109,17 +114,13 @@ public class UserCenterDialog extends Dialog {
             resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
 
-            handler = new Handler(){
+            handler = new Handler(Looper.getMainLooper()){
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     super.handleMessage(msg);
-                    switch (msg.what){
-                        case 0:
-                            bindFb.setVisibility(View.GONE);
-                            break;
-                        default:
-                            break;
-
+                    if (msg.what == 0) {
+                        bindFb.setVisibility(View.GONE);
+                        emptyTxt.setVisibility(View.VISIBLE);
                     }
                 }
             };

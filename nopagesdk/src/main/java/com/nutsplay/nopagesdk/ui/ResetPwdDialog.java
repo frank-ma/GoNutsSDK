@@ -5,12 +5,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +37,9 @@ public class ResetPwdDialog extends Dialog {
 
     public ResetPwdDialog(@NonNull Context context) {
         super(context);
+        Window window = getWindow();
+        if (window == null) return;
+        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
     public ResetPwdDialog(@NonNull Context context, int themeResId) {
@@ -69,6 +78,8 @@ public class ResetPwdDialog extends Dialog {
             final EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
             final EditText newPwdRepeat = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd_repeat", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
+            final ToggleButton pwdToggle1 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle1", "id"));
+            final ToggleButton pwdToggle2 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle2", "id"));
 
             //多语言适配
             resetTitle.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
@@ -79,7 +90,7 @@ public class ResetPwdDialog extends Dialog {
             newPwdRepeat.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             reset.setText(SDKLangConfig.getInstance().findMessage("reset"));
 
-            handler = new Handler(){
+            handler = new Handler(Looper.getMainLooper()){
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     super.handleMessage(msg);
@@ -101,6 +112,33 @@ public class ResetPwdDialog extends Dialog {
                     }
                 }
             };
+            //显隐密码
+            pwdToggle1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked){
+                        newPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                    }else {
+                        newPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                    }
+                }
+            });
+
+            //显隐密码
+            pwdToggle2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked){
+                        newPwdRepeat.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                    }else {
+                        newPwdRepeat.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                    }
+                }
+            });
 
             //发送邮箱验证码
             btnSend.setOnClickListener(new View.OnClickListener() {

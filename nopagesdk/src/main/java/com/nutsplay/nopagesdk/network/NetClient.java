@@ -1,6 +1,7 @@
 package com.nutsplay.nopagesdk.network;
 
 import com.nutsplay.nopagesdk.callback.NetCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.LogUtils;
@@ -10,8 +11,11 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+
+import javax.net.ssl.SSLHandshakeException;
 
 /**
  * Created by frank-ma on 2019-09-19 12:05
@@ -46,9 +50,9 @@ public class NetClient {
      * @param url
      * @param map
      * @param headerMap
-     * @param jsonReaderCallback
+     * @param netCallBack
      */
-    public void clientGet(String url, Map<String, String> map, Map<String, String> headerMap, final NetCallBack jsonReaderCallback) {
+    public void clientGet(String url, Map<String, String> map, Map<String, String> headerMap, final NetCallBack netCallBack) {
         RequestParams params = new RequestParams(url);
         params.setMaxRetryCount(0);
 
@@ -68,18 +72,20 @@ public class NetClient {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-//                LogUtils.e(TAG, "onSuccess: " + result);
-                jsonReaderCallback.onSuccess(result);
-
+                netCallBack.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 if (ex == null) return;
-                if (ex instanceof TimeoutException) return;
+                if (ex instanceof UnknownHostException || ex instanceof SSLHandshakeException || ex instanceof TimeoutException){
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("network_error"),4);
+                    SDKManager.getInstance().hideAllProgress();
+                    return;
+                }
                 LogUtils.e(TAG, "onError: " + ex.getMessage());
-                SDKToast.getInstance().ToastShow(ex.getMessage(), 3);
-                jsonReaderCallback.onFailure(ex.getMessage());
+                SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
+                netCallBack.onFailure(ex.getMessage());
             }
 
             @Override
@@ -98,9 +104,9 @@ public class NetClient {
      * @param url
      * @param map
      * @param headerMap
-     * @param jsonReaderCallback
+     * @param netCallBack
      */
-    public void clientPost(String url, Map<String, String> map, Map<String, String> headerMap, final NetCallBack jsonReaderCallback) {
+    public void clientPost(String url, Map<String, String> map, Map<String, String> headerMap, final NetCallBack netCallBack) {
 
         RequestParams params = new RequestParams(url);
         //要先设置请求方法，否则addBodyParameter添加的参数都给加到请求链接里面去了，本应该加到body里面的，url太长就会报错414 Uri too long
@@ -123,15 +129,19 @@ public class NetClient {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                jsonReaderCallback.onSuccess(result);
+                netCallBack.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 if (ex == null) return;
-                if (ex instanceof TimeoutException) return;
-                SDKToast.getInstance().ToastShow(ex.getMessage(), 3);
-                jsonReaderCallback.onFailure(ex.getMessage());
+                if (ex instanceof UnknownHostException || ex instanceof SSLHandshakeException || ex instanceof TimeoutException) {
+                    SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("network_error"),4);
+                    SDKManager.getInstance().hideAllProgress();
+                    return;
+                }
+                SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
+                netCallBack.onFailure(ex.getMessage());
             }
 
             @Override

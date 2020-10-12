@@ -364,6 +364,7 @@ public class SDKGameUtils {
      * @param msg
      */
     public static void showServiceInfo(int code,String msg) {
+        if (SDKToast.getInstance() == null) return;
         if (code == SDKConstant.STATUS_ACCOUNT_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("1"), 3);
         } else if (code == SDKConstant.STATUS_ACCOUNT_DO_NOT_EXIST) {
@@ -373,7 +374,7 @@ public class SDKGameUtils {
         } else if (code == SDKConstant.STATUS_EMAIL_EXIST) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
         } else if (code == SDKConstant.STATUS_EMAIL_NOT_EXIST) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("4"), 3);
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_no_bind"), 3);
         } else if (code == SDKConstant.STATUS_PARAMETER_ERROR) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
         } else if (code == SDKConstant.STATUS_TICKET_INVALID) {

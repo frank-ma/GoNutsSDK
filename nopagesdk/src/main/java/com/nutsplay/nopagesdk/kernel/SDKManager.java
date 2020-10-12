@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -69,6 +70,7 @@ import com.nutsplay.nopagesdk.view.SDKProgressDialog;
 import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -99,6 +101,7 @@ public class SDKManager {
     private SDKProgressEmptyDialog emptyDialog;
 
     private boolean initStatus = false;
+    private boolean aiHelpInitStatus = false;
 
     public static SDKManager getInstance() {
         if (INSTANCE == null) {
@@ -178,16 +181,12 @@ public class SDKManager {
     public void showProgress(Activity activity) {
         try {
             if (null == progressDialog)
-//                if (activity.hasWindowFocus()) {
-                    progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
-//                }
-            if (null != progressDialog) {
-//                if (activity.hasWindowFocus()) {
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-//                }
+                progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
+            if (null != progressDialog && !progressDialog.isShowing()) {
+                progressDialog.show();
+                progressDialog.setCancelable(false);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -197,7 +196,7 @@ public class SDKManager {
             if (null == emptyDialog){
                 emptyDialog = SDKProgressEmptyDialog.createProgrssDialog(activity);
             }
-            if (null != emptyDialog) {
+            if (null != emptyDialog && !emptyDialog.isShowing()) {
                 emptyDialog.show();
                 emptyDialog.setCancelable(true);
             }
@@ -211,7 +210,7 @@ public class SDKManager {
             if (null == progressDialog){
                 progressDialog = SDKProgressDialog.createProgrssDialog(activity, msg);
             }
-            if (null != progressDialog) {
+            if (null != progressDialog && !progressDialog.isShowing()) {
                 progressDialog.show();
                 progressDialog.setCancelable(false);
             }
@@ -224,7 +223,7 @@ public class SDKManager {
         if (null != progressDialog) {
             progressDialog.dismiss();
             progressDialog = null;
-        }
+         }
     }
 
     public void hideEmptyProgress() {
@@ -232,6 +231,11 @@ public class SDKManager {
             emptyDialog.dismiss();
             emptyDialog = null;
         }
+    }
+
+    public void hideAllProgress(){
+        hideProgress();
+        hideEmptyProgress();
     }
 
     /**
@@ -250,39 +254,24 @@ public class SDKManager {
      * 注册未读消息回调接口
      * @param onMessageArrivedCallback
      */
-    public void beforeInitSDK(ELvaChatServiceSdk.OnMessageArrivedCallback onMessageArrivedCallback){
-        try {
-            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
-                @Override
-                public void onInitialized() {
-                    //初始化完成
-                    System.out.println("AIHelp初始化完成");
-                }
-            });
+//    public void beforeInitSDK(ELvaChatServiceSdk.OnMessageArrivedCallback onMessageArrivedCallback){
+//        try {
+//            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+//                @Override
+//                public void onInitialized() {
+//                    //初始化完成
+//                    System.out.println("AIHelp初始化完成");
+//                }
+//            });
+//
+//            if (onMessageArrivedCallback == null) return;
+//            ELvaChatServiceSdk.setOnMessageArrivedCallback(onMessageArrivedCallback);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
-            if (onMessageArrivedCallback == null) return;
-            ELvaChatServiceSdk.setOnMessageArrivedCallback(onMessageArrivedCallback);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * 注册未读消息回调接口
-     */
-    public void beforeInitSDK(){
-        try {
-            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
-                @Override
-                public void onInitialized() {
-                    //初始化完成
-                    System.out.println("AIHelp初始化完成");
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 初始化接口
@@ -319,28 +308,19 @@ public class SDKManager {
             DeviceUtils.checkPermission(activity);
 
             //初始化bugly
-//        CrashReport.initCrashReport(activity.getApplicationContext(), initParameter.getBuglyId(), false);
-//        if (initParameter.getBuglyChannel() != null && !initParameter.getBuglyChannel().isEmpty()) {
-//            CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
-//        }
+            CrashReport.initCrashReport(activity.getApplicationContext(), initParameter.getBuglyId(), false);
+            if (initParameter.getBuglyChannel() != null && !initParameter.getBuglyChannel().isEmpty()) {
+                CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
+            }
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        //初始化追踪
-                        TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
+            //初始化追踪
+            TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
 
-                        //获取keyHash
-                        SDKGameUtils.getKeyHash(activity);
+            //获取keyHash
+            SDKGameUtils.getKeyHash(activity);
 
-                        //初始化客服系统
-                        initAiHelp(activity, initParameter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            //初始化客服系统
+            initAiHelp(activity, initParameter,null);
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -352,20 +332,47 @@ public class SDKManager {
     }
 
     /**
+     * 注册未读消息回调接口
+     */
+    private void beforeInitSDK(final ResultCallBack resultCallBack){
+        try {
+            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+                @Override
+                public void onInitialized() {
+                    //初始化完成
+                    System.out.println("AIHelp初始化完成");
+                    aiHelpInitStatus = true;
+                    if (resultCallBack != null){
+                        resultCallBack.onSuccess();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 初始化AiHelp客服系统
      */
-    public static void initAiHelp(Activity activity, InitParameter parameters) {
+    public void initAiHelp(final Activity activity,final InitParameter parameters,final ResultCallBack resultCallBack) {
 
-        try {
-            ELvaChatServiceSdk.init(
-                    activity,
-                    parameters.getAihelpAppkey(),
-                    parameters.getAihelpDomain(),
-                    parameters.getAihelpAppID());
-            ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-        }catch (Exception e){
-//            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    beforeInitSDK(resultCallBack);
+                    ELvaChatServiceSdk.init(
+                            activity,
+                            parameters.getAihelpAppkey(),
+                            parameters.getAihelpDomain(),
+                            parameters.getAihelpAppID());
+                    ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**
@@ -808,14 +815,13 @@ public class SDKManager {
 
                     }
                     showProgress(activity);
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             hideProgress();
                             loginCallBack.onSuccess(getUser());
                             //登录追踪
                             TrackingManager.loginTracking(getUser().getUserId());
-
 
                         }
                     }, 1000);
@@ -908,7 +914,7 @@ public class SDKManager {
             if (isAuto()) {
                 if (getUser() != null) {
                     showProgress(activity);
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             hideProgress();
@@ -1095,40 +1101,35 @@ public class SDKManager {
                         resultCallBack.onFailure("result is null.");
                         return;
                     }
-                    try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
-                        LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
-                        SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
-                        if (loginModel == null) {
-                            resultCallBack.onFailure("loginModel is null.");
-                            return;
-                        }
-                        if (loginModel.getCode() == 1) {
-                            User user = new User();
-                            user.setUserId(loginModel.getData().getPassportId());
-                            user.setTicket(loginModel.getData().getTicket());
-                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
-                            user.setUserName(userName);
-                            user.setBindEmail(loginModel.getData().getBindEmail());
-                            setUser(user);
-//                            loginCallBack.onSuccess(user);
 
-                            //记住账号密码
-                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                    String decodeData = AESUtils.decrypt(result, aesKey);
+                    LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
+                    SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
+                    if (loginModel == null) {
+                        resultCallBack.onFailure("loginModel is null.");
+                        return;
+                    }
+                    if (loginModel.getCode() == 1) {
+                        User user = new User();
+                        user.setUserId(loginModel.getData().getPassportId());
+                        user.setTicket(loginModel.getData().getTicket());
+                        user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                        user.setUserName(userName);
+                        user.setBindEmail(loginModel.getData().getBindEmail());
+                        setUser(user);
 
-                            //登录追踪
-                            TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                        //记住账号密码
+                        SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
+                        SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
 
-                            if (resultCallBack != null) resultCallBack.onSuccess();
+                        //登录追踪
+                        TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                        resultCallBack.onSuccess();
 
-                        } else {
-                            LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
-                            SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            resultCallBack.onFailure(loginModel.getMessage());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
+                        SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
+                        resultCallBack.onFailure(loginModel.getMessage());
                     }
                 }
 
@@ -1143,6 +1144,7 @@ public class SDKManager {
         } catch (Exception e) {
             hideProgress();
             e.printStackTrace();
+            if(resultCallBack != null) resultCallBack.onFailure(e.getMessage());
         }
     }
 
@@ -1485,15 +1487,19 @@ public class SDKManager {
      * 登出公共操作
      */
     public void handleLogout(Activity activity) {
-        User user = new User();
-        setUser(user);
-        setAuto(false);
-        //FB登出
-        com.facebook.login.LoginManager.getInstance().logOut();
-        //Google登出
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-        GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
-        client.signOut();
+        try {
+            User user = new User();
+            setUser(user);
+            setAuto(false);
+            //FB登出
+            com.facebook.login.LoginManager.getInstance().logOut();
+            //Google登出
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+            GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
+            client.signOut();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -2603,22 +2609,28 @@ public class SDKManager {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
             return;
         }
+
+        if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
+            SDKToast.getInstance().ToastShow("Please login first.", 3);
+            return;
+        }
+
         UserCenterDialog.Builder builder = new UserCenterDialog.Builder(activity);
         builder.create().show();
 
-        //TODO
-        //打开用户中心的时候，进行埋点
-        SDKManager.getInstance().installReferrer(activity, new InstallCallBack() {
-            @Override
-            public void onSuccess(String msg) {
-                Log.d(TAG,"installReferrer-"+msg);
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                Log.d(TAG,"installReferrer-"+msg);
-            }
-        });
+//        //TODO
+//        //打开用户中心的时候，进行埋点
+//        SDKManager.getInstance().installReferrer(activity, new InstallCallBack() {
+//            @Override
+//            public void onSuccess(String msg) {
+//                Log.d(TAG,"installReferrer-"+msg);
+//            }
+//
+//            @Override
+//            public void onFailure(String msg) {
+//                Log.d(TAG,"installReferrer-"+msg);
+//            }
+//        });
     }
 
     /**
@@ -2697,39 +2709,45 @@ public class SDKManager {
      * AIHelp
      */
     public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String serverId, final HashMap<String, Object> customData) {
-
-        if (activity == null || initParameter==null){
-            System.out.println("parameter is null");
-            return;
-        }
-        //防止快速点击
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastTime < 2000) {
-            return;
-        }else {
-            lastTime = currentTime;
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!isInitStatus()) {
-                        initAiHelp(activity, initParameter);
-                        Thread.sleep(3000);
-                    }
-                    String nutsId = "";
-                    if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-                        nutsId = SDKManager.getInstance().getUser().getUserId();
-                    }
-                    Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
-                    ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        try {
+            if (activity == null || initParameter == null) {
+                System.out.println("parameter is null");
+                return;
             }
-        }).start();
+            //防止快速点击
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastTime < 2000) {
+                return;
+            } else {
+                lastTime = currentTime;
+            }
 
+            if (aiHelpInitStatus) {
+                String nutsId = "";
+                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+                    nutsId = SDKManager.getInstance().getUser().getUserId();
+                }
+                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
+
+                ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+            } else {
+                showProgress(activity);
+                initAiHelp(activity, initParameter, new ResultCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        hideProgress();
+                        customerSupport(activity,initParameter,userName,serverId,customData);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -2741,48 +2759,54 @@ public class SDKManager {
      * @param customData
      */
     private long lastTime = 0;
-    public void showFAQs(final Activity activity,final InitParameter initParameter,final String userName,final String serverId,final HashMap<String, Object> customData) {
 
-        if (activity == null || initParameter==null){
-            System.out.println("parameter is null");
-            return;
-        }
-
-        //防止快速点击
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastTime < 2000) {
-            return;
-        }else {
-            lastTime = currentTime;
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    if (!isInitStatus()) {
-                        initAiHelp(activity, initParameter);
-                        Thread.sleep(3000);
-                    }
-                    String nutsId = "";
-                    if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-                        nutsId = SDKManager.getInstance().getUser().getUserId();
-                    }
-
-                    HashMap<String, Object> config = new HashMap<>();
-                    config.put("showContactButtonFlag", "1");
-                    config.put("showConversationFlag", "1");
-                    config.put("elva-custom-metadata", customData);
-                    ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
-                    Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
-                    ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String serverId, final HashMap<String, Object> customData) {
+        try {
+            if (activity == null || initParameter == null) {
+                System.out.println("parameter is null");
+                return;
             }
-        }).start();
 
+            //防止快速点击
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastTime < 2000) {
+                return;
+            } else {
+                lastTime = currentTime;
+            }
+
+            if (aiHelpInitStatus) {
+                String nutsId = "";
+                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+                    nutsId = SDKManager.getInstance().getUser().getUserId();
+                }
+
+                HashMap<String, Object> config = new HashMap<>();
+                config.put("showContactButtonFlag", "1");
+                config.put("showConversationFlag", "1");
+                config.put("elva-custom-metadata", customData);
+                ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
+                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
+                ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+            } else {
+                showProgress(activity);
+                initAiHelp(activity, initParameter, new ResultCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        hideProgress();
+                        showFAQs(activity,initParameter,userName,serverId,customData);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
