@@ -6,7 +6,7 @@ android {
     buildToolsVersion "30.0.1"//29.0.3
     defaultConfig {
 //        applicationId "com.superwave.goldrush.android.googleplay"
-        applicationId "com.nutspower.nutsgamesdk"
+        applicationId "com.nutspower.nonutssdk"
 //        applicationId "com.nutspower.mergegame"
         minSdkVersion 16
         targetSdkVersion 30

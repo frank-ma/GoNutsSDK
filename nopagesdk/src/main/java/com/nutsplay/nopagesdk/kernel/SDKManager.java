@@ -312,8 +312,6 @@ public class SDKManager {
 //                CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
 //            }
 
-            //初始化追踪
-//            TrackingManager.trackingInit(activity, initParameter.getAppsflyerId(), activity.getApplication());
 
             //获取keyHash
             SDKGameUtils.getKeyHash(activity);
@@ -2735,6 +2733,7 @@ public class SDKManager {
                     @Override
                     public void onSuccess() {
                         hideProgress();
+                        lastTime = 0;
                         customerSupport(activity,initParameter,userName,serverId,customData);
                     }
 
@@ -2793,6 +2792,7 @@ public class SDKManager {
                     @Override
                     public void onSuccess() {
                         hideProgress();
+                        lastTime = 0;
                         showFAQs(activity,initParameter,userName,serverId,customData);
                     }
 
