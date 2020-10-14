@@ -256,8 +256,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     public void resentOrderByDbRecord() {
         try {
             List<Purchase> records = DBManager.getInstance().queryLostOrders();
+            if (records == null) return;
             LogUtils.d(TAG, "掉单数量：" + records.size());
-            if (records != null && records.size() > 0) {
+            if (records.size() > 0) {
                 for (Purchase purchase : records) {
                     notifyServerForLostOrder(BillingClient.SkuType.INAPP, purchase);
                 }

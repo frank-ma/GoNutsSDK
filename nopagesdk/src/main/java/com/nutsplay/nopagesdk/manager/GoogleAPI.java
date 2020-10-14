@@ -12,26 +12,23 @@ package com.nutsplay.nopagesdk.manager;
 //        Task<ReviewInfo> request = manager.requestReviewFlow();
 //        request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
 //            @Override
-//            public void onComplete(@NonNull Task<ReviewInfo> task) {
-//                if (task.isSuccessful()) {
-//                    // We can get the ReviewInfo object
+//            public void onComplete(Task<ReviewInfo> task) {
+//                if (task.isSuccessful()){
+//                    LogUtil.d("evaluateInApp success:" + task.getResult().toString());
 //                    ReviewInfo reviewInfo = task.getResult();
-//
-//
-//                    launchReviewFlow(reviewInfo, manager, context);
-//                } else {
-//                    // There was some problem, continue regardless of the result.
-//                    LogUtil.d("requestReviewFlow failed:" + task.getResult());
+//                    launchReviewFlow(context,reviewInfo,manager);
+//                }else {
+//                    LogUtil.d("evaluateInApp failed:" + task.getResult().toString());
 //                }
 //            }
 //        });
 //    }
 //
-//    private static void launchReviewFlow(ReviewInfo reviewInfo, ReviewManager manager, Activity context) {
+//    private static void launchReviewFlow(Activity context,ReviewInfo reviewInfo, ReviewManager manager) {
 //        Task<Void> flow = manager.launchReviewFlow(context, reviewInfo);
 //        flow.addOnCompleteListener(new OnCompleteListener<Void>() {
 //            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
+//            public void onComplete(Task<Void> task) {
 //                if (task.isSuccessful()){
 //                    LogUtil.d("launchReviewFlow successful");
 //                }else {

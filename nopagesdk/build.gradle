@@ -67,7 +67,7 @@ dependencies {
     //google登录
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     //Google评价用到核心库
-//    implementation 'com.google.android.play:core:1.8.0'
+//    implementation 'com.google.android.play:core:1.8.2'
 
     // Facebook Android SDK (everything)
     implementation 'com.facebook.android:facebook-android-sdk:7.1.0'

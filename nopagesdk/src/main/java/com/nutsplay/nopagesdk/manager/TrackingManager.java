@@ -1,6 +1,5 @@
 package com.nutsplay.nopagesdk.manager;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -13,6 +12,7 @@ import com.appsflyer.AppsFlyerLib;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
+import com.nutspower.commonlibrary.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,35 +29,37 @@ public class TrackingManager {
      *
      * @param application
      */
-    public static void trackingInit(Activity activity, String afKey, Application application){
-        if (afKey == null || afKey.isEmpty()){
-            afKey = "VBmCBKvNg5uvd4iiLZSx7J";
-        }
+    public static void trackingInit(Application application,String afKey){
+
         //AF初始化
         AppsFlyerConversionListener conversionListener = new AppsFlyerConversionListener() {
             @Override
-            public void onInstallConversionDataLoaded(Map<String, String> map) {
-
+            public void onConversionDataSuccess(Map<String, Object> map) {
+                for (String attrName : map.keySet()) {
+                    LogUtils.d("AppsFlyer", "attribute: " + attrName + " = " + map.get(attrName));
+                }
             }
 
             @Override
-            public void onInstallConversionFailure(String s) {
-
+            public void onConversionDataFail(String s) {
+                LogUtils.d("AppsFlyer", "error getting conversion data: " + s);
             }
 
             @Override
             public void onAppOpenAttribution(Map<String, String> map) {
-
+                for (String attrName : map.keySet()) {
+                    LogUtils.d("AppsFlyer", "attribute: " + attrName + " = " + map.get(attrName));
+                }
             }
 
             @Override
             public void onAttributionFailure(String s) {
-
+                LogUtils.d("AppsFlyer", "error onAttributionFailure : " + s);
             }
         };
 
-        AppsFlyerLib.getInstance().init(afKey,conversionListener,activity.getApplication());
-        AppsFlyerLib.getInstance().startTracking(activity.getApplication());
+        AppsFlyerLib.getInstance().init(afKey,conversionListener,application.getApplicationContext());
+        AppsFlyerLib.getInstance().startTracking(application);
 
 
         //配置DataEye

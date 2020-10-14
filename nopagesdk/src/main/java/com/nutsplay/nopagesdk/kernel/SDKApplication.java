@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.nutsplay.nopagesdk.db.DaoMaster;
 import com.nutsplay.nopagesdk.db.DaoSession;
+import com.nutsplay.nopagesdk.manager.TrackingManager;
 
 import org.greenrobot.greendao.database.Database;
 import org.xutils.x;
@@ -18,6 +19,7 @@ public class SDKApplication extends MultiDexApplication {
 
     private DaoSession daoSession;
     private static SDKApplication context;
+    private static final String AF_DEV_KEY = "VBmCBKvNg5uvd4iiLZSx7J";
 
     @Override
     public void onCreate() {
@@ -26,7 +28,8 @@ public class SDKApplication extends MultiDexApplication {
         x.Ext.init(this);
         initGreenDao();
         context = this;
-//        initHelpShift();
+
+        TrackingManager.trackingInit(this,AF_DEV_KEY);
     }
 
 
