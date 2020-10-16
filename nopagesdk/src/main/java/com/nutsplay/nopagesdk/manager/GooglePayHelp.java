@@ -482,14 +482,18 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
                             } else {
                                 //Google商店未配置该商品
-                                if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                                if (SDKManager.getInstance().getPurchaseCallBack() != null){
                                     SDKManager.getInstance().hideProgress();
                                     SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.no_upload_apk,"Google Play does not have the item id.");
+                                    destroy();
+                                }
                             }
                         } else {
-                            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+                            if (SDKManager.getInstance().getPurchaseCallBack() != null){
                                 SDKManager.getInstance().hideProgress();
                                 SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode() , billingResult.getDebugMessage());
+                                destroy();
+                            }
                         }
                     }
                 });
@@ -559,18 +563,23 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             }
 
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+            if (SDKManager.getInstance().getPurchaseCallBack() != null) {
                 SDKManager.getInstance().hideProgress();
                 SDKManager.getInstance().getPurchaseCallBack().onCancel();
+            }
+            //消费完断开支付服务连接
+            destroy();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             //Item 已经拥有
             SDKToast.getInstance().ToastShow("Item already owned", 3);
             Log.e(TAG, "item already owned");
             queryHistoryPurchase();
         } else {
-            if (SDKManager.getInstance().getPurchaseCallBack() != null)
+            if (SDKManager.getInstance().getPurchaseCallBack() != null){
                 SDKManager.getInstance().hideProgress();
                 SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
+                destroy();
+            }
         }
 
     }
@@ -596,6 +605,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             //订阅确认失败
                             LogUtils.e("订阅确认失败：" + billingResult.getDebugMessage());
                         }
+                        //消费完断开支付服务连接
+                        destroy();
                     }
                 });
             }
@@ -823,10 +834,14 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * 会重新弹出支付框
      */
     public void destroy() {
-        Log.d(TAG, "Destroy GooglePayHelp");
-        if (billingClient != null && billingClient.isReady()) {
-            billingClient.endConnection();
-            billingClient = null;
+        try{
+            Log.d(TAG, "Destroy GooglePayHelp");
+            if (billingClient != null && billingClient.isReady()) {
+                billingClient.endConnection();
+                billingClient = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

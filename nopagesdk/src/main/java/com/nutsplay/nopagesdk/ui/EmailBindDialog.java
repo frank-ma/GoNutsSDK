@@ -3,10 +3,6 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -49,11 +45,13 @@ public class EmailBindDialog extends Dialog {
     public static class Builder {
 
         private Context context;
-        private static Handler handler;
+//        private static Handler handler;
         private long lastTime = 0;
+        ResultCallBack resultCallBack;
 
-        public Builder(Context context) {
+        public Builder(Context context,ResultCallBack resultCallBack) {
             this.context = context;
+            this.resultCallBack = resultCallBack;
         }
 
         public EmailBindDialog create() {
@@ -82,28 +80,28 @@ public class EmailBindDialog extends Dialog {
             bind.setText(SDKLangConfig.getInstance().findMessage("bind"));
 
 
-            handler = new Handler(Looper.getMainLooper()){
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    super.handleMessage(msg);
-                    switch (msg.what){
-                        case 0:
-                            String time = (String) msg.obj;
-                            if (time == null) return;
-                            btnSend.setText(time);
-                            break;
-                        case 1:
-                            btnSend.setEnabled(true);
-                            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
-                            break;
-                        case 2:
-                            btnSend.setEnabled(false);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            };
+//            handler = new Handler(Looper.getMainLooper()){
+//                @Override
+//                public void handleMessage(@NonNull Message msg) {
+//                    super.handleMessage(msg);
+//                    switch (msg.what){
+//                        case 0:
+//                            String time = (String) msg.obj;
+//                            if (time == null) return;
+//                            btnSend.setText(time);
+//                            break;
+//                        case 1:
+//                            btnSend.setEnabled(true);
+//                            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
+//                            break;
+//                        case 2:
+//                            btnSend.setEnabled(false);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//            };
 
             //发送邮箱验证码
             btnSend.setOnClickListener(new View.OnClickListener() {
@@ -160,11 +158,12 @@ public class EmailBindDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
+                            resultCallBack.onSuccess();
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            resultCallBack.onFailure(msg);
                         }
                     });
 
@@ -189,27 +188,27 @@ public class EmailBindDialog extends Dialog {
         /**
          * 倒计时显示
          */
-        private void countDown(final Context context, final TextView button) {
-
-            handler.sendEmptyMessage(2);
-            CountDownTimer timer = new CountDownTimer(20000,1000) {
-                @Override
-                public void onTick(final long millisUntilFinished) {
-                    Message message = new Message();
-                    message.what = 0;
-                    message.obj = millisUntilFinished / 1000 + "s";
-                    handler.sendMessage(message);
-
-                }
-
-                @Override
-                public void onFinish() {
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
-                }
-            }.start();
-        }
+//        private void countDown(final Context context, final TextView button) {
+//
+//            handler.sendEmptyMessage(2);
+//            CountDownTimer timer = new CountDownTimer(20000,1000) {
+//                @Override
+//                public void onTick(final long millisUntilFinished) {
+//                    Message message = new Message();
+//                    message.what = 0;
+//                    message.obj = millisUntilFinished / 1000 + "s";
+//                    handler.sendMessage(message);
+//
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    handler.sendMessage(message);
+//                }
+//            }.start();
+//        }
 
     }
 

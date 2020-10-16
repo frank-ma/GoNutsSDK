@@ -3,9 +3,6 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -46,7 +43,6 @@ public class UserCenterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private Handler handler;
         private long lastTime = 0;
         public Builder(Context context) {
             this.context = context;
@@ -62,9 +58,9 @@ public class UserCenterDialog extends Dialog {
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
             }
-            TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
+            final TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
             final TextView bindFb = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_fb", "id"));
-            TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
+            final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
             final TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
             final TextView emptyTxt = layout.findViewById(SDKResUtils.getResId(context, "nothing", "id"));
@@ -114,16 +110,16 @@ public class UserCenterDialog extends Dialog {
             resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
 
-            handler = new Handler(Looper.getMainLooper()){
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    super.handleMessage(msg);
-                    if (msg.what == 0) {
-                        bindFb.setVisibility(View.GONE);
-                        emptyTxt.setVisibility(View.VISIBLE);
-                    }
-                }
-            };
+//            handler = new Handler(Looper.getMainLooper()){
+//                @Override
+//                public void handleMessage(@NonNull Message msg) {
+//                    super.handleMessage(msg);
+//                    if (msg.what == 0) {
+//                        bindFb.setVisibility(View.GONE);
+//                        emptyTxt.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            };
 
             //绑定邮箱
             bindEmail.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +133,26 @@ public class UserCenterDialog extends Dialog {
                         lastTime = currentTime;
                     }
 
-                    EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context);
+                    EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context, new ResultCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bindEmail.setVisibility(View.GONE);
+                                    emailTip.setVisibility(View.VISIBLE);
+                                    resetPwd.setVisibility(View.VISIBLE);
+                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+                                    emailTip.setText(textContent);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
                     builder.create().show();
                 }
             });
@@ -157,7 +172,13 @@ public class UserCenterDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             //游客绑定FB成功
-                            handler.sendEmptyMessage(0);
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bindFb.setVisibility(View.GONE);
+                                    emptyTxt.setVisibility(View.VISIBLE);
+                                }
+                            });
                         }
 
                         @Override

@@ -123,6 +123,7 @@ public class ResetPwdDialog extends Dialog {
                         newPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    newPwd.setSelection(newPwd.getText().toString().length());
                 }
             });
 
@@ -137,6 +138,7 @@ public class ResetPwdDialog extends Dialog {
                         newPwdRepeat.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    newPwdRepeat.setSelection(newPwdRepeat.getText().toString().length());
                 }
             });
 

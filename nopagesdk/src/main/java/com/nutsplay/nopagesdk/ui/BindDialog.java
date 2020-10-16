@@ -93,6 +93,7 @@ public class BindDialog extends Dialog {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    pwd.setSelection(pwd.getText().toString().length());
                 }
             });
 

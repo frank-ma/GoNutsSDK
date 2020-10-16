@@ -3,9 +3,6 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -20,7 +17,6 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.beans.TempUser;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -59,7 +55,6 @@ public class LoginDialog extends Dialog {
     public static class Builder {
         private Context context;
         private LoginCallBack loginCallBack;
-        private Handler handler;
         private boolean isLogin = true;//是登录还是切换账号
         private long lastTime = 0;
 
@@ -99,27 +94,27 @@ public class LoginDialog extends Dialog {
             fillAccount(context,userName, pwd);
 
 
-            handler = new Handler(Looper.getMainLooper()){
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    super.handleMessage(msg);
-                    switch (msg.what){
-                        case 0:
-                            backIv.callOnClick();
-                            if (pwd !=null) pwd.setText("");
-                            break;
-                        case 1:
-                            TempUser tempUser= (TempUser) msg.obj;
-                            if (tempUser == null)return;
-                            if (userName!=null) userName.setText(tempUser.getAccount());
-                            if (pwd!=null) pwd.setText(tempUser.getPwd());
-                            break;
-                        default:
-                            break;
-
-                    }
-                }
-            };
+//            handler = new Handler(Looper.getMainLooper()){
+//                @Override
+//                public void handleMessage(@NonNull Message msg) {
+//                    super.handleMessage(msg);
+//                    switch (msg.what){
+//                        case 0:
+//                            backIv.callOnClick();
+//                            if (pwd !=null) pwd.setText("");
+//                            break;
+//                        case 1:
+//                            TempUser tempUser= (TempUser) msg.obj;
+//                            if (tempUser == null)return;
+//                            if (userName!=null) userName.setText(tempUser.getAccount());
+//                            if (pwd!=null) pwd.setText(tempUser.getPwd());
+//                            break;
+//                        default:
+//                            break;
+//
+//                    }
+//                }
+//            };
 
             //忘记密码
             resetPwd.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +138,7 @@ public class LoginDialog extends Dialog {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    pwd.setSelection(pwd.getText().toString().length());//将光标设置在文本框的末尾
                 }
             });
 
@@ -227,8 +223,13 @@ public class LoginDialog extends Dialog {
                         SDKManager.getInstance().sdkResetPwd((Activity) context, userName.getText().toString(), pwd.getText().toString(), newPwd.getText().toString(), new ResultCallBack() {
                             @Override
                             public void onSuccess() {
-                                handler.sendEmptyMessage(0);
-
+                                backIv.callOnClick();
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pwd.setText("");
+                                    }
+                                });
                             }
 
                             @Override
@@ -256,15 +257,14 @@ public class LoginDialog extends Dialog {
                         @Override
                         public void onSuccess(final String account, final String pas) {
                             try{
-                                if (account == null || pas == null) return;
-                                //回调中修改UI应该在UI线程中操作
-                                Message message=new Message();
-                                message.what=1;
-                                TempUser tempUser = new TempUser();
-                                tempUser.setAccount(account);
-                                tempUser.setPwd(pas);
-                                message.obj = tempUser;
-                                handler.sendMessage(message);
+                                if (StringUtils.isBlank(account) || StringUtils.isBlank(pas)) return;
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        userName.setText(account);
+                                        pwd.setText(pas);
+                                    }
+                                });
                             }catch (Exception e){
                                 e.printStackTrace();
                             }

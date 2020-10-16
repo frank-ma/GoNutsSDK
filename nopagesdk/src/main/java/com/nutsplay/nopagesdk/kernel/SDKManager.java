@@ -2418,6 +2418,9 @@ public class SDKManager {
                         if (sdkResult == null) return;
                         if (sdkResult.getCode() == 1) {
                             //绑定账号成功
+                            User user = getUser();
+                            user.setBindEmail(sdkResult.getData().getEmail_address());
+                            setUser(user);
                             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("bindEmailSuccess"), 1);
                             resultCallBack.onSuccess();
                         } else {

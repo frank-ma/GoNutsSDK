@@ -94,6 +94,7 @@ public class RegisterDialog extends Dialog {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    pwd.setSelection(pwd.getText().toString().length());
                 }
             });
 
@@ -108,6 +109,7 @@ public class RegisterDialog extends Dialog {
                         repeatPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
                     }
+                    repeatPwd.setSelection(repeatPwd.getText().toString().length());
                 }
             });
 
