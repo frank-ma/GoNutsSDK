@@ -1,9 +1,11 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -45,10 +47,12 @@ public class UserCenterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private long lastTime = 0;
+        private Handler handler;
         public Builder(Context context) {
             this.context = context;
         }
 
+        @SuppressLint("HandlerLeak")
         public UserCenterDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final UserCenterDialog dialog = new UserCenterDialog(context);
@@ -111,16 +115,22 @@ public class UserCenterDialog extends Dialog {
             resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
 
-//            handler = new Handler(Looper.getMainLooper()){
-//                @Override
-//                public void handleMessage(@NonNull Message msg) {
-//                    super.handleMessage(msg);
-//                    if (msg.what == 0) {
-//                        bindFb.setVisibility(View.GONE);
-//                        emptyTxt.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            };
+            handler = new Handler(){
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        bindFb.setVisibility(View.GONE);
+                        emptyTxt.setVisibility(View.VISIBLE);
+                    }else if (msg.what == 1){
+                        bindEmail.setVisibility(View.GONE);
+                        emailTip.setVisibility(View.VISIBLE);
+                        resetPwd.setVisibility(View.VISIBLE);
+                        String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+                        emailTip.setText(textContent);
+                    }
+                }
+            };
 
             //绑定邮箱
             bindEmail.setOnClickListener(new View.OnClickListener() {
@@ -147,16 +157,17 @@ public class UserCenterDialog extends Dialog {
 //                                    emailTip.setText(textContent);
 //                                }
 //                            });
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bindEmail.setVisibility(View.GONE);
-                                    emailTip.setVisibility(View.VISIBLE);
-                                    resetPwd.setVisibility(View.VISIBLE);
-                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-                                    emailTip.setText(textContent);
-                                }
-                            });
+//                            new Handler().post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    bindEmail.setVisibility(View.GONE);
+//                                    emailTip.setVisibility(View.VISIBLE);
+//                                    resetPwd.setVisibility(View.VISIBLE);
+//                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+//                                    emailTip.setText(textContent);
+//                                }
+//                            });
+                            handler.sendEmptyMessage(1);
                         }
 
                         @Override
@@ -190,13 +201,14 @@ public class UserCenterDialog extends Dialog {
 //                                    emptyTxt.setVisibility(View.VISIBLE);
 //                                }
 //                            });
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bindFb.setVisibility(View.GONE);
-                                    emptyTxt.setVisibility(View.VISIBLE);
-                                }
-                            });
+//                            new Handler().post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    bindFb.setVisibility(View.GONE);
+//                                    emptyTxt.setVisibility(View.VISIBLE);
+//                                }
+//                            });
+                            handler.sendEmptyMessage(0);
                         }
 
                         @Override
