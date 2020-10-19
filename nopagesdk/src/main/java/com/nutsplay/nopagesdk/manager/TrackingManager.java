@@ -3,7 +3,6 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFInAppEventType;
@@ -111,7 +110,7 @@ public class TrackingManager {
 
 //        DCTrackingPoint.login(accountId);
             //登录成功之后检查掉单
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());

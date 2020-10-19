@@ -3,6 +3,8 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -224,7 +226,7 @@ public class LoginDialog extends Dialog {
                             @Override
                             public void onSuccess() {
                                 backIv.callOnClick();
-                                ((Activity)context).runOnUiThread(new Runnable() {
+                                new Handler().post(new Runnable() {
                                     @Override
                                     public void run() {
                                         pwd.setText("");
@@ -258,13 +260,22 @@ public class LoginDialog extends Dialog {
                         public void onSuccess(final String account, final String pas) {
                             try{
                                 if (StringUtils.isBlank(account) || StringUtils.isBlank(pas)) return;
-                                ((Activity)context).runOnUiThread(new Runnable() {
+//                                ((Activity)context).runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        userName.setText(account);
+//                                        pwd.setText(pas);
+//                                    }
+//                                });
+//                                Looper.prepare();
+                                new Handler(Looper.getMainLooper()).post(new Runnable(){
                                     @Override
                                     public void run() {
                                         userName.setText(account);
                                         pwd.setText(pas);
                                     }
                                 });
+//                                Looper.loop();
                             }catch (Exception e){
                                 e.printStackTrace();
                             }

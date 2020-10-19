@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -812,7 +811,7 @@ public class SDKManager {
 
                     }
                     showProgress(activity);
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             hideProgress();
@@ -911,7 +910,7 @@ public class SDKManager {
             if (isAuto()) {
                 if (getUser() != null) {
                     showProgress(activity);
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             hideProgress();

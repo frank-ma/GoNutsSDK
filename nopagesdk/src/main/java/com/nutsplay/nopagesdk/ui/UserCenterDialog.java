@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -136,7 +137,17 @@ public class UserCenterDialog extends Dialog {
                     EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            ((Activity)context).runOnUiThread(new Runnable() {
+//                            ((Activity)context).runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    bindEmail.setVisibility(View.GONE);
+//                                    emailTip.setVisibility(View.VISIBLE);
+//                                    resetPwd.setVisibility(View.VISIBLE);
+//                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
+//                                    emailTip.setText(textContent);
+//                                }
+//                            });
+                            new Handler().post(new Runnable() {
                                 @Override
                                 public void run() {
                                     bindEmail.setVisibility(View.GONE);
@@ -172,7 +183,14 @@ public class UserCenterDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             //游客绑定FB成功
-                            ((Activity)context).runOnUiThread(new Runnable() {
+//                            ((Activity)context).runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    bindFb.setVisibility(View.GONE);
+//                                    emptyTxt.setVisibility(View.VISIBLE);
+//                                }
+//                            });
+                            new Handler().post(new Runnable() {
                                 @Override
                                 public void run() {
                                     bindFb.setVisibility(View.GONE);

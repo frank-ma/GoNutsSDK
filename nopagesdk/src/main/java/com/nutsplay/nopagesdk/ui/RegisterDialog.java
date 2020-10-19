@@ -117,7 +117,7 @@ public class RegisterDialog extends Dialog {
             autoGenerationTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    autoGenerationAccountPwd(userName,pwd,repeatPwd);
+                    //autoGenerationAccountPwd(userName,pwd,repeatPwd);
                 }
             });
 

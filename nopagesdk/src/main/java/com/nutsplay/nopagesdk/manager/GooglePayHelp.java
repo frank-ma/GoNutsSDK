@@ -96,7 +96,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 if (billingResult == null) return;
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     //初始化成功
-                    LogUtils.d(TAG, "Google 初始化成功");
+                    Log.d(TAG, "Google 初始化成功");
                     setConnected(true);
                     queryPurchase(true, type);
                 } else {

@@ -19,6 +19,7 @@ import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -148,8 +149,8 @@ public class SDKGameUtils {
      * @return
      */
     public static boolean matchAccountReg(String account) {
-        if (account.isEmpty() || "".equals(account)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38Reg"), 3);
+        if (StringUtils.isBlank(account)) {
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
             return false;
         }
 
@@ -165,8 +166,8 @@ public class SDKGameUtils {
 
 
     public static boolean matchPwReg(String pw) {
-        if (pw.isEmpty() || "".equals(pw)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("regspw"), 3);
+        if (StringUtils.isBlank(pw)) {
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("33"), 3);
             return false;
         }
 
@@ -185,7 +186,7 @@ public class SDKGameUtils {
      * @return
      */
     public static boolean matchAccount(String account) {
-        if (account.isEmpty() || "".equals(account)) {
+        if (StringUtils.isBlank(account)) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
             return false;
         }
@@ -205,13 +206,13 @@ public class SDKGameUtils {
      *
      * @return
      */
-    public static boolean matchCode(String account) {
-        if (account.isEmpty() || "".equals(account)) {
+    public static boolean matchCode(String code) {
+        if (StringUtils.isBlank(code)) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("39"), 3);
             return false;
         }
 
-        boolean isMatch = account.matches("\\w{4,24}");
+        boolean isMatch = code.matches("\\w{4,24}");
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("40"), 3);
 
@@ -305,7 +306,7 @@ public class SDKGameUtils {
 
 
     public static boolean matchPw(String pw) {
-        if (pw.isEmpty() || "".equals(pw)) {
+        if (StringUtils.isBlank(pw)) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("33"), 3);
             return false;
         }

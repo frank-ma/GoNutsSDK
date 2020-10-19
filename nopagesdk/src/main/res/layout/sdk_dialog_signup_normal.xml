@@ -31,7 +31,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/blue"
                 android:padding="4dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"/>
 
             <TextView
