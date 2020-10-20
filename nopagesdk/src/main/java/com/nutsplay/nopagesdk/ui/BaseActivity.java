@@ -1,11 +1,8 @@
 package com.nutsplay.nopagesdk.ui;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -24,15 +21,16 @@ public class BaseActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            WindowInsetsController insetsController = getWindow().getInsetsController();
-            if (insetsController != null) {
-                insetsController.hide(WindowInsets.Type.statusBars());
-                insetsController.hide(WindowInsets.Type.displayCutout());
-            }
-        }else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+//            WindowInsetsController insetsController = getWindow().getInsetsController();
+//            if (insetsController != null) {
+//                insetsController.hide(WindowInsets.Type.statusBars());
+//                insetsController.hide(WindowInsets.Type.displayCutout());
+//            }
+//        }else {
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         //注册网络状态监听广播

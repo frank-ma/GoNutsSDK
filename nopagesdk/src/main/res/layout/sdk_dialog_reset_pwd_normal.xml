@@ -57,14 +57,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
                     android:backgroundTint="@color/transaction"
                     android:hint="User that bound email"
                     android:ellipsize="end"
                     android:drawablePadding="5dp"
                     android:inputType="text"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:drawableLeft="@drawable/ic_account"
                     android:textColor="@color/black" />
 
@@ -85,7 +82,8 @@
             <View
                 android:background="#645E5E"
                 android:layout_width="match_parent"
-                android:layout_height="1px"/>
+                android:layout_height="1px"
+                android:layout_margin="1dp"/>
 
             <EditText
                 android:id="@+id/et_verification_code"
@@ -103,7 +101,8 @@
             <View
                 android:background="#645E5E"
                 android:layout_width="match_parent"
-                android:layout_height="1px"/>
+                android:layout_height="1px"
+                android:layout_margin="1dp"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -119,7 +118,6 @@
                     android:inputType="textPassword"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="2dp"
                     android:drawableLeft="@drawable/ic_pwd"
                     android:textColor="@color/black" />
 
@@ -139,7 +137,8 @@
             <View
                 android:background="#645E5E"
                 android:layout_width="match_parent"
-                android:layout_height="1px"/>
+                android:layout_height="1px"
+                android:layout_margin="1dp"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -155,7 +154,6 @@
                     android:inputType="textPassword"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="2dp"
                     android:drawableLeft="@drawable/ic_pwd"
                     android:textColor="@color/black" />
 
