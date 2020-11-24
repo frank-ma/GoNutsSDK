@@ -40,8 +40,9 @@ public class GoogleLoginActivity extends BaseActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account!=null){
             String googleID = account.getId();
-            LogUtils.e("GoogleId",googleID);
-            LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID);
+            String displayName = account.getDisplayName();
+            LogUtils.e("GoogleId",googleID + " displayName:"+displayName);
+            LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
             finish();
         }else {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -65,8 +66,9 @@ public class GoogleLoginActivity extends BaseActivity {
             if (account != null) {
                 // Google登录成功
                 String googleID = account.getId();
-                LogUtils.e("GoogleId",googleID);
-                LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID);
+                String displayName = account.getDisplayName();
+                LogUtils.e("GoogleId",googleID + " displayName:"+displayName);
+                LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
                 finish();
             }
         } catch (ApiException e) {

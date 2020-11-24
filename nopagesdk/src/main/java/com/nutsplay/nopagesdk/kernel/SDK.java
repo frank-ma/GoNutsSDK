@@ -132,9 +132,9 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginThirdAccount(Activity activity, String oauthId, String oauthSource, final LoginCallBack loginCallBack) {
+    public void sdkLoginThirdAccount(Activity activity, String oauthId, String thirdName, String oauthSource, final LoginCallBack loginCallBack) {
 
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, oauthId, oauthSource, loginCallBack, new ResultCallBack() {
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, oauthId, thirdName,oauthSource, loginCallBack, new ResultCallBack() {
             @Override
             public void onSuccess() {
 

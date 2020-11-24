@@ -332,25 +332,25 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         if (skuList == null || skuList.size() == 0 || callback == null) return;
 
         if (!isConnected() || billingClient == null) {
-//            initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
-//                @Override
-//                public void onBillingSetupFinished(BillingResult billingResult) {
-//                    if (billingResult == null) return;
-//
-//                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-//                        setConnected(true);
-//                        querySkuDetails(skuList, type, callback);
-//                    } else {
-//                        callback.onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
-//                    }
-//                }
-//
-//                @Override
-//                public void onBillingServiceDisconnected() {
-//                    Log.i(TAG, "line135-onBillingServiceDisconnected()");
-//
-//                }
-//            });
+            initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
+                @Override
+                public void onBillingSetupFinished(BillingResult billingResult) {
+                    if (billingResult == null) return;
+
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        setConnected(true);
+                        querySkuDetails(skuList, type, callback);
+                    } else {
+                        callback.onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
+                    }
+                }
+
+                @Override
+                public void onBillingServiceDisconnected() {
+                    Log.i(TAG, "line135-onBillingServiceDisconnected()");
+
+                }
+            });
             return;
         }
 

@@ -207,6 +207,7 @@ public class MainActivity extends BaseActivity {
                     String fbID=user.getFacebookId();
                 }
                 showLog("登录成功：" + user.toString());
+                showLog("UserName：" + user.getUserName());
             }
 
             @Override
@@ -230,6 +231,7 @@ public class MainActivity extends BaseActivity {
                 //ticket传给游戏服务器做登录校验
                 String ticket = user.getTicket();
                 showLog("切换账号成功：" + user.toString());
+                showLog("UserName：" + user.getUserName());
             }
 
             @Override
@@ -337,6 +339,7 @@ public class MainActivity extends BaseActivity {
         List<String> skuList = new ArrayList<>();
 //        skuList.add("com.nutspower.nutsgamesdk.test1");
         skuList.add("com.nutspower.dragon.paidland3");
+        skuList.add("com.nutspower.dragon.safediamonds9999");
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override

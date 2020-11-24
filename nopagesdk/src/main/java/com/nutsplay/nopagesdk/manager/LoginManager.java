@@ -46,7 +46,7 @@ public class LoginManager {
 
     public interface GoogleLoginListener {
 
-        void onSuccess(String googleId);
+        void onSuccess(String googleId,String displayName);
 
         void onFailure(int code,String msg);
     }
@@ -145,8 +145,8 @@ public class LoginManager {
         AppManager.startActivity(GoogleLoginActivity.class);
         setGoogleLoginListener(new GoogleLoginListener() {
             @Override
-            public void onSuccess(String googleId) {
-                SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId, SDKConstant.TYPE_GOOGLE, loginCallBack,resultCallBack);
+            public void onSuccess(String googleId,String displayName) {
+                SDKManager.getInstance().sdkLoginThirdAccount(activity, googleId,displayName, SDKConstant.TYPE_GOOGLE, loginCallBack,resultCallBack);
             }
 
             @Override
@@ -166,7 +166,7 @@ public class LoginManager {
     public void visitorLogin(Activity activity, LoginCallBack loginCallBack,ResultCallBack resultCallBack) {
 
         String visitor = Installations.id(activity);
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, SDKConstant.TYPE_GUEST, loginCallBack,resultCallBack);
+        SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, "",SDKConstant.TYPE_GUEST, loginCallBack,resultCallBack);
 
     }
 

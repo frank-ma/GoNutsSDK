@@ -1216,7 +1216,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginThirdAccount(Activity activity, final String oauthId, final String oauthSource, final LoginCallBack loginCallBack,final ResultCallBack resultCallBack) {
+    public void sdkLoginThirdAccount(Activity activity, final String oauthId, final String thirdName, final String oauthSource, final LoginCallBack loginCallBack,final ResultCallBack resultCallBack) {
 
         try {
             if (activity == null) {
@@ -1264,7 +1264,11 @@ public class SDKManager {
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(oauthSource);
-                            user.setUserName(oauthId);
+                            if (thirdName.isEmpty()){
+                                user.setUserName(oauthId);
+                            }else {
+                                user.setUserName(thirdName);
+                            }
                             setUser(user);
                             loginCallBack.onSuccess(user);
 
