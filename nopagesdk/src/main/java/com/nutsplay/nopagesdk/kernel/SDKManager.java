@@ -1265,7 +1265,7 @@ public class SDKManager {
                             user.setTicket(loginModel.getData().getTicket());
                             user.setSdkmemberType(oauthSource);
                             if (thirdName.isEmpty()){
-                                user.setUserName(oauthId);
+                                user.setUserName("");
                             }else {
                                 user.setUserName(thirdName);
                             }
