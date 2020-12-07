@@ -75,7 +75,12 @@ public class MainActivity extends BaseActivity {
 
 
 //        initB.callOnClick();
+
+
+        startActivity(new Intent(this,AdsActivity.class));
     }
+
+
 
     /**
      * ****************************************接口方法*********************************************
@@ -338,13 +343,24 @@ public class MainActivity extends BaseActivity {
 
         List<String> skuList = new ArrayList<>();
 //        skuList.add("com.nutspower.nutsgamesdk.test1");
-        skuList.add("com.nutspower.dragon.paidland3");
-        skuList.add("com.nutspower.dragon.safediamonds9999");
+//        skuList.add("com.nutspower.dragon.paidland3");
+//        skuList.add("com.nutspower.dragon.safediamonds9999");
+//        skuList.add("com.nutspower.golfduel.month499");
+//        skuList.add("com.nutspower.golfduel.diamond099");
+//        skuList.add("com.nutspower.golfduel.tour4999");
+//        skuList.add("com.nutspower.golfduel.tour9999");
+
+        //dragon home
+        skuList.add("com.nutspower.dragon.monthcard399");
+        //poly
+//        skuList.add("com.nuts.pa.android.googleplay.19");
+
+
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
-                showLog("查询本地价格成功：" + skuDetails.size());
+                showLog("查询本地价格成功：" + skuDetails.size()+"条");
                 if (skuDetails.size() == 0) return;
                 for (SkuDetails sku : skuDetails) {
                     String skuId = sku.getSku();

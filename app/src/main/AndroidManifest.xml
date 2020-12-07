@@ -2,25 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nutspower.nutsgamesdk">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- google支付权限 -->
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <!-- bugly -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--appsflyer-->
-    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
-    <!--af Optional -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--存储照片-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--Firebase-->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-
-
-
     <application
         android:name="com.nutsplay.nonutssdk.App"
         android:allowBackup="true"
@@ -28,61 +9,102 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.nutsplay.nonutssdk.MainActivity"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.nutsplay.nonutssdk.AdsActivity"></activity>
+        <activity
+            android:name="com.nutsplay.nonutssdk.MainActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.nutsplay.nonutssdk.NoUIActivity"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-
-
-
-
-        <!--sdk-->
-        <activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-
-        <activity android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-
-        <activity android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-
-        <activity android:name="com.nutsplay.nopagesdk.ui.ScreenShotActivity"
-            android:theme="@android:style/Theme.Translucent"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-
-        <!-- facebook登录相关 -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.nutsplay.nonutssdk.NoUIActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:screenOrientation="sensorLandscape" /> <!-- sdk -->
+        <activity
+            android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard" />
+        <activity
+            android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.nutsplay.nopagesdk.ui.ScreenShotActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Translucent" /> <!-- facebook登录相关 -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name="com.facebook.CustomTabActivity"
+
+        <activity
+            android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <!-- facebook相关 -->
-
-
-        <!--appsflyer-->
+        <activity
+            android:name="com.ljoy.chatbot.ChatMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- facebook相关 -->
+        <!-- appsflyer -->
+        <activity
+            android:name="com.ljoy.chatbot.OPActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- AIHelp需要的刘海屏适配 -->
+        <!-- google刘海适配 -->
+        <activity
+            android:name="com.ljoy.chatbot.FAQActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- 小米手机开启刘海适配 -->
+        <activity
+            android:name="com.ljoy.chatbot.WebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- AIHelp需要的Activity -->
+        <activity
+            android:name="com.ljoy.chatbot.QAWebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/showBgStyleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
@@ -92,64 +114,22 @@
         </receiver>
 
 
-
-
-        <!--AIHelp需要的刘海屏适配 -->
-        <!--google刘海适配-->
         <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1" />
-        <!--小米手机开启刘海适配-->
-        <meta-data
-            android:name="notch.config"
-            android:value="portrait|landscape" />
+            android:name="applovin.sdk.key"
+            android:value="iwQgra9X9i9VIXscPrXx9XKOeDuorbdXV3DKdNto40HNT8_z-Wv83DWhRPTG_6pV91qoOgZThsrE_qCzL55OJc" />
+    </application> <!-- google支付权限 -->
 
-        <!--AIHelp需要的Activity-->
-        <activity
-            android:name="com.ljoy.chatbot.ChatMainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.ljoy.chatbot.OPActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.ljoy.chatbot.FAQActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.ljoy.chatbot.WebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.ljoy.chatbot.QAWebActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--AIhelp需要的Activity -->
+    <!-- bugly -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" /> <!-- appsflyer -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- af Optional -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 存储照片 -->
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- Firebase -->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
-        <!--监听网络状态-->
-<!--        <receiver android:name="com.nutsplay.nopagesdk.receiver.NetworkChangeReceiver" >-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-<!--                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
-<!--                <action android:name="android.net.wifi.STATE_CHANGE" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-    </application>
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>
