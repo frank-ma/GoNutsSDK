@@ -46,7 +46,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if (isRegistered) {
+//        if (isRegistered && netWorkChangReceiver != null) {
 //            unregisterReceiver(netWorkChangReceiver);
 //        }
     }

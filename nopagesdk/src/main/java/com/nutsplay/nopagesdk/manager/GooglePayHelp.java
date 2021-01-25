@@ -200,6 +200,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         List<Purchase> purchasesList = purchasesResult.getPurchasesList();
         if (purchasesList == null) return;
         if (!isBuy && purchasesList.size() == 0) {
+            LogUtils.d(TAG,"没有掉单");
             destroy();
             return;
         }
@@ -212,6 +213,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             //消耗型商品
             if (purchasesList.size() == 0) {
                 //没有掉单，直接购买
+                LogUtils.d(TAG,"没有掉单");
                 if (isBuy) launchBillingFlow(skuId, itemType);
             } else {
                 //有掉单，先补单

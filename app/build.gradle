@@ -9,7 +9,7 @@ android {
 //        applicationId "com.superwave.goldrush.android.googleplay"
 //        applicationId "com.nutspower.nonutssdk"
 //        applicationId "com.nutsplay.glofduel"
-        applicationId "com.nutspower.mergegame"
+        applicationId "com.nutspower.mergegame1"
 //        applicationId "com.nuts.pa.android.googleplay"
         minSdkVersion 19
         targetSdkVersion 30
