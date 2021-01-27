@@ -84,7 +84,7 @@ public class SaveUserInfoDialog extends Dialog {
 
             dialog.setContentView(layout);
             if (dialog.getWindow()!=null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.setCancelable(false);
+            dialog.setCancelable(true);
             return dialog;
         }
 

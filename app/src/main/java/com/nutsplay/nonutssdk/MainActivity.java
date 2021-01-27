@@ -77,7 +77,7 @@ public class MainActivity extends SDKBaseActivity {
 //        initB.callOnClick();
 
 
-        startActivity(new Intent(this,AdsActivity.class));
+        //startActivity(new Intent(this,AdsActivity.class));
     }
 
 
@@ -808,11 +808,30 @@ public class MainActivity extends SDKBaseActivity {
     }
 
     /**
-     * 商店评价
+     * 商店评价:
+     * 设备要求：
+     * 搭载 Android 5.0（API 级别 21）或更高版本的 Android 设备（手机和平板电脑），且安装了 Google Play 商店。
+     * 安装了 Google Play 商店的 Chrome 操作系统设备。
+     *
+     * 何时请求应用内评价
+     * 请遵循以下准则，这些准则有助您确定何时向用户请求应用内评价：
+     *
+     * 在用户已充分您的体验应用或游戏内容并给出实用反馈后，触发应用内评价流程。
+     * 请不要过度提示用户进行评价。此方法有助于最大限度地减少用户不满并限制 API 使用情况（请参阅配额）。
+     * 在系统显示评分按钮或卡片之前或之后，您的应用不应询问用户任何问题，包括有关用户意见的问题（例如，“您是否喜欢这款应用？”）或预测性问题（例如，“您会给这款应用打 5 星吗”）。
+     *
+     * 测试条件：
+     * 将您的应用上传到内部测试轨道并将其安装到设备上，该设备必须具有一个有权访问内部测试轨道的用户帐号。使用内部测试轨道时，必须满足以下条件：
+     *
+     * 用户帐号是内部测试轨道的一部分。
+     * 用户帐号是主帐号，且已在 Play 商店中选定。
+     * 用户帐号已从 Play 商店下载应用（该应用已在用户的 Google Play 内容库中列出）。
+     * 用户帐号目前未对该应用进行评价。
+     * 在设备上的帐号至少从内部测试轨道下载该应用一次并且该帐号列于测试人员列表中之后，您可以将该应用的新版本部署到设备本地（例如，使用 Android Studio 进行部署）。
      * @param view
      */
     public void evaluate(View view) {
-
+        SDK.getInstance().googlePlayEvaluate(this);
     }
 
 

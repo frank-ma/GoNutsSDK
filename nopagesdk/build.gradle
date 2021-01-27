@@ -19,7 +19,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 36
-        versionName "2.2"
+        versionName "2.4"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -69,10 +69,10 @@ dependencies {
     //google登录
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     //Google评价用到核心库
-//    implementation 'com.google.android.play:core:1.8.2'
+    implementation 'com.google.android.play:core:1.9.0'
 
     // Facebook Android SDK (everything)
-    implementation 'com.facebook.android:facebook-android-sdk:7.1.0'
+    implementation 'com.facebook.android:facebook-android-sdk:9.0.0'
     //AIHelp
     implementation 'net.aihelp:elva:1.7.4.0'
     //Firebase

@@ -800,7 +800,7 @@ public class SDKManager {
                     if (getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)) {
 
 
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
+                        if (SDKManager.getInstance().getGuestLoginCount() >= 15) {
 
                             BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
                             builder.create().show();
@@ -2939,4 +2939,6 @@ public class SDKManager {
         }
 
     }
+
+
 }

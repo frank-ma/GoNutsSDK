@@ -278,8 +278,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:onClick="evaluate"
-                android:text="评论"
-                android:visibility="gone"
+                android:text="评分"
+                android:visibility="visible"
                 android:textColor="@color/colorAccent" />
 
         </LinearLayout>

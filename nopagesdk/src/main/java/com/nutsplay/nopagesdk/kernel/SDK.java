@@ -15,6 +15,7 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 
 import java.util.HashMap;
@@ -90,6 +91,7 @@ public class SDK {
      *
      * @param activity
      * @param loginCallBack
+     *
      */
     public void sdkLoginNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
 
@@ -338,5 +340,13 @@ public class SDK {
 
     public void installReferrer(Activity activity, InstallCallBack installCallBack) {
         SDKManager.getInstance().installReferrer(activity,installCallBack);
+    }
+
+    /**
+     * 谷歌商店评分
+     */
+    public void googlePlayEvaluate(Activity activity) {
+        if (activity == null) return;
+        GoogleAPI.evaluateInApp(activity);
     }
 }
