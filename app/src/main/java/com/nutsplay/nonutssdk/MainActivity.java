@@ -116,7 +116,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String errorMsg) {
-                showLog("初始化失败：" + code + errorMsg);
+                showLog("初始化失败：" + code + "------"+errorMsg);
             }
         });
 
@@ -175,6 +175,7 @@ public class MainActivity extends SDKBaseActivity {
                 //ticket传给游戏服务器做登录校验
                 String ticket = user.getTicket();
                 showLog("默认登录成功："+user.toString());
+
             }
 
             @Override
@@ -213,6 +214,17 @@ public class MainActivity extends SDKBaseActivity {
                 }
                 showLog("登录成功：" + user.toString());
                 showLog("UserName：" + user.getUserName());
+                //判断用户的登录类型
+                if (user.getSdkmemberType().equals(SDKConstant.TYPE_GUEST)){
+                    //游客
+                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
+                    //账号登录
+                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                    //fb登录
+                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)){
+                    //Google登录
+                }
+
             }
 
             @Override
@@ -222,7 +234,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String errorMsg) {
-                showLog("登录失败：" + errorMsg);
+                showLog("登录失败：" + code+"       "+errorMsg);
             }
         });
     }
@@ -246,7 +258,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String errorMsg) {
-                showLog("切换账号失败：" + errorMsg);
+                showLog("切换账号失败：" +code+"              "+ errorMsg);
             }
 
         });

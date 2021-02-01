@@ -93,11 +93,13 @@ public class LoginManager {
             public void onFailure(String msg) {
                 if (msg!=null && !msg.isEmpty()) SDKToast.getInstance().ToastShow(msg,3);
                 resultCallBack.onFailure(msg);
+                loginCallBack.onFailure(SDKConstant.fb_login_error,msg);
             }
 
             @Override
             public void onCancel() {
                 resultCallBack.onFailure("cancel");
+                loginCallBack.onCancel();
             }
         });
 
@@ -152,6 +154,7 @@ public class LoginManager {
             @Override
             public void onFailure(int code,String msg) {
                 resultCallBack.onFailure(msg);
+                loginCallBack.onFailure(SDKConstant.google_login_error,msg);
             }
         });
 

@@ -1281,7 +1281,7 @@ public class SDKManager {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
                             //应该自己处理，不用返回给CP
-//                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         hideProgress();
@@ -1377,7 +1377,7 @@ public class SDKManager {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
                             //应该自己处理，不用返回给CP
-//                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
+                            loginCallBack.onFailure(loginModel.getCode(),loginModel.getMessage());
                         }
                     } catch (Exception e) {
                         hideProgress();

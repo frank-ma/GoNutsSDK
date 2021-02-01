@@ -81,10 +81,10 @@ public class NetClient {
                 if (ex instanceof UnknownHostException || ex instanceof SSLHandshakeException || ex instanceof TimeoutException){
                     SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("network_error"),4);
                     SDKManager.getInstance().hideAllProgress();
-                    return;
+                }else {
+                    SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
                 }
                 LogUtils.e(TAG, "onError: " + ex.getMessage());
-                SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
                 netCallBack.onFailure(ex.getMessage());
             }
 
@@ -138,9 +138,10 @@ public class NetClient {
                 if (ex instanceof UnknownHostException || ex instanceof SSLHandshakeException || ex instanceof TimeoutException) {
                     SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("network_error"),4);
                     SDKManager.getInstance().hideAllProgress();
-                    return;
+//                    return;
+                }else{
+                    SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
                 }
-                SDKToast.getInstance().ToastShow(ex.getMessage(), 4);
                 netCallBack.onFailure(ex.getMessage());
             }
 

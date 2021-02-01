@@ -24,6 +24,7 @@ import com.nutsplay.nopagesdk.beans.TempUser;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
@@ -213,7 +214,9 @@ public class LoginDialog extends Dialog {
                             @Override
                             public void onFailure(String msg) {
                                 SDKManager.getInstance().hideEmptyProgress();
+                                if (loginCallBack != null) loginCallBack.onFailure(SDKConstant.network_error,msg);
                                 LogUtils.d("sdkLogin2Dialog", msg);
+
                             }
                         });
 
