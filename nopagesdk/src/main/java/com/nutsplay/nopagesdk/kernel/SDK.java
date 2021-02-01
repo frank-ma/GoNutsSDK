@@ -345,8 +345,8 @@ public class SDK {
     /**
      * 谷歌商店评分
      */
-    public void googlePlayEvaluate(Activity activity) {
+    public void googlePlayEvaluate(Activity activity,ResultCallBack callBack) {
         if (activity == null) return;
-        GoogleAPI.evaluateInApp(activity);
+        GoogleAPI.evaluateInApp(activity,callBack);
     }
 }

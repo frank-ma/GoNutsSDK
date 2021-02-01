@@ -843,7 +843,18 @@ public class MainActivity extends SDKBaseActivity {
      * @param view
      */
     public void evaluate(View view) {
-        SDK.getInstance().googlePlayEvaluate(this);
+        SDK.getInstance().googlePlayEvaluate(this,new ResultCallBack(){
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("评价失败："+msg);
+            }
+
+            @Override
+            public void onSuccess() {
+                showLog("评价成功");
+            }
+        });
     }
 
 

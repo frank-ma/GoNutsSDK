@@ -7,6 +7,7 @@ import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
+import com.nutsplay.nopagesdk.callback.ResultCallBack;
 
 import org.xutils.common.util.LogUtil;
 
@@ -25,9 +26,9 @@ import org.xutils.common.util.LogUtil;
  */
 public class GoogleAPI {
 
-    public static void evaluateInApp(final Activity context){
+    public static void evaluateInApp(final Activity context, final ResultCallBack resultCallBack){
         final ReviewManager manager = ReviewManagerFactory.create(context);
-        Task<ReviewInfo> request = manager.requestReviewFlow();
+        final Task<ReviewInfo> request = manager.requestReviewFlow();
         request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
             @Override
             public void onComplete(Task<ReviewInfo> task) {
@@ -39,7 +40,7 @@ public class GoogleAPI {
                     //在确定应用会启动应用内评价流程后，才可请求
                     if (reviewInfo == null) return;
                     LogUtil.e("请求评价对象成功"+reviewInfo);
-                    launchReviewFlow(context,reviewInfo,manager);
+                    launchReviewFlow(context,reviewInfo,manager,resultCallBack);
                 }else {
                     LogUtil.d("evaluateInApp failed:" + task.getResult().toString());
                 }
@@ -54,7 +55,7 @@ public class GoogleAPI {
      * @param reviewInfo
      * @param manager
      */
-    public static void launchReviewFlow(Activity context,ReviewInfo reviewInfo, ReviewManager manager) {
+    public static void launchReviewFlow(Activity context, ReviewInfo reviewInfo, ReviewManager manager, final ResultCallBack resultCallBack) {
         if (manager == null || reviewInfo == null) return;
         Task<Void> flow = manager.launchReviewFlow(context, reviewInfo);
         flow.addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -62,8 +63,10 @@ public class GoogleAPI {
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()){
                     LogUtil.d("评论成功");
+                    resultCallBack.onSuccess();
                 }else {
                     LogUtil.d("评论失败:" + task.getResult());
+                    resultCallBack.onFailure(task.getResult().toString());
                 }
             }
         });
