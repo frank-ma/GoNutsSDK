@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccentLight"
             android:hint="Account"
+            android:textColorHint="@color/color_gray"
             android:drawableLeft="@drawable/ic_account"
             android:inputType="text"
             android:text=""
@@ -62,6 +63,7 @@
                 android:inputType="textPassword"
                 android:text=""
                 android:drawablePadding="5dp"
+                android:textColorHint="@color/color_gray"
                 android:textColor="@color/black" />
 
             <ToggleButton

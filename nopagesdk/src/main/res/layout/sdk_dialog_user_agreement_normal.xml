@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:scrollbars="vertical"
+                android:textColor="@color/color_gray"
                 android:layout_marginTop="5dp"/>
         </ScrollView>
 

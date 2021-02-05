@@ -346,7 +346,10 @@ public class SDK {
      * 谷歌商店评分
      */
     public void googlePlayEvaluate(Activity activity,ResultCallBack callBack) {
-        if (activity == null) return;
+        if (activity == null || callBack == null) {
+            System.out.println("Parameter cannot be empty.");
+            return;
+        }
         GoogleAPI.evaluateInApp(activity,callBack);
     }
 }

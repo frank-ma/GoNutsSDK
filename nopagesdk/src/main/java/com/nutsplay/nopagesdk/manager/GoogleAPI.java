@@ -1,6 +1,7 @@
 package com.nutsplay.nopagesdk.manager;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -8,6 +9,7 @@ import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
 import org.xutils.common.util.LogUtil;
 
@@ -27,25 +29,32 @@ import org.xutils.common.util.LogUtil;
 public class GoogleAPI {
 
     public static void evaluateInApp(final Activity context, final ResultCallBack resultCallBack){
-        final ReviewManager manager = ReviewManagerFactory.create(context);
-        final Task<ReviewInfo> request = manager.requestReviewFlow();
-        request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
-            @Override
-            public void onComplete(Task<ReviewInfo> task) {
-                if (task.isSuccessful()){
-                    LogUtil.d("evaluateInApp success:" + task.getResult().toString());
-                    ReviewInfo reviewInfo = task.getResult();
+        try {
+            final ReviewManager manager = ReviewManagerFactory.create(context);
+            final Task<ReviewInfo> request = manager.requestReviewFlow();
+            request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
+                @Override
+                public void onComplete(Task<ReviewInfo> task) {
+                    if (task == null) return;
+                    if (task.isSuccessful()){
+                        LogUtil.d("evaluateInApp success:" + task.getResult().toString());
+                        ReviewInfo reviewInfo = task.getResult();
 
-                    //ReviewInfo对象仅在有限的时间内有效。您的应用应提前请求ReviewInfo对象（预缓存），但只有
-                    //在确定应用会启动应用内评价流程后，才可请求
-                    if (reviewInfo == null) return;
-                    LogUtil.e("请求评价对象成功"+reviewInfo);
-                    launchReviewFlow(context,reviewInfo,manager,resultCallBack);
-                }else {
-                    LogUtil.d("evaluateInApp failed:" + task.getResult().toString());
+                        //ReviewInfo对象仅在有限的时间内有效。您的应用应提前请求ReviewInfo对象（预缓存），但只有
+                        //在确定应用会启动应用内评价流程后，才可请求
+                        if (reviewInfo == null) return;
+                        LogUtil.e("请求评价对象成功"+reviewInfo);
+                        launchReviewFlow(context,reviewInfo,manager,resultCallBack);
+                    }else {
+                        SDKToast.getInstance().ToastShow("Device not supported.",3);
+                        LogUtil.d("evaluateInApp failed");
+                        Log.e("GoogleEvaluate","Device not supported.");
+                    }
                 }
-            }
-        });
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -56,19 +65,24 @@ public class GoogleAPI {
      * @param manager
      */
     public static void launchReviewFlow(Activity context, ReviewInfo reviewInfo, ReviewManager manager, final ResultCallBack resultCallBack) {
-        if (manager == null || reviewInfo == null) return;
-        Task<Void> flow = manager.launchReviewFlow(context, reviewInfo);
-        flow.addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> task) {
-                if (task.isSuccessful()){
-                    LogUtil.d("评论成功");
-                    resultCallBack.onSuccess();
-                }else {
-                    LogUtil.d("评论失败:" + task.getResult());
-                    resultCallBack.onFailure(task.getResult().toString());
+        try {
+            if (manager == null || reviewInfo == null) return;
+            Task<Void> flow = manager.launchReviewFlow(context, reviewInfo);
+            flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    if (task == null) return;
+                    if (task.isSuccessful()){
+                        LogUtil.d("评论成功");
+                        resultCallBack.onSuccess();
+                    }else {
+                        LogUtil.d("评论失败:" + task.getResult());
+                        resultCallBack.onFailure(task.getResult().toString());
+                    }
                 }
-            }
-        });
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

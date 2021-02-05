@@ -32,6 +32,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:textSize="18sp"
+            android:textColorHint="@color/color_gray"
             android:text="Username:frankma" />
 
         <TextView
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="18sp"
+            android:textColorHint="@color/color_gray"
             android:text="Password:qqqqqq" />
 
         <ImageView

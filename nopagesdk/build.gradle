@@ -48,7 +48,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //Google内购
-    implementation 'com.android.billingclient:billing:2.2.1'//2.0.3
+    implementation 'com.android.billingclient:billing:3.0.0'//2.0.3//2.2.1
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // greenDao

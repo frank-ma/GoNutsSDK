@@ -207,7 +207,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
 
         //如果是订阅，直接进行购买，如果有订阅是不能购买的
-        if (type.equals(BillingClient.SkuType.SUBS)) {
+        if (BillingClient.SkuType.SUBS.equals(type)) {
             if (isBuy) launchBillingFlow(skuId, type);
         } else {
             //消耗型商品
@@ -385,9 +385,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                                     sku.setFreeTrialPeriod(skuDetails.getFreeTrialPeriod());
                                     sku.setIntroductoryPrice(skuDetails.getIntroductoryPrice());
                                     sku.setIntroductoryPriceAmountMicros(skuDetails.getIntroductoryPriceAmountMicros());
-                                    sku.setIntroductoryPriceCycles(skuDetails.getIntroductoryPriceCycles());
+                                    sku.setIntroductoryPriceCycles(skuDetails.getIntroductoryPriceCycles()+"");
                                     sku.setOriginalPrice(skuDetails.getOriginalPrice());
-                                    sku.setRewarded(skuDetails.isRewarded());
+//                                    sku.setRewarded(skuDetails.isRewarded());
                                     sku.setSubscriptionPeriod(skuDetails.getSubscriptionPeriod());
                                     sku.setIntroductoryPricePeriod(skuDetails.getIntroductoryPricePeriod());
 
@@ -669,7 +669,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             handleAfterPurchaseSuccess(true, purchase, orderId, String.valueOf(price), currency, type);
 
 
-                            if (itemType.equals(SDKConstant.SUBS)) {
+                            if (SDKConstant.SUBS.equals(itemType)) {
                                 //确认订阅
                                 acknowledgeSubs(purchase);
                             } else {

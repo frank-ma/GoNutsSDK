@@ -206,7 +206,7 @@ public class MainActivity extends SDKBaseActivity {
                 //ticket传给游戏服务器做登录校验
                 String ticket = user.getTicket();
                 //如果用户是facebook登录的话，获取fb信息
-                if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                if (SDKConstant.TYPE_FACEBOOK.equals(user.getSdkmemberType())){
                     String fbName = user.getFacebookName();
                     String fbPortrait=user.getFacebookPortrait();
                     String fbEmail=user.getFacebookEmail();
@@ -215,15 +215,16 @@ public class MainActivity extends SDKBaseActivity {
                 showLog("登录成功：" + user.toString());
                 showLog("UserName：" + user.getUserName());
                 //判断用户的登录类型
-                if (user.getSdkmemberType().equals(SDKConstant.TYPE_GUEST)){
+                if (SDKConstant.TYPE_GUEST.equals(user.getSdkmemberType())){
                     //游客
-                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
+                } else if (SDKConstant.TYPE_ACCOUNT.equals(user.getSdkmemberType())){
                     //账号登录
-                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
+                } else if (SDKConstant.TYPE_FACEBOOK.equals(user.getSdkmemberType())){
                     //fb登录
-                } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)){
+                } else if (SDKConstant.TYPE_GOOGLE.equals(user.getSdkmemberType())){
                     //Google登录
                 }
+
 
             }
 

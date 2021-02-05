@@ -66,7 +66,7 @@ public class FBLoginActivity extends BaseActivity {
         //检查当前用户是否迁移到游戏服务
         if (accessToken != null && accessToken.getGraphDomain()!=null){
             Log.e(TAG,"facebook graphDomain:" + accessToken.getGraphDomain());
-            if (accessToken.getGraphDomain().equals("gaming")){
+            if ("gaming".equals(accessToken.getGraphDomain())){
                 Log.e("facebook","当前用户已迁移到Facebook Login for games");
             }
         }

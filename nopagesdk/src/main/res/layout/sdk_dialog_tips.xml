@@ -32,6 +32,7 @@
             android:layout_gravity="center"
             android:layout_margin="20dp"
             android:textSize="18sp"
+            android:textColor="@color/color_gray"
             android:text="The guest account is only for experience game, for your account security, please bind a new account." />
 
 

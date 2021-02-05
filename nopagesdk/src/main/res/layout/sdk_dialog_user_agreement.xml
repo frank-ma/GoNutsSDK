@@ -52,6 +52,7 @@
                 android:background="@color/transaction"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:textColor="@color/color_gray"
                 android:layout_marginTop="5dp"/>
         </ScrollView>
 

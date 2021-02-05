@@ -48,7 +48,7 @@ public class AESUtils {
                 val += (char) (nextInt + random.nextInt(26));
             } else  { // 产生数字
                 String key= String.valueOf(random.nextInt(10));
-                if (i == 0 && key.equals("0")){
+                if (i == 0 && "0".equals(key)){
                     key="1";
                 }
                 val += key;

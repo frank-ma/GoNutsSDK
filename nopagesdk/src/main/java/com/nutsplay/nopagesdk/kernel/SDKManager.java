@@ -797,7 +797,7 @@ public class SDKManager {
             //自动登录
             if (isAuto()) {
                 if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
-                    if (getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)) {
+                    if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType())) {
 
 
                         if (SDKManager.getInstance().getGuestLoginCount() >= 15) {
@@ -1549,7 +1549,7 @@ public class SDKManager {
                 @Override
                 public void onSuccess(String result) {
 
-                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
+                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" +  aesKey + "|" + result);
                     if (result == null || result.isEmpty()) {
                         purchaseCallBack.onFailure(SDKConstant.result_is_null,"Make Order:result is null.");
                         return;
@@ -1577,7 +1577,7 @@ public class SDKManager {
                             String payUrl = orderModel.getData().getPayUrl();
                             String channelCode = orderModel.getData().getChannelCode();
                             LogUtils.d(TAG, "payurl:" + payUrl + "    " + channelCode);
-                            if (channelCode != null && channelCode.equals("WEBPAY") && StringUtils.isNotBlank(payUrl)) {
+                            if (channelCode != null && "WEBPAY".equals(channelCode) && StringUtils.isNotBlank(payUrl)) {
                                 //使用WebPay
                                 AppManager.startActivityWithData(PayWebActivity.class, payUrl, transactionId);
                             } else {
@@ -1659,7 +1659,7 @@ public class SDKManager {
                 @Override
                 public void onSuccess(String result) {
 
-                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + result);
+                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" +  aesKey + "|" + result);
                     if (result == null || result.isEmpty()) {
                         SDKToast.getInstance().ToastShow("Make order result is null.", 3);
                         return;

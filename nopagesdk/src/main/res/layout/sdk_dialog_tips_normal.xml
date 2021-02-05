@@ -48,6 +48,7 @@
                 android:layout_marginRight="20dp"
                 android:textSize="16sp"
                 android:gravity="center"
+                android:textColor="@color/color_gray"
                 android:text="The guest account is only for experience game, for your account security, please bind a new account." />
 
 <!--        </ScrollView>-->

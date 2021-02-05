@@ -273,7 +273,7 @@ public class ApiManager {
     public void SDKPurchaseNotify(String type,String aesKey16, String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
         try {
             String url = addDomainName() + "/phi";
-            if (type.equals(BillingClient.SkuType.SUBS)){
+            if (BillingClient.SkuType.SUBS.equals(type)){
                 url = addDomainName() + "/psk";
             }
 

@@ -67,6 +67,7 @@
                     android:inputType="textEmailAddress"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
+                    android:textColorHint="@color/color_gray"
                     android:drawableLeft="@drawable/ic_email"
                     android:textColor="@color/black" />
 
@@ -100,6 +101,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:drawableLeft="@drawable/ic_pwd"
+                android:textColorHint="@color/color_gray"
                 android:textColor="@color/black" />
         </LinearLayout>
 

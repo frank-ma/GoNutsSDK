@@ -136,7 +136,7 @@ public class SPManager {
         Object obj = null;
         try {
             String base64 = getString(key,"");
-            if (base64.equals("")) {
+            if ("".equals(base64)) {
                 return null;
             }
             byte[] base64Bytes = Base64.decode(base64.getBytes(), 1);
