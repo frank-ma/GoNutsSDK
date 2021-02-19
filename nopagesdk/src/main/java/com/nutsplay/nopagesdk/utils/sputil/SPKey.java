@@ -30,4 +30,5 @@ public class SPKey {
     public static final String key_sdk_language="key_sdk_language";
     public static final String key_first_open="key_first_open";
     public static final String key_first_account_login="key_first_account_login";
+    public static final String guest_has_bind_account="guest_has_bind_account";
 }

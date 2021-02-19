@@ -93,6 +93,8 @@ public class FirstDialog extends Dialog {
                     }else {
                         lastTime = System.currentTimeMillis();
                     }
+                    SDKManager.getInstance().handleLogout((Activity) context);
+
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
@@ -119,6 +121,7 @@ public class FirstDialog extends Dialog {
                     }else {
                         lastTime = System.currentTimeMillis();
                     }
+                    SDKManager.getInstance().handleLogout((Activity) context);
 
                     LoginDialog.Builder builder = new LoginDialog.Builder(context,loginCallBack,isLogin);
                     builder.create().show();
@@ -137,6 +140,8 @@ public class FirstDialog extends Dialog {
                     }else {
                         lastTime = System.currentTimeMillis();
                     }
+                    SDKManager.getInstance().handleLogout((Activity) context);
+
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
@@ -164,6 +169,8 @@ public class FirstDialog extends Dialog {
                     }else {
                         lastTime = System.currentTimeMillis();
                     }
+                    SDKManager.getInstance().handleLogout((Activity) context);
+
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
                     LoginManager.getInstance().googleLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
@@ -185,6 +192,9 @@ public class FirstDialog extends Dialog {
             closeImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //恢复自动登录
+                    SDKManager.getInstance().setAuto(true);
+
                     if (loginCallBack != null) loginCallBack.onCancel();
                     dialog.dismiss();
                 }

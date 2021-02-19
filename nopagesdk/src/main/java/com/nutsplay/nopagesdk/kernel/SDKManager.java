@@ -797,8 +797,9 @@ public class SDKManager {
             //自动登录
             if (isAuto()) {
                 if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
-                    if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType())) {
 
+                    boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
+                    if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType()) && !hasBind) {
 
                         if (SDKManager.getInstance().getGuestLoginCount() >= 15) {
 
@@ -1011,9 +1012,9 @@ public class SDKManager {
         }
 
         //登出操作
-        handleLogout(activity);
+//        handleLogout(activity);
 //        取消自动登录
-//        SDKManager.getInstance().setAuto(false);
+        SDKManager.getInstance().setAuto(false);
 
         //登录操作
         sdkLogin(activity, loginCallBack,false);

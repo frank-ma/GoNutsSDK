@@ -213,7 +213,7 @@ public class MainActivity extends SDKBaseActivity {
                     String fbID=user.getFacebookId();
                 }
                 showLog("登录成功：" + user.toString());
-                showLog("UserName：" + user.getUserName());
+//                showLog("UserName：" + user.getUserName());
                 //判断用户的登录类型
                 if (SDKConstant.TYPE_GUEST.equals(user.getSdkmemberType())){
                     //游客
@@ -249,7 +249,6 @@ public class MainActivity extends SDKBaseActivity {
                 //ticket传给游戏服务器做登录校验
                 String ticket = user.getTicket();
                 showLog("切换账号成功：" + user.toString());
-                showLog("UserName：" + user.getUserName());
             }
 
             @Override

@@ -68,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:text="Enter Game"
                 android:textSize="14sp"
-                android:padding="4dp"
                 android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
                 android:textStyle="normal"/>
 
             <TextView

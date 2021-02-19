@@ -26,6 +26,8 @@ import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
+import com.nutsplay.nopagesdk.utils.sputil.SPKey;
+import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 /**
@@ -112,6 +114,7 @@ public class BindDialog extends Dialog {
                         @Override
                         public void onSuccess() {
                             //绑定成功后，用新账号登录
+                            SPManager.getInstance(context).putBoolean(SPKey.guest_has_bind_account,true);
                             if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
                             dialog.dismiss();
                         }
