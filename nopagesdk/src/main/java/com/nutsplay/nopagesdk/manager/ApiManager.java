@@ -97,7 +97,7 @@ public class ApiManager {
      *
      * @param callBack
      */
-    public void SDKInitGo(String aesKey16, String aesKey16byRSA, NetCallBack callBack) {
+    public void SDKInitGo(String aesKey16, String ivParameter,String aesKey16byRSA, NetCallBack callBack) {
 
         try {
             String url = addDomainName() + "/epsilon";
@@ -110,14 +110,15 @@ public class ApiManager {
             String jsonData = GsonUtils.tojsonString(initBean);
             LogUtils.d(TAG,"InitGobody："+jsonData);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -131,7 +132,7 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKRegisterAccount(String aesKey16, String aesKey16byRSA, String userName, String pwd,NetCallBack callBack){
+    public void SDKRegisterAccount(String aesKey16, String ivParameter,String aesKey16byRSA, String userName, String pwd,NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/iota";
@@ -143,14 +144,14 @@ public class ApiManager {
             String jsonData = GsonUtils.tojsonString(registerAccount);
 //            LogUtils.d("注册",jsonData);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -167,7 +168,7 @@ public class ApiManager {
      * @param pwd
      * @param callBack
      */
-    public void SDKLoginGo(String aesKey16, String aesKey16byRSA,String userName, String pwd, NetCallBack callBack){
+    public void SDKLoginGo(String aesKey16, String ivParameter,String aesKey16byRSA,String userName, String pwd, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/sigma";
@@ -179,14 +180,14 @@ public class ApiManager {
             String jsonData = GsonUtils.tojsonString(accountLogin);
 //            LogUtils.d("登录",jsonData);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -201,7 +202,7 @@ public class ApiManager {
      * @param oauthsource
      * @param callBack
      */
-    public void SDKLoginThird(String aesKey16, String aesKey16byRSA,String oauthId,String oauthsource, NetCallBack callBack){
+    public void SDKLoginThird(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthId,String oauthsource, NetCallBack callBack){
         try {
             String url = addDomainName() + "/omega";
 
@@ -211,14 +212,14 @@ public class ApiManager {
             thirdLogin.setOauthSource(oauthsource);
             String jsonData = GsonUtils.tojsonString(thirdLogin);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -234,7 +235,7 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKMakeOrder(String aesKey16, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
+    public void SDKMakeOrder(String aesKey16,String ivParameter, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
         try {
             String url = addDomainName() + "/delta";
 
@@ -247,14 +248,14 @@ public class ApiManager {
             makeOrder.setGameExt(gameExt);
             String jsonData = GsonUtils.tojsonString(makeOrder);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -270,7 +271,7 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKPurchaseNotify(String type,String aesKey16, String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
+    public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
         try {
             String url = addDomainName() + "/phi";
             if (BillingClient.SkuType.SUBS.equals(type)){
@@ -286,14 +287,14 @@ public class ApiManager {
             notify.setPurchase(purchaseData);
             String jsonData = GsonUtils.tojsonString(notify);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -309,7 +310,7 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKQueryOrderStatus(String aesKey16, String aesKey16byRSA,String transactionId, NetCallBack callBack){
+    public void SDKQueryOrderStatus(String aesKey16, String ivParameter,String aesKey16byRSA,String transactionId, NetCallBack callBack){
         try {
             String url = addDomainName() + "/psi";
 
@@ -318,14 +319,14 @@ public class ApiManager {
             queryOrder.setTransactionId(transactionId);
             String jsonData = GsonUtils.tojsonString(queryOrder);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
 
         } catch (Exception e) {
@@ -343,7 +344,7 @@ public class ApiManager {
      * @param newPwd
      * @param callBack
      */
-    public void SDKResetPwd(String aesKey16, String aesKey16byRSA,String account,String oldPwd,String newPwd, NetCallBack callBack){
+    public void SDKResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String oldPwd,String newPwd, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/zeta";
@@ -355,14 +356,14 @@ public class ApiManager {
             resetPwd.setNewsecond(SHA1Utils.sha1UpperCase(newPwd));
             String jsonData = GsonUtils.tojsonString(resetPwd);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -379,7 +380,7 @@ public class ApiManager {
      * @param second SHA1加密后大写的密码
      * @param callBack
      */
-    public void SDKBindAccount(String aesKey16, String aesKey16byRSA,String oauthid,String oauthSource,String account,String second, NetCallBack callBack){
+    public void SDKBindAccount(String aesKey16,String ivParameter, String aesKey16byRSA,String oauthid,String oauthSource,String account,String second, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/rho";
@@ -392,14 +393,14 @@ public class ApiManager {
             bindAccount.setSecond(SHA1Utils.sha1UpperCase(second));
             String jsonData = GsonUtils.tojsonString(bindAccount);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -416,7 +417,7 @@ public class ApiManager {
      * @param thirdSource 第三方账号来源
      * @param callBack
      */
-    public void SDKGuestBindThirdAccount(String aesKey16, String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
+    public void SDKGuestBindThirdAccount(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/tau";
@@ -429,14 +430,14 @@ public class ApiManager {
             guestBind.setNewoauthSource(thirdSource);
             String jsonData = GsonUtils.tojsonString(guestBind);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -457,7 +458,7 @@ public class ApiManager {
      * @param email 要绑定的邮箱
      * @param callBack
      */
-    public void SDKRequestBindEmail(String aesKey16, String aesKey16byRSA,String ticket,String email, NetCallBack callBack){
+    public void SDKRequestBindEmail(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/adam";
@@ -468,14 +469,14 @@ public class ApiManager {
             bindEmail.setEmail(email);
             String jsonData = GsonUtils.tojsonString(bindEmail);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -494,7 +495,7 @@ public class ApiManager {
      * @param verifyCode 邮箱收到的验证码
      * @param callBack
      */
-    public void SDKBindEmailConfirm(String aesKey16, String aesKey16byRSA,String ticket,String email,String verifyCode, NetCallBack callBack){
+    public void SDKBindEmailConfirm(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email,String verifyCode, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/mojo";
@@ -506,14 +507,14 @@ public class ApiManager {
             bindEmail.setVerifyCode(verifyCode);
             String jsonData = GsonUtils.tojsonString(bindEmail);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -535,7 +536,7 @@ public class ApiManager {
      * @param account
      * @param callBack
      */
-    public void SDKRequestResetPwd(String aesKey16, String aesKey16byRSA,String account, NetCallBack callBack){
+    public void SDKRequestResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/rush";
@@ -545,14 +546,14 @@ public class ApiManager {
             resetPwd.setAccount(account);
             String jsonData = GsonUtils.tojsonString(resetPwd);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -572,7 +573,7 @@ public class ApiManager {
      * @param verifyCode 邮箱收到的验证码
      * @param callBack
      */
-    public void SDKResetPwdByVerifycode(String aesKey16, String aesKey16byRSA,String account,String verifyCode,String newSecond, NetCallBack callBack){
+    public void SDKResetPwdByVerifycode(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String verifyCode,String newSecond, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/swift";
@@ -584,14 +585,14 @@ public class ApiManager {
             resetPwdByEmail.setNewsecond(SHA1Utils.sha1UpperCase(newSecond));
             String jsonData = GsonUtils.tojsonString(resetPwdByEmail);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();
@@ -609,7 +610,7 @@ public class ApiManager {
      * @param content 报错日志内容
      * @param callBack
      */
-    public void SDKUploadLog(Context context,String aesKey16, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+    public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
 
         try {
             String url = addDomainName() + "/crash";
@@ -625,14 +626,14 @@ public class ApiManager {
             uploadLog.setDeviceID(identifier);
             String jsonData = GsonUtils.tojsonString(uploadLog);
 
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
             headerMap.put("uniqueid",identifier);
             headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",aesKey16);
+            headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
         }catch (Exception e){
             e.printStackTrace();

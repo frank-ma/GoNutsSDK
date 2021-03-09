@@ -301,6 +301,10 @@ public class SDK {
         SDKManager.getInstance().systemSharePhoto(activity,path);
     }
 
+    public void facebookAppRequest(Activity activity,String message,ResultCallBack resultCallBack){
+        SDKManager.getInstance().facebookAppRequest(activity,message,resultCallBack);
+    }
+
     /**
      * 打开用户中心界面
      *

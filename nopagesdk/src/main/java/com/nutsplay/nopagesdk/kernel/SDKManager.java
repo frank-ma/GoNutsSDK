@@ -1,7 +1,9 @@
 package com.nutsplay.nopagesdk.kernel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,6 +13,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -51,6 +55,7 @@ import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
 import com.nutsplay.nopagesdk.ui.BindTipDialog;
+import com.nutsplay.nopagesdk.ui.FBAppRequestActivity;
 import com.nutsplay.nopagesdk.ui.FBLoginActivity;
 import com.nutsplay.nopagesdk.ui.FirstDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
@@ -71,6 +76,7 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +100,8 @@ public class SDKManager {
     private PurchaseCallBack purchaseCallBack;
 
     private ShareResultCallBack shareResultCallBack;
+
+    private ResultCallBack appRequestCallback;
 
     private SDKProgressDialog progressDialog;
     private SDKProgressEmptyDialog emptyDialog;
@@ -497,10 +505,11 @@ public class SDKManager {
 
         try {
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            ApiManager.getInstance().SDKInitGo(aesKey, aesKey16byRSA, new NetCallBack() {
+            ApiManager.getInstance().SDKInitGo(aesKey,ivParameter, aesKey16byRSA, new NetCallBack() {
 
                 @Override
                 public void onSuccess(String result) {
@@ -511,7 +520,7 @@ public class SDKManager {
                     }
                     try {
                         LogUtils.d(TAG, "SDKInitGo---" + aesKey+"|"+result);
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
                         if (initgoBean == null) {
                             initCallBackListener.onFailure(SDKConstant.init_initgoBean_null,"InitGoBean is null.");
@@ -603,11 +612,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKRegisterAccount(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+            ApiManager.getInstance().SDKRegisterAccount(aesKey, ivParameter,aesKey16byRSA, userName, pwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -618,7 +628,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             registerCallBack.onFailure("loginModel is null.");
@@ -697,11 +707,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKRegisterAccount(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+            ApiManager.getInstance().SDKRegisterAccount(aesKey, ivParameter,aesKey16byRSA, userName, pwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -712,7 +723,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             registerCallBack.onFailure("loginModel is null.");
@@ -801,7 +812,7 @@ public class SDKManager {
                     boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
                     if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType()) && !hasBind) {
 
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 15) {
+                        if (SDKManager.getInstance().getGuestLoginCount() >= 10) {
 
                             BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
                             builder.create().show();
@@ -925,11 +936,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKLoginGo(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+            ApiManager.getInstance().SDKLoginGo(aesKey,ivParameter, aesKey16byRSA, userName, pwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -940,7 +952,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
@@ -1084,11 +1096,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKLoginGo(aesKey, aesKey16byRSA, userName, pwd, new NetCallBack() {
+            ApiManager.getInstance().SDKLoginGo(aesKey, ivParameter,aesKey16byRSA, userName, pwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -1099,7 +1112,7 @@ public class SDKManager {
                         return;
                     }
 
-                    String decodeData = AESUtils.decrypt(result, aesKey);
+                    String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                     LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + decodeData);
                     SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                     if (loginModel == null) {
@@ -1238,10 +1251,11 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, oauthId, oauthSource, new NetCallBack() {
+            ApiManager.getInstance().SDKLoginThird(aesKey, ivParameter,aesKey16byRSA, oauthId, oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1251,7 +1265,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             SDKGameUtils.showServiceInfo(SDKConstant.model_is_null, "SDKLoginThird:loginModel is null");
@@ -1333,11 +1347,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
 
-            ApiManager.getInstance().SDKLoginThird(aesKey, aesKey16byRSA, facebookUser.getId(), oauthSource, new NetCallBack() {
+            ApiManager.getInstance().SDKLoginThird(aesKey, ivParameter,aesKey16byRSA, facebookUser.getId(), oauthSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1347,7 +1362,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             SDKToast.getInstance().ToastShow("SDKLoginThird:loginModel is null", 3);
@@ -1416,10 +1431,11 @@ public class SDKManager {
             setActivity(activity);
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-            ApiManager.getInstance().SDKUploadLog(activity, aesKey, aesKey16byRSA, title, content, new NetCallBack() {
+            ApiManager.getInstance().SDKUploadLog(activity, aesKey, ivParameter,aesKey16byRSA, title, content, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1428,7 +1444,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(decodeData, SDKResult.class);
                         if (sdkResult == null) {
                             return;
@@ -1542,11 +1558,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKMakeOrder(aesKey, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
+            ApiManager.getInstance().SDKMakeOrder(aesKey,ivParameter, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1556,7 +1573,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
@@ -1652,11 +1669,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKMakeOrder(aesKey, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
+            ApiManager.getInstance().SDKMakeOrder(aesKey, ivParameter,aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -1666,7 +1684,7 @@ public class SDKManager {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "下单:" + decodeData);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
@@ -1787,7 +1805,7 @@ public class SDKManager {
             return;
         }
         if (!isInitStatus()) {
-            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+//            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
             System.out.println("The SDK is not initialized.");
             return;
         }
@@ -1877,11 +1895,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKResetPwd(aesKey, aesKey16byRSA, account, oldPwd, newPwd, new NetCallBack() {
+            ApiManager.getInstance().SDKResetPwd(aesKey, ivParameter,aesKey16byRSA, account, oldPwd, newPwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -1891,7 +1910,7 @@ public class SDKManager {
                     }
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "重置密码:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
@@ -1980,11 +1999,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKBindAccount(aesKey, aesKey16byRSA, oauthid, oauthsource, account, second, new NetCallBack() {
+            ApiManager.getInstance().SDKBindAccount(aesKey,ivParameter, aesKey16byRSA, oauthid, oauthsource, account, second, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -1994,7 +2014,7 @@ public class SDKManager {
                     }
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "绑定账号data:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
@@ -2096,11 +2116,12 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             showProgress(activity);
-            ApiManager.getInstance().SDKBindAccount(aesKey, aesKey16byRSA, oauthid, oauthsource, account, second, new NetCallBack() {
+            ApiManager.getInstance().SDKBindAccount(aesKey, ivParameter,aesKey16byRSA, oauthid, oauthsource, account, second, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -2111,7 +2132,7 @@ public class SDKManager {
                     try {
 
                         LogUtils.d(TAG, "绑定账号data:" + aesKey+"|"+result);
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
                             callback.onFailure("sdkLoginModel is null.");
@@ -2229,12 +2250,13 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             String oauthId = Installations.id(activity);
             showProgress(activity);
-            ApiManager.getInstance().SDKGuestBindThirdAccount(aesKey, aesKey16byRSA, oauthId, thirdId, thirdSource, new NetCallBack() {
+            ApiManager.getInstance().SDKGuestBindThirdAccount(aesKey, ivParameter,aesKey16byRSA, oauthId, thirdId, thirdSource, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -2244,7 +2266,7 @@ public class SDKManager {
                     }
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "游客绑定三方data:" + decodeData);
                         SDKLoginModel loginModel = (SDKLoginModel) GsonUtils.json2Bean(decodeData, SDKLoginModel.class);
                         if (loginModel == null) {
@@ -2325,6 +2347,7 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
@@ -2332,14 +2355,14 @@ public class SDKManager {
             if (SDKManager.getInstance().getUser() == null) return;
             String ticket = SDKManager.getInstance().getUser().getTicket();
             showProgress(activity);
-            ApiManager.getInstance().SDKRequestBindEmail(aesKey, aesKey16byRSA, ticket, email, new NetCallBack() {
+            ApiManager.getInstance().SDKRequestBindEmail(aesKey, ivParameter,aesKey16byRSA, ticket, email, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
                     if (result == null || result.isEmpty()) return;
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "发送邮箱验证码data:" + decodeData);
                         VerifyCodeResult verifyCodeResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
                         if (verifyCodeResult == null) return;
@@ -2400,6 +2423,7 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
@@ -2407,7 +2431,7 @@ public class SDKManager {
             if (SDKManager.getInstance().getUser() == null) return;
             String ticket = SDKManager.getInstance().getUser().getTicket();
             showProgress(activity);
-            ApiManager.getInstance().SDKBindEmailConfirm(aesKey, aesKey16byRSA, ticket, email, verifyCode, new NetCallBack() {
+            ApiManager.getInstance().SDKBindEmailConfirm(aesKey, ivParameter,aesKey16byRSA, ticket, email, verifyCode, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -2416,7 +2440,7 @@ public class SDKManager {
                     }
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "账号绑定邮箱data:" + decodeData);
                         VerifyCodeResult sdkResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
                         if (sdkResult == null) return;
@@ -2477,20 +2501,21 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
 
             if (SDKManager.getInstance().getUser() == null) return;
             showProgress(activity);
-            ApiManager.getInstance().SDKRequestResetPwd(aesKey, aesKey16byRSA, account, new NetCallBack() {
+            ApiManager.getInstance().SDKRequestResetPwd(aesKey,ivParameter, aesKey16byRSA, account, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
                     if (result == null || result.isEmpty()) return;
 
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "重置密码发送验证码data:" + decodeData);
                         VerifyCodeResult codeResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
                         if (codeResult == null) return;
@@ -2552,20 +2577,21 @@ public class SDKManager {
             }
 
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
 
             if (SDKManager.getInstance().getUser() == null) return;
             showProgress(activity);
-            ApiManager.getInstance().SDKResetPwdByVerifycode(aesKey, aesKey16byRSA, account, verifyCode, newPwd, new NetCallBack() {
+            ApiManager.getInstance().SDKResetPwdByVerifycode(aesKey, ivParameter,aesKey16byRSA, account, verifyCode, newPwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
                     if (result == null || result.isEmpty()) return;
                     try {
 
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         LogUtils.d(TAG, "请求账号绑定邮箱data:" + decodeData);
                         VerifyCodeResult sdkResult = (VerifyCodeResult) GsonUtils.json2Bean(decodeData, VerifyCodeResult.class);
                         if (sdkResult == null) return;
@@ -2918,6 +2944,10 @@ public class SDKManager {
             Log.e("systemSharePhoto","filePath == null");
             return;
         }
+        if (!checkPermission(activity)){
+            SDKToast.getInstance().ToastShow("请先授予文件权限",3);
+            return;
+        }
         FileInputStream fs = null;
         try {
             fs = new FileInputStream(filePath);
@@ -2930,8 +2960,11 @@ public class SDKManager {
             imageIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
             activity.startActivityForResult(Intent.createChooser(imageIntent, "SHARE VIA"),SDKConstant.SHARE_PHOTO_REQUEST_CODE);
         }catch (Exception e){
+            if (e instanceof FileNotFoundException){
+                Log.e("NutsSDK","文件未找到");
+            }
             e.printStackTrace();
-        } finally {
+        }finally {
             try {
                 if (fs != null) fs.close();
             } catch (IOException e) {
@@ -2941,5 +2974,43 @@ public class SDKManager {
 
     }
 
+    public static final int REQUEST_CODE_READ_PHONE_STATE = 0x7;
 
+    public static boolean checkPermission(Activity context) {
+        if (context == null) return false;
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(context, new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, REQUEST_CODE_READ_PHONE_STATE);
+            return false;
+        } else {
+            LogUtils.e("the permission of '" + Manifest.permission.WRITE_EXTERNAL_STORAGE + "' is enable.");
+            return true;
+        }
+    }
+
+    /**
+     * FB游戏请求功能
+     * FB通过好友列表发送消息给好友
+     * @param activity
+     * @param message
+     */
+    public void facebookAppRequest(Activity activity, String message,ResultCallBack callBack) {
+        if (callBack == null) return;
+        setAppRequestCallback(callBack);
+        Intent intent = new Intent(activity,FBAppRequestActivity.class);
+        intent.putExtra("message",message);
+        AppManager.startActivityWithData(activity,intent);
+    }
+
+    public ResultCallBack getAppRequestCallback() {
+        return appRequestCallback;
+    }
+
+    public void setAppRequestCallback(ResultCallBack appRequestCallback) {
+        this.appRequestCallback = appRequestCallback;
+    }
 }

@@ -91,7 +91,7 @@ public class TipDialog extends Dialog {
 
             dialog.setContentView(layout);
             if (dialog.getWindow()!=null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
             return dialog;
         }
     }

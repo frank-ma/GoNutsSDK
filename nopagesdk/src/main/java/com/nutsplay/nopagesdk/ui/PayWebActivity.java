@@ -114,9 +114,10 @@ public class PayWebActivity extends BaseActivity {
     private void queryOrderStatus(String transactionId) {
         try {
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(this).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-            ApiManager.getInstance().SDKQueryOrderStatus(aesKey, aesKey16byRSA, transactionId, new NetCallBack() {
+            ApiManager.getInstance().SDKQueryOrderStatus(aesKey,ivParameter, aesKey16byRSA, transactionId, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
                     LogUtils.d(TAG, "查询订单成功：" + aesKey+"|"+result);
@@ -125,7 +126,7 @@ public class PayWebActivity extends BaseActivity {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.model_is_null,"orderModel is null.");

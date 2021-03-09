@@ -104,7 +104,14 @@ public class BindTipDialog extends Dialog {
 
             dialog.setContentView(layout);
             if (dialog.getWindow()!=null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
+//            dialog.setCanceledOnTouchOutside(false);
+//            dialog.setOnCancelListener(new OnCancelListener() {
+//                @Override
+//                public void onCancel(DialogInterface dialog) {
+//                    loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+//                }
+//            });
             return dialog;
         }
     }

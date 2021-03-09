@@ -634,12 +634,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
         try {
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
 
             LogUtils.e(TAG, "purchase.getDeveloperPayload()--------" + transactionId);
-            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
+            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey,ivParameter, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -650,7 +651,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
                             if (SDKManager.getInstance().getPurchaseCallBack() != null && !isBudan)
@@ -732,11 +733,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
         try {
             final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
             String publicKey = SPManager.getInstance(SDKManager.getInstance().getActivity()).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
             String transactionId = purchase.getAccountIdentifiers() == null?"":purchase.getAccountIdentifiers().getObfuscatedAccountId();
-            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
+            ApiManager.getInstance().SDKPurchaseNotify(itemType, aesKey,ivParameter, aesKey16byRSA, transactionId, purchase, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
@@ -745,7 +747,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         return;
                     }
                     try {
-                        String decodeData = AESUtils.decrypt(result, aesKey);
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
 
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {

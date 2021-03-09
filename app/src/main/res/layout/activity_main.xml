@@ -252,6 +252,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
+                android:onClick="appInvite"
+                android:text="FB好友邀请"
+                android:visibility="visible"
+                android:textColor="@color/colorAccent" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
                 android:onClick="systemShare"
                 android:text="FB系统分享"
                 android:visibility="visible"

@@ -703,7 +703,8 @@ public class MainActivity extends SDKBaseActivity {
      */
     public void shareLink(View view){
 //        String link = "https://play.google.com/store/apps/details?id=com.nutspower.mergegame";
-        String link = "https://play.google.com/store/apps/details?id=com.dyhd.slg01.pgangtai";
+//        String link = "https://play.google.com/store/apps/details?id=com.dyhd.slg01.pgangtai";
+        String link = "https://play.google.com/store/apps/details?id=org.nanobit.hollywood";
         SDK.getInstance().facebookShareLink(this, link, new ShareResultCallBack() {
             @Override
             public void onSuccess() {
@@ -723,6 +724,26 @@ public class MainActivity extends SDKBaseActivity {
     }
 
     /**
+     * FB邀请好友列表，可以传邀请信息，通知对应的好友
+     * @param view
+     */
+    public void appInvite(View view){
+
+        SDK.getInstance().facebookAppRequest(this,"My Invite Code:2131234,Come Play with me!",new ResultCallBack(){
+
+            @Override
+            public void onFailure(String msg) {
+                showLog("邀请失败："+msg);
+            }
+
+            @Override
+            public void onSuccess() {
+                showLog("邀请好友成功");
+            }
+        });
+    }
+
+    /**
      * 系统原生的分享图片功能，系统分享没有回调
      *
      * @param view
@@ -730,6 +751,7 @@ public class MainActivity extends SDKBaseActivity {
     public void systemShare(View view){
         //方法一：文件路径
 //        String filePath = "/storage/emulated/0/DCIM/Camera/IMG_20191125_210352.jpg";
+//        String filePath = "/storage/emulated/0/DCIM/Camera/IMG_20201209_221248.jpg";
 //        SDK.getInstance().systemSharePhoto(this,filePath);
 
         //方法二：选择相册图片，传Uri

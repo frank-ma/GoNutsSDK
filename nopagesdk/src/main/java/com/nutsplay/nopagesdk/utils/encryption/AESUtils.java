@@ -79,8 +79,7 @@ public class AESUtils {
         return val;
     }
 
-    // 加密，偏移量iv用的和16位的key一样
-    public static String encrypt(String encData, String secretKey) throws Exception {
+    public static String encrypt(String encData, String secretKey,String ivParameter) throws Exception {
 
         if (secretKey == null) {
             return null;
@@ -91,7 +90,7 @@ public class AESUtils {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         byte[] raw = secretKey.getBytes();
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        IvParameterSpec iv = new IvParameterSpec(secretKey.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+        IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
         byte[] encrypted = cipher.doFinal(encData.getBytes("utf-8"));
         return Base64.encodeToString(encrypted, Base64.DEFAULT);// 此处使用BASE64做转码。（处于android.util包）
@@ -168,12 +167,12 @@ public class AESUtils {
     }
 
     // 解密,偏移量iv用的和16位的key一样
-    public static String decrypt(String sSrc, String key) {
+    public static String decrypt(String sSrc, String key,String ivParameter) {
         try {
             byte[] raw = key.getBytes("ASCII");
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec(key.getBytes());
+            IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             byte[] encrypted1 = Base64.decode(sSrc, Base64.DEFAULT);// 先用base64解密
             byte[] original = cipher.doFinal(encrypted1);
