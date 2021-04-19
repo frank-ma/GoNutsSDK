@@ -30,7 +30,7 @@ public class GsonUtils {
     }
 
     public static String tojsonString(Object type){
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         return gson.toJson(type);
     }
 }

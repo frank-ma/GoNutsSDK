@@ -362,8 +362,21 @@ public class MainActivity extends SDKBaseActivity {
 //        skuList.add("com.nutspower.golfduel.tour4999");
 //        skuList.add("com.nutspower.golfduel.tour9999");
 
-        //dragon home
-        skuList.add("com.nutspower.dragon.monthcard399");
+        //wjgame01
+        skuList.add("com.nutspower.wjgame01.hugepack4999");
+        skuList.add("com.nutspower.wjgame01.megapack9999");
+        skuList.add("com.nutspower.wjgame01.limitedpackage199");
+        skuList.add("com.nutspower.wjgame01.hugepack4999");
+        skuList.add("com.nutspower.wjgame01.largepack1999");
+        skuList.add("com.nutspower.wjgame01.mediumpack999");
+        //atw
+//        skuList.add("com.nuts.atw.android.googleplay.1");
+//        skuList.add("com.nuts.atw.android.googleplay.2");
+//        skuList.add("com.nuts.atw.android.googleplay.3");
+//        skuList.add("com.nuts.atw.android.googleplay.4");
+//        skuList.add("com.nuts.atw.android.googleplay.5");
+//        skuList.add("com.nuts.atw.android.googleplay.6");
+
         //poly
 //        skuList.add("com.nuts.pa.android.googleplay.19");
 

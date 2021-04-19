@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'applovin-quality-service'
-//apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"//29.0.3
@@ -9,7 +9,9 @@ android {
 //        applicationId "com.superwave.goldrush.android.googleplay"
 //        applicationId "com.nutspower.nonutssdk"
 //        applicationId "com.nutsplay.glofduel"
-        applicationId "com.nutspower.mergegame"
+//        applicationId "com.nuts.atw.android.googleplay"
+        applicationId "com.nutsplay.wjgame01.test"
+//        applicationId "com.nutspower.mergegame"
 //        applicationId "com.nuts.pa.android.googleplay"
         minSdkVersion 19
         targetSdkVersion 30

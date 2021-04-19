@@ -5,14 +5,13 @@
     <!-- bugly -->
     <application
         android:name="com.nutsplay.nonutssdk.App"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.nutsplay.nonutssdk.WebViewActivity"></activity>
+
         <activity android:name="com.nutsplay.nonutssdk.AdsActivity" />
         <activity
             android:name="com.nutsplay.nonutssdk.MainActivity"
@@ -36,9 +35,9 @@
             android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.nutsplay.nopagesdk.ui.FBAppRequestActivity"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+<!--        <activity android:name="com.nutsplay.nopagesdk.ui.FBAppRequestActivity"-->
+<!--            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
 
         <activity
             android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"

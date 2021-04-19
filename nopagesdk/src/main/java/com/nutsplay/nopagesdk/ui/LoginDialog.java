@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +20,6 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.beans.TempUser;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -61,7 +60,7 @@ public class LoginDialog extends Dialog {
         private Context context;
         private LoginCallBack loginCallBack;
         private boolean isLogin = true;//是登录还是切换账号
-        private Handler handler;
+//        private Handler handler;
         private long lastTime = 0;
 
         public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
@@ -100,28 +99,28 @@ public class LoginDialog extends Dialog {
             newPwd.setHint(SDKLangConfig.getInstance().findMessage("new_password"));
             fillAccount(context,userName, pwd);
 
-
-            handler = new Handler(){
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    super.handleMessage(msg);
-                    switch (msg.what){
-                        case 0:
-                            backIv.callOnClick();
-                            if (pwd !=null) pwd.setText("");
-                            break;
-                        case 1:
-                            TempUser tempUser = (TempUser) msg.obj;
-                            if (tempUser == null) return;
-                            if (userName!=null) userName.setText(tempUser.getAccount());
-                            if (pwd!=null) pwd.setText(tempUser.getPwd());
-                            break;
-                        default:
-                            break;
-
-                    }
-                }
-            };
+//
+//            handler = new Handler(){
+//                @Override
+//                public void handleMessage(@NonNull Message msg) {
+//                    super.handleMessage(msg);
+//                    switch (msg.what){
+//                        case 0:
+//                            backIv.callOnClick();
+//                            if (pwd !=null) pwd.setText("");
+//                            break;
+//                        case 1:
+//                            TempUser tempUser = (TempUser) msg.obj;
+//                            if (tempUser == null) return;
+//                            if (userName!=null) userName.setText(tempUser.getAccount());
+//                            if (pwd!=null) pwd.setText(tempUser.getPwd());
+//                            break;
+//                        default:
+//                            break;
+//
+//                    }
+//                }
+//            };
 
             //忘记密码
             resetPwd.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +238,9 @@ public class LoginDialog extends Dialog {
 //                                        pwd.setText("");
 //                                    }
 //                                });
-                                handler.sendEmptyMessage(0);
+//                                handler.sendEmptyMessage(0);
+                                backIv.callOnClick();
+                                if (pwd !=null) pwd.setText("");
                             }
 
                             @Override
@@ -284,13 +285,19 @@ public class LoginDialog extends Dialog {
 //                                    }
 //                                });
 //                                Looper.loop();
-                                Message message = new Message();
-                                message.what = 1;
-                                TempUser user = new TempUser();
-                                user.setAccount(account);
-                                user.setPwd(pas);
-                                message.obj = user;
-                                handler.sendMessage(message);
+//                                Message message = new Message();
+//                                message.what = 1;
+//                                TempUser user = new TempUser();
+//                                user.setAccount(account);
+//                                user.setPwd(pas);
+//                                message.obj = user;
+//                                handler.sendMessage(message);
+
+
+                                Log.d("LoginDialog","MainThreadID_bindfb:"+ Looper.getMainLooper().getThread().getId());
+                                Log.d("LoginDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
+                                if (userName!=null) userName.setText(account);
+                                if (pwd!=null) pwd.setText(pas);
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
