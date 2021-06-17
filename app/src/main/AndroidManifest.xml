@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.nutspower.nutsgamesdk">
     <!-- google支付权限 -->
     <!-- bugly -->
@@ -35,9 +36,9 @@
             android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-<!--        <activity android:name="com.nutsplay.nopagesdk.ui.FBAppRequestActivity"-->
-<!--            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"-->
-<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+        <activity android:name="com.nutsplay.nopagesdk.ui.FBAppRequestActivity"
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"
@@ -63,44 +64,52 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.ljoy.chatbot.ChatMainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- facebook相关 -->
-        <!-- appsflyer -->
-        <activity
-            android:name="com.ljoy.chatbot.OPActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- AIHelp需要的刘海屏适配 -->
-        <!-- google刘海适配 -->
-        <activity
-            android:name="com.ljoy.chatbot.FAQActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- 小米手机开启刘海适配 -->
-        <activity
-            android:name="com.ljoy.chatbot.WebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- AIHelp需要的Activity -->
-        <activity
-            android:name="com.ljoy.chatbot.QAWebActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="sensor"
-            android:theme="@style/showBgStyleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+<!--        <activity-->
+<!--            android:name="com.ljoy.chatbot.ChatMainActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/showBgStyleFullscreen"-->
+<!--            android:windowSoftInputMode="adjustResize|stateHidden" /> &lt;!&ndash; facebook相关 &ndash;&gt;-->
+<!--        &lt;!&ndash; appsflyer &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.ljoy.chatbot.OPActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/showBgStyleFullscreen"-->
+<!--            android:windowSoftInputMode="adjustResize|stateHidden" /> &lt;!&ndash; AIHelp需要的刘海屏适配 &ndash;&gt;-->
+<!--        &lt;!&ndash; google刘海适配 &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.ljoy.chatbot.FAQActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/showBgStyleFullscreen"-->
+<!--            android:windowSoftInputMode="adjustResize|stateHidden" /> &lt;!&ndash; 小米手机开启刘海适配 &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.ljoy.chatbot.WebViewActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/showBgStyleFullscreen"-->
+<!--            android:windowSoftInputMode="adjustResize|stateHidden" /> &lt;!&ndash; AIHelp需要的Activity &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.ljoy.chatbot.QAWebActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/showBgStyleFullscreen"-->
+<!--            android:windowSoftInputMode="adjustResize|stateHidden" />-->
 
+
+<!--        Aihelp用到的Activity，屏幕方向根据自己游戏调整，竖屏用portrait，横屏用landscape-->
+        <activity
+            android:name="net.aihelp.ui.HostActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            tools:node="replace"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

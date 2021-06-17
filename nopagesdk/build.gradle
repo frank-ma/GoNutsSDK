@@ -6,7 +6,7 @@ def static getProductName() {
 }
 
 // 发布时间
-def releaseTime() {
+static def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
 
@@ -48,11 +48,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //Google内购
-    implementation 'com.android.billingclient:billing:3.0.0'//2.0.3//2.2.1
+    implementation 'com.android.billingclient:billing:3.0.3'//2.0.3//2.2.1
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // greenDao
-    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:greendao:3.3.0'//3.2.2
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 
 
@@ -72,10 +72,11 @@ dependencies {
     implementation 'com.google.android.play:core:1.9.0'
 
     // Facebook Android SDK (everything)
-    api 'com.facebook.android:facebook-android-sdk:7.1.0'//
+    api 'com.facebook.android:facebook-android-sdk:9.1.1'//7.1.0
 //    implementation 'com.facebook.android:facebook-android-sdk:5.13.0'
     //AIHelp
-    implementation 'net.aihelp:elva:1.7.4.0'
+//    implementation 'net.aihelp:elva:1.7.4.0'
+    api 'net.aihelp:android-aihelp-aar:2.4.+'
     //Firebase
     api 'com.google.firebase:firebase-analytics:17.6.0'
     api 'com.google.firebase:firebase-messaging:20.3.0'

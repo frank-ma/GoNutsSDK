@@ -624,7 +624,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setLanguage("en");
-        SDK.getInstance().customerSupport( this,initParameter,"Jack","0", customData);
+        SDK.getInstance().customerSupport( this,initParameter,"Jack","recharge,vip3,paid3","0", customData);
     }
 
     /**
@@ -653,7 +653,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setLanguage("en");
-        SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","10",sdkParamConfig);
+        SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","recharge,vip3,paid3","10",sdkParamConfig);
     }
 
 

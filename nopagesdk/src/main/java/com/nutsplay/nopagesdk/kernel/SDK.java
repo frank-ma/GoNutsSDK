@@ -314,12 +314,12 @@ public class SDK {
         SDKManager.getInstance().openUserCenter(activity);
     }
 
-    public void customerSupport(Activity activity,InitParameter initParameter,String playerName,String serverId, @Nullable HashMap<String ,Object> customData) {
-        SDKManager.getInstance().customerSupport(activity,initParameter,playerName,serverId,customData);
+    public void customerSupport(Activity activity,InitParameter initParameter,String playerName,String userTags,String serverId, @Nullable HashMap<String ,Object> customData) {
+        SDKManager.getInstance().customerSupport(activity,initParameter,playerName,userTags,serverId,customData);
     }
 
-    public void showFAQs(Activity activity,InitParameter initParameter,String userName, String serverId, HashMap<String,Object> customData){
-        SDKManager.getInstance().showFAQs(activity,initParameter,userName,serverId,customData);
+    public void showFAQs(Activity activity,InitParameter initParameter,String userName, String userTags,String serverId, HashMap<String,Object> customData){
+        SDKManager.getInstance().showFAQs(activity,initParameter,userName,userTags,serverId,customData);
     }
 
     public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {

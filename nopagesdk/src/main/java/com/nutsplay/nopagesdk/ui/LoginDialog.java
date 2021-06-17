@@ -296,6 +296,7 @@ public class LoginDialog extends Dialog {
 
                                 Log.d("LoginDialog","MainThreadID_bindfb:"+ Looper.getMainLooper().getThread().getId());
                                 Log.d("LoginDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
+                                dialog.getCurrentFocus();
                                 if (userName!=null) userName.setText(account);
                                 if (pwd!=null) pwd.setText(pas);
                             }catch (Exception e){

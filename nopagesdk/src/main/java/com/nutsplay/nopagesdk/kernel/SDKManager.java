@@ -23,7 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.ljoy.chatbot.sdk.ELvaChatServiceSdk;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
@@ -74,6 +73,13 @@ import com.nutsplay.nopagesdk.view.SDKProgressDialog;
 import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
+
+import net.aihelp.config.ConversationConfig;
+import net.aihelp.config.FaqConfig;
+import net.aihelp.config.enums.ConversationIntent;
+import net.aihelp.config.enums.ShowConversationMoment;
+import net.aihelp.init.AIHelpSupport;
+import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -338,45 +344,46 @@ public class SDKManager {
     /**
      * 注册未读消息回调接口
      */
-    private void beforeInitSDK(final ResultCallBack resultCallBack){
-        try {
-            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
-                @Override
-                public void onInitialized() {
-                    //初始化完成
-                    System.out.println("AIHelp初始化完成");
-                    aiHelpInitStatus = true;
-                    if (resultCallBack != null){
-                        resultCallBack.onSuccess();
-                    }
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    private void beforeInitSDK(final ResultCallBack resultCallBack){
+//        try {
+//            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+//                @Override
+//                public void onInitialized() {
+//                    //初始化完成
+//                    System.out.println("AIHelp初始化完成");
+//                    aiHelpInitStatus = true;
+//                    if (resultCallBack != null){
+//                        resultCallBack.onSuccess();
+//                    }
+//                }
+//            });
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 初始化AiHelp客服系统
      */
-    public void initAiHelp(final Activity activity,final InitParameter parameters,final ResultCallBack resultCallBack) {
+    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    beforeInitSDK(resultCallBack);
-                    ELvaChatServiceSdk.init(
-                            activity,
-                            parameters.getAihelpAppkey(),
-                            parameters.getAihelpDomain(),
-                            parameters.getAihelpAppID());
-                    ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-                }catch (Exception e){
-                    e.printStackTrace();
+        try {
+            AIHelpSupport.init(
+                    activity,
+                    parameters.getAihelpAppkey(),
+                    parameters.getAihelpDomain(),
+                    parameters.getAihelpAppID(),
+                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
+            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
+                @Override
+                public void onAIHelpInitialized() {
+                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
+                    resultCallBack.onSuccess();
                 }
-            }
-        }).start();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -1805,12 +1812,12 @@ public class SDKManager {
             return;
         }
         if (!isInitStatus()) {
-//            SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
             System.out.println("The SDK is not initialized.");
             return;
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
-        ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
+//        ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
+        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
     }
 
 
@@ -2738,7 +2745,7 @@ public class SDKManager {
      * 在线客服系统
      * AIHelp
      */
-    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String serverId, final HashMap<String, Object> customData) {
+    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
         try {
             if (activity == null || initParameter == null) {
                 System.out.println("parameter is null");
@@ -2759,7 +2766,20 @@ public class SDKManager {
                 }
                 Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
 
-                ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+//                ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
+
+                ConversationConfig.Builder builder = new ConversationConfig.Builder();
+                builder.setAlwaysShowHumanSupportButtonInBotPage(true);
+                AIHelpSupport.showConversation(builder.build());
+                //设置用户信息
+                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
+                        .setServerId(serverId)
+                        .setUserName(userName)
+                        .setUserId(nutsId)
+                        .setUserTags(userTags)
+                        .setCustomData(customData.toString())
+                        .build();
+                AIHelpSupport.updateUserInfo(userConfig);
             } else {
                 showProgress(activity);
                 initAiHelp(activity, initParameter, new ResultCallBack() {
@@ -2767,7 +2787,7 @@ public class SDKManager {
                     public void onSuccess() {
                         hideProgress();
                         lastTime = 0;
-                        customerSupport(activity,initParameter,userName,serverId,customData);
+                        customerSupport(activity,initParameter,userName,userTags,serverId,customData);
                     }
 
                     @Override
@@ -2791,7 +2811,7 @@ public class SDKManager {
      */
     private long lastTime = 0;
 
-    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String serverId, final HashMap<String, Object> customData) {
+    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
         try {
             if (activity == null || initParameter == null) {
                 System.out.println("parameter is null");
@@ -2812,13 +2832,31 @@ public class SDKManager {
                     nutsId = SDKManager.getInstance().getUser().getUserId();
                 }
 
-                HashMap<String, Object> config = new HashMap<>();
-                config.put("showContactButtonFlag", "1");
-                config.put("showConversationFlag", "1");
-                config.put("elva-custom-metadata", customData);
-                ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
-                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
-                ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+//                HashMap<String, Object> config = new HashMap<>();
+//                config.put("showContactButtonFlag", "1");
+//                config.put("showConversationFlag", "1");
+//                config.put("elva-custom-metadata", customData);
+//                ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
+//                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
+//                ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
+
+                FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
+                ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
+                faqBuilder.setShowConversationMoment(ShowConversationMoment.ALWAYS);
+                conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
+                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
+                faqBuilder.setConversationConfig(conversationBuilder.build());
+                AIHelpSupport.showAllFAQSections(faqBuilder.build());
+                //设置用户信息
+                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
+                        .setServerId(serverId)
+                        .setUserName(userName)
+                        .setUserId(nutsId)
+                        .setUserTags(userTags)
+                        .setCustomData(customData.toString())
+                        .build();
+                AIHelpSupport.updateUserInfo(userConfig);
+
             } else {
                 showProgress(activity);
                 initAiHelp(activity, initParameter, new ResultCallBack() {
@@ -2826,7 +2864,7 @@ public class SDKManager {
                     public void onSuccess() {
                         hideProgress();
                         lastTime = 0;
-                        showFAQs(activity,initParameter,userName,serverId,customData);
+                        showFAQs(activity,initParameter,userName,userTags,serverId,customData);
                     }
 
                     @Override
@@ -3001,7 +3039,7 @@ public class SDKManager {
     public void facebookAppRequest(Activity activity, String message,ResultCallBack callBack) {
         if (callBack == null) return;
         setAppRequestCallback(callBack);
-        Intent intent = new Intent(activity,FBAppRequestActivity.class);
+        Intent intent = new Intent(activity, FBAppRequestActivity.class);
         intent.putExtra("message",message);
         AppManager.startActivityWithData(activity,intent);
     }

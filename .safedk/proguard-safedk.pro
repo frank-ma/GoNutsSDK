@@ -20,5 +20,6 @@
 -keep class com.unity3d.ads.** { *; }
 -keep class com.unity3d.services.** { *; }
 -keep class com.mintegral.msdk.** { *; }
+-keep class com.mbridge.msdk.** { *; }
 -keep class com.safedk.** { *; }
 -keep class com.applovin.quality.** { *; }

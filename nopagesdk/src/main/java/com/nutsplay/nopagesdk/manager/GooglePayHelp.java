@@ -350,7 +350,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 @Override
                 public void onBillingServiceDisconnected() {
                     Log.i(TAG, "line135-onBillingServiceDisconnected()");
-
                 }
             });
             return;
@@ -368,10 +367,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             if (skuDetailsList != null && skuDetailsList.size() > 0) {
 
                                 List<com.nutsplay.nopagesdk.beans.SkuDetails> skus = new ArrayList<>();
-
                                 LogUtils.d(TAG, "skuDetailsList.size()---" + skuDetailsList.size());
                                 for (SkuDetails skuDetails : skuDetailsList) {
-
                                     com.nutsplay.nopagesdk.beans.SkuDetails sku = new com.nutsplay.nopagesdk.beans.SkuDetails();
                                     sku.setSku(skuDetails.getSku());
                                     sku.setType(skuDetails.getType());
@@ -398,14 +395,10 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                                 }
                             } else {
                                 callback.onFailure(SDKConstant.developer_error,"skuDetailsList is null or skuDetailsList.size() == 0,Please make sure the app has been uploaded to Google Play.");
-
                             }
-
                         } else {
-
                             callback.onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                         }
-
                     }
                 });
     }
