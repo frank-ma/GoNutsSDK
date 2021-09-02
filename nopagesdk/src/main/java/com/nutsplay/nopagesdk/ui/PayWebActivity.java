@@ -173,7 +173,7 @@ public class PayWebActivity extends BaseActivity {
         LogUtils.e("第三方支付成功success_story: orderid-" + orderId + "  type-" + currency + " price-" + price + " type2-" + type);
         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("19"), 1);
         //支付追踪
-        TrackingManager.purchaseTracking(PayWebActivity.this, SDKManager.getInstance().getUser().getUserId(), orderId, Double.valueOf(price), currency, type);
+        TrackingManager.purchaseTracking(PayWebActivity.this, "web",SDKManager.getInstance().getUser().getUserId(), orderId, Double.valueOf(price), currency, type);
 
         //回调接口
         PayResult payParams = new PayResult();

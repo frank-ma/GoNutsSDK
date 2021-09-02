@@ -39,7 +39,8 @@
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/nuts_logo"/>
+                android:src="@drawable/nuts_logo"
+                android:visibility="gone"/>
         </RelativeLayout>
 
 

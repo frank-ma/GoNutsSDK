@@ -85,7 +85,8 @@
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/nuts_logo" />
+            android:src="@drawable/nuts_logo"
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/img_close"

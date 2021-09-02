@@ -131,6 +131,7 @@ public class FBLoginActivity extends BaseActivity {
                     if (userObj == null)return;
 
                     FacebookUser facebookUser = jsonToUser(userObj);
+                    Log.e(TAG,"fb_email:" + facebookUser.getEmail());
                     if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener() != null) {
                         com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onSuccess(facebookUser);
                     }

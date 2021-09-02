@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'org.greenrobot.greendao'
 
 def static getProductName() {
     return "sdk"
@@ -12,7 +12,7 @@ static def releaseTime() {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.2'
 
 
     defaultConfig {
@@ -42,18 +42,18 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
-    implementation 'com.android.billingclient:billing:3.0.3'//2.0.3//2.2.1
+    implementation 'com.android.billingclient:billing:4.0.0'//2.0.3//2.2.1//3.0.3
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // greenDao
-    implementation 'org.greenrobot:greendao:3.3.0'//3.2.2
-    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+//    implementation 'org.greenrobot:greendao:3.3.0'//3.2.2
+//    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 
 
 
@@ -63,16 +63,13 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
     implementation 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
     //Facebook登录
-//    implementation 'com.facebook.android:facebook-login:[5,6)'
-//    implementation 'com.facebook.android:facebook-login:5.13.0'
-//    implementation 'com.facebook.android:facebook-login:6.2.0'
     //google登录
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     //Google评价用到核心库
     implementation 'com.google.android.play:core:1.9.0'
 
     // Facebook Android SDK (everything)
-    api 'com.facebook.android:facebook-android-sdk:9.1.1'//7.1.0
+    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
 //    implementation 'com.facebook.android:facebook-android-sdk:5.13.0'
     //AIHelp
 //    implementation 'net.aihelp:elva:1.7.4.0'
@@ -86,13 +83,21 @@ dependencies {
     //Bugly
     implementation 'com.tencent.bugly:crashreport:3.3.1'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.500'
+
+    //    adjust
+    api 'com.adjust.sdk:adjust-android:4.28.1'
+    api 'com.android.installreferrer:installreferrer:2.2'
+    api 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+
+    //分包
+    api 'androidx.multidex:multidex:2.0.1'
 }
 
-greendao {
-    schemaVersion 2 //数据库版本号
-    daoPackage 'com.nutsplay.nopagesdk.db'// 设置DaoMaster、DaoSession、Dao 包名
-    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
-}
+//greendao {
+//    schemaVersion 2 //数据库版本号
+//    daoPackage 'com.nutsplay.nopagesdk.db'// 设置DaoMaster、DaoSession、Dao 包名
+//    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+//}
 
 
 //生成sdk的jar包

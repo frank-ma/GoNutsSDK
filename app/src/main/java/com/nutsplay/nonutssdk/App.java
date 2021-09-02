@@ -1,6 +1,9 @@
 package com.nutsplay.nonutssdk;
 
 
+import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustConfig;
+import com.adjust.sdk.LogLevel;
 import com.facebook.stetho.Stetho;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
 import com.squareup.leakcanary.LeakCanary;
@@ -12,6 +15,8 @@ import com.squareup.leakcanary.LeakCanary;
  */
 public class App extends SDKApplication {
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,5 +24,26 @@ public class App extends SDKApplication {
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
 
+    }
+
+    /**
+     * 初始化Adjust统计平台
+     */
+    @Override
+    public void initAdjust() {
+        String appToken = "4o0btzt6v5kw";//Emma的appToken
+        //ENVIRONMENT_SANDBOX 沙盒模式； ENVIRONMENT_PRODUCTION 生产模式；自己视情况切换
+        String environment = AdjustConfig.ENVIRONMENT_SANDBOX;
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+        config.setLogLevel(LogLevel.DEBUG);//可以更改日志的级别
+//        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
+//        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
+//        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
+//        config.setLogLevel(LogLevel.WARN); // disable info logs
+//        config.setLogLevel(LogLevel.ERROR); // disable warning logs
+//        config.setLogLevel(LogLevel.ASSERT); // disable error logs
+//        config.setLogLevel(LogLevel.SUPRESS); // disable all logs
+        Adjust.onCreate(config);
+        registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
 }

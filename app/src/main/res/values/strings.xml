@@ -4,5 +4,8 @@
     <string name="fb_login_protocol_scheme">fb295570801431576</string>
     <!--    <string name="facebook_app_id">315192519335195</string>-->
     <!--    <string name="fb_login_protocol_scheme">fb315192519335195</string>-->
-
+    <!--Emma    Adjust事件ID-->
+    <string name="adjust_google_iap">84d7kd</string>
+    <string name="adjust_login">ockst9</string>
+    <string name="adjust_register">f9kveh</string>
 </resources>

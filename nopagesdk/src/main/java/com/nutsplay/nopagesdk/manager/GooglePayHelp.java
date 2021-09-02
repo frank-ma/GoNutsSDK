@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -18,6 +19,7 @@ import com.android.billingclient.api.PriceChangeFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchaseHistoryRecord;
 import com.android.billingclient.api.PurchaseHistoryResponseListener;
+import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
@@ -26,8 +28,6 @@ import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
-import com.nutsplay.nopagesdk.db.DBManager;
-import com.nutsplay.nopagesdk.db.PurchaseRecord;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -39,6 +39,8 @@ import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.LogUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +94,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
-                if (billingResult == null) return;
+            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     //初始化成功
                     Log.d(TAG, "Google 初始化成功");
@@ -134,8 +135,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
-                if (billingResult == null) return;
+            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     //初始化成功
                     LogUtils.d(TAG, "Google 初始化成功");
@@ -196,43 +196,45 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 //            });
             return;
         }
-        Purchase.PurchasesResult purchasesResult = billingClient.queryPurchases(type);
-        List<Purchase> purchasesList = purchasesResult.getPurchasesList();
-        if (purchasesList == null) return;
-        if (!isBuy && purchasesList.size() == 0) {
-            LogUtils.d(TAG,"没有掉单");
-            destroy();
-            return;
-        }
-        LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
-
-        //如果是订阅，直接进行购买，如果有订阅是不能购买的
-        if (BillingClient.SkuType.SUBS.equals(type)) {
-            if (isBuy) launchBillingFlow(skuId, type);
-        } else {
-            //消耗型商品
-            if (purchasesList.size() == 0) {
-                //没有掉单，直接购买
-                LogUtils.d(TAG,"没有掉单");
-                if (isBuy) launchBillingFlow(skuId, itemType);
-            } else {
-                //有掉单，先补单
-                LogUtils.d("lost order", "lost order size:" + purchasesList.size());
-                boolean isItemLost = false;
-                for (Purchase purchase : purchasesList) {
-                    if (purchase == null) continue;
-                    if (purchase.getSku().equals(skuId)) {
-                        isItemLost = true;
+        billingClient.queryPurchasesAsync(type, new PurchasesResponseListener() {
+            @Override
+            public void onQueryPurchasesResponse(@NonNull @NotNull BillingResult billingResult, @NonNull @NotNull List<Purchase> purchasesList) {
+                if (billingResult.getResponseCode()== BillingClient.BillingResponseCode.OK){
+                    LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
+                    if (!isBuy && purchasesList.size() == 0) {
+                        LogUtils.d(TAG,"没有掉单");
+                        destroy();
+                        return;
                     }
-                    notifyServerForLostOrder(itemType, purchase);
-                }
-                //要买的item没有掉单可以直接购买
-                if (!isItemLost && isBuy) {
-                    launchBillingFlow(skuId, itemType);
+                    //如果是订阅，直接进行购买，如果有订阅是不能购买的
+                    if (BillingClient.SkuType.SUBS.equals(type)) {
+                        if (isBuy) launchBillingFlow(skuId, type);
+                    } else {
+                        //消耗型商品
+                        if (purchasesList.size() == 0) {
+                            //没有掉单，直接购买
+                            LogUtils.d(TAG,"没有掉单");
+                            if (isBuy) launchBillingFlow(skuId, itemType);
+                        } else {
+                            //有掉单，先补单
+                            LogUtils.d("lost order", "lost order size:" + purchasesList.size());
+                            boolean isItemLost = false;
+                            for (Purchase purchase : purchasesList) {
+                                if (purchase == null) continue;
+                                if (purchase.getSkus().get(0).equals(skuId)) {
+                                    isItemLost = true;
+                                }
+                                notifyServerForLostOrder(itemType, purchase);
+                            }
+                            //要买的item没有掉单可以直接购买
+                            if (!isItemLost && isBuy) {
+                                launchBillingFlow(skuId, itemType);
+                            }
+                        }
+                    }
                 }
             }
-        }
-
+        });
     }
 
     /**
@@ -255,20 +257,20 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     /**
      * 通过数据库记录进行补单
      */
-    public void resentOrderByDbRecord() {
-        try {
-            List<Purchase> records = DBManager.getInstance().queryLostOrders();
-            if (records == null) return;
-            LogUtils.d(TAG, "掉单数量：" + records.size());
-            if (records.size() > 0) {
-                for (Purchase purchase : records) {
-                    notifyServerForLostOrder(BillingClient.SkuType.INAPP, purchase);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void resentOrderByDbRecord() {
+//        try {
+//            List<Purchase> records = DBManager.getInstance().queryLostOrders();
+//            if (records == null) return;
+//            LogUtils.d(TAG, "掉单数量：" + records.size());
+//            if (records.size() > 0) {
+//                for (Purchase purchase : records) {
+//                    notifyServerForLostOrder(BillingClient.SkuType.INAPP, purchase);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 通过网络请求发起最近的购买交易
@@ -280,13 +282,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         if (billingClient == null) return;
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
             @Override
-            public void onPurchaseHistoryResponse(BillingResult billingResult, List<PurchaseHistoryRecord> purchaseHistoryRecordList) {
+            public void onPurchaseHistoryResponse(@NotNull BillingResult billingResult, List<PurchaseHistoryRecord> purchaseHistoryRecordList) {
                 if (purchaseHistoryRecordList != null) {
                     LogUtils.d(TAG, "queryHistoryPurchase:purchaseHistoryRecordList.size()-----" + purchaseHistoryRecordList.size());
                 }
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchaseHistoryRecordList != null && purchaseHistoryRecordList.size() > 0) {
                     for (PurchaseHistoryRecord historyRecord : purchaseHistoryRecordList) {
-                        String sku = historyRecord.getSku();
+                        String sku = historyRecord.getSkus().get(0);
                         String historyRecordStr = historyRecord.toString();
                         String originalJson = historyRecord.getOriginalJson();
                         LogUtils.d(TAG, "queryHistoryPurchase:" + historyRecordStr);
@@ -309,8 +311,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient.launchPriceChangeConfirmationFlow(activity, priceChangeFlowParams,
                 new PriceChangeConfirmationListener() {
                     @Override
-                    public void onPriceChangeConfirmationResult(BillingResult billingResult) {
-                        if (billingResult == null) return;
+                    public void onPriceChangeConfirmationResult(@NotNull BillingResult billingResult) {
                         int responseCode = billingResult.getResponseCode();
 
                         if (responseCode == BillingClient.BillingResponseCode.OK) {
@@ -336,8 +337,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         if (!isConnected() || billingClient == null) {
             initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
                 @Override
-                public void onBillingSetupFinished(BillingResult billingResult) {
-                    if (billingResult == null) return;
+                public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
 
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                         setConnected(true);
@@ -361,7 +361,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient.querySkuDetailsAsync(params.build(),
                 new SkuDetailsResponseListener() {
                     @Override
-                    public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                    public void onSkuDetailsResponse(@NotNull BillingResult billingResult, List<SkuDetails> skuDetailsList) {
 
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             if (skuDetailsList != null && skuDetailsList.size() > 0) {
@@ -410,7 +410,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
         if (billingClient == null) return;
         BillingResult result = billingClient.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS);
-        if (result == null) return;
         if (result.getResponseCode() == BillingClient.BillingResponseCode.OK) {
             //用户的GooglePlay版本支持订阅功能
             //查询是否有该订阅
@@ -458,9 +457,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         billingClient.querySkuDetailsAsync(params.build(),
                 new SkuDetailsResponseListener() {
                     @Override
-                    public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                    public void onSkuDetailsResponse(@NotNull BillingResult billingResult, List<SkuDetails> skuDetailsList) {
 
-                        if (billingResult == null) return;
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             if (skuDetailsList != null && skuDetailsList.size() > 0) {
 
@@ -504,8 +502,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         if (billingClient == null) return;
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
-                if (billingResult == null) return;
+            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
+
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     //初始化成功
                     LogUtils.d(TAG, "Google 初始化成功");
@@ -536,23 +534,23 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * @param purchases
      */
     @Override
-    public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
-        if (billingResult == null) return;
+    public void onPurchasesUpdated(@NotNull BillingResult billingResult, @Nullable List<Purchase> purchases) {
 
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
             //支付成功
             for (Purchase purchase : purchases) {
 
                 //更新DB
-                PurchaseRecord purchaseRecord = new PurchaseRecord();
-                purchaseRecord.setTransactionId(transactionId);
-                purchaseRecord.setSkuId(skuId);
-                purchaseRecord.setGoogleId(purchase.getOrderId());
-                purchaseRecord.setStatus(2);
-                purchaseRecord.setPurchaseJson(purchase.getOriginalJson());
-                DBManager.getInstance().insertOrReplace(purchaseRecord);
+//                PurchaseRecord purchaseRecord = new PurchaseRecord();
+//                purchaseRecord.setTransactionId(transactionId);
+//                purchaseRecord.setSkuId(skuId);
+//                purchaseRecord.setGoogleId(purchase.getOrderId());
+//                purchaseRecord.setStatus(2);
+//                purchaseRecord.setPurchaseJson(purchase.getOriginalJson());
+//                DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
+                //支付结果的回调这里，只有普通商品，订阅是没有回调的
                 notifyServer(itemType, transactionId, false, purchase);
 
             }
@@ -582,17 +580,18 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     /**
      * 确认订阅购买交易
      */
-    private void acknowledgeSubs(Purchase purchase) {
+    private void acknowledgeSubs(double price,String currency,final Purchase purchase) {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            //统计订阅
+            AdjustTraceManager.getInstance().adjustTrackSubs(price,currency,purchase.getSkus().get(0),purchase.getOrderId(),purchase.getSignature(),purchase.getPurchaseToken());
             //向用户授予权限
-
             if (!purchase.isAcknowledged()) {
                 AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
                         .setPurchaseToken(purchase.getPurchaseToken()).build();
                 if (billingClient == null) return;
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
                     @Override
-                    public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
+                    public void onAcknowledgePurchaseResponse(@NotNull BillingResult billingResult) {
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             //确认订阅成功
                             LogUtils.e("订阅确认成功");
@@ -660,12 +659,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             String currency = orderModel.getData().getCurrency();
                             String type = "GoogleIAP";
 
-                            handleAfterPurchaseSuccess(true, purchase, orderId, String.valueOf(price), currency, type);
+                            handleAfterPurchaseSuccess(itemType,true, purchase, orderId, String.valueOf(price), currency, type);
 
 
                             if (SDKConstant.SUBS.equals(itemType)) {
                                 //确认订阅
-                                acknowledgeSubs(purchase);
+                                acknowledgeSubs(price,currency,purchase);
                             } else {
                                 //消费商品
                                 consumeSku(purchase);
@@ -755,7 +754,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             String currency = orderModel.getData().getCurrency();
                             String type = "GoogleIAP";
 
-                            handleAfterPurchaseSuccess(false, purchase, orderId, String.valueOf(price), currency, type);
+                            handleAfterPurchaseSuccess(itemType,false, purchase, orderId, String.valueOf(price), currency, type);
                             //消费商品
                             consumeSku(purchase);
 
@@ -787,7 +786,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
         ConsumeParams consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.getPurchaseToken())
-
                 .build();
         if (billingClient == null) {
 //            initGoogleIAP(SDKManager.getInstance().getActivity(), new BillingClientStateListener() {
@@ -810,8 +808,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         } else {
             billingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
                 @Override
-                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                    if (billingResult == null) return;
+                public void onConsumeResponse(@NotNull BillingResult billingResult, @NotNull String purchaseToken) {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                         //消费成功
                         LogUtils.d(TAG, "消费成功");
@@ -850,21 +847,21 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * @param currency
      * @param type
      */
-    private void handleAfterPurchaseSuccess(boolean isCallback, Purchase purchase, String orderId, String price, String currency, String type) {
+    private void handleAfterPurchaseSuccess(String itemType,boolean isCallback, Purchase purchase, String orderId, String price, String currency, String type) {
         LogUtils.e("Google支付成功 success_story: orderid-" + orderId + "  type-" + currency + " price-" + price + " type2-" + type);
         if (isCallback)
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("19"), 1);
         //支付追踪
-        TrackingManager.purchaseTracking(SDKManager.getInstance().getActivity(), SDKManager.getInstance().getUser().getUserId(), orderId, Double.valueOf(price), currency, type);
+        TrackingManager.purchaseTracking(SDKManager.getInstance().getActivity(), itemType, SDKManager.getInstance().getUser().getUserId(), orderId, Double.parseDouble(price), currency, type);
 
         //更新DB
-        PurchaseRecord purchaseRecord = new PurchaseRecord();
-        purchaseRecord.setTransactionId(transactionId);
-        purchaseRecord.setStatus(1);
-        purchaseRecord.setSkuId(skuId);
-        purchaseRecord.setGoogleId(purchase.getOrderId());
-        purchaseRecord.setPurchaseJson(purchase.toString());
-        DBManager.getInstance().insertOrReplace(purchaseRecord);
+//        PurchaseRecord purchaseRecord = new PurchaseRecord();
+//        purchaseRecord.setTransactionId(transactionId);
+//        purchaseRecord.setStatus(1);
+//        purchaseRecord.setSkuId(skuId);
+//        purchaseRecord.setGoogleId(purchase.getOrderId());
+//        purchaseRecord.setPurchaseJson(purchase.toString());
+//        DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
         if (!isCallback) return;

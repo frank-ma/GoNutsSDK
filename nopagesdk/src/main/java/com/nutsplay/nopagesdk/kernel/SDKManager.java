@@ -42,8 +42,6 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
-import com.nutsplay.nopagesdk.db.DBManager;
-import com.nutsplay.nopagesdk.db.PurchaseRecord;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
@@ -378,7 +376,7 @@ public class SDKManager {
                 @Override
                 public void onAIHelpInitialized() {
                     Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
-                    resultCallBack.onSuccess();
+                    if (resultCallBack != null) resultCallBack.onSuccess();
                 }
             });
         } catch (Exception e) {
@@ -1592,11 +1590,11 @@ public class SDKManager {
                             String transactionId = orderModel.getData().getTransactionId();//订单号
 
                             //DB插入数据
-                            PurchaseRecord purchaseRecord = new PurchaseRecord();
-                            purchaseRecord.setTransactionId(transactionId);
-                            purchaseRecord.setSkuId(referenceId);
-                            purchaseRecord.setStatus(0);
-                            DBManager.getInstance().insertOrReplace(purchaseRecord);
+//                            PurchaseRecord purchaseRecord = new PurchaseRecord();
+//                            purchaseRecord.setTransactionId(transactionId);
+//                            purchaseRecord.setSkuId(referenceId);
+//                            purchaseRecord.setStatus(0);
+//                            DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
                             String payUrl = orderModel.getData().getPayUrl();
@@ -1703,11 +1701,11 @@ public class SDKManager {
                             String transactionId = orderModel.getData().getTransactionId();//订单号
 
                             //DB插入数据
-                            PurchaseRecord purchaseRecord = new PurchaseRecord();
-                            purchaseRecord.setTransactionId(transactionId);
-                            purchaseRecord.setSkuId(referenceId);
-                            purchaseRecord.setStatus(0);
-                            DBManager.getInstance().insertOrReplace(purchaseRecord);
+//                            PurchaseRecord purchaseRecord = new PurchaseRecord();
+//                            purchaseRecord.setTransactionId(transactionId);
+//                            purchaseRecord.setSkuId(referenceId);
+//                            purchaseRecord.setStatus(0);
+//                            DBManager.getInstance().insertOrReplace(purchaseRecord);
 
 
                             //使用Google订阅

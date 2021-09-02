@@ -39,8 +39,7 @@ import java.util.List;
 
 public class MainActivity extends SDKBaseActivity {
 
-//    private String clientId = "5dcbeab164b5b50deb76be93";
-    private String clientId = "5ef872ec64b5b50defb667dc";
+    private String clientId = "5f84109764b5b50775d4abf2";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "1ee9849782";
     private String buglyId = "36386748bb";
@@ -58,7 +57,7 @@ public class MainActivity extends SDKBaseActivity {
     //Dragon Home
     private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_a84456e0-2d9b-4c65-8e83-0f49630aa2d2";
     private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_a070e2a9a3bf4259bcb19301bdc33a4e";
-    private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
+    private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,7 +289,7 @@ public class MainActivity extends SDKBaseActivity {
     public void purchase(View view) {
 //        String referenceId = "com.nutspower.nutsgamesdk.test2";
 //        String referenceId = "nuts_product_1";
-        String referenceId = "com.nutspower.dragon.monthcard399";
+        String referenceId = "com.nutspower.golfduel.cumulative099";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {

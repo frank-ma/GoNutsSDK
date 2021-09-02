@@ -424,39 +424,39 @@ public class SDKGameUtils {
 
     }
 
-    public synchronized static int getLanguage(String langugae) {
+    public synchronized static int getLanguage(String language) {
 
-        if (langugae == null || langugae.isEmpty()) {
+        if (language == null || language.isEmpty()) {
             lan = 2;
-        } else if (langugae.contains("cn") || langugae.contains("CN")) {
+        } else if (language.contains("cn") || language.contains("CN")) {
             lan = 1;
-        } else if (langugae.contains("en")) {
+        } else if (language.contains("en")) {
             lan = 2;
-        } else if (langugae.contains("th")) {
+        } else if (language.contains("th")) {
             lan = 3;
-        } else if (langugae.contains("vi") || langugae.contains("vn")) {
+        } else if (language.contains("vi") || language.contains("vn")) {
             lan = 4;
-        } else if (langugae.contains("ar")) {
+        } else if (language.contains("ar")) {
             lan = 5;
-        } else if (langugae.contains("kr") || langugae.contains("ko")) {
+        } else if (language.contains("kr") || language.contains("ko")) {
             lan = 6;
-        } else if (langugae.contains("hk") || langugae.contains("HK")) {
+        } else if (language.contains("hk") || language.contains("HK")) {
             lan = 7;
-        } else if (langugae.contains("fr") || langugae.contains("fo")) {
+        } else if (language.contains("fr") || language.contains("fo")) {
             lan = 8;
-        } else if (langugae.contains("br") || langugae.contains("pt")) {
+        } else if (language.contains("br") || language.contains("pt")) {
             lan = 9;//葡萄牙
-        } else if (langugae.contains("de") || langugae.contains("deu")) {
+        } else if (language.contains("de") || language.contains("deu")) {
             lan = 10;
-        } else if (langugae.contains("sp") || langugae.contains("es")) {
+        } else if (language.contains("sp") || language.contains("es")) {
             lan = 11;
-        } else if (langugae.contains("it")) {
+        } else if (language.contains("it")) {
             lan = 12;
-        } else if (langugae.contains("ja") || langugae.contains("jp")) {
+        } else if (language.contains("ja") || language.contains("jp")) {
             lan = 13;
-        } else if (langugae.contains("id") || langugae.contains("idn")) {
+        } else if (language.contains("id") || language.contains("idn")) {
             lan = 14;
-        } else if (langugae.contains("ru") || langugae.contains("by")) {
+        } else if (language.contains("ru") || language.contains("by")) {
             lan = 15;
         } else {
             lan = 2;
