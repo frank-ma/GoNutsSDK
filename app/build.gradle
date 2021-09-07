@@ -48,7 +48,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 //    implementation project(path: ':nopagesdk')
 
-    implementation 'com.github.frank-ma:GoNutsSDK:v1.0.1'
+    implementation 'com.github.frank-ma:GoNutsSDK:v1.0.2'
 
 
     //检测内存泄漏

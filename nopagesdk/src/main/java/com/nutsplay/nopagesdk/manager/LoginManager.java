@@ -51,9 +51,9 @@ public class LoginManager {
         void onFailure(int code,String msg);
     }
 
-    private FbLoginListener fbloginListener;
+    public FbLoginListener fbloginListener;
 
-    private GoogleLoginListener googleLoginListener;
+    public GoogleLoginListener googleLoginListener;
 
     public FbLoginListener getFBLoginListener() {
         return fbloginListener;
