@@ -168,7 +168,8 @@ public static java.lang.String TABLENAME;
 
 #sdk不混淆的类
 -keep class com.nutsplay.nopagesdk.beans.**{*;}
--keep class com.nutsplay.nopagesdk.kernel.SDK{*;}
--keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
+-keep class com.nutsplay.nopagesdk.kernel.**{*;}
+#-keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
 -keep class com.nutsplay.nopagesdk.callback.**{*;}
+-keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager
 

@@ -29,6 +29,7 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
@@ -657,7 +658,7 @@ public class MainActivity extends SDKBaseActivity {
 
 
     /**
-     * 打开用户协议页面，登录界面可以留一个常驻按钮，展示用户协议
+     * 打开用户协议页面，FB政策要求登录界面要留一个常驻按钮，展示用户协议
      *
      * @param view
      */
@@ -889,6 +890,16 @@ public class MainActivity extends SDKBaseActivity {
                 showLog("评价成功");
             }
         });
+
+
+    }
+
+    /**
+     * Adjust自定义追踪事件
+     * 参数为：定义好的事件id
+     */
+    public void adjustEvent(){
+        AdjustTraceManager.getInstance().adjustCustomEvent("eventID");
     }
 
 
