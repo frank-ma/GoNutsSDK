@@ -3,16 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nutspower.nutsgamesdk">
     <!-- google支付权限 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- appsflyer -->
-    <uses-permission android:name="com.android.vending.BILLING" /> <!-- af Optional -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 存储照片 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> <!-- Firebase -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- appsflyer -->
+<!--    <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; af Optional &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> &lt;!&ndash; 存储照片 &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+<!--    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> &lt;!&ndash; Firebase &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+<!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->
 
     <application
         android:name="com.nutsplay.nonutssdk.App"
