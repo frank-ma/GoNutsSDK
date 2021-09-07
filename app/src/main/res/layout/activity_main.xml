@@ -188,6 +188,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
+                android:onClick="fetchUnread"
+                android:text="未读消息数"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
                 android:onClick="fbGameLogin"
                 android:text="FB游戏登录"
                 android:textColor="@color/colorAccent" />

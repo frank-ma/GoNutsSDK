@@ -78,6 +78,7 @@ import net.aihelp.config.enums.ConversationIntent;
 import net.aihelp.config.enums.ShowConversationMoment;
 import net.aihelp.init.AIHelpSupport;
 import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -375,6 +376,8 @@ public class SDKManager {
             AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
                 @Override
                 public void onAIHelpInitialized() {
+
+                    aiHelpInitStatus = true;
                     Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
                     if (resultCallBack != null) resultCallBack.onSuccess();
                 }
@@ -2875,6 +2878,14 @@ public class SDKManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取AIhelp未读消息数
+     * @param callback
+     */
+    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
+        AIHelpSupport.startUnreadMessageCountPolling(callback);
     }
 
     /**

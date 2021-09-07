@@ -26,7 +26,7 @@
         android:allowBackup="false"
         tools:ignore="AllowBackup">
 
-        <activity android:name="com.nutsplay.nonutssdk.AdsActivity" />
+<!--        <activity android:name="com.nutsplay.nonutssdk.AdsActivity" />-->
         <activity
             android:name="com.nutsplay.nonutssdk.MainActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"

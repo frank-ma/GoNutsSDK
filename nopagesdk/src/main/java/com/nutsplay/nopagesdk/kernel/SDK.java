@@ -18,6 +18,8 @@ import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutsplay.nopagesdk.manager.LoginManager;
 
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -320,6 +322,10 @@ public class SDK {
 
     public void showFAQs(Activity activity,InitParameter initParameter,String userName, String userTags,String serverId, HashMap<String,Object> customData){
         SDKManager.getInstance().showFAQs(activity,initParameter,userName,userTags,serverId,customData);
+    }
+
+    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
+        SDKManager.getInstance().fetchUnreadMessages(callback);
     }
 
     public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {

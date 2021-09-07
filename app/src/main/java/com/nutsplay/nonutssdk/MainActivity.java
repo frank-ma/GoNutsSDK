@@ -34,6 +34,8 @@ import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -654,6 +656,20 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setLanguage("en");
         SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","recharge,vip3,paid3","10",sdkParamConfig);
+    }
+
+    /**
+     * 获取aihelp未读消息
+     * 需在初始化成功之后调用
+     * @param view
+     */
+    public void fetchUnread(View view){
+        SDK.getInstance().fetchUnreadMessages(new OnMessageCountArrivedCallback() {
+            @Override
+            public void onMessageCountArrived(int msgCount) {
+                Log.e("AiHelp", "客服未读消息数量：" + msgCount);
+            }
+        });
     }
 
 
