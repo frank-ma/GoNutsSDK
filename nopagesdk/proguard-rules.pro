@@ -58,7 +58,7 @@
     *** get*();
 }
 -keep public class * extends android.app.Activity
--keep public class * extends android.support.v4.app.FragmentActivity
+
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -66,8 +66,6 @@
 -keep public class * extends android.content.ContentProvider
 
 -keep public class * extends android.preference.Preference
-
--keep public class * extends android.support.v4.app.Fragment
 
 -keep public class * extends android.app.Fragment
 -keep public class * extends android.app.DialogFragment
@@ -92,18 +90,6 @@
     <methods>;
 }
 
--keep public class com.nutspower.nutssdk.config.NutsSDK {
- <fields>;
-    <methods>;
-}
--keep public class com.nutspower.nutssdk.config.NutsSDKEventStatus {
- <fields>;
-    <methods>;
-}
--keep public class com.nutspower.nutssdk.manager.LoginManger {
- <fields>;
-    <methods>;
-}
 # Maintain enums
 -keepclassmembers enum  * {
     <fields>;
@@ -129,10 +115,10 @@
 -keepclassmembers class * extends android.webkit.WebChromeClient {
     public void *(android.webkit.WebView,java.lang.String);
 }
--keep @android.support.annotation.Keep class * {
-    <fields>;
-    <methods>;
-}
+#-keep @android.support.annotation.Keep class * {
+#    <fields>;
+#    <methods>;
+#}
 
 
 
@@ -141,9 +127,9 @@
 -keep class com.android.vending.billing.**
 
 #greendao
--keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
-public static java.lang.String TABLENAME;
-}
+#-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+#public static java.lang.String TABLENAME;
+#}
 -keep class **$Properties {*;}
 
 # If you do not use SQLCipher:
