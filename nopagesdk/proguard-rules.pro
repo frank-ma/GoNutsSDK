@@ -165,6 +165,8 @@ public static java.lang.String TABLENAME;
 -keep class com.google.gson.**{*;}
 #xutils相关
 -keep class org.xutils.**{*;}
+#libs库文件
+-keep class com.nutspower.commonlibrary.**{*;}
 
 #sdk不混淆的类
 -keep class com.nutsplay.nopagesdk.beans.**{*;}
