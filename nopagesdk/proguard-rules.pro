@@ -31,7 +31,7 @@
 #-keep class * {
 #public private *;
 #}
--keep class * extends java.lang.annotation {
+-keep class * extends java.lang.annotation.Annotation {
     <fields>;
     <methods>;
 }
