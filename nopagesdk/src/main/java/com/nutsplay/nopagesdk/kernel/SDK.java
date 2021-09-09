@@ -5,6 +5,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
@@ -16,7 +17,6 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
-import com.nutsplay.nopagesdk.manager.LoginManager;
 
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
@@ -283,7 +283,7 @@ public class SDK {
         SDKManager.getInstance().sdkGetFbUserInfo(activity,resultCallBack);
     }
 
-    public void facebookGameLogin(LoginManager.FbLoginListener fbLoginListener) {
+    public void facebookGameLogin(FbLoginListener fbLoginListener) {
         SDKManager.getInstance().facebookGameLogin(fbLoginListener);
     }
 

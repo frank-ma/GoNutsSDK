@@ -2,6 +2,8 @@ package com.nutsplay.nopagesdk.manager;
 
 import android.app.Activity;
 
+import com.nutsplay.nopagesdk.api.FbLoginListener;
+import com.nutsplay.nopagesdk.api.GoogleLoginListener;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
@@ -35,21 +37,21 @@ public class LoginManager {
         return INSTANCE;
     }
 
-    public interface FbLoginListener {
-
-        void onSuccess(FacebookUser facebookUser);
-
-        void onFailure(String msg);
-
-        void onCancel();
-    }
-
-    public interface GoogleLoginListener {
-
-        void onSuccess(String googleId,String displayName);
-
-        void onFailure(int code,String msg);
-    }
+//    public interface FbLoginListener {
+//
+//        void onSuccess(FacebookUser facebookUser);
+//
+//        void onFailure(String msg);
+//
+//        void onCancel();
+//    }
+//
+//    public interface GoogleLoginListener {
+//
+//        void onSuccess(String googleId,String displayName);
+//
+//        void onFailure(int code,String msg);
+//    }
 
     public FbLoginListener fbloginListener;
 

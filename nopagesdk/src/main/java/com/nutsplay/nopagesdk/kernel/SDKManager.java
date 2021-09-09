@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.SDKLoginModel;
@@ -2697,7 +2698,7 @@ public class SDKManager {
         AppManager.startActivity(FBLoginActivity.class);
     }
 
-    public void facebookGameLogin(LoginManager.FbLoginListener fbLoginListener) {
+    public void facebookGameLogin(FbLoginListener fbLoginListener) {
 
         if (fbLoginListener == null) return;
         AppManager.startActivity(FBLoginActivity.class);
@@ -2706,7 +2707,7 @@ public class SDKManager {
 
     public void facebookFriendFinder() {
         AppManager.startActivity(FBLoginActivity.class);
-        LoginManager.getInstance().setFBLoginListener(new LoginManager.FbLoginListener() {
+        LoginManager.getInstance().setFBLoginListener(new FbLoginListener() {
             @Override
             public void onSuccess(FacebookUser user) {
 
