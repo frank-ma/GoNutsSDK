@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
@@ -30,7 +31,6 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
-import com.nutsplay.nopagesdk.manager.LoginManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
@@ -557,7 +557,7 @@ public class MainActivity extends SDKBaseActivity {
      * @param view
      */
     public void fbGameLogin(View view){
-        SDK.getInstance().facebookGameLogin(new LoginManager.FbLoginListener() {
+        SDK.getInstance().facebookGameLogin(new FbLoginListener() {
             @Override
             public void onSuccess(FacebookUser user) {
                 showLog("fb游戏登录成功：fbid-" + user.getId());

@@ -154,7 +154,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/color_circle_blue"
+            android:background="@color/colorAccent"
             android:layout_margin="5dp"/>
 
         <TextView
@@ -304,7 +304,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/color_circle_blue"
+            android:background="@color/colorAccent"
             android:layout_margin="5dp"/>
 
         <TextView

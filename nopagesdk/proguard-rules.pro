@@ -155,21 +155,21 @@
 -keep class com.nutspower.commonlibrary.**{*;}
 
 #sdk不混淆的类
-#-keep class com.nutsplay.nopagesdk.beans.**{*;}
-#-keep class com.nutsplay.nopagesdk.kernel.**{*;}
-#-keep class com.nutsplay.nopagesdk.callback.**{*;}
-#-keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager
-#-keep class com.nutsplay.nopagesdk.manager.AppManager
-#-keep class com.nutsplay.nopagesdk.manager.GoogleAPI
-#-keep class com.nutsplay.nopagesdk.manager.InstallManager
-#-keep class com.nutsplay.nopagesdk.manager.LoginManager
-#-keep class com.nutsplay.nopagesdk.manager.TrackingManager
-#-keep class com.nutsplay.nopagesdk.billing.**{*;}
-#-keep class com.nutsplay.nopagesdk.db.**{*;}
-#-keep class com.nutsplay.nopagesdk.facebook.**{*;}
-#-keep class com.nutsplay.nopagesdk.network.**{*;}
-#-keep class com.nutsplay.nopagesdk.receiver.**{*;}
-#-keep class com.nutsplay.nopagesdk.ui.**{*;}
-#-keep class com.nutsplay.nopagesdk.utils.**{*;}
-#-keep class com.nutsplay.nopagesdk.view.**{*;}
+-keep class com.nutsplay.nopagesdk.beans.**{*;}
+-keep class com.nutsplay.nopagesdk.api.**{*;}
+-keep class com.nutsplay.nopagesdk.kernel.**{*;}
+-keep class com.nutsplay.nopagesdk.callback.**{*;}
+-keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager
+-keep class com.nutsplay.nopagesdk.manager.AppManager
+-keep class com.nutsplay.nopagesdk.manager.GoogleAPI
+-keep class com.nutsplay.nopagesdk.manager.InstallManager
+-keep class com.nutsplay.nopagesdk.manager.LoginManager
+-keep class com.nutsplay.nopagesdk.manager.TrackingManager
+-keep class com.nutsplay.nopagesdk.billing.**{*;}
+-keep class com.nutsplay.nopagesdk.facebook.**{*;}
+-keep class com.nutsplay.nopagesdk.network.**{*;}
+-keep class com.nutsplay.nopagesdk.receiver.**{*;}
+-keep class com.nutsplay.nopagesdk.ui.**{*;}
+-keep class com.nutsplay.nopagesdk.utils.**{*;}
+-keep class com.nutsplay.nopagesdk.view.**{*;}
 
