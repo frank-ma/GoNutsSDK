@@ -30,7 +30,6 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
@@ -63,7 +62,7 @@ public class MainActivity extends SDKBaseActivity {
     private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logTv = findViewById(R.id.log);
@@ -853,7 +852,7 @@ public class MainActivity extends SDKBaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         Log.e("TAG","onDestroy");
         SDK.getInstance().sdkOnDestroy(this);
@@ -915,7 +914,7 @@ public class MainActivity extends SDKBaseActivity {
      * 参数为：定义好的事件id
      */
     public void adjustEvent(){
-        AdjustTraceManager.getInstance().adjustCustomEvent("eventID");
+//        SDK.getInstance().adjustCustomEvent("eventID");
     }
 
 

@@ -43,7 +43,7 @@ public class NoUIActivity extends BaseActivity {
     private Button initB;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_ui);
         userNameEt = findViewById(R.id.accountEt);
@@ -365,7 +365,7 @@ public class NoUIActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         SDK.getInstance().sdkOnDestroy(this);
     }

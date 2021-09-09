@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 public class BaseActivity extends com.nutsplay.nopagesdk.ui.BaseActivity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 }

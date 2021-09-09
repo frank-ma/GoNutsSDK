@@ -16,7 +16,9 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
@@ -361,5 +363,15 @@ public class SDK {
             return;
         }
         GoogleAPI.evaluateInApp(activity,callBack);
+    }
+
+    /**
+     * Adjust自定义追踪事件
+     * @param eventID
+     */
+    public void adjustCustomEvent(String eventID){
+        if (StringUtils.isNotBlank(eventID)){
+            AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
+        }
     }
 }
