@@ -16,6 +16,15 @@ public class PayResult implements Serializable {
     private String payType;
     private String currency;
     private String message;
+    private String referenceId;
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
 
     public String getMessage() {
         return message;
@@ -49,10 +58,11 @@ public class PayResult implements Serializable {
         isSuc = suc;
     }
 
+    @Deprecated
     public String getOrderid() {
         return orderid;
     }
-
+    @Deprecated
     public void setOrderid(String orderid) {
         this.orderid = orderid;
     }

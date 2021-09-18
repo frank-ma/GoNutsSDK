@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -267,8 +265,8 @@ public class LoginDialog extends Dialog {
                     RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
                         @Override
                         public void onSuccess(final String account, final String pas) {
-                            try{
-                                if (StringUtils.isBlank(account) || StringUtils.isBlank(pas)) return;
+//                            try{
+//                                if (StringUtils.isBlank(account) || StringUtils.isBlank(pas)) return;
 //                                ((Activity)context).runOnUiThread(new Runnable() {
 //                                    @Override
 //                                    public void run() {
@@ -294,14 +292,14 @@ public class LoginDialog extends Dialog {
 //                                handler.sendMessage(message);
 
 
-                                Log.d("LoginDialog","MainThreadID_bindfb:"+ Looper.getMainLooper().getThread().getId());
-                                Log.d("LoginDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
-                                dialog.getCurrentFocus();
-                                if (userName!=null) userName.setText(account);
-                                if (pwd!=null) pwd.setText(pas);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
+//                                Log.d("LoginDialog","MainThreadID_bindfb:"+ Looper.getMainLooper().getThread().getId());
+//                                Log.d("LoginDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
+//                                dialog.getCurrentFocus();
+//                                if (userName!=null) userName.setText(account);
+//                                if (pwd!=null) pwd.setText(pas);
+//                            }catch (Exception e){
+//                                e.printStackTrace();
+//                            }
                         }
 
                         @Override

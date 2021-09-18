@@ -869,6 +869,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         PayResult payParams = new PayResult();
         payParams.setCurrency(currency);
         payParams.setOrderid(orderId);
+        payParams.setReferenceId(orderId);
         payParams.setSuc(true);
         payParams.setPrice(price);
         payParams.setPayType(type);

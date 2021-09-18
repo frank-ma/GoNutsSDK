@@ -37,22 +37,6 @@ public class LoginManager {
         return INSTANCE;
     }
 
-//    public interface FbLoginListener {
-//
-//        void onSuccess(FacebookUser facebookUser);
-//
-//        void onFailure(String msg);
-//
-//        void onCancel();
-//    }
-//
-//    public interface GoogleLoginListener {
-//
-//        void onSuccess(String googleId,String displayName);
-//
-//        void onFailure(int code,String msg);
-//    }
-
     public FbLoginListener fbloginListener;
 
     public GoogleLoginListener googleLoginListener;

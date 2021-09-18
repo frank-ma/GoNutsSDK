@@ -157,14 +157,28 @@
 #sdk不混淆的类
 -keep class com.nutsplay.nopagesdk.beans.**{*;}
 -keep class com.nutsplay.nopagesdk.api.**{*;}
--keep class com.nutsplay.nopagesdk.kernel.**{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDK{
+    <fields>;
+    <methods>;
+}
+-keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
 -keep class com.nutsplay.nopagesdk.callback.**{*;}
-#-keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager
-#-keep class com.nutsplay.nopagesdk.manager.AppManager
-#-keep class com.nutsplay.nopagesdk.manager.GoogleAPI
-#-keep class com.nutsplay.nopagesdk.manager.InstallManager
-#-keep class com.nutsplay.nopagesdk.manager.LoginManager
-#-keep class com.nutsplay.nopagesdk.manager.TrackingManager
+-keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager{
+    <fields>;
+    <methods>;
+}
+-keep class com.nutsplay.nopagesdk.manager.AppManager{*;}
+-keep class com.nutsplay.nopagesdk.manager.AppManager{*;}
+-keep class com.nutsplay.nopagesdk.manager.GoogleAPI{*;}
+-keep class com.nutsplay.nopagesdk.manager.InstallManager{*;}
+-keep class com.nutsplay.nopagesdk.manager.LoginManager{
+    <fields>;
+    <methods>;
+}
+-keep class com.nutsplay.nopagesdk.manager.TrackingManager{
+    <fields>;
+    <methods>;
+}
 -keep class com.nutsplay.nopagesdk.billing.**{*;}
 -keep class com.nutsplay.nopagesdk.facebook.**{*;}
 -keep class com.nutsplay.nopagesdk.network.**{*;}

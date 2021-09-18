@@ -11,8 +11,11 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
@@ -35,18 +38,26 @@ import com.nutspower.nutsgamesdk.R;
 
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends SDKBaseActivity {
+    private static final String TAG = "MainActivity";
 
-    private String clientId = "5f84109764b5b50775d4abf2";
+//    private String clientId = "5f84109764b5b50775d4abf2";
+//    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
+//    private String buglyId = "36386748bb";
+//    String referenceId = "com.nutspower.nutsgamesdk.sub2";
+
+
+
+    private String clientId = "6130408b4b30743929309e1b";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
-//    private String buglyId = "1ee9849782";
     private String buglyId = "36386748bb";
-//    String referenceId = "com.nutspower.nutsgamesdk.sub1";
-    String referenceId = "com.nutspower.nutsgamesdk.sub2";
+    String referenceId = "gem_0001";
 
     private TextView logTv,webTv,login;
     private Button initB,defaultLogin;
@@ -291,11 +302,12 @@ public class MainActivity extends SDKBaseActivity {
     public void purchase(View view) {
 //        String referenceId = "com.nutspower.nutsgamesdk.test2";
 //        String referenceId = "nuts_product_1";
-        String referenceId = "com.nutspower.golfduel.cumulative099";
+        String referenceId = "gem_0001";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 if (payResult == null) return;
+                String orderid= payResult.getOrderid();
                 showLog("支付成功" + payResult.toString());
             }
 
@@ -913,8 +925,34 @@ public class MainActivity extends SDKBaseActivity {
      * Adjust自定义追踪事件
      * 参数为：定义好的事件id
      */
-    public void adjustEvent(){
+    public void other(View view){
 //        SDK.getInstance().adjustCustomEvent("eventID");
+
+        /**
+         * 获取客服未读消息数
+         */
+//        SDK.getInstance().fetchUnreadMessages(new OnMessageCountArrivedCallback() {
+//            @Override
+//            public void onMessageCountArrived(int msgCount) {
+//
+//            }
+//        });
+
+
+        /**
+         * 获取Firebase设备Token
+         */
+        SDK.getInstance().firebaseGetToken(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                    return;
+                }
+                String token = task.getResult();
+                Log.d(TAG, "设备Token:"+token);
+            }
+        });
     }
 
 

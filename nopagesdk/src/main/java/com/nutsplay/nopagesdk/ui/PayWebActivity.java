@@ -179,6 +179,7 @@ public class PayWebActivity extends BaseActivity {
         PayResult payParams = new PayResult();
         payParams.setCurrency(currency);
         payParams.setOrderid(orderId);
+        payParams.setReferenceId(orderId);
         payParams.setSuc(true);
         payParams.setPrice(price);
         payParams.setPayType(type);

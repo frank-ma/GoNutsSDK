@@ -18,8 +18,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 39
-        versionName "2.7"
+        versionCode 40
+        versionName "2.8"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -76,11 +76,16 @@ dependencies {
 //    implementation 'net.aihelp:elva:1.7.4.0'
     api 'net.aihelp:android-aihelp-aar:2.4.+'
     //Firebase
-    api 'com.google.firebase:firebase-analytics:17.6.0'
-    api 'com.google.firebase:firebase-messaging:20.3.0'
+//    api 'com.google.firebase:firebase-analytics:19.0.1'
+//    api 'com.google.firebase:firebase-messaging:22.0.0'
+    // Import the BoM for the Firebase platform
+    api platform('com.google.firebase:firebase-bom:28.4.0')
+    api 'com.google.firebase:firebase-messaging'
+    api 'com.google.firebase:firebase-analytics'
+
 
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics-ndk:17.1.1'
+//    implementation 'com.google.firebase:firebase-crashlytics-ndk:17.1.1'
     //Bugly
     implementation 'com.tencent.bugly:crashreport:3.3.1'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.500'

@@ -165,11 +165,11 @@ public class TrackingManager {
      */
     public static void EventTracking(Context context, String eventType, Map<String, Object> eventValue) {
         try {
-            if (context!=null && eventType!=null && eventValue!=null){
+//            if (context!=null && eventType!=null && eventValue!=null){
 //                AppsFlyerLib.getInstance().trackEvent(context.getApplicationContext(), eventType, eventValue);
                 //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
 //                DCTrackingPoint.setEffectPoint(eventType,eventValue);
-            }
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();

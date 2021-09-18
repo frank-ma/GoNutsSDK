@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'applovin-quality-service'
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 30
@@ -8,11 +8,14 @@ android {
     defaultConfig {
 //        applicationId "com.superwave.goldrush.android.googleplay"
 //        applicationId "com.nutspower.nonutssdk"
-        applicationId "com.nutsplay.glofduel"
 //        applicationId "com.nuts.atw.android.googleplay"
 //        applicationId "com.nutsplay.wjgame01"
 //        applicationId "com.nutspower.mergegame"
 //        applicationId "com.nuts.pa.android.googleplay"
+//        applicationId "com.nutsplay.glofduel"
+
+
+        applicationId "games.atys.ppa.a2021"
         minSdkVersion 19
         targetSdkVersion 30
         multiDexEnabled true
@@ -46,8 +49,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    implementation project(path: ':nopagesdk')
-    implementation 'com.github.frank-ma:GoNutsSDK:v1.0.9'
+//    implementation(name:'sdk_v2.7',ext:'aar')
+    implementation project(path: ':nopagesdk')
+//    implementation 'com.github.frank-ma:GoNutsSDK:v1.0.9'
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'

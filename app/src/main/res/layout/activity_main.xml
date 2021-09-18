@@ -218,6 +218,16 @@
                 android:textColor="@color/colorAccent"
                 android:visibility="visible" />
 
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="other"
+                android:text="其他"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
