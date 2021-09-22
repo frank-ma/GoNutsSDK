@@ -51,7 +51,7 @@ dependencies {
 //    implementation(name:'sdk_v2.7',ext:'aar')
 //    implementation project(path: ':nopagesdk')
 //    implementation 'com.github.frank-ma:GoNutsSDK:v1.0.9'
-    implementation 'com.github.frank-ma:GoNutsSDK:v1.1'
+    implementation 'com.github.frank-ma:GoNutsSDK:v1.1.1'
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
