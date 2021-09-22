@@ -29,7 +29,6 @@ import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
-import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
@@ -496,7 +495,7 @@ public class MainActivity extends SDKBaseActivity {
 
     public void saveShot(View view) {
         //截图保存
-        SDKManager.getInstance().saveShot(this);
+
     }
 
     /**

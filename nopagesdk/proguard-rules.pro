@@ -161,7 +161,6 @@
     <fields>;
     <methods>;
 }
--keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
 -keep class com.nutsplay.nopagesdk.callback.**{*;}
 -keep class com.nutsplay.nopagesdk.manager.AdjustTraceManager{
     <fields>;
@@ -171,11 +170,18 @@
 -keep class com.nutsplay.nopagesdk.manager.AppManager{*;}
 -keep class com.nutsplay.nopagesdk.manager.GoogleAPI{*;}
 -keep class com.nutsplay.nopagesdk.manager.InstallManager{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDKLangConfig{*;}
+-keep class com.nutsplay.nopagesdk.kernel.SDKApplication{*;}
 -keep class com.nutsplay.nopagesdk.manager.LoginManager{
     <fields>;
     <methods>;
 }
 -keep class com.nutsplay.nopagesdk.manager.TrackingManager{
+    <fields>;
+    <methods>;
+}
+-keep class com.nutsplay.nopagesdk.kernel.SDKManager{
     <fields>;
     <methods>;
 }
