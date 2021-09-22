@@ -6,109 +6,55 @@
 QQ：1393981975
 
 
-# 一、准备工作
-## 1.导入sdk libs包支持（重要）
-Android Studio用户：
-> 在你项目的主工程下libs文件夹中放入sdk_*.aar
-注意：
- 1.如果app目录下没有libs文件夹，需要自己创建
- 2.工程目录需要切换到 Project
-如图所示：
-![](https://www.showdoc.cc/server/api/common/visitfile/sign/b23237fefc7526bbf0acf0db2a75d662?showdoc=.jpg)
-
-在app的build.gradle文件下添加这几处内容，如下图所示：
-
-![](https://www.showdoc.cc/server/api/common/visitfile/sign/a5e56e6a8057b983e00b03fd83ca3bd8?showdoc=.jpg)
-
-
+## 接入前准备
+第一步：
+在项目的build.gradle中引入
+```java
+allprojects {
     repositories {
-        flatDir {
-            dirs 'libs'
-        }
+        google()
+        jcenter()
+        mavenCentral()
+		
+		
+		//引入jitpack仓库地址
+        maven { url 'https://jitpack.io' }
     }
-
-    dependencies {
-
-    //sdk用到的库
-    implementation(name: 'sdk_v1.5', ext: 'aar')
-    implementation 'com.android.billingclient:billing:2.2.1'
-    implementation 'org.greenrobot:greendao:3.2.2'
-    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
-	//Facebook
-    implementation 'com.facebook.android:facebook-android-sdk:6.2.0'
-    //google登录
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+}
+```
+第二步：
+引入依赖
+```java
+    implementation 'com.github.frank-ma:GoNutsSDK:v1.1.3'
+```
+第三步：
+在string.xml中添加：（参数值配置好后由我方提供）
+```java
+	
+	<!--Facebook  appID-->
+	<string name="facebook_app_id">xxxx</string>
+    <string name="fb_login_protocol_scheme">xxxx</string>
+```
+第四步：
+在build.gradle中添加分包标签
+```java
+android{
+    defaultConfig {
+      ...
+      multiDexEnabled true
+      ...
     }
-
-
-## 2.AndroidManifest.xml文件配置（重要）
-1.2.1申请相应的权限信息：
-```html
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- google支付权限 -->
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <!-- bugly -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--appsflyer-->
-    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
-    <!--appsflyer Optional -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+}
 ```
-1.2.2注册几个Activity
-```html
- <!--添加这几个Activity-->
-<activity android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar"	android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-<activity android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
- android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-<activity android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"        android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"/>
-<!--添加这几个Activity-->
-
-   <!-- facebook登录相关 -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <activity android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
-        <!-- facebook相关 -->
-
-        <!--appsflyer-->
-        <receiver android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
-```
-#####FacebookID
-@string/facebook_app_id和@string/fb_login_protocol_scheme的值需要在values文件夹下的string.xml文件中新增两条
-
-```
-    <string name="facebook_app_id">这个值需要去Facebook后台创建，我方创建好后发给你</string>
-    <string name="fb_login_protocol_scheme">这个值需要去Facebook后台创建，我方创建好后发给你</string>
-
-```
-1.2.3使用SDK的SDKApplication或者用你自己的application继承自SDK的SDKApplication
+第五步：
+使用SDK的SDKApplication或者用你自己的application继承自SDK的SDKApplication
 
     com.nutsplay.nopagesdk.kernel.SDKApplication
-
+	
 如图所示
 ![](https://www.showdoc.cc/server/api/common/visitfile/sign/9aeb3a3c014ff77f696f68323cd1f5aa?showdoc=.jpg)
+
+
 
 # 二、SDK 的调用
 
