@@ -754,11 +754,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             String currency = orderModel.getData().getCurrency();
                             String type = "GoogleIAP";
 
+                            SDKManager.getInstance().hideProgress();
                             handleAfterPurchaseSuccess(itemType,false, purchase, orderId, String.valueOf(price), currency, type);
                             //消费商品
                             consumeSku(purchase);
 
                         } else {
+                            SDKManager.getInstance().hideProgress();
                             LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---" + orderModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -769,11 +771,13 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
                 @Override
                 public void onFailure(String msg) {
+                    SDKManager.getInstance().hideProgress();
                     LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---" + msg);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            SDKManager.getInstance().hideProgress();
             LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---" + e.getMessage());
         }
     }
