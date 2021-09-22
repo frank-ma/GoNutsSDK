@@ -12,7 +12,7 @@ import org.xutils.x;
  * Desc:
  */
 
-public abstract class SDKApplication extends MultiDexApplication {
+public class SDKApplication extends MultiDexApplication {
 
     private static SDKApplication context;
     private static final String AF_DEV_KEY = "VBmCBKvNg5uvd4iiLZSx7J";
