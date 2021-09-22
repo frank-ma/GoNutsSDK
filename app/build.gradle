@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'applovin-quality-service'
-apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+//apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"//29.0.3
@@ -59,29 +58,6 @@ dependencies {
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     //Stetho基本操作
     implementation 'com.facebook.stetho:stetho:1.5.0'
-
-
-    //Facebook SDK
-//    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-//    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
-
-
-
-
-    //AppLovin广告系统
-//    implementation 'com.applovin:applovin-sdk:9.14.10'
-//    implementation 'com.applovin.mediation:facebook-adapter:6.2.0.1'
-//    implementation 'com.android.support:recyclerview-v7:28.+'
-//    implementation 'com.android.support:appcompat-v7:28.+'
-//    implementation 'com.applovin.mediation:inmobi-adapter:9.1.1.2'
-//    implementation 'com.squareup.picasso:picasso:2.5.2'
-//    implementation 'com.android.support:customtabs:28.+'
-//    implementation 'com.applovin.mediation:ironsource-adapter:7.0.4.0.0'
-//    implementation 'com.applovin.mediation:bytedance-adapter:3.4.0.0.0'
-//    implementation 'com.applovin.mediation:vungle-adapter:6.8.1.1'
-//    implementation 'com.applovin.mediation:unityads-adapter:3.5.1.0'
 }
 
-//applovin {
-//    apiKey "vJtzNTTdTyHZ0P1qNMAZianrpwxseA7wLmcLbTb9K_tJlZe4yadivGlJu-bUCBmW6SRd2Kubib77dZcQM24hzL"
-//}
+

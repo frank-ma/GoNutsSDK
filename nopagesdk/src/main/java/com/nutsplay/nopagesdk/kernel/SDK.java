@@ -3,8 +3,6 @@ package com.nutsplay.nopagesdk.kernel;
 import android.app.Activity;
 import android.net.Uri;
 
-import androidx.annotation.Nullable;
-
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
@@ -16,13 +14,8 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
-import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
-import com.nutspower.commonlibrary.utils.StringUtils;
 
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
-
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -318,29 +311,25 @@ public class SDK {
         SDKManager.getInstance().openUserCenter(activity);
     }
 
-    public void customerSupport(Activity activity,InitParameter initParameter,String playerName,String userTags,String serverId, @Nullable HashMap<String ,Object> customData) {
-        SDKManager.getInstance().customerSupport(activity,initParameter,playerName,userTags,serverId,customData);
-    }
+//    public void customerSupport(Activity activity,InitParameter initParameter,String playerName,String userTags,String serverId, @Nullable HashMap<String ,Object> customData) {
+//        SDKManager.getInstance().customerSupport(activity,initParameter,playerName,userTags,serverId,customData);
+//    }
+//
+//    public void showFAQs(Activity activity,InitParameter initParameter,String userName, String userTags,String serverId, HashMap<String,Object> customData){
+//        SDKManager.getInstance().showFAQs(activity,initParameter,userName,userTags,serverId,customData);
+//    }
 
-    public void showFAQs(Activity activity,InitParameter initParameter,String userName, String userTags,String serverId, HashMap<String,Object> customData){
-        SDKManager.getInstance().showFAQs(activity,initParameter,userName,userTags,serverId,customData);
-    }
-
-    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
-        SDKManager.getInstance().fetchUnreadMessages(callback);
-    }
-
-    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
-        SDKManager.getInstance().fireBaseTrackingLevelUp(activity,character,level);
-    }
-
-    public void fireBaseTrackingTutorialBegin(Activity activity){
-        SDKManager.getInstance().fireBaseTrackingTutorialBegin(activity);
-    }
-
-    public void fireBaseTrackingTutorialComplete(Activity activity){
-        SDKManager.getInstance().fireBaseTrackingTutorialComplete(activity);
-    }
+//    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
+//        SDKManager.getInstance().fireBaseTrackingLevelUp(activity,character,level);
+//    }
+//
+//    public void fireBaseTrackingTutorialBegin(Activity activity){
+//        SDKManager.getInstance().fireBaseTrackingTutorialBegin(activity);
+//    }
+//
+//    public void fireBaseTrackingTutorialComplete(Activity activity){
+//        SDKManager.getInstance().fireBaseTrackingTutorialComplete(activity);
+//    }
 
     /**
      * 展示用户协议界面
@@ -369,15 +358,15 @@ public class SDK {
      * Adjust自定义追踪事件
      * @param eventID
      */
-    public void adjustCustomEvent(String eventID){
-        if (StringUtils.isNotBlank(eventID)){
-            AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
-        }
-    }
+//    public void adjustCustomEvent(String eventID){
+//        if (StringUtils.isNotBlank(eventID)){
+//            AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
+//        }
+//    }
 
-    /**
-     *  获取Firebase设备Token信息
-     */
+//    /**
+//     *  获取Firebase设备Token信息
+//     */
 //    public void firebaseGetToken(OnCompleteListener<String> completeListener) {
 //        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
 //    }

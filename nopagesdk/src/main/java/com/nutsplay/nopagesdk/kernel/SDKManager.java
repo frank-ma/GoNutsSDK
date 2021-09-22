@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,7 +21,6 @@ import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.SDKInitModel;
@@ -72,14 +70,6 @@ import com.nutsplay.nopagesdk.view.SDKProgressDialog;
 import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
-
-import net.aihelp.config.ConversationConfig;
-import net.aihelp.config.FaqConfig;
-import net.aihelp.config.enums.ConversationIntent;
-import net.aihelp.config.enums.ShowConversationMoment;
-import net.aihelp.init.AIHelpSupport;
-import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -330,7 +320,7 @@ public class SDKManager {
             SDKGameUtils.getKeyHash(activity);
 
             //初始化客服系统
-            initAiHelp(activity, initParameter,null);
+//            initAiHelp(activity, initParameter,null);
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -342,51 +332,30 @@ public class SDKManager {
     }
 
     /**
-     * 注册未读消息回调接口
+     * 初始化AiHelp客服系统
      */
-//    private void beforeInitSDK(final ResultCallBack resultCallBack){
+//    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
+
 //        try {
-//            ELvaChatServiceSdk.setOnInitializedCallback(new ELvaChatServiceSdk.OnInitializationCallback() {
+//            AIHelpSupport.init(
+//                    activity,
+//                    parameters.getAihelpAppkey(),
+//                    parameters.getAihelpDomain(),
+//                    parameters.getAihelpAppID(),
+//                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
+//            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
 //                @Override
-//                public void onInitialized() {
-//                    //初始化完成
-//                    System.out.println("AIHelp初始化完成");
+//                public void onAIHelpInitialized() {
+//
 //                    aiHelpInitStatus = true;
-//                    if (resultCallBack != null){
-//                        resultCallBack.onSuccess();
-//                    }
+//                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
+//                    if (resultCallBack != null) resultCallBack.onSuccess();
 //                }
 //            });
-//        }catch (Exception e){
+//        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
 //    }
-
-    /**
-     * 初始化AiHelp客服系统
-     */
-    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
-
-        try {
-            AIHelpSupport.init(
-                    activity,
-                    parameters.getAihelpAppkey(),
-                    parameters.getAihelpDomain(),
-                    parameters.getAihelpAppID(),
-                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
-                @Override
-                public void onAIHelpInitialized() {
-
-                    aiHelpInitStatus = true;
-                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
-                    if (resultCallBack != null) resultCallBack.onSuccess();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 获取公钥
@@ -1819,7 +1788,7 @@ public class SDKManager {
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
 //        ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
-        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
+//        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
     }
 
 
@@ -2743,65 +2712,65 @@ public class SDKManager {
         AppManager.startActivityWithData(activity,intent);
     }
 
-    /**
-     * 在线客服系统
-     * AIHelp
-     */
-    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
-        try {
-            if (activity == null || initParameter == null) {
-                System.out.println("parameter is null");
-                return;
-            }
-            //防止快速点击
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastTime < 2000) {
-                return;
-            } else {
-                lastTime = currentTime;
-            }
-
-            if (aiHelpInitStatus) {
-                String nutsId = "";
-                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-                    nutsId = SDKManager.getInstance().getUser().getUserId();
-                }
-                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
+//    /**
+//     * 在线客服系统
+//     * AIHelp
+//     */
+//    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
+//        try {
+//            if (activity == null || initParameter == null) {
+//                System.out.println("parameter is null");
+//                return;
+//            }
+//            //防止快速点击
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastTime < 2000) {
+//                return;
+//            } else {
+//                lastTime = currentTime;
+//            }
+//
+//            if (aiHelpInitStatus) {
+//                String nutsId = "";
+//                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+//                    nutsId = SDKManager.getInstance().getUser().getUserId();
+//                }
+//                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
 
 //                ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
 
-                ConversationConfig.Builder builder = new ConversationConfig.Builder();
-                builder.setAlwaysShowHumanSupportButtonInBotPage(true);
-                AIHelpSupport.showConversation(builder.build());
-                //设置用户信息
-                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
-                        .setServerId(serverId)
-                        .setUserName(userName)
-                        .setUserId(nutsId)
-                        .setUserTags(userTags)
-                        .setCustomData(customData.toString())
-                        .build();
-                AIHelpSupport.updateUserInfo(userConfig);
-            } else {
-                showProgress(activity);
-                initAiHelp(activity, initParameter, new ResultCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        hideProgress();
-                        lastTime = 0;
-                        customerSupport(activity,initParameter,userName,userTags,serverId,customData);
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-
-                    }
-                });
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//                ConversationConfig.Builder builder = new ConversationConfig.Builder();
+//                builder.setAlwaysShowHumanSupportButtonInBotPage(true);
+//                AIHelpSupport.showConversation(builder.build());
+//                //设置用户信息
+//                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
+//                        .setServerId(serverId)
+//                        .setUserName(userName)
+//                        .setUserId(nutsId)
+//                        .setUserTags(userTags)
+//                        .setCustomData(customData.toString())
+//                        .build();
+//                AIHelpSupport.updateUserInfo(userConfig);
+//            } else {
+//                showProgress(activity);
+//                initAiHelp(activity, initParameter, new ResultCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        hideProgress();
+//                        lastTime = 0;
+//                        customerSupport(activity,initParameter,userName,userTags,serverId,customData);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//
+//                    }
+//                });
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 常见问题列表，
@@ -2811,28 +2780,28 @@ public class SDKManager {
      * @param serverId
      * @param customData
      */
-    private long lastTime = 0;
+//    private long lastTime = 0;
 
-    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
-        try {
-            if (activity == null || initParameter == null) {
-                System.out.println("parameter is null");
-                return;
-            }
-
-            //防止快速点击
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastTime < 2000) {
-                return;
-            } else {
-                lastTime = currentTime;
-            }
-
-            if (aiHelpInitStatus) {
-                String nutsId = "";
-                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-                    nutsId = SDKManager.getInstance().getUser().getUserId();
-                }
+//    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
+//        try {
+//            if (activity == null || initParameter == null) {
+//                System.out.println("parameter is null");
+//                return;
+//            }
+//
+//            //防止快速点击
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastTime < 2000) {
+//                return;
+//            } else {
+//                lastTime = currentTime;
+//            }
+//
+//            if (aiHelpInitStatus) {
+//                String nutsId = "";
+//                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
+//                    nutsId = SDKManager.getInstance().getUser().getUserId();
+//                }
 
 //                HashMap<String, Object> config = new HashMap<>();
 //                config.put("showContactButtonFlag", "1");
@@ -2842,52 +2811,52 @@ public class SDKManager {
 //                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
 //                ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
 
-                FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
-                ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
-                faqBuilder.setShowConversationMoment(ShowConversationMoment.ALWAYS);
-                conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
-                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
-                faqBuilder.setConversationConfig(conversationBuilder.build());
-                AIHelpSupport.showAllFAQSections(faqBuilder.build());
-                //设置用户信息
-                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
-                        .setServerId(serverId)
-                        .setUserName(userName)
-                        .setUserId(nutsId)
-                        .setUserTags(userTags)
-                        .setCustomData(customData.toString())
-                        .build();
-                AIHelpSupport.updateUserInfo(userConfig);
+//                FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
+//                ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
+//                faqBuilder.setShowConversationMoment(ShowConversationMoment.ALWAYS);
+//                conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
+//                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
+//                faqBuilder.setConversationConfig(conversationBuilder.build());
+//                AIHelpSupport.showAllFAQSections(faqBuilder.build());
+//                //设置用户信息
+//                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
+//                        .setServerId(serverId)
+//                        .setUserName(userName)
+//                        .setUserId(nutsId)
+//                        .setUserTags(userTags)
+//                        .setCustomData(customData.toString())
+//                        .build();
+//                AIHelpSupport.updateUserInfo(userConfig);
 
-            } else {
-                showProgress(activity);
-                initAiHelp(activity, initParameter, new ResultCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        hideProgress();
-                        lastTime = 0;
-                        showFAQs(activity,initParameter,userName,userTags,serverId,customData);
-                    }
+//            } else {
+//                showProgress(activity);
+//                initAiHelp(activity, initParameter, new ResultCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        hideProgress();
+//                        lastTime = 0;
+//                        showFAQs(activity,initParameter,userName,userTags,serverId,customData);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//
+//                    }
+//                });
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-                    @Override
-                    public void onFailure(String msg) {
-
-                    }
-                });
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 获取AIhelp未读消息数
-     * @param callback
-     */
-    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
-        AIHelpSupport.startUnreadMessageCountPolling(callback);
-    }
+//    /**
+//     * 获取AIhelp未读消息数
+//     * @param callback
+//     */
+//    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
+//        AIHelpSupport.startUnreadMessageCountPolling(callback);
+//    }
 
     /**
      * 角色升级
@@ -2895,53 +2864,53 @@ public class SDKManager {
      * @param character 角色信息
      * @param level
      */
-    private static FirebaseAnalytics firebaseAnalytics;
-    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
-        try {
-            if (activity==null)return;
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CHARACTER, character);
-            bundle.putLong(FirebaseAnalytics.Param.LEVEL, level);
-            if (firebaseAnalytics == null){
-                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-            }
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    private static FirebaseAnalytics firebaseAnalytics;
+//    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
+//        try {
+//            if (activity==null)return;
+//            Bundle bundle = new Bundle();
+//            bundle.putString(FirebaseAnalytics.Param.CHARACTER, character);
+//            bundle.putLong(FirebaseAnalytics.Param.LEVEL, level);
+//            if (firebaseAnalytics == null){
+//                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+//            }
+//            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
-    /**
-     * 教学开始
-     * @param activity
-     */
-    public void fireBaseTrackingTutorialBegin(Activity activity) {
-        try {
-            if (activity==null)return;
-            if (firebaseAnalytics == null){
-                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-            }
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 教学结束
-     * @param activity
-     */
-    public void fireBaseTrackingTutorialComplete(Activity activity) {
-        try {
-            if (activity==null)return;
-            if (firebaseAnalytics == null){
-                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-            }
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * 教学开始
+//     * @param activity
+//     */
+//    public void fireBaseTrackingTutorialBegin(Activity activity) {
+//        try {
+//            if (activity==null)return;
+//            if (firebaseAnalytics == null){
+//                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+//            }
+//            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    /**
+//     * 教学结束
+//     * @param activity
+//     */
+//    public void fireBaseTrackingTutorialComplete(Activity activity) {
+//        try {
+//            if (activity==null)return;
+//            if (firebaseAnalytics == null){
+//                firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+//            }
+//            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 获取用户安装归因

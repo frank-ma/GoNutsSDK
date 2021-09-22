@@ -33,10 +33,7 @@ import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends SDKBaseActivity {
@@ -96,16 +93,11 @@ public class MainActivity extends SDKBaseActivity {
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setAppsflyerId(appsflyerId);
-        initParameter.setBuglyId(buglyId);
         initParameter.setLanguage("zh_CN");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
         initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -135,25 +127,22 @@ public class MainActivity extends SDKBaseActivity {
         startActivity(intent);
     }
 
-    public void initAihelp(View view) {
-
-        InitParameter initParameter = new InitParameter();
-        initParameter.setLanguage("zh_hk");
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
-        SDKManager.getInstance().initAiHelp(this, initParameter, new ResultCallBack() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-            }
-        });
-    }
+//    public void initAihelp(View view) {
+//
+//        InitParameter initParameter = new InitParameter();
+//        initParameter.setLanguage("zh_hk");
+//        SDKManager.getInstance().initAiHelp(this, initParameter, new ResultCallBack() {
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String msg) {
+//
+//            }
+//        });
+//    }
 
     /**
      * 默认登录：自动执行初始化和游客登录
@@ -164,16 +153,11 @@ public class MainActivity extends SDKBaseActivity {
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setAppsflyerId(appsflyerId);
-        initParameter.setBuglyId(buglyId);
         initParameter.setLanguage("zh_hk");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setUIVersion(0);
         initParameter.setShowUserAgreement(true);
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
 
         SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){
 
@@ -602,81 +586,67 @@ public class MainActivity extends SDKBaseActivity {
         SDK.getInstance().openUserCenter(this);
     }
 
-    /**
-     * 在线客服系统
-     * Key-Value可以自己根据需要自定义，会显示在客服后台中
-     * @param view
-     */
-    public void customerService(View view) {
-
-        //打开AIHelp客服聊天界面
-        HashMap<String,Object> customData = new HashMap<>();
-        customData.put("playerID","10001");
-        customData.put("level","2");
-        customData.put("coins","999");
-        customData.put("diamond","100");
-//        customData.put("private_welcome_str","What can I do?");//key是固定的，value可以自定义人工客服的欢迎语
-
-
-        HashMap<String,Object> map = new HashMap();
-        ArrayList<String> tags = new ArrayList();
-        // the tag names are variables
-        tags.add("ticket111100000000");
-        // "elva-tags" 是key值 不可以变
-        map.put("elva-tags",tags);
-        // "elva-custom-metadata" 是key值 不可以变
-        customData.put("elva-custom-metadata",map);
-
-        InitParameter initParameter = new InitParameter();
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setLanguage("en");
-        SDK.getInstance().customerSupport( this,initParameter,"Jack","recharge,vip3,paid3","0", customData);
-    }
-
-    /**
-     * 常见问题
-     * Key-Value可以自己根据需要自定义，会显示在客服后台中
-     * @param view
-     */
-    public void FAQ(View view){
-
-        String userTagKey = "elva-tags";
-        String sdkConfigKey = "elva-custom-metadata";
-        HashMap<String,Object> sdkParamConfig = new HashMap<>();
-        HashMap<String,Object> sdkUserConfig = new HashMap<>();
-
-        ArrayList<String> userTagList = new ArrayList<>();
-        userTagList.add("HWSJ11");
-        userTagList.add("account");
-        sdkUserConfig.put(userTagKey,userTagList);
-        sdkUserConfig.put("userLevel","100");
-        sdkUserConfig.put("UID","4179");
-        sdkUserConfig.put("userName","1008090");
-        sdkParamConfig.put(sdkConfigKey,sdkUserConfig);
-
-        InitParameter initParameter = new InitParameter();
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setLanguage("en");
-        SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","recharge,vip3,paid3","10",sdkParamConfig);
-    }
-
-    /**
-     * 获取aihelp未读消息
-     * 需在初始化成功之后调用
-     * @param view
-     */
-    public void fetchUnread(View view){
-        SDK.getInstance().fetchUnreadMessages(new OnMessageCountArrivedCallback() {
-            @Override
-            public void onMessageCountArrived(int msgCount) {
-                Log.e("AiHelp", "客服未读消息数量：" + msgCount);
-            }
-        });
-    }
+//    /**
+//     * 在线客服系统
+//     * Key-Value可以自己根据需要自定义，会显示在客服后台中
+//     * @param view
+//     */
+//    public void customerService(View view) {
+//
+//        //打开AIHelp客服聊天界面
+//        HashMap<String,Object> customData = new HashMap<>();
+//        customData.put("playerID","10001");
+//        customData.put("level","2");
+//        customData.put("coins","999");
+//        customData.put("diamond","100");
+////        customData.put("private_welcome_str","What can I do?");//key是固定的，value可以自定义人工客服的欢迎语
+//
+//
+//        HashMap<String,Object> map = new HashMap();
+//        ArrayList<String> tags = new ArrayList();
+//        // the tag names are variables
+//        tags.add("ticket111100000000");
+//        // "elva-tags" 是key值 不可以变
+//        map.put("elva-tags",tags);
+//        // "elva-custom-metadata" 是key值 不可以变
+//        customData.put("elva-custom-metadata",map);
+//
+//        InitParameter initParameter = new InitParameter();
+//        initParameter.setAihelpAppkey(AIHelpAppKey);
+//        initParameter.setAihelpDomain(AIHelpDomain);
+//        initParameter.setAihelpAppID(AIHelpAppID);
+//        initParameter.setLanguage("en");
+//        SDK.getInstance().customerSupport( this,initParameter,"Jack","recharge,vip3,paid3","0", customData);
+//    }
+//
+//    /**
+//     * 常见问题
+//     * Key-Value可以自己根据需要自定义，会显示在客服后台中
+//     * @param view
+//     */
+//    public void FAQ(View view){
+//
+//        String userTagKey = "elva-tags";
+//        String sdkConfigKey = "elva-custom-metadata";
+//        HashMap<String,Object> sdkParamConfig = new HashMap<>();
+//        HashMap<String,Object> sdkUserConfig = new HashMap<>();
+//
+//        ArrayList<String> userTagList = new ArrayList<>();
+//        userTagList.add("HWSJ11");
+//        userTagList.add("account");
+//        sdkUserConfig.put(userTagKey,userTagList);
+//        sdkUserConfig.put("userLevel","100");
+//        sdkUserConfig.put("UID","4179");
+//        sdkUserConfig.put("userName","1008090");
+//        sdkParamConfig.put(sdkConfigKey,sdkUserConfig);
+//
+//        InitParameter initParameter = new InitParameter();
+//        initParameter.setAihelpAppkey(AIHelpAppKey);
+//        initParameter.setAihelpDomain(AIHelpDomain);
+//        initParameter.setAihelpAppID(AIHelpAppID);
+//        initParameter.setLanguage("en");
+//        SDK.getInstance().showFAQs(this,initParameter,"Liuxiaobei1","recharge,vip3,paid3","10",sdkParamConfig);
+//    }
 
 
     /**
@@ -686,17 +656,6 @@ public class MainActivity extends SDKBaseActivity {
      */
     public void showUserAgreement(View view){
         SDK.getInstance().showUserAgreement(this);
-    }
-
-    /**
-     * Firebase功能测试
-     *
-     * @param view
-     */
-    public void FirebaseFunction(View view){
-        SDK.getInstance().fireBaseTrackingLevelUp(this,"beat_boss",10);
-        SDK.getInstance().fireBaseTrackingTutorialBegin(this);
-        SDK.getInstance().fireBaseTrackingTutorialComplete(this);
     }
 
     /**
@@ -912,8 +871,6 @@ public class MainActivity extends SDKBaseActivity {
                 showLog("评价成功");
             }
         });
-
-
     }
 
     /**
@@ -934,9 +891,9 @@ public class MainActivity extends SDKBaseActivity {
 //        });
 
 
-        /**
-         * 获取Firebase设备Token
-         */
+//        /**
+//         * 获取Firebase设备Token
+//         */
 //        SDK.getInstance().firebaseGetToken(new OnCompleteListener<String>() {
 //            @Override
 //            public void onComplete(@NonNull @NotNull Task<String> task) {

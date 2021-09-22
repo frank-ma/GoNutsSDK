@@ -11,12 +11,12 @@ import java.io.Serializable;
 public class PayResult implements Serializable {
 
     private boolean isSuc=false;
-    private String orderid;
+    private String orderid;//弃用：坚果订单号
     private String price;
     private String payType;
     private String currency;
     private String message;
-    private String referenceId;
+    private String referenceId;//坚果订单号
 
     public String getReferenceId() {
         return referenceId;

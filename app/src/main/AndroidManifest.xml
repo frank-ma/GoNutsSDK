@@ -89,14 +89,14 @@
 <!--            android:value="iwQgra9X9i9VIXscPrXx9XKOeDuorbdXV3DKdNto40HNT8_z-Wv83DWhRPTG_6pV91qoOgZThsrE_qCzL55OJc" />-->
 
         <!--adjust统计相关的-->
-        <receiver
-            android:name="com.adjust.sdk.AdjustReferrerReceiver"
-            android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="com.adjust.sdk.AdjustReferrerReceiver"-->
+<!--            android:permission="android.permission.INSTALL_PACKAGES"-->
+<!--            android:exported="true" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 

@@ -61,8 +61,6 @@ public class NoUIActivity extends BaseActivity {
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setAppsflyerId(appsflyerId);
-        initParameter.setBuglyId(buglyId);
         initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
@@ -108,8 +106,6 @@ public class NoUIActivity extends BaseActivity {
 
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setAppsflyerId(appsflyerId);
-        initParameter.setBuglyId(buglyId);
         initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);

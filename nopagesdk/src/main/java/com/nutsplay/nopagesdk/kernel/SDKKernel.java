@@ -83,15 +83,15 @@ public class SDKKernel {
         return "https://tb.53kf.com/code/app/10197683/1";
     }
 
-    public String getAFkey(){
-        if (sdkClientParams != null){
-            if (sdkClientParams.getAppsflyerId().isEmpty()){
-                return "VBmCBKvNg5uvd4iiLZSx7J";
-            }
-            return sdkClientParams.getAppsflyerId();
-        }
-        return "VBmCBKvNg5uvd4iiLZSx7J";
-    }
+//    public String getAFkey(){
+//        if (sdkClientParams != null){
+//            if (sdkClientParams.getAppsflyerId().isEmpty()){
+//                return "VBmCBKvNg5uvd4iiLZSx7J";
+//            }
+//            return sdkClientParams.getAppsflyerId();
+//        }
+//        return "VBmCBKvNg5uvd4iiLZSx7J";
+//    }
 
     public String getLanguage() {
         if (sdkClientParams != null) {
