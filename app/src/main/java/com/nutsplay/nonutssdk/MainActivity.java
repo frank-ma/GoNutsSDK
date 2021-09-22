@@ -11,11 +11,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
@@ -37,8 +34,6 @@ import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -942,17 +937,17 @@ public class MainActivity extends SDKBaseActivity {
         /**
          * 获取Firebase设备Token
          */
-        SDK.getInstance().firebaseGetToken(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                    return;
-                }
-                String token = task.getResult();
-                Log.d(TAG, "设备Token:"+token);
-            }
-        });
+//        SDK.getInstance().firebaseGetToken(new OnCompleteListener<String>() {
+//            @Override
+//            public void onComplete(@NonNull @NotNull Task<String> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+//                    return;
+//                }
+//                String token = task.getResult();
+//                Log.d(TAG, "设备Token:"+token);
+//            }
+//        });
     }
 
 

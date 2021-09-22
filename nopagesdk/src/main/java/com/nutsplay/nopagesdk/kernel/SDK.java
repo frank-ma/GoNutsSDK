@@ -5,8 +5,6 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
@@ -380,7 +378,7 @@ public class SDK {
     /**
      *  获取Firebase设备Token信息
      */
-    public void firebaseGetToken(OnCompleteListener<String> completeListener) {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
-    }
+//    public void firebaseGetToken(OnCompleteListener<String> completeListener) {
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
+//    }
 }
