@@ -105,8 +105,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 } else {
                     SDKToast.getInstance().ToastShow(billingResult.getDebugMessage(), 2);
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
+                    SDKManager.getInstance().hideProgress();
                     if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                        SDKManager.getInstance().hideProgress();
                         SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                     }
                 }
@@ -134,7 +134,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         this.skuId = skuId;
         this.itemType = type;
         this.transactionId = transactionId;
-        billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
+        if (billingClient == null){
+            billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
+        }
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
@@ -148,8 +150,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 } else {
                     SDKToast.getInstance().ToastShow(billingResult.getDebugMessage(), 2);
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
+                    SDKManager.getInstance().hideProgress();
                     if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                        SDKManager.getInstance().hideProgress();
                         SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                     }
                 }
@@ -445,15 +447,15 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
                             } else {
                                 //Google商店未配置该商品
+                                SDKManager.getInstance().hideProgress();
                                 if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                                    SDKManager.getInstance().hideProgress();
                                     SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.no_upload_apk, "Google Play does not have the item id.");
                                     destroy();
                                 }
                             }
                         } else {
+                            SDKManager.getInstance().hideProgress();
                             if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                                SDKManager.getInstance().hideProgress();
                                 SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                                 destroy();
                             }
@@ -483,8 +485,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     queryPurchase(true, type);
                 } else {
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
+                    SDKManager.getInstance().hideProgress();
                     if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                        SDKManager.getInstance().hideProgress();
                         SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                     }
                 }
@@ -524,8 +526,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             }
 
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            Log.e(TAG,"user_cancel");
+            SDKManager.getInstance().hideProgress();
             if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                SDKManager.getInstance().hideProgress();
                 SDKManager.getInstance().getPurchaseCallBack().onCancel();
             }
             //消费完断开支付服务连接
@@ -536,8 +539,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             Log.e(TAG, "item already owned");
             queryHistoryPurchase();
         } else {
+            SDKManager.getInstance().hideProgress();
             if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                SDKManager.getInstance().hideProgress();
                 SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
                 destroy();
             }
@@ -605,18 +608,20 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 public void onSuccess(String result) {
 
                     if (result == null || result.isEmpty()) {
-                        if (SDKManager.getInstance().getPurchaseCallBack() != null)
-                            SDKManager.getInstance().hideProgress();
-                        SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.result_is_null, "SDKPurchaseNotify response result is null.");
+                        if (SDKManager.getInstance().getPurchaseCallBack() != null){
+                            SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.result_is_null, "SDKPurchaseNotify response result is null.");
+                        }
+                        SDKManager.getInstance().hideProgress();
                         return;
                     }
                     try {
                         String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
                         SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
                         if (orderModel == null) {
-                            if (SDKManager.getInstance().getPurchaseCallBack() != null )
-                                SDKManager.getInstance().hideProgress();
-                            SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.model_is_null, "orderModel is null.");
+                            if (SDKManager.getInstance().getPurchaseCallBack() != null ){
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.model_is_null, "orderModel is null.");
+                            }
+                            SDKManager.getInstance().hideProgress();
                             return;
                         }
                         if (orderModel.getCode() == 1) {
@@ -642,8 +647,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         } else {
                             LogUtils.e(TAG, "SDKPurchaseNotify---failed:" + orderModel.getMessage());
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
+                            SDKManager.getInstance().hideProgress();
                             if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                                SDKManager.getInstance().hideProgress();
                                 SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getCode(), orderModel.getMessage());
                             }
                         }
@@ -730,8 +735,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     } else {
                         LogUtils.e(TAG, "notifyServerForLostOrder:onFailure---" + orderModel.getMessage());
                         SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
+                        SDKManager.getInstance().hideProgress();
                         if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-                            SDKManager.getInstance().hideProgress();
                             SDKManager.getInstance().getPurchaseCallBack().onFailure(orderModel.getCode(), orderModel.getMessage());
                         }
                     }
@@ -835,8 +840,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         payParams.setPrice(price);
         payParams.setPayType(type);
         payParams.setMessage("success_story");
+        SDKManager.getInstance().hideProgress();
         if (SDKManager.getInstance().getPurchaseCallBack() != null) {
-            SDKManager.getInstance().hideProgress();
             SDKManager.getInstance().getPurchaseCallBack().onSuccess(payParams);
         }
     }
