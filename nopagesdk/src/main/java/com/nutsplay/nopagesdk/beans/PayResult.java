@@ -17,6 +17,15 @@ public class PayResult implements Serializable {
     private String currency;
     private String message;
     private String referenceId;//坚果订单号
+    private String gameExt="";//游戏附加参数
+
+    public String getGameExt() {
+        return gameExt;
+    }
+
+    public void setGameExt(String gameExt) {
+        this.gameExt = gameExt;
+    }
 
     public String getReferenceId() {
         return referenceId;

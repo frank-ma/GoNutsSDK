@@ -71,6 +71,8 @@ import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -1806,12 +1808,19 @@ public class SDKManager {
         checkLostOrder(activity);
     }
 
+    /**
+     * 检查是否掉单
+     *
+     * @param activity
+     */
     public void checkLostOrder(Activity activity) {
         GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
-                GooglePayHelp.getInstance().setConnected(true);
-                GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
+                if (billingResult.getResponseCode()==BillingClient.BillingResponseCode.OK){
+                    GooglePayHelp.getInstance().setConnected(true);
+                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+                }
             }
 
             @Override

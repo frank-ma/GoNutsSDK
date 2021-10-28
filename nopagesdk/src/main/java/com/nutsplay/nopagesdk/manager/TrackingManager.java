@@ -69,7 +69,8 @@ public class TrackingManager {
 //        Map<String, Object> eventValue = new HashMap<>();
 //        eventValue.put("accountId", accountId);
 //        AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Register", eventValue);
-        GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+//        GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+        SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());
 
         //adjust注册账号追踪
         AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
