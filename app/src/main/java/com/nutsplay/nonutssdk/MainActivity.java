@@ -280,7 +280,8 @@ public class MainActivity extends SDKBaseActivity {
     public void purchase(View view) {
 //        String referenceId = "com.nutspower.nutsgamesdk.test2";
 //        String referenceId = "nuts_product_1";
-        String referenceId = "gem_0001";
+//        String referenceId = "gem_0001";
+        String referenceId = "ppa.test.item1";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -296,7 +297,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code, String msg) {
-                showLog("支付失败：" + msg);
+                showLog("支付失败：code-" +code+ " msg-"+msg);
             }
         });
 
@@ -323,7 +324,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String msg) {
-                showLog("订阅失败：" + msg);
+                showLog("订阅失败：code-" +code+"  msg-"+ msg);
             }
         });
 
