@@ -134,7 +134,9 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         this.skuId = skuId;
         this.itemType = type;
         this.transactionId = transactionId;
-        billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
+        if (billingClient == null){
+            billingClient = BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build();
+        }
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
