@@ -177,12 +177,10 @@ public class DeviceUtils {
      */
     public static boolean checkPermission(Activity context) {
         if (context == null) return false;
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
+        if (    ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED ) {
 
             ActivityCompat.requestPermissions(context, new String[]{
-                    Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.ACCESS_NETWORK_STATE,
                     Manifest.permission.ACCESS_WIFI_STATE
             }, REQUEST_CODE_READ_PHONE_STATE);
@@ -192,6 +190,24 @@ public class DeviceUtils {
             return true;
         }
     }
+
+//    public static boolean checkPermission(Activity context) {
+//        if (context == null) return false;
+//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED ) {
+//
+//            ActivityCompat.requestPermissions(context, new String[]{
+//                    Manifest.permission.READ_PHONE_STATE,
+//                    Manifest.permission.ACCESS_NETWORK_STATE,
+//                    Manifest.permission.ACCESS_WIFI_STATE
+//            }, REQUEST_CODE_READ_PHONE_STATE);
+//            return false;
+//        } else {
+//            LogUtils.e("the permission of '" + Manifest.permission.READ_PHONE_STATE + "' is enable.");
+//            return true;
+//        }
+//    }
 
     /**
      * 显示
