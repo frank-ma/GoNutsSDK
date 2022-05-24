@@ -24,6 +24,11 @@ public class User implements Serializable {
         return userId;
     }
 
+    /**
+     * 不要返回userid给游戏方，只返回ticket，让他们拿着ticket去坚果服务器验证
+     *
+     * @param userId
+     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
