@@ -188,7 +188,7 @@ public class SDKManager {
                 progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
             if (null != progressDialog && !progressDialog.isShowing()) {
                 progressDialog.show();
-                progressDialog.setCancelable(false);
+                progressDialog.setCancelable(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,7 +216,7 @@ public class SDKManager {
             }
             if (null != progressDialog && !progressDialog.isShowing()) {
                 progressDialog.show();
-                progressDialog.setCancelable(false);
+                progressDialog.setCancelable(true);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -224,14 +224,14 @@ public class SDKManager {
     }
 
     public void hideProgress() {
-        if (null != progressDialog) {
+        if (null != progressDialog && progressDialog.getWindow() != null) {
             progressDialog.dismiss();
             progressDialog = null;
          }
     }
 
     public void hideEmptyProgress() {
-        if (null != emptyDialog) {
+        if (null != emptyDialog && emptyDialog.getWindow() != null) {
             emptyDialog.dismiss();
             emptyDialog = null;
         }
@@ -1532,7 +1532,7 @@ public class SDKManager {
                 return;
             }
 
-            if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
+            if (getUser() == null || StringUtils.isBlank(getUser().getTicket())) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
                 return;
             }
@@ -1643,7 +1643,7 @@ public class SDKManager {
                 return;
             }
 
-            if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
+            if (getUser() == null || StringUtils.isBlank(getUser().getTicket())) {
                 SDKToast.getInstance().ToastShow("Please login first.", 3);
                 return;
             }
@@ -1817,9 +1817,9 @@ public class SDKManager {
         GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode()==BillingClient.BillingResponseCode.OK){
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
                     GooglePayHelp.getInstance().setConnected(true);
-                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP);
+                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP,"");
                 }
             }
 
@@ -2627,7 +2627,7 @@ public class SDKManager {
             return;
         }
 
-        if (getUser() == null || StringUtils.isBlank(getUser().getUserId())) {
+        if (getUser() == null || StringUtils.isBlank(getUser().getTicket())) {
             SDKToast.getInstance().ToastShow("Please login first.", 3);
             return;
         }

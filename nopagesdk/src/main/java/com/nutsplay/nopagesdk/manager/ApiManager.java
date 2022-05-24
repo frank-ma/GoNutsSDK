@@ -271,13 +271,15 @@ public class ApiManager {
      * @param aesKey16byRSA
      * @param callBack
      */
-    public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, String transactionId, Purchase purchase, NetCallBack callBack){
+    public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, Purchase purchase, NetCallBack callBack){
         try {
             String url = addDomainName() + "/phi";
             if (BillingClient.SkuType.SUBS.equals(type)){
                 url = addDomainName() + "/psk";
             }
 
+            if (purchase == null) return;
+            String transactionId = purchase.getAccountIdentifiers() == null ? "" : purchase.getAccountIdentifiers().getObfuscatedAccountId();
             Notify notify = new Notify();
             notify.setClientID(mClientID);
             notify.setTransactionId(transactionId);
