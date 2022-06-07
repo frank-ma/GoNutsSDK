@@ -18,6 +18,7 @@ import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
+import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -38,14 +39,14 @@ import java.util.List;
 public class MainActivity extends SDKBaseActivity {
     private static final String TAG = "MainActivity";
 
-//    private String clientId = "5f84109764b5b50775d4abf2";
+
 //    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "36386748bb";
 //    String referenceId = "com.nutspower.nutsgamesdk.sub2";
 
 
 
-    private String clientId = "6130408b4b30743929309e1b";
+    private String clientId = "5dad5c14e73f210d548bf491";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
     String referenceId = "gem_0001";
@@ -77,7 +78,7 @@ public class MainActivity extends SDKBaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-//        initB.callOnClick();
+        initB.callOnClick();
 
 
         //startActivity(new Intent(this,AdsActivity.class));
@@ -89,10 +90,9 @@ public class MainActivity extends SDKBaseActivity {
      * ****************************************接口方法*********************************************
      */
     public void initSDK(View view) {
-
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setLanguage("zh_CN");
+        initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
@@ -149,7 +149,6 @@ public class MainActivity extends SDKBaseActivity {
      * @param view
      */
     public void defaultLogin(View view) {
-
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
         initParameter.setLanguage("zh_hk");
@@ -655,7 +654,22 @@ public class MainActivity extends SDKBaseActivity {
      * @param view
      */
     public void showUserAgreement(View view){
-        SDK.getInstance().showUserAgreement(this);
+        SDK.getInstance().showUserAgreement(this, new AgreementCallBack() {
+            @Override
+            public void onSuccess() {
+                showLog("用户同意协议");
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("用户拒绝协议");
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                showLog("打开协议失败");
+            }
+        });
     }
 
     /**

@@ -2,9 +2,9 @@ package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
 import android.net.Uri;
-
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
+import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -335,8 +335,8 @@ public class SDK {
      * 展示用户协议界面
      * @param activity
      */
-    public void showUserAgreement(Activity activity){
-        SDKManager.getInstance().showUserAgreement(activity);
+    public void showUserAgreement(Activity activity, AgreementCallBack callBack){
+        SDKManager.getInstance().showUserAgreement(activity,callBack);
     }
 
     public void installReferrer(Activity activity, InstallCallBack installCallBack) {

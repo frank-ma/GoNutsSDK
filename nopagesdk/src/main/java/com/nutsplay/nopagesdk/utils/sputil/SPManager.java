@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
+import com.nutsplay.nopagesdk.utils.toast.SDKToast;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -108,8 +110,8 @@ public class SPManager {
 
     /**
      * 存放实体类以及任意类型
-     * @param key
-     * @param obj
+     * @param key key
+     * @param obj object
      */
     public  void putBean(String key, Object obj) {
         if (obj instanceof Serializable) {// obj必须实现Serializable接口，否则会出问题
@@ -117,17 +119,14 @@ public class SPManager {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
                 oos.writeObject(obj);
-                String string64 = new String(Base64.encode(baos.toByteArray(),
-                        0));
-
+                String string64 = new String(Base64.encode(baos.toByteArray(), 0));
                 mEditor.putString(key, string64).commit();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         } else {
-            throw new IllegalArgumentException(
-                    "the obj must implement Serializble");
+            SDKToast.getInstance().ToastShow("the obj must implement Serializble",4);
         }
 
     }

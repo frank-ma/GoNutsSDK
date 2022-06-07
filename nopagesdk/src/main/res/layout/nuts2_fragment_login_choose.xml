@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/login_bg"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ic_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/button_close_white" />
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:blurRadius="15dp"
+            android:layout_marginTop="12dp"
+            app:shadowColor="@color/color_3f169c"
+            app:shadowRadius="15dp"
+            app:xOffset="4dp"
+            app:yOffset="8px">
+
+            <TextView
+                android:id="@+id/tv_visitor_sign_in"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:text="Quick Play"
+                android:translationZ="8px"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:paddingLeft="94dp"
+                android:drawablePadding="26dp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:drawableLeft="@drawable/icon_quickplay"
+                android:background="@drawable/selector_button_green"/>
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            app:blurRadius="15dp"
+            app:shadowColor="@color/color_1924ff"
+            app:shadowRadius="15dp"
+            app:xOffset="4dp"
+            app:yOffset="8px">
+
+            <TextView
+                android:id="@+id/fb_login"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_button_facebook"
+                android:drawableLeft="@drawable/icon_facebook"
+                android:drawablePadding="26dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="94dp"
+                android:text="Login with Facebook"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:translationZ="8px" />
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <View
+                android:layout_width="99dp"
+                android:layout_height="1dp"
+                android:background="@color/color_eae4f1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:textSize="12sp"
+                android:textColor="@color/color_d4cdde"
+                android:text="Other Login methods" />
+
+            <View
+                android:layout_width="99dp"
+                android:layout_height="1dp"
+                android:background="@color/color_eae4f1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp">
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:blurRadius="4dp"
+                app:shadowColor="@color/color_812dff"
+                app:shadowRadius="15dp"
+                app:xOffset="0dp"
+                app:yOffset="2dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_login"
+                    android:layout_width="182dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:translationZ="8px"
+                    android:background="@drawable/selector_button_purple">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_account_login"/>
+
+                    <TextView
+                        android:id="@+id/tv_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Account Login"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+                </LinearLayout>
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:blurRadius="4dp"
+                android:layout_marginLeft="40dp"
+                app:shadowColor="@color/color_ff4747"
+                app:shadowRadius="15dp"
+                app:xOffset="0dp"
+                app:yOffset="2dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_register"
+                    android:layout_width="182dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_button_orange"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_register" />
+
+                    <TextView
+                        android:id="@+id/tv_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp"
+                        android:text="Register Account"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

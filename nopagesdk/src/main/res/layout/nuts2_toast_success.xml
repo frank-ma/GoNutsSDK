@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center">
+
+    <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:blurRadius="10px"
+        app:shadowColor="@color/color_000000"
+        app:shadowRadius="15dp"
+        app:xOffset="0dp"
+        app:yOffset="4px">
+
+        <TextView
+            android:id="@+id/toast_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:translationZ="10px"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Billing service unavailable on device."
+            android:background="@drawable/shape_button_green"/>
+    </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+</FrameLayout>

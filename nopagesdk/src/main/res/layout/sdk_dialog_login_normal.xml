@@ -113,7 +113,7 @@
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/ic_pwd"
                 android:drawablePadding="5dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:text=""
                 android:textColor="@color/black" />
 

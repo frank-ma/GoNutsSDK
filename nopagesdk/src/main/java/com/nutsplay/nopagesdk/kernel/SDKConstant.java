@@ -7,7 +7,7 @@ package com.nutsplay.nopagesdk.kernel;
  */
 public class SDKConstant {
 
-    public static final String OpenType = "OpenType";
+
     public static final String Login = "login";
     public static final String Bind = "bind";
     public static final String android = "android";

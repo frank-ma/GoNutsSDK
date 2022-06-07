@@ -14,6 +14,7 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 /**
@@ -55,7 +56,7 @@ public class BindTipDialog extends Dialog {
 
             View layout;
             if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_tips", "layout"), null);
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips", "layout"), null);
             }
@@ -64,6 +65,13 @@ public class BindTipDialog extends Dialog {
             TextView tvContent = layout.findViewById(SDKResUtils.getResId(context, "tv_content", "id"));
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView enterGame = layout.findViewById(SDKResUtils.getResId(context, "tv_enter_game", "id"));
+
+            //设置自定义字体
+            SDKGameUtils.setTypeFace(context,tvTips);
+            SDKGameUtils.setTypeFace(context,tvContent);
+            SDKGameUtils.setTypeFace(context,bind);
+            SDKGameUtils.setTypeFace(context,enterGame);
+
 
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
             tvContent.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_alert"));
@@ -83,7 +91,7 @@ public class BindTipDialog extends Dialog {
                         lastTime = currentTime;
                     }
 
-                    BindDialog.Builder builder = new BindDialog.Builder(context, loginCallBack);
+                    BindAccountDialog.Builder builder = new BindAccountDialog.Builder(context, loginCallBack);
                     builder.create().show();
                     dialog.dismiss();
                 }

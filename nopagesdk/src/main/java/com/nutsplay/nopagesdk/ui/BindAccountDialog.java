@@ -33,22 +33,22 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 /**
  * Created by frankma on 2019-10-09 18:22
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 绑定账号
  */
-public class BindDialog extends Dialog {
+public class BindAccountDialog extends Dialog {
 
-    public BindDialog(@NonNull Context context) {
+    public BindAccountDialog(@NonNull Context context) {
         super(context);
         Window window = getWindow();
         if (window == null) return;
         window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
-    public BindDialog(@NonNull Context context, int themeResId) {
+    public BindAccountDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
 
-    protected BindDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    protected BindAccountDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -61,23 +61,29 @@ public class BindDialog extends Dialog {
             this.loginCallBack=loginCallBack;
         }
 
-        public BindDialog create() {
+        public BindAccountDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final BindDialog dialog = new BindDialog(context);
+            final BindAccountDialog dialog = new BindAccountDialog(context);
             if (inflater == null) return dialog;
             View layout;
             if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
             }
 
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView bindTips = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_tips", "id"));
-            final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
-            final EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
-            final ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
-            final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
+            EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
+            EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
+            ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
+            ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
+            ImageView ivDone = layout.findViewById(SDKResUtils.getResId(context, "iv_done", "id"));
+
+            //设置自定义字体
+            SDKGameUtils.setTypeFace(context,bindTips);
+            SDKGameUtils.setTypeFaceBold(context,bind);
+
 
             bindTips.setText(SDKLangConfig.getInstance().findMessage("str_bind_tips"));
             bind.setText(SDKLangConfig.getInstance().findMessage("bind"));
@@ -106,9 +112,17 @@ public class BindDialog extends Dialog {
                     String account = userName.getText().toString();
                     String psw = pwd.getText().toString();
 
-                    if (!SDKGameUtils.matchAccount(account)|| !SDKGameUtils.matchPw(psw)){
+                    if (!SDKGameUtils.matchAccount(context,userName,ivDone,account)){
                         return;
                     }
+                    //判断密码
+                    if (!SDKGameUtils.matchPw(psw)){
+                        pwdToggle.setChecked(true);
+                        return;
+                    }else {
+                        pwdToggle.setChecked(false);
+                    }
+
                     String oauthid= Installations.id(context);
                     SDKManager.getInstance().sdkBindAccount2Dialog((Activity) context, oauthid, SDKConstant.TYPE_GUEST, account, psw, new ResultCallBack() {
                         @Override
@@ -124,7 +138,6 @@ public class BindDialog extends Dialog {
                             LogUtils.e("BindDialog","sdkBindAccount---"+msg);
                         }
                     });
-
                 }
             });
 

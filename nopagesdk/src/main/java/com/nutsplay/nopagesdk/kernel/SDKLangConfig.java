@@ -189,21 +189,21 @@ public class SDKLangConfig {
 
 
 
-        zh_CN.setProperty("nutsplay_viewstring_ResetPassword", "找回密码");
-        th.setProperty("nutsplay_viewstring_ResetPassword", "ลืมรหัสผ่าน");
-        vi.setProperty("nutsplay_viewstring_ResetPassword", "Tìm lại mật khẩu>");
-        ar.setProperty("nutsplay_viewstring_ResetPassword", "نسيت كلمة المرور");
-        en.setProperty("nutsplay_viewstring_ResetPassword", "Forgot password");
-        ko.setProperty("nutsplay_viewstring_ResetPassword", "비밀 번호 찾기");
-        zh_HK.setProperty("nutsplay_viewstring_ResetPassword", "忘記密碼");
-        fr.setProperty("nutsplay_viewstring_ResetPassword", "Mot de passe oublié");
-        pt.setProperty("nutsplay_viewstring_ResetPassword", "Esqueci a senha");
-        de.setProperty("nutsplay_viewstring_ResetPassword", "Passwort vergessen");
-        es.setProperty("nutsplay_viewstring_ResetPassword", "Olvidé mi contraseña");
-        it.setProperty("nutsplay_viewstring_ResetPassword", "Password dimenticata");
-        ja.setProperty("nutsplay_viewstring_ResetPassword", "パスワードを忘れた");
-        id.setProperty("nutsplay_viewstring_ResetPassword", "Lupa Password");
-        ru.setProperty("nutsplay_viewstring_ResetPassword", "Забыли пароль");
+        zh_CN.setProperty("nutsplay_viewstring_ResetPassword", "找回密码？");
+        th.setProperty("nutsplay_viewstring_ResetPassword", "ลืมรหัสผ่าน？");
+        vi.setProperty("nutsplay_viewstring_ResetPassword", "Tìm lại mật khẩu>？");
+        ar.setProperty("nutsplay_viewstring_ResetPassword", "？نسيت كلمة المرور");
+        en.setProperty("nutsplay_viewstring_ResetPassword", "Forgot password？");
+        ko.setProperty("nutsplay_viewstring_ResetPassword", "비밀 번호 찾기？");
+        zh_HK.setProperty("nutsplay_viewstring_ResetPassword", "忘記密碼？");
+        fr.setProperty("nutsplay_viewstring_ResetPassword", "Mot de passe oublié？");
+        pt.setProperty("nutsplay_viewstring_ResetPassword", "Esqueci a senha？");
+        de.setProperty("nutsplay_viewstring_ResetPassword", "Passwort vergessen？");
+        es.setProperty("nutsplay_viewstring_ResetPassword", "Olvidé mi contraseña？");
+        it.setProperty("nutsplay_viewstring_ResetPassword", "Password dimenticata？");
+        ja.setProperty("nutsplay_viewstring_ResetPassword", "パスワードを忘れた？");
+        id.setProperty("nutsplay_viewstring_ResetPassword", "Lupa Password？");
+        ru.setProperty("nutsplay_viewstring_ResetPassword", "Забыли пароль？");
 
         zh_CN.setProperty("nutsplay_viewstring_confirm", "确定");
         th.setProperty("nutsplay_viewstring_confirm", "ยืนยัน");
@@ -1466,7 +1466,7 @@ public class SDKLangConfig {
         ru.setProperty("bind", "переплет");
 
         zh_CN.setProperty("sign_in","登录");
-        en.setProperty("sign_in","Log in");
+        en.setProperty("sign_in","Account Login");
         th.setProperty("sign_in", "เข้าสู่ระบบ");
         vi.setProperty("sign_in", "Đăng nhập");
         ar.setProperty("sign_in", "تسجيل الدخول");
@@ -1498,7 +1498,7 @@ public class SDKLangConfig {
         ru.setProperty("reset", "сброс");
 
         zh_CN.setProperty("sign_up","注册");
-        en.setProperty("sign_up","Register");
+        en.setProperty("sign_up","Register Account");
         th.setProperty("sign_up", "การลงทะเบียน");
         vi.setProperty("sign_up", "Đăng ký");
         ar.setProperty("sign_up", "تسجيل");
@@ -1851,6 +1851,57 @@ public class SDKLangConfig {
         zh_CN.setProperty("email_no_bind", "您的账号未绑定邮箱,请先在用户中心绑定邮箱");
         zh_HK.setProperty("email_no_bind", "您的賬號未綁定郵箱,請先在用戶中心綁定郵箱");
         ru.setProperty("email_no_bind", "Ваша учетная запись не привязана к электронной почте, пожалуйста, сначала привяжите электронную почту в центре пользователей");
+
+        //Don't have an account?
+        ar.setProperty("sign_up_tip","ليس لديك حساب؟");
+        de.setProperty("sign_up_tip","Sie haben kein Konto?");
+        en.setProperty("sign_up_tip","Don't have an account? ");
+        es.setProperty("sign_up_tip","¿No tienes una cuenta?");
+        fr.setProperty("sign_up_tip","Vous n'avez pas de compte ?");
+        id.setProperty("sign_up_tip","Tidak punya akun?");
+        it.setProperty("sign_up_tip","Non hai un account?");
+        ja.setProperty("sign_up_tip","アカウントをお持ちではありませんか？");
+        ko.setProperty("sign_up_tip","계정이 없으신가요?");
+        pt.setProperty("sign_up_tip","Não tem uma conta?");
+        th.setProperty("sign_up_tip","ไม่มีบัญชี?");
+        vi.setProperty("sign_up_tip","Không có tài khoản?");
+        zh_CN.setProperty("sign_up_tip","没有帐户？");
+        zh_HK.setProperty("sign_up_tip","沒有帳戶？？");
+        ru.setProperty("sign_up_tip","У вас нет аккаунта?");
+
+        //Don't have an account?
+        ar.setProperty("sign_up_tip","ليس لديك حساب؟");
+        de.setProperty("sign_up_tip","Sie haben kein Konto?");
+        en.setProperty("sign_up_tip","Don't have an account? ");
+        es.setProperty("sign_up_tip","¿No tienes una cuenta?");
+        fr.setProperty("sign_up_tip","Vous n'avez pas de compte ?");
+        id.setProperty("sign_up_tip","Tidak punya akun?");
+        it.setProperty("sign_up_tip","Non hai un account?");
+        ja.setProperty("sign_up_tip","アカウントをお持ちではありませんか？");
+        ko.setProperty("sign_up_tip","계정이 없으신가요?");
+        pt.setProperty("sign_up_tip","Não tem uma conta?");
+        th.setProperty("sign_up_tip","ไม่มีบัญชี?");
+        vi.setProperty("sign_up_tip","Không có tài khoản?");
+        zh_CN.setProperty("sign_up_tip","没有帐户？");
+        zh_HK.setProperty("sign_up_tip","沒有帳戶？？");
+        ru.setProperty("sign_up_tip","У вас нет аккаунта?");
+
+        //Already have an account?
+        ar.setProperty("sign_in_tip","هل لديك حساب؟");
+        de.setProperty("sign_in_tip","Sie haben bereits ein Konto?");
+        en.setProperty("sign_in_tip","Already have an account? ");
+        es.setProperty("sign_in_tip","¿Ya tienes una cuenta?");
+        fr.setProperty("sign_in_tip","Vous avez déjà un compte?");
+        id.setProperty("sign_in_tip","Sudah memiliki akun?");
+        it.setProperty("sign_in_tip","Hai già un account?");
+        ja.setProperty("sign_in_tip","すでにアカウントをお持ちですか？");
+        ko.setProperty("sign_in_tip","이미 계정이 있습니까?");
+        pt.setProperty("sign_in_tip","já tem uma conta?");
+        th.setProperty("sign_in_tip","มีบัญชีอยู่แล้ว?");
+        vi.setProperty("sign_in_tip","Bạn co săn san để tạo một tai khoản?");
+        zh_CN.setProperty("sign_in_tip","已经有一个帐户？");
+        zh_HK.setProperty("sign_in_tip","已經有一個帳戶？");
+        ru.setProperty("sign_in_tip","У вас уже есть аккаунт?");
     }
 }
 

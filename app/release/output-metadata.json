@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.nutsplay.glofduel",
+  "applicationId": "games.atys.ppa.a2021",
   "variantName": "release",
   "elements": [
     {
@@ -12,7 +12,7 @@
       "filters": [],
       "versionCode": 4,
       "versionName": "2.7",
-      "outputFile": "app-release.apk"
+      "outputFile": "goSdk_20220525_2.7.apk"
     }
   ]
 }

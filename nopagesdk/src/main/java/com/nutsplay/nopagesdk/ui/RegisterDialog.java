@@ -1,8 +1,10 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Html;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
@@ -28,7 +31,7 @@ import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 /**
  * Created by frankma on 2019-10-09 18:22
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 注册账号Dialog
  */
 public class RegisterDialog extends Dialog {
 
@@ -50,7 +53,6 @@ public class RegisterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private RegisterResultCallBack registerCallBack;
-        private long lastTime = 0;
         public Builder(Context context,RegisterResultCallBack registerCallBack) {
             this.context = context;
             this.registerCallBack = registerCallBack;
@@ -62,7 +64,7 @@ public class RegisterDialog extends Dialog {
             if (inflater == null) return dialog;
             View layout;
             if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
             }
@@ -72,74 +74,69 @@ public class RegisterDialog extends Dialog {
             final EditText pwd = layout.findViewById(SDKResUtils.getResId(context, "et_pwd", "id"));
             final EditText repeatPwd = layout.findViewById(SDKResUtils.getResId(context, "et_repeat_pwd", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
-            final TextView autoGenerationTv = layout.findViewById(SDKResUtils.getResId(context, "tv_auto_generation", "id"));
-            final TextView titleTv = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
-            final ToggleButton pwdToggle1 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle1", "id"));
-            final ToggleButton pwdToggle2 = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle2", "id"));
+            final TextView loginTv = layout.findViewById(SDKResUtils.getResId(context, "tv_login", "id"));
+            final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
+            ImageView ivDone = layout.findViewById(SDKResUtils.getResId(context, "iv_done", "id"));
+
+            //设置自定义字体
+            SDKGameUtils.setTypeFaceBold(context,signUp);
+            SDKGameUtils.setTypeFace(context,loginTv);
+
+
+            String signInTip = SDKLangConfig.getInstance().findMessage("sign_in_tip")+" ";
+            String signIn = SDKLangConfig.getInstance().findMessage("sign_in");
+            loginTv.setText(Html.fromHtml("<font color=\"#BBBBBB\">" + signInTip + "</font><font color=\"#977cdc\"> " + signIn + "</font>"));
 
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
-            titleTv.setText(SDKLangConfig.getInstance().findMessage("nuts_Createaccount"));
 
             //显隐密码
-            pwdToggle1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            pwdToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if (isChecked){
                         pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                        repeatPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility_off","drawable"));
                     }else {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        pwdToggle1.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                        repeatPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility","drawable"));
                     }
                     pwd.setSelection(pwd.getText().toString().length());
-                }
-            });
-
-            //显隐密码
-            pwdToggle2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if (isChecked){
-                        repeatPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
-                    }else {
-                        repeatPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        pwdToggle2.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
-                    }
                     repeatPwd.setSelection(repeatPwd.getText().toString().length());
-                }
-            });
-
-            //自动生成账号密码
-            autoGenerationTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //autoGenerationAccountPwd(userName,pwd,repeatPwd);
                 }
             });
 
             //注册账号
             signUp.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
                     //防止快速点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastTime < 2000) {
+                    if (SDKGameUtils.isMultiClicks()) {
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
                     final String account = userName.getText().toString();
                     final String psw = pwd.getText().toString();
                     String rePsw = repeatPwd.getText().toString();
 
-                    if (!SDKGameUtils.matchAccountReg(account)||!SDKGameUtils.matchPw(psw)||!SDKGameUtils.matchPw(rePsw)){
+                    if (!SDKGameUtils.matchAccount(context,userName,ivDone,account)){
                         return;
                     }
+                    //判断密码
+                    if (!SDKGameUtils.match2Pw(context,pwd,repeatPwd)){
+                        pwdToggle.setChecked(true);
+                        pwd.setTextColor(R.color.color_da6a6a);
+                        return;
+                    }else {
+                        pwdToggle.setChecked(false);
+                        pwd.setTextColor(R.color.color_4c506b);
+                    }
+
                     if (!psw.equals(rePsw)) {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                         return;
@@ -168,6 +165,17 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
+                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), true).create();
+                    optionsDialog.show();
+                }
+            });
+
+            loginTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), true).create();
+                    loginDialog.show();
                 }
             });
 

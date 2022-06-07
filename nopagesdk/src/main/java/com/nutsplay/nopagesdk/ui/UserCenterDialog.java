@@ -15,17 +15,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
  * Created by frankma on 2019-10-09 18:22
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 用户中心Dialog
  */
 public class UserCenterDialog extends Dialog {
 
@@ -47,7 +49,8 @@ public class UserCenterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private long lastTime = 0;
-//        private Handler handler;
+
+
         public Builder(Context context) {
             this.context = context;
         }
@@ -59,123 +62,77 @@ public class UserCenterDialog extends Dialog {
             if (inflater == null) return dialog;
             View layout;
             if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_usercenter", "layout"), null);
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
             }
-            final TextView bindEmail = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_email", "id"));
-            final TextView bindFb = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_fb", "id"));
-            final TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
-            final TextView emailTip = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
+            final View bindEmail = layout.findViewById(SDKResUtils.getResId(context, "ll_bind_email", "id"));
+            final View bindFb = layout.findViewById(SDKResUtils.getResId(context, "ll_bind_fb", "id"));
+            final View resetPwd = layout.findViewById(SDKResUtils.getResId(context, "ll_reset_pwd", "id"));
+
+            final TextView bindEmailTv = layout.findViewById(SDKResUtils.getResId(context,"tv_bind_email","id"));
+            final TextView bindFbTv = layout.findViewById(SDKResUtils.getResId(context,"tv_bind_fb","id"));
+            final TextView resetPwdTv = layout.findViewById(SDKResUtils.getResId(context,"tv_reset_pwd","id"));
+
+            final TextView userNameTv = layout.findViewById(SDKResUtils.getResId(context, "tv_name", "id"));
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
             final TextView emptyTxt = layout.findViewById(SDKResUtils.getResId(context, "nothing", "id"));
+            final ImageView userIcon = layout.findViewById(SDKResUtils.getResId(context, "user_icon", "id"));
+            showUserName(userNameTv,userIcon);
             //如果是Facebook用户就不显示绑定FB按钮了,账号登录也不能绑定
 
             if (SDKManager.getInstance().getUser() != null){
                 //游客登录用户
                 if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_GUEST)){
                     //游客绑定FB之后，游客和FB指向的是同一个账号
-                    bindEmail.setVisibility(View.GONE);
-                    resetPwd.setVisibility(View.GONE);
-                    bindFb.setVisibility(View.VISIBLE);
+
                 }
                 //账号登录用户
                 if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_ACCOUNT)){
-                    bindFb.setVisibility(View.GONE);
+
                     if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()){
                         bindEmail.setVisibility(View.VISIBLE);
-                        resetPwd.setVisibility(View.GONE);
                     } else{
                         bindEmail.setVisibility(View.GONE);
-                        emailTip.setVisibility(View.VISIBLE);
-                        resetPwd.setVisibility(View.VISIBLE);
-                        String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-                        emailTip.setText(textContent);
                     }
                 }
                 //FB登录用户
                 if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)){
                     bindFb.setVisibility(View.GONE);
-                    bindEmail.setVisibility(View.GONE);
-                    resetPwd.setVisibility(View.GONE);
-                    emptyTxt.setVisibility(View.VISIBLE);
                 }
                 //Google用户
                 if (SDKManager.getInstance().getUser().getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)){
-                    bindFb.setVisibility(View.GONE);
-                    bindEmail.setVisibility(View.GONE);
-                    resetPwd.setVisibility(View.GONE);
-                    emptyTxt.setVisibility(View.VISIBLE);
+
                 }
             }
 
+            //设置自定义字体
+            SDKGameUtils.setTypeFace(context,userNameTv);
+            SDKGameUtils.setTypeFaceBold(context,bindEmailTv);
+            SDKGameUtils.setTypeFaceBold(context,bindFbTv);
+            SDKGameUtils.setTypeFaceBold(context,resetPwdTv);
             //显示语言多样化
-            bindEmail.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
-            bindFb.setText(SDKLangConfig.getInstance().findMessage("str_bind_facebook"));
-            resetPwd.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
-
-
-//            handler = new Handler(Looper.getMainLooper()){
-//                @Override
-//                public void handleMessage(@NonNull Message msg) {
-//                    super.handleMessage(msg);
-//                    if (msg.what == 0) {
-//                        bindFb.setVisibility(View.GONE);
-//                        emptyTxt.setVisibility(View.VISIBLE);
-//                    }else if (msg.what == 1){
-//                        bindEmail.setVisibility(View.GONE);
-//                        emailTip.setVisibility(View.VISIBLE);
-//                        resetPwd.setVisibility(View.VISIBLE);
-//                        String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-//                        emailTip.setText(textContent);
-//                    }
-//                }
-//            };
+            bindEmailTv.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
+            bindFbTv.setText(SDKLangConfig.getInstance().findMessage("str_bind_facebook"));
+            resetPwdTv.setText(SDKLangConfig.getInstance().findMessage("str_reset_pwd"));
 
             //绑定邮箱
             bindEmail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //防止快速点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastTime < 2000) {
+                    if (SDKGameUtils.isMultiClicks()) {
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
-                    EmailBindDialog.Builder builder = new EmailBindDialog.Builder(context, new ResultCallBack() {
+                    BindEmailDialog.Builder builder = new BindEmailDialog.Builder(context, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-//                            ((Activity)context).runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    bindEmail.setVisibility(View.GONE);
-//                                    emailTip.setVisibility(View.VISIBLE);
-//                                    resetPwd.setVisibility(View.VISIBLE);
-//                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-//                                    emailTip.setText(textContent);
-//                                }
-//                            });
-//                            new Handler().post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    bindEmail.setVisibility(View.GONE);
-//                                    emailTip.setVisibility(View.VISIBLE);
-//                                    resetPwd.setVisibility(View.VISIBLE);
-//                                    String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-//                                    emailTip.setText(textContent);
-//                                }
-//                            });
-
-//                            handler.sendEmptyMessage(1);
                             Log.d("UserCenterDialog","MainThreadID_EmailBindDialog:"+Looper.getMainLooper().getThread().getId());
                             Log.d("UserCenterDialog","ThreadID_EmailBindDialog:"+Thread.currentThread().getId());
                             bindEmail.setVisibility(View.GONE);
-                            emailTip.setVisibility(View.VISIBLE);
                             resetPwd.setVisibility(View.VISIBLE);
                             String textContent = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(SDKManager.getInstance().getUser().getBindEmail());
-                            emailTip.setText(textContent);
                         }
 
                         @Override
@@ -191,32 +148,14 @@ public class UserCenterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     //防止快速点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastTime < 2000) {
+                    if (SDKGameUtils.isMultiClicks()) {
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
                     SDKManager.getInstance().sdkGuestBindFB((Activity) context, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             //游客绑定FB成功
-//                            ((Activity)context).runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    bindFb.setVisibility(View.GONE);
-//                                    emptyTxt.setVisibility(View.VISIBLE);
-//                                }
-//                            });
-//                            new Handler().post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    bindFb.setVisibility(View.GONE);
-//                                    emptyTxt.setVisibility(View.VISIBLE);
-//                                }
-//                            });
-//                            handler.sendEmptyMessage(0);
                             Log.d("UserCenterDialog","MainThreadID_bindfb:"+Looper.getMainLooper().getThread().getId());
                             Log.d("UserCenterDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
                             bindFb.setVisibility(View.GONE);
@@ -237,11 +176,8 @@ public class UserCenterDialog extends Dialog {
                 public void onClick(View v) {
 
                     //防止快速点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastTime < 2000) {
+                    if (SDKGameUtils.isMultiClicks()) {
                         return;
-                    }else {
-                        lastTime = currentTime;
                     }
 
                     ResetPwdDialog.Builder builder = new ResetPwdDialog.Builder(context);
@@ -262,6 +198,43 @@ public class UserCenterDialog extends Dialog {
             dialog.setCancelable(false);
             return dialog;
         }
+
+        /**
+         * 展示用户名
+         * @param userNameTv
+         */
+        public void showUserName(TextView userNameTv,ImageView userIcon) {
+            String msg = "";
+            User user = SDKManager.getInstance().getUser();
+            if (user == null ) return;
+            String sdkmemberType = user.getSdkmemberType();
+            if (StringUtils.isEmpty(sdkmemberType)) return;
+            if (!user.getUserName().isEmpty()){
+                sdkmemberType = SDKConstant.TYPE_ACCOUNT;
+            }
+            switch (sdkmemberType){
+                case SDKConstant.TYPE_ACCOUNT:
+                    msg += "UserName："+user.getUserName();
+                    userIcon.setImageResource(SDKResUtils.getResId(context,"usercenter_nuts_account","drawable"));
+                    break;
+                case SDKConstant.TYPE_FACEBOOK:
+                    msg += "Facebook："+user.getFacebookName();
+                    userIcon.setImageResource(SDKResUtils.getResId(context,"usercenter_fbuser","drawable"));
+                    break;
+                default:
+                    msg += "Hi,Guest!";
+                    userIcon.setImageResource(SDKResUtils.getResId(context,"usercenter_guest","drawable"));
+                    break;
+            }
+
+            if (!user.getBindEmail().isEmpty()){
+                String bindEmailStr = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail")+SDKGameUtils.hideEmail(user.getBindEmail());
+                msg += "\n"+ bindEmailStr;
+            }
+
+            userNameTv.setText(msg);
+        }
     }
+
 
 }
