@@ -10,6 +10,7 @@ public class SPKey {
     public static final String key_bean_init="SDKParams";
     public static final String key_bean_data_init="SDKDataInit";
     public static final String key_bean_data_user="SDKDataUser";
+    public static final String key_bean_data_user_temp="SDKDataUserTemp";//临时存储的用户信息
 
     public static final String key_sdk_token="SDKToken";
     public static final String key_sdk_auto="SDKAuto";

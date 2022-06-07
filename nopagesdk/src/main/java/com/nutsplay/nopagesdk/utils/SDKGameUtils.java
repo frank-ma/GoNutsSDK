@@ -1,19 +1,29 @@
 package com.nutsplay.nopagesdk.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
@@ -126,44 +136,23 @@ public class SDKGameUtils {
      * @param email
      * @return
      */
-    public static boolean matchEmail(String email) {
+    public static boolean matchEmail(Context context,EditText anchor,String email) {
         if (email.isEmpty()) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("email_null"));
             return false;
         }
 
         boolean isMatch = email.matches("\\b(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])+(\\.[A-Za-z0-9-]+)*((\\.[A-Za-z0-9]{2,})|(\\.[A-Za-z0-9]{2,}\\.[A-Za-z0-9]{2,}))$)\\b");
         if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("36"), 3);
-
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("36"), 3);
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("36"));
             return false;
         }
         return true;
 
 
     }
-
-    /**
-     * 判断用户名
-     *
-     * @return
-     */
-    public static boolean matchAccountReg(String account) {
-        if (StringUtils.isBlank(account)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
-            return false;
-        }
-
-        boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");
-        if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38Reg"), 3);
-
-            return false;
-        }
-        return true;
-
-    }
-
 
     public static boolean matchPwReg(String pw) {
         if (StringUtils.isBlank(pw)) {
@@ -190,15 +179,12 @@ public class SDKGameUtils {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
             return false;
         }
-
         boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38"), 3);
-
             return false;
         }
         return true;
-
     }
 
     /**
@@ -206,20 +192,81 @@ public class SDKGameUtils {
      *
      * @return
      */
-    public static boolean matchCode(String code) {
+    @SuppressLint("ResourceAsColor")
+    public static boolean matchAccount(Context context, EditText anchor,String account) {
+        if (StringUtils.isBlank(account)) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("nuts_username_null"));
+            return false;
+        }
+
+        boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
+        if (!isMatch) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
+            anchor.setTextColor(R.color.color_da6a6a);
+            return false;
+        }else {
+            anchor.setTextColor(R.color.color_4c506b);
+            return true;
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public static boolean matchAccount(Context context, EditText anchor, View doneView,String account) {
+        if (StringUtils.isBlank(account)) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("nuts_username_null"));
+            return false;
+        }
+
+        boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
+        if (!isMatch) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
+            doneView.setVisibility(View.INVISIBLE);
+            anchor.setTextColor(SDKResUtils.getResId(context,"color_da6a6a","color"));
+            return false;
+        }else {
+            doneView.setVisibility(View.VISIBLE);
+            anchor.setTextColor(SDKResUtils.getResId(context,"color_4c506b","color"));
+            return true;
+        }
+    }
+
+    /**
+     * 错误提示弹窗
+     */
+    private static PopupWindow popupWindow;
+    public static void showPopWindow(Context context, EditText anchor, String str){
+        View view = LayoutInflater.from(context).inflate(SDKResUtils.getResId(context,"nuts2_item_pop","layout"),null,false);
+        TextView content = view.findViewById(SDKResUtils.getResId(context,"tv_pop","id"));
+        SDKGameUtils.setTypeFace(context,content);
+        content.setText(str);
+
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));//为popwindow设置一个背景才有效
+        popupWindow.showAsDropDown(anchor,anchor.getHint().length()/2,0);
+    }
+
+    /**
+     * 判断用户名
+     *
+     * @return
+     */
+    @SuppressLint("ResourceAsColor")
+    public static boolean matchCode(Context context, EditText anchor, String code) {
         if (StringUtils.isBlank(code)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("39"), 3);
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("39"));
             return false;
         }
 
         boolean isMatch = code.matches("\\w{4,24}");
         if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("40"), 3);
-
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("40"));
+            anchor.setTextColor(R.color.color_da6a6a);
             return false;
+        }else {
+            anchor.setTextColor(R.color.color_4c506b);
+            return true;
         }
-        return true;
-
     }
 
     /**
@@ -294,7 +341,7 @@ public class SDKGameUtils {
     }
 
 
-    public static String getData() throws ParseException {
+    public static String getDate() throws ParseException {
         // 创建日期对象
         Date d = new Date();
         // 给定模式
@@ -319,6 +366,30 @@ public class SDKGameUtils {
         }
         return true;
 
+    }
+
+    public static boolean matchPw(Context context,EditText anchor,String pw) {
+        if (StringUtils.isBlank(pw)) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("33"));
+            return false;
+        }
+
+        boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
+        if (!isMatch) {
+            showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("41"));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean match2Pw(Context context, EditText pswEt,EditText pswEt2){
+        if (!matchPw(context,pswEt,pswEt.getText().toString())) return false;
+        if (!matchPw(context,pswEt2,pswEt2.getText().toString())) return false;
+        if (!pswEt.getText().toString().equals(pswEt2.getText().toString())){
+            showPopWindow(context,pswEt2,SDKLangConfig.getInstance().findMessage("pwd_different"));
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -417,7 +488,7 @@ public class SDKGameUtils {
         } else if (code == SDKConstant.STATUS_ACCOUNT_NOT_BOUND) {//此ID尚未绑定过自定义账号(用于申请email绑定时)
             SDKToast.getInstance().ToastShow("Please bind an account before you can bind the mailbox, or directly bind your Facebook account.", 3);
         } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_ALREADY_EXIST) {//临时绑定记录已存在
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
         } else {
             SDKToast.getInstance().ToastShow(msg, 3);
         }
@@ -593,4 +664,37 @@ public class SDKGameUtils {
         }
         return val;
     }
+
+    /**
+     * 1.2秒内快速点击取消操作
+     * @return
+     */
+    private static long lastClickTime = 0;
+    public static boolean isMultiClicks() {
+        long delta = System.currentTimeMillis() - lastClickTime;
+        Log.e("delta—time", delta + "");
+        if (delta < 1200) {
+            lastClickTime = System.currentTimeMillis();
+            return true;
+        }
+        lastClickTime = System.currentTimeMillis();
+        return false;
+    }
+
+    /**
+     * 设置自定义字体(粗体)
+     * @param textView
+     */
+    public static void setTypeFaceBold(Context context,TextView textView){
+        textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica Bold.ttf"));
+    }
+
+    /**
+     * 设置自定义字体
+     * @param textView
+     */
+    public static void setTypeFace(Context context,TextView textView){
+        textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica.ttf"));
+    }
+
 }

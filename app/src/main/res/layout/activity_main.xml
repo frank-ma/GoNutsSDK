@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.nutsplay.nonutssdk.MainActivity">
 
     <LinearLayout
@@ -166,7 +167,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
             <Button
                 android:id="@+id/default_login"
@@ -242,7 +244,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <Button
                 android:layout_width="wrap_content"
@@ -327,61 +330,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="zh_CN"
                 android:text="简中"
+                android:layout_margin="5dp"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="zh_TW"
                 android:text="繁中"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="en"
                 android:text="英"
                 android:textColor="@color/colorAccent" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="ko"
                 android:text="韩语"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="jp"
                 android:text="日语"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="de"
                 android:text="德语"
                 android:textColor="@color/colorAccent" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="fr"
                 android:text="法语"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_margin="5dp"
                 android:onClick="vi"
                 android:text="越南语"
                 android:textColor="@color/colorAccent" />
@@ -389,54 +392,48 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="ru"
                 android:text="俄"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="es"
                 android:text="西班牙"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="pt"
                 android:text="葡萄牙"
                 android:textColor="@color/colorAccent" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="ar"
                 android:text="阿拉伯"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="it"
                 android:text="意大利"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="th"
                 android:text="泰语"
                 android:textColor="@color/colorAccent" />
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:onClick="idn"
                 android:text="印尼语"
                 android:textColor="@color/colorAccent" />

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:smaug="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.nutsplay.nopagesdk.view.CradleBall
+        android:id="@+id/ball_one"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center"
+        smaug:cradle_ball_color="@color/dotRed" />
+
+    <com.nutsplay.nopagesdk.view.CradleBall
+        android:id="@+id/ball_two"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        smaug:cradle_ball_color="@color/dotYellow"
+        android:layout_marginLeft="10dp" />
+
+    <com.nutsplay.nopagesdk.view.CradleBall
+        android:id="@+id/ball_three"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        smaug:cradle_ball_color="@color/dotBlue" />
+
+</LinearLayout>

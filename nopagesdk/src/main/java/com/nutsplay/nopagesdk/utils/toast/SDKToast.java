@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.utils.toast;
 import android.widget.Toast;
 
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 public class SDKToast {
 
@@ -23,24 +24,35 @@ public class SDKToast {
     }
 
     public void ToastShow(String tvString, int type) {
+        if (StringUtils.isEmpty(tvString)) return;
         ToastShow(tvString, Toast.LENGTH_LONG, type);
     }
 
     public void ToastShow(String tvString, int Toast_Length, int type) {
-
+        if (StringUtils.isEmpty(tvString)) return;
         if (SDKManager.getInstance().getActivity() == null) return;
         if (type == 1) {
             Toasty.success(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
-        } else if (type == 2) {
-            Toasty.info(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
-        } else if (type == 3) {
-            Toasty.warning(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
-        } else if (type == 4) {
+        } else  {
             Toasty.error(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
-        } else {
-            Toasty.info(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
         }
     }
+
+//    public void ToastShow(String tvString, int Toast_Length, int type) {
+//        if (StringUtils.isEmpty(tvString)) return;
+//        if (SDKManager.getInstance().getActivity() == null) return;
+//        if (type == 1) {
+//            Toasty.success(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
+//        } else if (type == 2) {
+//            Toasty.info(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
+//        } else if (type == 3) {
+//            Toasty.warning(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
+//        } else if (type == 4) {
+//            Toasty.error(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
+//        } else {
+//            Toasty.info(SDKManager.getInstance().getActivity(), tvString, Toast_Length, false).show();
+//        }
+//    }
 
     /**
      * 在onDestroy方法里面取消Toast,否则会关掉应用还弹Toast

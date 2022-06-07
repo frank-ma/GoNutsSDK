@@ -18,6 +18,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 import java.lang.reflect.Field;
@@ -28,11 +29,11 @@ public class Toasty {
     private static final @ColorInt
     int DEFAULT_TEXT_COLOR = Color.parseColor("#FFFFFF");
     private static final @ColorInt
-    int ERROR_COLOR = Color.parseColor("#D50000");
+    int ERROR_COLOR = Color.parseColor("#E64343");
     private static final @ColorInt
     int INFO_COLOR = Color.parseColor("#3F51B5");
     private static final @ColorInt
-    int SUCCESS_COLOR = Color.parseColor("#388E3C");
+    int SUCCESS_COLOR = Color.parseColor("#36C24D");
     private static final @ColorInt
     int WARNING_COLOR = Color.parseColor("#FFA900");
 
@@ -110,8 +111,8 @@ public class Toasty {
 
     public static @CheckResult
     Toast success(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
-                DEFAULT_TEXT_COLOR, SUCCESS_COLOR, duration, withIcon, true);
+        return custom(true,context,message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
+                DEFAULT_TEXT_COLOR, SUCCESS_COLOR, duration, withIcon, false);
     }
 
     public static @CheckResult
@@ -126,8 +127,8 @@ public class Toasty {
 
     public static @CheckResult
     Toast error(@NonNull Context context, @NonNull String message, int duration, boolean withIcon) {
-        return custom(context, message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
-                DEFAULT_TEXT_COLOR, ERROR_COLOR, duration, withIcon, true);
+        return custom(false,context, message, ToastyUtils.getDrawable(context,SDKResUtils.getResId(context,"icon_info","drawable")),
+                DEFAULT_TEXT_COLOR, ERROR_COLOR, duration, withIcon, false);
     }
 
     public static @CheckResult
@@ -161,7 +162,7 @@ public class Toasty {
         }
 
         currentToast.setGravity(Gravity.TOP,0,0);
-        final ImageView toastIcon =toastLayout.findViewById(SDKResUtils.getResId(context,"toast_icon","id"));
+        final ImageView toastIcon = toastLayout.findViewById(SDKResUtils.getResId(context,"toast_icon","id"));
         final TextView toastTextView = toastLayout.findViewById(SDKResUtils.getResId(context,"toast_text","id"));
         Drawable drawableFrame;
 
@@ -180,6 +181,7 @@ public class Toasty {
         } else {
             toastIcon.setVisibility(View.GONE);
         }
+        SDKGameUtils.setTypeFaceBold(context,toastTextView);//自定义字体
         toastTextView.setTextColor(textColor);
         toastTextView.setText(message);
         toastTextView.setTypeface(Typeface.create(TOAST_TYPEFACE, Typeface.NORMAL));
@@ -201,6 +203,43 @@ public class Toasty {
 //            e.printStackTrace();
 //        }
 
+        return currentToast;
+    }
+
+    /**
+     * 自定义Toast
+     * @param isSuccess
+     * @param context
+     * @param message
+     * @param icon
+     * @param textColor
+     * @param tintColor
+     * @param duration
+     * @param withIcon
+     * @param shouldTint
+     * @return
+     */
+    public static @CheckResult
+    Toast custom(boolean isSuccess, @NonNull Context context, @NonNull String message, Drawable icon,
+                 @ColorInt int textColor, @ColorInt int tintColor, int duration,
+                 boolean withIcon, boolean shouldTint) {
+        currentToast = new Toast(context);
+        final View toastLayout;
+        int resource = 0;
+        if (isSuccess) {
+            resource = SDKResUtils.getResId(context, "nuts2_toast_success", "layout");
+        } else {
+            resource = SDKResUtils.getResId(context, "nuts2_toast_fail", "layout");
+        }
+        toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
+
+        currentToast.setGravity(Gravity.TOP, 0, 0);
+        TextView toastTextView = toastLayout.findViewById(SDKResUtils.getResId(context, "toast_text", "id"));
+        SDKGameUtils.setTypeFaceBold(context, toastTextView);//自定义字体
+        toastTextView.setTextColor(textColor);
+        toastTextView.setText(message);
+        currentToast.setView(toastLayout);
+        currentToast.setDuration(duration);
         return currentToast;
     }
 

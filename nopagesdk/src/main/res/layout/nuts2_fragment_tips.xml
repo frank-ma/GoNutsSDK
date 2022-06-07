@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="290dp"
+        android:layout_height="154dp"
+        android:background="@drawable/shape_login_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="17sp"
+                android:textColor="@color/color_4c506b"
+                android:text="Tips"/>
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:layout_margin="17dp"
+            android:textColor="@color/color_696969"
+            android:text="The guest account is only for experience,for you account security,please bind a new account."/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:blurRadius="10dp"
+                app:shadowColor="@color/color_0c67ff"
+                app:shadowRadius="20dp"
+                app:xOffset="0dp"
+                app:yOffset="6px">
+                <TextView
+                    android:id="@+id/tv_enter_game"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="Enter Game"
+                    android:textColor="@color/white"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:background="@drawable/selector_button_blue"/>
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                app:blurRadius="10dp"
+                app:shadowColor="@color/color_812dff"
+                app:shadowRadius="20dp"
+                app:xOffset="0dp"
+                app:yOffset="6px">
+                <TextView
+                    android:id="@+id/tv_bind"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:textSize="12sp"
+                    android:text="Bind Email"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:background="@drawable/selector_button_purple"/>
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -29,6 +29,7 @@ import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.beans.SDKResult;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
+import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -53,7 +54,7 @@ import com.nutsplay.nopagesdk.network.NetUtils;
 import com.nutsplay.nopagesdk.ui.BindTipDialog;
 import com.nutsplay.nopagesdk.ui.FBAppRequestActivity;
 import com.nutsplay.nopagesdk.ui.FBLoginActivity;
-import com.nutsplay.nopagesdk.ui.FirstDialog;
+import com.nutsplay.nopagesdk.ui.LoginOptionsDialog;
 import com.nutsplay.nopagesdk.ui.PayWebActivity;
 import com.nutsplay.nopagesdk.ui.ScreenShotActivity;
 import com.nutsplay.nopagesdk.ui.UserAgreementDialog;
@@ -95,6 +96,8 @@ public class SDKManager {
 
     private Activity activity;
 
+    private LoginCallBack loginCallBack;
+
     private PurchaseCallBack purchaseCallBack;
 
     private ShareResultCallBack shareResultCallBack;
@@ -106,6 +109,7 @@ public class SDKManager {
 
     private boolean initStatus = false;
     private boolean aiHelpInitStatus = false;
+    private boolean isLogin = false;
 
     public static SDKManager getInstance() {
         if (INSTANCE == null) {
@@ -124,6 +128,14 @@ public class SDKManager {
 
     public void setInitParameter(InitParameter initParameter) {
         this.initParameter = initParameter;
+    }
+
+    public LoginCallBack getLoginCallBack() {
+        return loginCallBack;
+    }
+
+    public void setLoginCallBack(LoginCallBack loginCallBack) {
+        this.loginCallBack = loginCallBack;
     }
 
     public Activity getActivity() {
@@ -174,6 +186,37 @@ public class SDKManager {
         SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_user, token);
     }
 
+    public User getTempUser() {
+        return (User) SPManager.getInstance(getActivity()).getBean(SPKey.key_bean_data_user_temp);
+    }
+
+    public void setTempUser(User token) {
+        SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_user_temp, token);
+    }
+
+    //备份用户信息
+    public void backupUser() {
+        if (getUser() != null){
+            setTempUser(getUser());
+        }
+    }
+
+    //恢复用户信息
+    public void restoreUser() {
+        if (getTempUser() != null){
+            setLogin(true);
+            setUser(getTempUser());
+        }
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
     public boolean isInitStatus() {
         return initStatus;
     }
@@ -185,7 +228,7 @@ public class SDKManager {
     public void showProgress(Activity activity) {
         try {
             if (null == progressDialog)
-                progressDialog = SDKProgressDialog.createProgrssDialog(activity, "Loading...");
+                progressDialog = SDKProgressDialog.createProgressDialog(activity, "");
             if (null != progressDialog && !progressDialog.isShowing()) {
                 progressDialog.show();
                 progressDialog.setCancelable(true);
@@ -212,7 +255,7 @@ public class SDKManager {
     public void showProgress(Activity activity,String msg) {
         try {
             if (null == progressDialog){
-                progressDialog = SDKProgressDialog.createProgrssDialog(activity, msg);
+                progressDialog = SDKProgressDialog.createProgressDialog(activity, msg);
             }
             if (null != progressDialog && !progressDialog.isShowing()) {
                 progressDialog.show();
@@ -284,7 +327,7 @@ public class SDKManager {
      * @param initParameter
      * @param initCallBack
      */
-    public void initSDK(final Activity activity, final InitParameter initParameter,final InitCallBack initCallBack) {
+    public void initSDK( Activity activity,  InitParameter initParameter, InitCallBack initCallBack) {
         try {
             if (activity == null) {
                 System.out.println("initSDK failed:Activity is null.");
@@ -372,11 +415,13 @@ public class SDKManager {
                 public void onSuccess(String result) {
 
                     if (result == null || result.isEmpty()){
+                        hideProgress();
                         initCallBack.onFailure(SDKConstant.get_public_key_null,"response null");
                         return;
                     }
                     SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(result, SDKResult.class);
                     if (sdkResult == null) {
+                        hideProgress();
                         initCallBack.onFailure(SDKConstant.get_public_key_format_error,"sdkResult is null：json解析格式错误");
                         return;
                     }
@@ -388,8 +433,9 @@ public class SDKManager {
                         //初始化接口go
                         doSdkInit(activity, initCallBack);
                     } else {
+                        hideProgress();
                         SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
-                        initCallBack.onFailure(SDKConstant.get_public_key_other_code+sdkResult.getCode(),sdkResult.getMessage());
+                        initCallBack.onFailure(SDKConstant.get_public_key_other_code,"code:"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
                         SDKManager.getInstance().sdkUploadLog(activity,"get_public_key_other_code","getRASPublicKey:resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
                     }
                 }
@@ -425,15 +471,20 @@ public class SDKManager {
         }
         boolean isFirstOpen = SPManager.getInstance(activity).getBoolean(SPKey.key_first_open,true);
         if (isFirstOpen){
-            UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, false,new ResultCallBack() {
+            UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, new AgreementCallBack() {
                 @Override
                 public void onSuccess() {
                     doCallback(initCallBack);
                 }
                 @Override
-                public void onFailure(String msg) {
+                public void onFail(int code,String msg) {
                     setInitStatus(false);
                     initCallBack.onFailure(SDKConstant.refuse_protocol,msg);
+                }
+                @Override
+                public void onCancel() {
+                    setInitStatus(false);
+                    initCallBack.onFailure(SDKConstant.refuse_protocol,"user refuse protocol");
                 }
             });
             builder.create().show();
@@ -458,23 +509,14 @@ public class SDKManager {
      *
      * @param activity
      */
-    public void showUserAgreement(Activity activity){
+    public void showUserAgreement(Activity activity,AgreementCallBack callBack){
         if (!isInitStatus()) {
             System.out.println("请先初始化SDK");
             return;
         }
+        if (callBack == null) return;
         if (!getInitParameter().isShowUserAgreement()) return;
-        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, true,new ResultCallBack() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-            }
-        });
+        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, callBack);
         builder.create().show();
     }
 
@@ -676,7 +718,7 @@ public class SDKManager {
             }
 
             //账号检查
-            if (!SDKGameUtils.matchAccountReg(userName) || !SDKGameUtils.matchPw(pwd)) {
+            if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
                 return;
             }
 
@@ -768,6 +810,8 @@ public class SDKManager {
                 System.out.println("sdkLogin failed:loginCallBack is null.");
                 return;
             }
+            SDKManager.getInstance().setLoginCallBack(loginCallBack);
+
             //未初始化则重新初始化一次
             if (!isInitStatus()) {
                 Log.e(TAG,"The SDK is not initialized.");
@@ -817,7 +861,7 @@ public class SDKManager {
 
                 }
             }
-            FirstDialog.Builder builder = new FirstDialog.Builder(activity, loginCallBack,isLogin);
+            LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
             builder.create().show();
 
 
@@ -841,6 +885,7 @@ public class SDKManager {
                 System.out.println("sdkDefaultLogin failed:loginCallBack is null.");
                 return;
             }
+            SDKManager.getInstance().setLoginCallBack(loginCallBack);
             if (activity == null) {
                 System.out.println("initSDK failed:Activity is null.");
                 return;
@@ -997,6 +1042,7 @@ public class SDKManager {
             System.out.println("sdkSwitchAccount failed:loginCallBack is null.");
             return;
         }
+        SDKManager.getInstance().setLoginCallBack(loginCallBack);
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
@@ -2635,19 +2681,6 @@ public class SDKManager {
         UserCenterDialog.Builder builder = new UserCenterDialog.Builder(activity);
         builder.create().show();
 
-//        //TODO
-//        //打开用户中心的时候，进行埋点
-//        SDKManager.getInstance().installReferrer(activity, new InstallCallBack() {
-//            @Override
-//            public void onSuccess(String msg) {
-//                Log.d(TAG,"installReferrer-"+msg);
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//                Log.d(TAG,"installReferrer-"+msg);
-//            }
-//        });
     }
 
     /**

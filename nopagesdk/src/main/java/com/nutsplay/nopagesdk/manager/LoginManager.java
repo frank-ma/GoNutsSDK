@@ -19,7 +19,9 @@ import com.nutspower.commonlibrary.utils.StringUtils;
 /**
  * Created by frankma on 2019-09-23 22:05
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 登录管理界面
+ * 因为经常会换谷歌开发者账号，所以谷歌登录被我们弃用了
+ *
  */
 public class LoginManager {
 

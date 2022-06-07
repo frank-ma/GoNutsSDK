@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="DialogStyle">
+    <style name="DialogStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -18,14 +18,20 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:translationZ" tools:targetApi="lollipop">4dp</item>
+        <item name="android:translationZ" tools:targetApi="lollipop">10dp</item>
         <item name="android:background">@drawable/drawable_10</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="dialog_anim_style">
-<!--        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>-->
-<!--        <item name="android:windowExitAnimation">@anim/slide_out_right</item>-->
+        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <declare-styleable name="CradleBall">
+        <attr name="cradle_ball_color" format="color"/>
+    </declare-styleable>
 </resources>

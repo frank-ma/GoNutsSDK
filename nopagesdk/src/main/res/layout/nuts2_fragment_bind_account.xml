@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:background="@drawable/shape_login_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:visibility="gone"
+                android:src="@drawable/button_return_36" />
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:src="@drawable/button_close_black" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_bind_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_977cdc"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Create an new account that you will bind to:"/>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            app:blurRadius="10dp"
+            app:shadowColor="@color/color_efefef"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="8px">
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_bg_white">
+
+                <ImageView
+                    android:id="@+id/icon_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_grey_user"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40dp"/>
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Please enter an username(6-14)"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_4c506b"
+                    android:layout_marginLeft="10dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_done"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="invisible"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="40dp"/>
+
+            </LinearLayout>
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:blurRadius="10dp"
+            app:shadowColor="@color/color_efefef"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="8px">
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_bg_white">
+
+                <ImageView
+                    android:id="@+id/icon_psw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_grey_lock"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40dp"/>
+
+                <EditText
+                    android:id="@+id/et_pwd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:hint="Please enter password(4-18)"
+                    android:inputType="textPassword"
+                    android:textColor="@color/color_4c506b"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginLeft="10dp"/>
+
+                <ToggleButton
+                    android:id="@+id/pwd_toggle"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/icon_grey_visibility_off"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:textOn=""
+                    android:textOff=""/>
+            </LinearLayout>
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:id="@+id/login_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            app:blurRadius="16px"
+            app:shadowColor="@color/color_9868f0"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="10px">
+
+            <TextView
+                android:id="@+id/tv_bind"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_button_purple"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Bind"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+    </LinearLayout>
+</FrameLayout>

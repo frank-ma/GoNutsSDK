@@ -186,7 +186,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     LogUtils.d(TAG, "queryPurchase:purchaseList.size()----" + purchasesList.size());
                     if (!isBuy && purchasesList.size() == 0) {
-                        LogUtils.d(TAG, "没有掉单");
+                        LogUtils.d(TAG, "no lost order");
                         destroy();
                         return;
                     }
@@ -197,7 +197,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         //消耗型商品
                         if (purchasesList.size() == 0) {
                             //没有掉单，直接购买
-                            LogUtils.d(TAG, "没有掉单");
+                            LogUtils.d(TAG, "no lost order");
                             if (isBuy) launchBillingFlow(skuId, itemType,transactionId);
                         } else {
                             //有掉单，先补单

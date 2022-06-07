@@ -3,6 +3,7 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -18,35 +19,34 @@ import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
-import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
 /**
  * Created by frankma on 2019-10-09 18:22
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 绑定邮箱窗口
  */
-public class EmailBindDialog extends Dialog {
+public class BindEmailDialog extends Dialog {
 
-    public EmailBindDialog(@NonNull Context context) {
+    public BindEmailDialog(@NonNull Context context) {
         super(context);
         Window window = getWindow();
         if (window == null) return;
         window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
     }
 
-    public EmailBindDialog(@NonNull Context context, int themeResId) {
+    public BindEmailDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
 
-    protected EmailBindDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    protected BindEmailDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
     public static class Builder {
 
         private Context context;
-//        private static Handler handler;
-        private long lastTime = 0;
+        private TextView btnSend;
+        private int recLen = 60;
         ResultCallBack resultCallBack;
 
         public Builder(Context context,ResultCallBack resultCallBack) {
@@ -54,23 +54,30 @@ public class EmailBindDialog extends Dialog {
             this.resultCallBack = resultCallBack;
         }
 
-        public EmailBindDialog create() {
+        public BindEmailDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final EmailBindDialog dialog = new EmailBindDialog(context);
+            final BindEmailDialog dialog = new BindEmailDialog(context);
             if (inflater == null) return dialog;
             View layout;
             if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_email_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_email", "layout"), null);
             }else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_email", "layout"), null);
             }
 
-            TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
+            TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView title = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
             final EditText email = layout.findViewById(SDKResUtils.getResId(context, "et_email", "id"));
             final EditText verificationCode = layout.findViewById(SDKResUtils.getResId(context, "et_verification_code", "id"));
-            final TextView btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
+            btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
+            ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
+
+            //设置自定义字体
+            SDKGameUtils.setTypeFace(context,title);
+            SDKGameUtils.setTypeFaceBold(context,btnSend);
+            SDKGameUtils.setTypeFaceBold(context,bind);
+
 
             //多语言适配
             title.setText(SDKLangConfig.getInstance().findMessage("str_bind_email"));
@@ -79,58 +86,28 @@ public class EmailBindDialog extends Dialog {
             btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
             bind.setText(SDKLangConfig.getInstance().findMessage("bind"));
 
-
-//            handler = new Handler(Looper.getMainLooper()){
-//                @Override
-//                public void handleMessage(@NonNull Message msg) {
-//                    super.handleMessage(msg);
-//                    switch (msg.what){
-//                        case 0:
-//                            String time = (String) msg.obj;
-//                            if (time == null) return;
-//                            btnSend.setText(time);
-//                            break;
-//                        case 1:
-//                            btnSend.setEnabled(true);
-//                            btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
-//                            break;
-//                        case 2:
-//                            btnSend.setEnabled(false);
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                }
-//            };
-
             //发送邮箱验证码
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String emailAddress = email.getText().toString();
-                    if (emailAddress.isEmpty()){
-                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
-                        return;
-                    }
-                    if (!SDKGameUtils.matchEmail(emailAddress)) return;
-                    //防止快速点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastTime < 600000) {
-                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_Emailhasbeenbound"), 3);
+                    if (SDKGameUtils.isMultiClicks()) {
                         return;
                     }
 
+                    String emailAddress = email.getText().toString();
+                    if (!SDKGameUtils.matchEmail(context,email,emailAddress)) return;
                     SDKManager.getInstance().sdkUserBindEmailSendCode((Activity) context, emailAddress, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            lastTime = System.currentTimeMillis();
-                            //发送验证码成功，开始计时20s
-//                            countDown(context,btnSend);
+                            //开始倒计时
+                            btnSend.setBackgroundResource(SDKResUtils.getResId(context,"shape_bg_time","drawable"));
+                            handler.postDelayed(runnable, 1000);
+                            btnSend.setClickable(false);
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            btnSend.setClickable(true);
                         }
                     });
 
@@ -142,17 +119,10 @@ public class EmailBindDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     String emailAddress = email.getText().toString();
-                    if (emailAddress.isEmpty()){
-                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_null"), 3);
-                        return;
-                    }
-                    if (!SDKGameUtils.matchEmail(emailAddress)) return;
+                    if (!SDKGameUtils.matchEmail(context,email,emailAddress)) return;
 
                     String code = verificationCode.getText().toString();
-                    if (code.isEmpty()) {
-                        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("39"),3);
-                        return;
-                    }
+                    if (!SDKGameUtils.matchCode(context,verificationCode,code)) return;
 
                     SDKManager.getInstance().sdkUserBindEmail((Activity) context, emailAddress, code, new ResultCallBack() {
                         @Override
@@ -178,6 +148,14 @@ public class EmailBindDialog extends Dialog {
                 }
             });
 
+            //关闭
+            imgClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
             dialog.setContentView(layout);
             if (dialog.getWindow()!=null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialog.setCancelable(false);
@@ -188,27 +166,23 @@ public class EmailBindDialog extends Dialog {
         /**
          * 倒计时显示
          */
-//        private void countDown(final Context context, final TextView button) {
-//
-//            handler.sendEmptyMessage(2);
-//            CountDownTimer timer = new CountDownTimer(20000,1000) {
-//                @Override
-//                public void onTick(final long millisUntilFinished) {
-//                    Message message = new Message();
-//                    message.what = 0;
-//                    message.obj = millisUntilFinished / 1000 + "s";
-//                    handler.sendMessage(message);
-//
-//                }
-//
-//                @Override
-//                public void onFinish() {
-//                    Message message = new Message();
-//                    message.what = 1;
-//                    handler.sendMessage(message);
-//                }
-//            }.start();
-//        }
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                recLen--;
+                if (recLen == 0) {
+                    btnSend.setClickable(true);
+                    btnSend.setText(SDKLangConfig.getInstance().findMessage("26"));
+                    btnSend.setBackgroundResource(SDKResUtils.getResId(context,"shape_bg_blue","drawable"));
+                    recLen = 60;
+                    return;
+                }
+                btnSend.setText(recLen + "s");
+                handler.postDelayed(this, 1000);
+
+            }
+        };
 
     }
 

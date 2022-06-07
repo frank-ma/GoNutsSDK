@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="512dp"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:background="@drawable/shape_bg_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Agreement"
+                android:textSize="16sp"
+                android:fontFamily="@assets/Helvetica Bold"
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_8168b8"/>
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:padding="4dp"
+                android:src="@drawable/button_close_black"/>
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="182dp"
+            android:padding="14dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_bg_gray">
+
+            <TextView
+                android:id="@+id/user_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=""
+                android:textColor="@color/color_696969"/>
+        </ScrollView>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:id="@+id/login_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            app:blurRadius="16px"
+            app:shadowColor="@color/color_9868f0"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="10px">
+
+            <TextView
+                android:id="@+id/tv_accept"
+                android:layout_width="450dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_button_purple"
+                android:gravity="center"
+                android:text="Agree"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+    </LinearLayout>
+
+</FrameLayout>

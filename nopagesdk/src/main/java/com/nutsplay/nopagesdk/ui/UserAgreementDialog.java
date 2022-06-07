@@ -13,9 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKKernel;
+import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
@@ -44,13 +46,11 @@ public class UserAgreementDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private boolean isCanClose;
-        private ResultCallBack resultCallBack;
+        private AgreementCallBack callBack;
 
-        public Builder(Context context, boolean isCanClose,ResultCallBack resultCallBack) {
+        public Builder(Context context, AgreementCallBack callBack) {
             this.context = context;
-            this.isCanClose = isCanClose;
-            this.resultCallBack = resultCallBack;
+            this.callBack = callBack;
         }
 
         public UserAgreementDialog create() {
@@ -59,23 +59,21 @@ public class UserAgreementDialog extends Dialog {
             if (inflater == null) return dialog;
             View layout;
             if (SDKManager.getInstance().isCommonVersion()) {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_agreement_normal", "layout"), null);
+                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_useragreement", "layout"), null);
             } else {
                 layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_agreement", "layout"), null);
             }
 
-            ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
+            ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "ic_close", "id"));
             TextView protocolContent = layout.findViewById(SDKResUtils.getResId(context, "user_agreement", "id"));
             TextView accept = layout.findViewById(SDKResUtils.getResId(context, "tv_accept", "id"));
+            TextView title = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
 
-            if (isCanClose){
-                closeIv.setVisibility(View.VISIBLE);
-            }else {
-                closeIv.setVisibility(View.GONE);
-            }
-
-
-//            accept.setText(SDKLangConfig.getInstance().findMessage("accept"));
+            //设置自定义字体
+            SDKGameUtils.setTypeFaceBold(context,title);
+            SDKGameUtils.setTypeFace(context,protocolContent);
+            SDKGameUtils.setTypeFaceBold(context,accept);
+            accept.setText(SDKLangConfig.getInstance().findMessage("accept"));
             //设置TextView的内容可以滚动
             protocolContent.setMovementMethod(ScrollingMovementMethod.getInstance());
 
@@ -94,7 +92,7 @@ public class UserAgreementDialog extends Dialog {
                 public void onClick(View v) {
 
                     if (context == null) return;
-                    resultCallBack.onSuccess();
+                    callBack.onSuccess();
                     SPManager.getInstance(context).putBoolean(SPKey.key_first_open,false);
                     dialog.dismiss();
                 }
@@ -104,7 +102,7 @@ public class UserAgreementDialog extends Dialog {
             closeIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    callBack.onCancel();
                     dialog.dismiss();
                 }
             });
