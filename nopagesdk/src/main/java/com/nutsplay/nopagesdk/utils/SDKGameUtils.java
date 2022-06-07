@@ -202,10 +202,10 @@ public class SDKGameUtils {
         boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -221,11 +221,11 @@ public class SDKGameUtils {
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
             doneView.setVisibility(View.INVISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_da6a6a","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
             doneView.setVisibility(View.VISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_4c506b","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -261,10 +261,10 @@ public class SDKGameUtils {
         boolean isMatch = code.matches("\\w{4,24}");
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("40"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -361,7 +361,6 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
-
             return false;
         }
         return true;
@@ -377,9 +376,12 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("41"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     public static boolean match2Pw(Context context, EditText pswEt,EditText pswEt2){
@@ -387,9 +389,14 @@ public class SDKGameUtils {
         if (!matchPw(context,pswEt2,pswEt2.getText().toString())) return false;
         if (!pswEt.getText().toString().equals(pswEt2.getText().toString())){
             showPopWindow(context,pswEt2,SDKLangConfig.getInstance().findMessage("pwd_different"));
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     /**

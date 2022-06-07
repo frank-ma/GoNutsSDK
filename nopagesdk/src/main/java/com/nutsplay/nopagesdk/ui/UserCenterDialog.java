@@ -209,7 +209,7 @@ public class UserCenterDialog extends Dialog {
             if (user == null ) return;
             String sdkmemberType = user.getSdkmemberType();
             if (StringUtils.isEmpty(sdkmemberType)) return;
-            if (!user.getUserName().isEmpty()){
+            if (!user.getUserName().isEmpty() && sdkmemberType.equals(SDKConstant.TYPE_GUEST)){
                 sdkmemberType = SDKConstant.TYPE_ACCOUNT;
             }
             switch (sdkmemberType){

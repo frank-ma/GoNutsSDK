@@ -20,7 +20,6 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -147,11 +146,9 @@ public class LoginDialog extends Dialog {
                     }
                     if (!SDKGameUtils.matchPw(context,pwd,pwd.getText().toString())){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     //登录账号

@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -76,8 +77,8 @@ public class ResetPwdDialog extends Dialog {
             final EditText accountEt = layout.findViewById(SDKResUtils.getResId(context, "et_account", "id"));
             btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
             final EditText verificationCode = layout.findViewById(SDKResUtils.getResId(context, "et_verification_code", "id"));
-            final EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
-            final EditText newPwdRepeat = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd_repeat", "id"));
+            EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
+            EditText newPwdRepeat = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd_repeat", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
 
@@ -148,6 +149,7 @@ public class ResetPwdDialog extends Dialog {
 
             //重置密码
             reset.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
 

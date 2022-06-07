@@ -108,10 +108,10 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:padding="6dp"
+                        android:padding="4dp"
                         android:text="Send the Code"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                 </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
@@ -201,8 +201,8 @@
 
                 <ToggleButton
                     android:id="@+id/pwd_toggle"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:background="@drawable/icon_grey_visibility_off"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="40dp"

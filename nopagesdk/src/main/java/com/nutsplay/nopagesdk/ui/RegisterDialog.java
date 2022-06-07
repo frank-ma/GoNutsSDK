@@ -19,7 +19,6 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
@@ -130,11 +129,9 @@ public class RegisterDialog extends Dialog {
                     //判断密码
                     if (!SDKGameUtils.match2Pw(context,pwd,repeatPwd)){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     if (!psw.equals(rePsw)) {

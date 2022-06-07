@@ -129,8 +129,8 @@
 
                 <ToggleButton
                     android:id="@+id/pwd_toggle"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:background="@drawable/icon_grey_visibility_off"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="40dp"
