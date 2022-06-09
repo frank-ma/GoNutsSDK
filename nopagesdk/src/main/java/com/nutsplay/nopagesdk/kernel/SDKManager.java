@@ -45,6 +45,7 @@ import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
+import com.nutsplay.nopagesdk.manager.CustomerServiceManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
 import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.LoginManager;
@@ -365,7 +366,7 @@ public class SDKManager {
             SDKGameUtils.getKeyHash(activity);
 
             //初始化客服系统
-//            initAiHelp(activity, initParameter,null);
+            CustomerServiceManager.initAiHelp(activity,initParameter);
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -380,7 +381,7 @@ public class SDKManager {
      * 初始化AiHelp客服系统
      */
 //    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
-
+//
 //        try {
 //            AIHelpSupport.init(
 //                    activity,

@@ -10,7 +10,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.api.FbLoginListener;
@@ -31,10 +30,14 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
-import com.nutspower.nutsgamesdk.R;
 
+
+import com.nutspower.nutsgamesdk.R;
 import java.util.ArrayList;
 import java.util.List;
+
+
+
 
 public class MainActivity extends SDKBaseActivity {
     private static final String TAG = "MainActivity";
@@ -42,14 +45,14 @@ public class MainActivity extends SDKBaseActivity {
 
 //    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "36386748bb";
-//    String referenceId = "com.nutspower.nutsgamesdk.sub2";
+    String referenceId = "com.nutspower.nutsgamesdk.sub2";
 
 
 
     private String clientId = "5dad5c14e73f210d548bf491";
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
-    String referenceId = "gem_0001";
+//    String referenceId = "gem_0001";
 
     private TextView logTv,webTv,login;
     private Button initB,defaultLogin;
@@ -96,6 +99,9 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -277,10 +283,10 @@ public class MainActivity extends SDKBaseActivity {
      */
 
     public void purchase(View view) {
-//        String referenceId = "com.nutspower.nutsgamesdk.test2";
+        String referenceId = "com.nutspower.nutsgamesdk.test2";
 //        String referenceId = "nuts_product_1";
 //        String referenceId = "gem_0001";
-        String referenceId = "ppa.test.item1";
+//        String referenceId = "ppa.test.item1";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -922,4 +928,7 @@ public class MainActivity extends SDKBaseActivity {
     }
 
 
+    public void clear(View view) {
+        logTv.setText("");
+    }
 }

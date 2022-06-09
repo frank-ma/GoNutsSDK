@@ -69,6 +69,8 @@ dependencies {
     //动画加载库Lottie
     api 'com.airbnb.android:lottie:5.0.3'
 
+    //AIHelp客服
+    api 'net.aihelp:android-aihelp-aar:2.4.12'
 }
 
 

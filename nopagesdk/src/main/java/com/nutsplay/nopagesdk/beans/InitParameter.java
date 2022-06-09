@@ -21,9 +21,9 @@ public class InitParameter implements Serializable {
     private boolean hasUI = true;
     private boolean showUserAgreement = true;
     private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
-//    private String aihelpAppkey="";
-//    private String aihelpDomain="";
-//    private String aihelpAppID="";
+    private String aihelpAppkey="";
+    private String aihelpDomain="";
+    private String aihelpAppID="";
 
     public String getClientId() {
         return clientId;
@@ -103,29 +103,29 @@ public class InitParameter implements Serializable {
         this.UIVersion = UIVersion;
     }
 
-//    public String getAihelpAppkey() {
-//        return aihelpAppkey;
-//    }
-//
-//    public void setAihelpAppkey(String aihelpAppkey) {
-//        this.aihelpAppkey = aihelpAppkey;
-//    }
-//
-//    public String getAihelpDomain() {
-//        return aihelpDomain;
-//    }
-//
-//    public void setAihelpDomain(String aihelpDomain) {
-//        this.aihelpDomain = aihelpDomain;
-//    }
-//
-//    public String getAihelpAppID() {
-//        return aihelpAppID;
-//    }
-//
-//    public void setAihelpAppID(String aihelpAppID) {
-//        this.aihelpAppID = aihelpAppID;
-//    }
+    public String getAihelpAppkey() {
+        return aihelpAppkey;
+    }
+
+    public void setAihelpAppkey(String aihelpAppkey) {
+        this.aihelpAppkey = aihelpAppkey;
+    }
+
+    public String getAihelpDomain() {
+        return aihelpDomain;
+    }
+
+    public void setAihelpDomain(String aihelpDomain) {
+        this.aihelpDomain = aihelpDomain;
+    }
+
+    public String getAihelpAppID() {
+        return aihelpAppID;
+    }
+
+    public void setAihelpAppID(String aihelpAppID) {
+        this.aihelpAppID = aihelpAppID;
+    }
 
     public boolean isShowUserAgreement() {
         return showUserAgreement;

@@ -388,6 +388,13 @@
                 android:onClick="vi"
                 android:text="越南语"
                 android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="clear"
+                android:text="清空日志"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout

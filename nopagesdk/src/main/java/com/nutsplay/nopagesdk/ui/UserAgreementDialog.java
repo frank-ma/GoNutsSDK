@@ -73,6 +73,8 @@ public class UserAgreementDialog extends Dialog {
             SDKGameUtils.setTypeFaceBold(context,title);
             SDKGameUtils.setTypeFace(context,protocolContent);
             SDKGameUtils.setTypeFaceBold(context,accept);
+
+            title.setText(SDKLangConfig.getInstance().findMessage("userAgreement"));
             accept.setText(SDKLangConfig.getInstance().findMessage("accept"));
             //设置TextView的内容可以滚动
             protocolContent.setMovementMethod(ScrollingMovementMethod.getInstance());
