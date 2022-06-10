@@ -33,17 +33,31 @@
                 android:paddingTop="2dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="2dp"
+                android:layout_centerVertical="true"
                 android:text="Hi-Sarah\n1**n@qq.com"
                 android:textColor="@color/color_4c506b"
-                android:textSize="15sp" />
+                android:textSize="11sp" />
 
-            <ImageView
-                android:id="@+id/user_icon"
-                android:layout_width="43dp"
-                android:layout_height="43dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="43dp"
-                android:src="@drawable/usercenter_nuts_account" />
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:blurRadius="0dp"
+                app:shadowColor="@color/color_812dff"
+                app:shadowRadius="55dp"
+                android:layout_marginLeft="40dp"
+                app:xOffset="0dp"
+                app:yOffset="0px">
+
+                <ImageView
+                    android:id="@+id/user_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/usercenter_nuts_account" />
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
             <ImageView
                 android:id="@+id/img_close"
@@ -91,11 +105,11 @@
                     android:background="@drawable/selector_button_green"
                     android:drawableLeft="@drawable/icon_customer_service"
                     android:ellipsize="end"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
-                    android:drawablePadding="-40dp"
+                    android:drawablePadding="37dp"
                     android:text="Customer Service"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
@@ -122,11 +136,11 @@
                     android:background="@drawable/shape_button_facebook"
                     android:drawableLeft="@drawable/icon_facebook"
                     android:ellipsize="end"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
-                    android:drawablePadding="-60dp"
+                    android:drawablePadding="37dp"
                     android:text="Bind Facebook"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
@@ -189,9 +203,9 @@
                     android:layout_gravity="center"
                     android:background="@drawable/selector_button_orange"
                     android:drawableLeft="@drawable/icon_reset_password"
-                    android:drawablePadding="-50dp"
+                    android:drawablePadding="37dp"
                     android:ellipsize="end"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"

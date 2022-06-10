@@ -19,7 +19,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
+import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -51,10 +51,10 @@ public class RegisterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private RegisterResultCallBack registerCallBack;
-        public Builder(Context context,RegisterResultCallBack registerCallBack) {
+        private LoginCallBack loginCallBack;
+        public Builder(Context context, LoginCallBack loginCallBack) {
             this.context = context;
-            this.registerCallBack = registerCallBack;
+            this.loginCallBack = loginCallBack;
         }
 
         public RegisterDialog create() {
@@ -138,10 +138,9 @@ public class RegisterDialog extends Dialog {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                         return;
                     }
-                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {
+                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            if (registerCallBack != null) registerCallBack.onSuccess(account,psw);
                             dialog.dismiss();
                             //注册成功
 //                            SaveUserInfoDialog.Builder builder = new SaveUserInfoDialog.Builder(context,account,psw);

@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.LoginManager;
+import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
@@ -76,13 +77,8 @@ public class LoginOptionsDialog extends Dialog {
             View llRegister = layout.findViewById(SDKResUtils.getResId(context,"ll_register","id"));
 
 
-            //切换账号时显示关闭按钮
-            if (isLogin){
-                closeImg.setVisibility(View.INVISIBLE);
-            }else {
-                closeImg.setVisibility(View.VISIBLE);
-            }
-
+            //切换账号时显示Close按钮
+            closeImg.setVisibility(isLogin ? View.INVISIBLE:View.VISIBLE);
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context,visitorLogin);
@@ -106,7 +102,7 @@ public class LoginOptionsDialog extends Dialog {
 
 //                    SDKManager.getInstance().showEmptyProgress((Activity) context);
                     SDKManager.getInstance().showProgress((Activity) context);
-                    LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                    NutsLoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
@@ -148,17 +144,7 @@ public class LoginOptionsDialog extends Dialog {
                     }
                     SDKManager.getInstance().handleLogout((Activity) context);
 
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
-                        @Override
-                        public void onSuccess(String account, String pwd) {
-                            System.out.println(account+"---"+pwd);
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                            System.out.println(msg);
-                        }
-                    });
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack);
                     builder.create().show();
                     dialog.dismiss();
                 }
@@ -175,7 +161,7 @@ public class LoginOptionsDialog extends Dialog {
                     SDKManager.getInstance().handleLogout((Activity) context);
 
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
-                    LoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                    NutsLoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
