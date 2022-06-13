@@ -69,8 +69,8 @@ public class BindTipDialog extends Dialog {
             //设置自定义字体
             SDKGameUtils.setTypeFace(context,tvTips);
             SDKGameUtils.setTypeFace(context,tvContent);
-            SDKGameUtils.setTypeFace(context,bind);
-            SDKGameUtils.setTypeFace(context,enterGame);
+            SDKGameUtils.setTypeFaceBold(context,bind);
+            SDKGameUtils.setTypeFaceBold(context,enterGame);
 
 
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));

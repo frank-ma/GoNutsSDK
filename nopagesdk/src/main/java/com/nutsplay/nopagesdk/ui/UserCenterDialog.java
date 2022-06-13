@@ -274,7 +274,7 @@ public class UserCenterDialog extends Dialog {
                     resetPwd.setVisibility(StringUtils.isEmpty(data.getBindEmail())? View.GONE:View.VISIBLE);
 
                     resId = SDKResUtils.getResId(context,"usercenter_nuts_account","drawable");
-                    msg += "UserName："+ data.getBindAccount();
+                    msg += SDKLangConfig.getInstance().findMessage("account_which_bind_email") + "：" + data.getBindAccount();
                     if (StringUtils.isEmpty(data.getBindEmail())) break;
                     String bindEmailStr = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail") + SDKGameUtils.hideEmail(data.getBindEmail());
                     msg += "\n"+ bindEmailStr;

@@ -72,6 +72,8 @@ import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
+import net.aihelp.init.AIHelpSupport;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileInputStream;
@@ -841,7 +843,7 @@ public class SDKManager {
                     boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
                     if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType()) && !hasBind) {
 
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 10) {
+                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
 
                             BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
                             builder.create().show();
@@ -1853,8 +1855,7 @@ public class SDKManager {
             return;
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
-//        ELvaChatServiceSdk.setSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
-//        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguage(language));
+        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
     }
 
 
