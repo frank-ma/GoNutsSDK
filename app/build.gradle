@@ -9,8 +9,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 4
-        versionName "2.7"
+        versionCode 6
+        versionName "3.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -42,11 +42,11 @@ android {
     buildTypes {
         release {
             //开启混淆
-            minifyEnabled true
+            minifyEnabled false
             //Zipalign优化
-            zipAlignEnabled true
+            zipAlignEnabled false
             // 移除无用的resource文件
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 签名
             signingConfig signingConfigs.release
@@ -85,9 +85,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-//    implementation(name:'sdk_v2.7',ext:'aar')
+    //SDK库的引用方式：三种
+//    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v1.4'
+//    implementation 'com.github.frank-ma:GoNutsSDK:v2.0.3'
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
@@ -95,6 +96,24 @@ dependencies {
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     //Stetho基本操作
     implementation 'com.facebook.stetho:stetho:1.5.0'
+
+
+
+
+//    //Google内购
+//    api 'com.android.billingclient:billing:4.0.0'//2.0.3//2.2.1//3.0.3
+//    //Gson
+//    api 'com.google.code.gson:gson:2.8.6'
+//    //google登录
+//    api 'com.google.android.gms:play-services-auth:18.0.0'
+//    //Google评价用到核心库
+//    api 'com.google.android.play:core:1.9.0'
+//    // Facebook Android SDK (everything)
+//    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
+//    //分包
+//    api 'androidx.multidex:multidex:2.0.1'
+//    //动画加载库Lottie
+//    api 'com.airbnb.android:lottie:5.0.3'
 }
 
 

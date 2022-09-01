@@ -24,7 +24,6 @@
                 android:layout_height="wrap_content"
                 android:text="User Agreement"
                 android:textSize="16sp"
-                android:fontFamily="@assets/Helvetica Bold"
                 android:layout_centerInParent="true"
                 android:textColor="@color/color_8168b8"/>
 

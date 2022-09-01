@@ -20,19 +20,14 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
-import com.nutsplay.nopagesdk.utils.toast.SDKToast;
-import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
@@ -147,37 +142,23 @@ public class LoginDialog extends Dialog {
                     }
                     if (!SDKGameUtils.matchPw(context,pwd,pwd.getText().toString())){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     //登录账号
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
-                    SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
+                    SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-
-                            if (SDKManager.getInstance().getUser() != null) {
-                                if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()) {
-                                    String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                    SDKToast.getInstance().ToastShow(content, 1);
-                                }
-                                if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-                            }
-                            dialog.dismiss();
                             SDKManager.getInstance().hideEmptyProgress();
+                            dialog.dismiss();
                         }
 
                         @Override
                         public void onFailure(String msg) {
                             SDKManager.getInstance().hideEmptyProgress();
-                            if (loginCallBack != null)
-                                loginCallBack.onFailure(SDKConstant.network_error, msg);
-                            LogUtils.d("sdkLogin2Dialog", msg);
-
                         }
                     });
                 }
@@ -192,17 +173,7 @@ public class LoginDialog extends Dialog {
                     if (SDKGameUtils.isMultiClicks()) {
                         return;
                     }
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
-                        @Override
-                        public void onSuccess(final String account, final String pas) {
-
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-
-                        }
-                    });
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }

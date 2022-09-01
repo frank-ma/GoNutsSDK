@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "games.atys.ppa.a2021",
+  "applicationId": "com.nutspower.nutsgamesdk",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 4,
-      "versionName": "2.7",
-      "outputFile": "goSdk_20220525_2.7.apk"
+      "versionCode": 6,
+      "versionName": "3.0.1",
+      "outputFile": "goSdk_20220613_3.0.1.apk"
     }
   ]
 }

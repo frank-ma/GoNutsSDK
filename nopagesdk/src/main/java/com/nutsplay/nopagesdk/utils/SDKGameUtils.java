@@ -202,10 +202,10 @@ public class SDKGameUtils {
         boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -221,11 +221,11 @@ public class SDKGameUtils {
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
             doneView.setVisibility(View.INVISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_da6a6a","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
             doneView.setVisibility(View.VISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_4c506b","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -261,10 +261,10 @@ public class SDKGameUtils {
         boolean isMatch = code.matches("\\w{4,24}");
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("40"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -361,7 +361,6 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
-
             return false;
         }
         return true;
@@ -377,9 +376,12 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("41"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     public static boolean match2Pw(Context context, EditText pswEt,EditText pswEt2){
@@ -387,9 +389,14 @@ public class SDKGameUtils {
         if (!matchPw(context,pswEt2,pswEt2.getText().toString())) return false;
         if (!pswEt.getText().toString().equals(pswEt2.getText().toString())){
             showPopWindow(context,pswEt2,SDKLangConfig.getInstance().findMessage("pwd_different"));
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     /**
@@ -399,7 +406,9 @@ public class SDKGameUtils {
      */
     public static String hideEmail(String email) {
         if (email == null || email.isEmpty()) return "";
-        return email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
+//        return email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
+        //含义就是只显示第1，3，4括号内的内容:开头和结尾两个字符
+        return email.replaceAll("(\\w{2})(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
     }
 
 
@@ -547,6 +556,52 @@ public class SDKGameUtils {
         return aihelpLang[index];
     }
 
+    /**
+     * 获取AIhelp语言代码
+     * @param language
+     * @return
+     */
+    public static String getAIHelpLanguageAlia(String language){
+        if (language == null || language.isEmpty()){
+            return "en";
+        }
+        language = language.toLowerCase();
+        if (language.contains("cn")) {
+            return "zh_CN";
+        } else if (language.contains("en")) {
+            return "en";
+        } else if (language.contains("th")) {
+            return "th";
+        } else if (language.contains("vn") || language.contains("vi")) {
+            return "vi";
+        } else if (language.contains("ar")) {
+            return "ar";
+        } else if (language.contains("kr") || language.contains("ko")) {
+            return "ko";
+        } else if (language.contains("hk")) {
+            return "zh_TW";
+        } else if (language.contains("fr") || language.contains("fo")) {
+            return "fr";
+        } else if (language.contains("br") || language.contains("pt")) {
+            return "pt";
+        } else if (language.contains("de") || language.contains("deu")) {
+            return "de";
+        } else if (language.contains("sp") || language.contains("es")) {
+            return "es";
+        } else if (language.contains("it")) {
+            return "it";
+        } else if (language.contains("jp") || language.contains("ja")) {
+            return "ja";
+        } else if (language.contains("idn") || language.contains("id")) {
+            return "id";
+        } else if (language.contains("by") || language.contains("ru")) {
+            return "ru";
+        } else if (language.contains("tr")) {
+            return "tr";
+        } else {
+            return "en";
+        }
+    }
 
     public static String getStringLanguage(int langugae) {
         String lan = null;

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NutsSDKDemo</string>
-    <string name="facebook_app_id">4392232574175782</string>
-    <string name="fb_login_protocol_scheme">fb4392232574175782</string>
+    <string name="facebook_app_id">275334580817281</string>
+    <string name="fb_login_protocol_scheme">fb275334580817281</string>
     <!--    <string name="facebook_app_id">315192519335195</string>-->
     <!--    <string name="fb_login_protocol_scheme">fb315192519335195</string>-->
     <!--Emma    Adjust事件ID-->

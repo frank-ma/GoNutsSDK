@@ -44,7 +44,6 @@
             android:textSize="12sp"
             android:textColor="@color/color_977cdc"
             android:layout_marginLeft="55dp"
-            android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Create an new account that you will bind to:"/>
@@ -53,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="11dp"
             android:gravity="center"
             app:blurRadius="10dp"
             app:shadowColor="@color/color_efefef"
@@ -62,7 +61,7 @@
             app:yOffset="8px">
             <LinearLayout
                 android:layout_width="400dp"
-                android:layout_height="36dp"
+                android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_bg_white">
@@ -114,7 +113,7 @@
             app:yOffset="8px">
             <LinearLayout
                 android:layout_width="400dp"
-                android:layout_height="36dp"
+                android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_bg_white">
@@ -143,8 +142,8 @@
 
                 <ToggleButton
                     android:id="@+id/pwd_toggle"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:background="@drawable/icon_grey_visibility_off"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="40dp"

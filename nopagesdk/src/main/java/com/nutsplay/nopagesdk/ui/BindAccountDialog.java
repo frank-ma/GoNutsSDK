@@ -96,10 +96,10 @@ public class BindAccountDialog extends Dialog {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if (isChecked){
                         pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility_off","drawable"));
                     }else {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility","drawable"));
                     }
                     pwd.setSelection(pwd.getText().toString().length());
                 }

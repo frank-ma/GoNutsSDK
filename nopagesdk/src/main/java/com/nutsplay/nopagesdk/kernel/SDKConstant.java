@@ -18,6 +18,7 @@ public class SDKConstant {
     public static final String TYPE_GOOGLE = "google";
 
 
+    public static final int SUCCESS = 1;                //成功
     public static final int STATUS_ACCOUNT_EXIST = -21;                //账号已存在
     public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //账号不存在
     public static final int STATUS_PASSWORD_ERROR = -3;               //密码错误

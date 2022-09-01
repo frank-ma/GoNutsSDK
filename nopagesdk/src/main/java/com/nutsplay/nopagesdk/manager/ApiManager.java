@@ -69,7 +69,7 @@ public class ApiManager {
         return INSTANCE;
     }
 
-    private String addDomainName(){
+    private String getDomainName(){
         if (domains == null || domains.length == 0) return goDomainName1;
 
         return domains[index];
@@ -86,7 +86,7 @@ public class ApiManager {
      * @param jsonCallback
      */
     public void getRASPublicKey(NetCallBack jsonCallback){
-        String url= addDomainName() + "/alpha";
+        String url= getDomainName() + "/alpha";
         Map<String, String> headerMap = new TreeMap<>();
         headerMap.put("uniqueid",identifier);
         NetClient.getInstance().clientGet(url, null, headerMap,jsonCallback);
@@ -100,7 +100,7 @@ public class ApiManager {
     public void SDKInitGo(String aesKey16, String ivParameter,String aesKey16byRSA, NetCallBack callBack) {
 
         try {
-            String url = addDomainName() + "/epsilon";
+            String url = getDomainName() + "/epsilon";
 
             Init initBean = new Init();
             initBean.setClientID(mClientID);
@@ -135,7 +135,7 @@ public class ApiManager {
     public void SDKRegisterAccount(String aesKey16, String ivParameter,String aesKey16byRSA, String userName, String pwd,NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/iota";
+            String url = getDomainName() + "/iota";
 
             AccountLogin registerAccount = new AccountLogin();
             registerAccount.setClientID(mClientID);
@@ -171,7 +171,7 @@ public class ApiManager {
     public void SDKLoginGo(String aesKey16, String ivParameter,String aesKey16byRSA,String userName, String pwd, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/sigma";
+            String url = getDomainName() + "/sigma";
 
             AccountLogin accountLogin = new AccountLogin();
             accountLogin.setClientID(mClientID);
@@ -204,7 +204,7 @@ public class ApiManager {
      */
     public void SDKLoginThird(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthId,String oauthsource, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/omega";
+            String url = getDomainName() + "/omega";
 
             ThirdLogin thirdLogin = new ThirdLogin();
             thirdLogin.setClientID(mClientID);
@@ -237,7 +237,7 @@ public class ApiManager {
      */
     public void SDKMakeOrder(String aesKey16,String ivParameter, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/delta";
+            String url = getDomainName() + "/delta";
 
             MakeOrder makeOrder = new MakeOrder();
             makeOrder.setClientID(mClientID);
@@ -273,9 +273,9 @@ public class ApiManager {
      */
     public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, Purchase purchase, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/phi";
+            String url = getDomainName() + "/phi";
             if (BillingClient.SkuType.SUBS.equals(type)){
-                url = addDomainName() + "/psk";
+                url = getDomainName() + "/psk";
             }
 
             if (purchase == null) return;
@@ -314,7 +314,7 @@ public class ApiManager {
      */
     public void SDKQueryOrderStatus(String aesKey16, String ivParameter,String aesKey16byRSA,String transactionId, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/psi";
+            String url = getDomainName() + "/psi";
 
             QueryOrder queryOrder = new QueryOrder();
             queryOrder.setClientID(mClientID);
@@ -349,7 +349,7 @@ public class ApiManager {
     public void SDKResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String oldPwd,String newPwd, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/zeta";
+            String url = getDomainName() + "/zeta";
 
             ResetPwd resetPwd = new ResetPwd();
             resetPwd.setClientID(mClientID);
@@ -385,7 +385,7 @@ public class ApiManager {
     public void SDKBindAccount(String aesKey16,String ivParameter, String aesKey16byRSA,String oauthid,String oauthSource,String account,String second, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/rho";
+            String url = getDomainName() + "/rho";
 
             BindAccount bindAccount = new BindAccount();
             bindAccount.setClientID(mClientID);
@@ -422,7 +422,7 @@ public class ApiManager {
     public void SDKGuestBindThirdAccount(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/tau";
+            String url = getDomainName() + "/tau";
 
             GuestBindThird guestBind = new GuestBindThird();
             guestBind.setClientID(mClientID);
@@ -463,7 +463,7 @@ public class ApiManager {
     public void SDKRequestBindEmail(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/adam";
+            String url = getDomainName() + "/adam";
 
             BindEmail bindEmail = new BindEmail();
             bindEmail.setClientID(mClientID);
@@ -500,7 +500,7 @@ public class ApiManager {
     public void SDKBindEmailConfirm(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email,String verifyCode, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/mojo";
+            String url = getDomainName() + "/mojo";
 
             BindEmailConfirm bindEmail = new BindEmailConfirm();
             bindEmail.setClientID(mClientID);
@@ -541,7 +541,7 @@ public class ApiManager {
     public void SDKRequestResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/rush";
+            String url = getDomainName() + "/rush";
 
             RequestResetPwd resetPwd = new RequestResetPwd();
             resetPwd.setClientID(mClientID);
@@ -578,7 +578,7 @@ public class ApiManager {
     public void SDKResetPwdByVerifycode(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String verifyCode,String newSecond, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/swift";
+            String url = getDomainName() + "/swift";
 
             ResetPwdByEmail resetPwdByEmail = new ResetPwdByEmail();
             resetPwdByEmail.setClientID(mClientID);
@@ -615,7 +615,7 @@ public class ApiManager {
     public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/crash";
+            String url = getDomainName() + "/crash";
 
             UploadLog uploadLog = new UploadLog();
             uploadLog.setClientID(mClientID);
@@ -643,6 +643,35 @@ public class ApiManager {
     }
 
 
+    /**
+     * 查询用户绑定信息接口
+     * @param aesKey16
+     * @param ivParameter
+     * @param aesKey16byRSA
+     * @param ticket
+     */
+    public void queryUserInfo(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,NetCallBack callBack){
+        try {
+            String url = getDomainName() + "/pyrenees";
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setClientID(mClientID);
+            userInfo.setTicket(ticket);
+            String jsonData = GsonUtils.tojsonString(userInfo);
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",ivParameter);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 /**
  * **************************************************************************************************
@@ -919,6 +948,12 @@ public class ApiManager {
         }
     }
 
+    private class UserInfo extends Bean implements Serializable{
+        private String ticket;
 
+        public void setTicket(String ticket) {
+            this.ticket = ticket;
+        }
+    }
 
 }

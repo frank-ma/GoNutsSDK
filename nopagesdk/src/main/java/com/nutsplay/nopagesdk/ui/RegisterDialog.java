@@ -19,8 +19,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
+import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -52,10 +51,13 @@ public class RegisterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private RegisterResultCallBack registerCallBack;
-        public Builder(Context context,RegisterResultCallBack registerCallBack) {
+        private LoginCallBack loginCallBack;
+        private boolean isLogin = true;//是登录还是切换账号
+
+        public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
-            this.registerCallBack = registerCallBack;
+            this.loginCallBack = loginCallBack;
+            this.isLogin = isLogin;
         }
 
         public RegisterDialog create() {
@@ -130,21 +132,18 @@ public class RegisterDialog extends Dialog {
                     //判断密码
                     if (!SDKGameUtils.match2Pw(context,pwd,repeatPwd)){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     if (!psw.equals(rePsw)) {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                         return;
                     }
-                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {
+                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            if (registerCallBack != null) registerCallBack.onSuccess(account,psw);
                             dialog.dismiss();
                             //注册成功
 //                            SaveUserInfoDialog.Builder builder = new SaveUserInfoDialog.Builder(context,account,psw);
@@ -165,7 +164,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     optionsDialog.show();
                 }
             });
@@ -174,7 +173,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     loginDialog.show();
                 }
             });

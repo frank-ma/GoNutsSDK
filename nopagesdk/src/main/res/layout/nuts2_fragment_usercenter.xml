@@ -10,7 +10,7 @@
         android:layout_width="480dp"
         android:layout_height="270dp"
         android:orientation="vertical"
-        android:background="@drawable/usercenter_background">
+        android:background="@drawable/shape_bg_white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,21 +26,24 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60dp"
                 android:background="@drawable/shape_ucenter_name_bg"
-                android:gravity="center_vertical"
-                android:paddingLeft="26dp"
-                android:paddingRight="10dp"
-                android:maxWidth="300dp"
-                android:maxLines="2"
                 android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="2"
+                android:maxWidth="300dp"
+                android:paddingLeft="26dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="2dp"
                 android:text="Hi-Sarah\n1**n@qq.com"
-                android:textSize="15sp" />
+                android:textColor="@color/color_4c506b"
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/user_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="43dp"
+                android:layout_marginLeft="40dp"
                 android:src="@drawable/usercenter_nuts_account" />
 
             <ImageView
@@ -73,133 +76,129 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="17dp"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                android:layout_marginTop="17dp"
-                app:shadowColor="@color/color_812dff"
+                app:shadowColor="@color/color_20c20b"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="8px">
 
-                <RelativeLayout
-                    android:id="@+id/ll_bind_email"
+                <TextView
+                    android:id="@+id/tv_customer_service"
                     android:layout_width="400dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/selector_button_purple"
-                    android:gravity="center_vertical">
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_button_green"
+                    android:drawableLeft="@drawable/icon_customer_service"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="104dp"
+                    android:paddingLeft="104dp"
+                    android:drawablePadding="37dp"
+                    android:text="Customer Service"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
 
-                    <ImageView
-                        android:id="@+id/icon_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="104dp"
-                        android:src="@drawable/icon_email" />
-
-                    <TextView
-                        android:id="@+id/tv_bind_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="37dp"
-                        android:layout_toRightOf="@+id/icon_email"
-                        android:text="Bind Email"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
             </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
-
 
             <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                android:layout_marginTop="5dp"
                 app:shadowColor="@color/color_0c67ff"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="8px">
 
-                <RelativeLayout
-                    android:id="@+id/ll_bind_fb"
+                <TextView
+                    android:id="@+id/tv_bind_fb"
                     android:layout_width="400dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/shape_button_facebook"
-                    android:gravity="center_vertical">
+                    android:drawableLeft="@drawable/icon_facebook"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="104dp"
+                    android:paddingLeft="104dp"
+                    android:drawablePadding="37dp"
+                    android:text="Bind Facebook"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
 
-                    <ImageView
-                        android:id="@+id/icon_fb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="104dp"
-                        android:src="@drawable/icon_facebook" />
-
-                    <TextView
-                        android:id="@+id/tv_bind_fb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="37dp"
-                        android:layout_toRightOf="@+id/icon_fb"
-                        android:text="Bind Facebook"
-                        android:textColor="@color/white"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
             </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
+
             <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:id="@+id/layout_bind_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                app:blurRadius="10dp"
                 android:layout_marginTop="5dp"
-                app:shadowColor="@color/color_ff2f2f"
+                app:blurRadius="10dp"
+                app:shadowColor="@color/color_812dff"
                 app:shadowRadius="15dp"
+                android:visibility="gone"
                 app:xOffset="0dp"
                 app:yOffset="4dp">
 
-                <RelativeLayout
-                    android:id="@+id/ll_reset_pwd"
+                <TextView
+                    android:id="@+id/tv_bind_email"
+                    android:layout_width="400dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_button_purple"
+                    android:drawableLeft="@drawable/icon_email"
+                    android:drawablePadding="-90dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="104dp"
+                    android:paddingLeft="104dp"
+                    android:text="Bind Email"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:id="@+id/layout_reset_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                app:blurRadius="10dp"
+                app:shadowColor="@color/color_ff2f2f"
+                app:shadowRadius="15dp"
+                android:visibility="visible"
+                app:xOffset="0dp"
+                app:yOffset="4dp">
+
+                <TextView
+                    android:id="@+id/tv_reset_pwd"
                     android:layout_width="400dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/selector_button_orange"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:id="@+id/icon_psw"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="104dp"
-                        android:src="@drawable/icon_reset_password" />
-
-                    <TextView
-                        android:id="@+id/tv_reset_pwd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="37dp"
-                        android:layout_toRightOf="@+id/icon_psw"
-                        android:text="Reset Password"
-                        android:textColor="@color/white"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
+                    android:drawableLeft="@drawable/icon_reset_password"
+                    android:drawablePadding="37dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="104dp"
+                    android:paddingLeft="104dp"
+                    android:text="Reset Password"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
 
             </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
