@@ -72,7 +72,8 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" /> <!-- <meta-data -->
+            android:value="@string/facebook_app_id" />
+        <!-- <meta-data -->
         <!-- android:name="applovin.sdk.key" -->
         <!-- android:value="iwQgra9X9i9VIXscPrXx9XKOeDuorbdXV3DKdNto40HNT8_z-Wv83DWhRPTG_6pV91qoOgZThsrE_qCzL55OJc" /> -->
         <!-- adjust统计相关的 -->
@@ -87,6 +88,13 @@
         <meta-data
             android:name="com.facebook.sdk.CodelessDebugLogEnabled"
             android:value="true" />
+
+        <activity
+            android:name="net.aihelp.ui.HostActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:replace="android:configChanges" />
     </application>
 
 

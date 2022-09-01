@@ -144,7 +144,7 @@ public class LoginOptionsDialog extends Dialog {
                     }
                     SDKManager.getInstance().handleLogout((Activity) context);
 
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack);
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }

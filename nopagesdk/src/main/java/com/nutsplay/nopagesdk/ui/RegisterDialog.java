@@ -52,9 +52,12 @@ public class RegisterDialog extends Dialog {
     public static class Builder {
         private Context context;
         private LoginCallBack loginCallBack;
-        public Builder(Context context, LoginCallBack loginCallBack) {
+        private boolean isLogin = true;//是登录还是切换账号
+
+        public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
             this.loginCallBack = loginCallBack;
+            this.isLogin = isLogin;
         }
 
         public RegisterDialog create() {
@@ -161,7 +164,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     optionsDialog.show();
                 }
             });
@@ -170,7 +173,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     loginDialog.show();
                 }
             });

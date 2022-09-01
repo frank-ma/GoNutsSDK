@@ -173,7 +173,7 @@ public class LoginDialog extends Dialog {
                     if (SDKGameUtils.isMultiClicks()) {
                         return;
                     }
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack);
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }
