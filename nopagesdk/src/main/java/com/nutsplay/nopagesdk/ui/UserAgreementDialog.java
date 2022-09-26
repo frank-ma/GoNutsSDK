@@ -47,10 +47,12 @@ public class UserAgreementDialog extends Dialog {
     public static class Builder {
         private Context context;
         private AgreementCallBack callBack;
+        private boolean canClose;
 
-        public Builder(Context context, AgreementCallBack callBack) {
+        public Builder(Context context, AgreementCallBack callBack,boolean canClose) {
             this.context = context;
             this.callBack = callBack;
+            this.canClose = canClose;
         }
 
         public UserAgreementDialog create() {
@@ -68,6 +70,8 @@ public class UserAgreementDialog extends Dialog {
             TextView protocolContent = layout.findViewById(SDKResUtils.getResId(context, "user_agreement", "id"));
             TextView accept = layout.findViewById(SDKResUtils.getResId(context, "tv_accept", "id"));
             TextView title = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
+            //显隐关闭按钮
+            closeIv.setVisibility(canClose? View.VISIBLE:View.GONE);
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context,title);

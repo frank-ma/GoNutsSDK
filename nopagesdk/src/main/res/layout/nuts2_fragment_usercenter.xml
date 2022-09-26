@@ -34,7 +34,7 @@
                 android:paddingTop="2dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="2dp"
-                android:text="Hi-Sarah\n1**n@qq.com"
+                android:text="           \n                  "
                 android:textColor="@color/color_4c506b"
                 android:textSize="11sp" />
 

@@ -488,7 +488,7 @@ public class SDKManager {
                     setInitStatus(false);
                     initCallBack.onFailure(SDKConstant.refuse_protocol,"user refuse protocol");
                 }
-            });
+            },false);
             builder.create().show();
 
         }else {
@@ -518,7 +518,7 @@ public class SDKManager {
         }
         if (callBack == null) return;
         if (!getInitParameter().isShowUserAgreement()) return;
-        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, callBack);
+        UserAgreementDialog.Builder builder = new UserAgreementDialog.Builder(activity, callBack ,true);
         builder.create().show();
     }
 
