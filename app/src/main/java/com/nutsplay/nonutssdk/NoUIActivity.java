@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -19,10 +18,11 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutspower.nutsgamesdk.R;
+import com.xiaomi.billingclient.api.SkuDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -269,7 +269,7 @@ public class NoUIActivity extends BaseActivity {
             skuList.add("com.nutsplay.iap.item1002");
         }
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList,SDKConstant.INAPP, new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList,SDKConstant.INAPP, new SDKGetMiPaySkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功："+skuDetails.size());

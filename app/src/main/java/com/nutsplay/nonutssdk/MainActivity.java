@@ -10,12 +10,12 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
@@ -24,15 +24,15 @@ import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
-
-
 import com.nutspower.nutsgamesdk.R;
+import com.xiaomi.billingclient.api.SkuDetails;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class MainActivity extends SDKBaseActivity {
 
 
 
-    private String clientId = "5dad5c14e73f210d548bf491";
+    private String clientId = "5dad5c14e73f210d548bf491";//MiPay      635f680c95b526b99391e7e7
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
 //    String referenceId = "gem_0001";
@@ -95,6 +95,7 @@ public class MainActivity extends SDKBaseActivity {
     public void initSDK(View view) {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
+//        initParameter.setBuglyId("");
         initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
@@ -283,10 +284,7 @@ public class MainActivity extends SDKBaseActivity {
      */
 
     public void purchase(View view) {
-        String referenceId = "com.nutspower.nutsgamesdk.test2";
-//        String referenceId = "nuts_product_1";
-//        String referenceId = "gem_0001";
-//        String referenceId = "ppa.test.item1";
+        String referenceId = "com.dyhd.game.seawar3d.pay00991";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -302,7 +300,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code, String msg) {
-                showLog("支付失败：code-" +code+ " msg-"+msg);
+                showLog("支付失败：code-" +code+ ",  msg-"+msg);
             }
         });
 
@@ -360,12 +358,12 @@ public class MainActivity extends SDKBaseActivity {
 //        skuList.add("com.nutspower.golfduel.tour9999");
 
         //wjgame01
-        skuList.add("com.nutspower.wjgame01.hugepack4999");
-        skuList.add("com.nutspower.wjgame01.megapack9999");
-        skuList.add("com.nutspower.wjgame01.limitedpackage199");
-        skuList.add("com.nutspower.wjgame01.hugepack4999");
-        skuList.add("com.nutspower.wjgame01.largepack1999");
-        skuList.add("com.nutspower.wjgame01.mediumpack999");
+//        skuList.add("com.nutspower.wjgame01.hugepack4999");
+//        skuList.add("com.nutspower.wjgame01.megapack9999");
+//        skuList.add("com.nutspower.wjgame01.limitedpackage199");
+//        skuList.add("com.nutspower.wjgame01.hugepack4999");
+//        skuList.add("com.nutspower.wjgame01.largepack1999");
+//        skuList.add("com.nutspower.wjgame01.mediumpack999");
         //atw
 //        skuList.add("com.nuts.atw.android.googleplay.1");
 //        skuList.add("com.nuts.atw.android.googleplay.2");
@@ -377,9 +375,12 @@ public class MainActivity extends SDKBaseActivity {
         //poly
 //        skuList.add("com.nuts.pa.android.googleplay.19");
 
+        //test xiaomiPay
+        skuList.add("com.dyhd.game.seawar3d.pay00991");
 
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
+
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetMiPaySkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功：" + skuDetails.size()+"条");
@@ -393,7 +394,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String msg) {
-                showLog("查询本地价格失败：" + msg);
+                showLog("查询本地价格失败：" + code + msg);
             }
         });
     }
@@ -409,7 +410,7 @@ public class MainActivity extends SDKBaseActivity {
         List<String> skuList = new ArrayList<>();
         skuList.add("com.nutspower.nutsgamesdk.sub1");
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetMiPaySkuDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询订阅本地价格成功：" + skuDetails.size());

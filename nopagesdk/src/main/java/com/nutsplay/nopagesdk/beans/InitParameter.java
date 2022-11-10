@@ -11,7 +11,7 @@ public class InitParameter implements Serializable {
 
     private String clientId;
     private String clientKey;
-//    private String buglyId;
+    private String buglyId;
     private String buglyChannel;
 //    private String appsflyerId;
 //    private String dataeyeId;
@@ -133,5 +133,13 @@ public class InitParameter implements Serializable {
 
     public void setShowUserAgreement(boolean showUserAgreement) {
         this.showUserAgreement = showUserAgreement;
+    }
+
+    public String getBuglyId() {
+        return buglyId;
+    }
+
+    public void setBuglyId(String buglyId) {
+        this.buglyId = buglyId;
     }
 }

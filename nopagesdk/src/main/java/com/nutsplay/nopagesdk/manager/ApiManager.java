@@ -305,6 +305,43 @@ public class ApiManager {
 
     }
 
+    /**
+     * 小米国际版充值-回调接口
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param callBack
+     */
+    public void SDKPurchaseNotifyMiPay(String aesKey16, String ivParameter, String aesKey16byRSA, com.xiaomi.billingclient.api.Purchase purchase, NetCallBack callBack){
+        try {
+            String url = getDomainName() + "/phi";
+
+            if (purchase == null) return;
+            String transactionId = purchase.getObfuscatedProfileId();
+            Notify notify = new Notify();
+            notify.setClientID(mClientID);
+            notify.setTransactionId(transactionId);
+            notify.setChannelCode("XIAOMI");
+            String purchaseData = purchase.getPurchaseToken();
+
+            notify.setPurchase(purchaseData);
+            String jsonData = GsonUtils.tojsonString(notify);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid",identifier);
+            headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",ivParameter);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * 第三方充值完成后查询订单状态接口

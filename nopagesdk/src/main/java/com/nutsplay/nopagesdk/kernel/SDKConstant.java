@@ -139,4 +139,59 @@ public class SDKConstant {
     public static int fb_share_error = 131;//facebook分享失败
     public static int fb_login_error = 132;//facebook登录失败
     public static int google_login_error = 133;//google登录失败
+
+
+
+    //小米支付响应代码
+    public @interface BillingResponseCode {
+        int NET_NOT_WORK = -4;
+        int SERVICE_TIMEOUT = -3;
+        int FEATURE_NOT_SUPPORTED = -2;
+        int SERVICE_DISCONNECTED = -1;
+        int OK = 0;
+        int USER_CANCELED = 1;
+        int SERVICE_UNAVAILABLE = 2;
+        int BILLING_UNAVAILABLE = 3;
+        int ITEM_UNAVAILABLE = 4;
+        int DEVELOPER_ERROR = 5;
+        int ERROR = 6;
+        int ITEM_ALREADY_OWNED = 7;
+        int ITEM_NOT_OWNED = 8;
+        int PAYMENT_UNKNOWN = 9;
+        int PAYMENT_SHOW_DIALOG = 10;
+    }
+
+//    eg:
+//            0 OK
+//    Success.
+//    1 USER_CANCELED
+//    User pressed back or canceled a dialog.
+//    2 SERVICE_UNAVAILABLE
+//    Network connection is down.
+//            3 BILLING_UNAVAILABLE
+//    Billing API version is not supported for the type requested.
+//    4 ITEM_UNAVAILABLE
+//    Requested product is not available for purchase.
+//    5 DEVELOPER_ERROR
+//    Invalid arguments provided to the API. This error can also indicate that the application was not correctly signed or properly set up for In-app Billing in GetApps, or does not have the necessary permissions in its manifest.
+//    6 ERROR
+//    Fatal error during the net.aihelp.common.API action.
+//            7 ITEM_ALREADY_OWNED
+//    Failure to purchase since item is already owned.
+//            8 ITEM_NOT_OWNED
+//    Failure to consume since item is not owned.
+//            9 PAYMENT_UNKNOWN
+//    Payment result unknown.
+//   10 PAYMENT_SHOW_DIALOG
+//    Payment show dialog.
+//    -1 SERVICE_DISCONNECTED
+//    GetApps service is not connected now - potentially transient state.
+//    E.g. GetApps could have been updated in the background while your app was still running. So feel free to introduce your retry policy for such use case. It should lead to a call to BillingClient.startConnection(BillingClientStateListener) right after or in some time after you received this code.
+//    -2 FEATURE_NOT_SUPPORTED
+//    Requested feature is not supported by GetApps on the current device.
+//    -3 SERVICE_TIMEOUT
+//    The request has reached the maximum timeout before GetApps responds.
+//            -4 NET_NOT_WORK
+//    Network Unavailable
+
 }

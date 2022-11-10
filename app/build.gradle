@@ -6,11 +6,11 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.nutspower.nutsgamesdk"
-        minSdkVersion 19
+        minSdkVersion 21//19
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 6
-        versionName "3.0.1"
+        versionCode 7
+        versionName "3.0.3_mitest"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -22,6 +22,7 @@ android {
     repositories {
         flatDir {
             dirs 'libs'
+            dirs '../nopagesdk/libs'//引用library的类库
         }
     }
 
@@ -68,10 +69,10 @@ android {
         variant.outputs.all {
             def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("GMT+08"))
             if(variant.buildType.name == 'debug'){
-                outputFileName = "goSdk_${date}_${defaultConfig.versionName}.apk"
+                outputFileName = "goSdk_MiPay_${date}_${defaultConfig.versionName}.apk"
             }
             if(variant.buildType.name == 'release'){
-                outputFileName = "goSdk_${date}_${defaultConfig.versionName}.apk"
+                outputFileName = "goSdk_MiPay_${date}_${defaultConfig.versionName}.apk"
             }
         }
     }
@@ -112,8 +113,8 @@ dependencies {
 //    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
 //    //分包
 //    api 'androidx.multidex:multidex:2.0.1'
-//    //动画加载库Lottie
-//    api 'com.airbnb.android:lottie:5.0.3'
+    //动画加载库Lottie
+    api 'com.airbnb.android:lottie:5.0.3'
 }
 
 

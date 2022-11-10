@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 def static getProductName() {
-    return "sdk"
+    return "gosdk_mipay"
 }
 
 // 发布时间
@@ -15,10 +15,10 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21//16
         targetSdkVersion 30
-        versionCode 42
-        versionName "3.0"
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,10 +41,16 @@ android {
             outputFileName = getProductName() + "_v${defaultConfig.versionName}" + '.aar'
         }
     }
+
+    repositories {
+        flatDir {
+            dirs 'lib','libs'
+        }
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.12'
@@ -66,11 +72,20 @@ dependencies {
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 
-    //动画加载库Lottie
-    api 'com.airbnb.android:lottie:5.0.3'
-
     //AIHelp客服
     api 'net.aihelp:android-aihelp-aar:2.4.12'
+
+    //小米国际支付库/api
+    api(name:'billing-1.0.3',ext:'aar')
+
+    //Bugly
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+
+    //adjust
+    api 'com.adjust.sdk:adjust-android:4.28.1'
+    api 'com.android.installreferrer:installreferrer:2.2'
+    api 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 }
 
 
