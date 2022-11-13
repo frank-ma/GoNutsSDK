@@ -6,6 +6,8 @@ import android.net.Uri;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
+import com.nutsplay.nopagesdk.callback.BindFBCallback;
+import com.nutsplay.nopagesdk.callback.BindResultCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -15,7 +17,14 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.manager.AIHelpManager;
+import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
+import com.nutspower.commonlibrary.utils.StringUtils;
+
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -311,13 +320,46 @@ public class SDK {
         SDKManager.getInstance().openUserCenter(activity);
     }
 
-//    public void customerSupport(Activity activity,InitParameter initParameter,String playerName,String userTags,String serverId, @Nullable HashMap<String ,Object> customData) {
-//        SDKManager.getInstance().customerSupport(activity,initParameter,playerName,userTags,serverId,customData);
-//    }
-//
-//    public void showFAQs(Activity activity,InitParameter initParameter,String userName, String userTags,String serverId, HashMap<String,Object> customData){
-//        SDKManager.getInstance().showFAQs(activity,initParameter,userName,userTags,serverId,customData);
-//    }
+    /**
+     * 直接进入AiHelp客服聊天界面
+     *
+     * @param playerName 玩家昵称
+     * @param serverId 服务器ID
+     * @param userTags 玩家标签
+     * @param customData 自定义数据
+     * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
+     */
+    public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
+        SDKManager.getInstance().customerSupport(playerName,userTags,serverId,customData,showRobot);
+    }
+
+    /**
+     * FAQ
+     * @param userName 玩家昵称
+     * @param serverId 服务器ID
+     * @param userTags 玩家标签
+     * @param customData 自定义数据
+     * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
+     */
+    public void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot){
+        SDKManager.getInstance().showFAQs(userName,serverId,userTags,customData,showRobot);
+    }
+
+    public void isBindFacebook(Activity activity, BindFBCallback callback){
+        SDKManager.getInstance().isBindFacebook(activity,callback);
+    }
+
+    /**
+     * 绑定邮箱：目的是找回密码
+     * 游客绑定邮箱需要先绑定账号，
+     * 账号用户可以绑定邮箱
+     * @param activity
+     * @param callback
+     */
+    public void bindEmail(Activity activity, BindResultCallBack callback){
+        SDKManager.getInstance().bindEmail(activity,callback);
+    }
+
 
 //    public void fireBaseTrackingLevelUp(Activity activity, String character, long level) {
 //        SDKManager.getInstance().fireBaseTrackingLevelUp(activity,character,level);
@@ -354,19 +396,25 @@ public class SDK {
         GoogleAPI.evaluateInApp(activity,callBack);
     }
 
+    //获取未读消息
+    public  void fetchUnreadMessage(OnMessageCountArrivedCallback callback){
+        if (callback == null) return;
+        AIHelpManager.fetchUnreadMessage(callback);
+    }
+
     /**
      * Adjust自定义追踪事件
      * @param eventID
      */
-//    public void adjustCustomEvent(String eventID){
-//        if (StringUtils.isNotBlank(eventID)){
-//            AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
-//        }
-//    }
+    public void adjustCustomEvent(String eventID){
+        if (StringUtils.isNotBlank(eventID)){
+            AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
+        }
+    }
 
-//    /**
-//     *  获取Firebase设备Token信息
-//     */
+    /**
+     *  获取Firebase设备Token信息
+     */
 //    public void firebaseGetToken(OnCompleteListener<String> completeListener) {
 //        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
 //    }

@@ -88,6 +88,14 @@
                 android:text="用户中心"
                 android:textColor="@color/white" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="bindEmail"
+                android:text="绑定邮箱"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
 
@@ -136,7 +144,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="customerService"
                 android:text="在线客服"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/white" />
 
             <Button
@@ -145,11 +153,18 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="FAQ"
                 android:text="FAQ"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/white" />
 
 
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="isBindFacebook"
+                android:text="isbindFB"
+                android:visibility="visible"
+                android:textColor="@color/white" />
         </LinearLayout>
 
 
@@ -245,7 +260,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <Button
                 android:layout_width="wrap_content"

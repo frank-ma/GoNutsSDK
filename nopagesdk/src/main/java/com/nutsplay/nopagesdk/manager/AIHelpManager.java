@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * Email: frankma9103@gmail.com
  * Desc: AIHELP 客服系统
  */
-public class CustomerServiceManager {
+public class AIHelpManager {
 
 
     /**
@@ -75,11 +75,11 @@ public class CustomerServiceManager {
 
         try {
             String nutsId = "";
-            if (SDKManager.getInstance().isLogin()){
+//            if (SDKManager.getInstance().isLogin()){
                 if (SDKManager.getInstance().getUser() != null) {
                     nutsId = SDKManager.getInstance().getUser().getUserId();
                 }
-            }
+//            }
 
             ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
             conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
@@ -114,11 +114,11 @@ public class CustomerServiceManager {
     public static void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot) {
         try {
             String nutsId = "";
-            if (SDKManager.getInstance().isLogin()){
+//            if (SDKManager.getInstance().isLogin()){
                 if (SDKManager.getInstance().getUser() != null) {
                     nutsId = SDKManager.getInstance().getUser().getUserId();
                 }
-            }
+//            }
 
             FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
             ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();

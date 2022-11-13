@@ -18,7 +18,9 @@ public class SDKConstant {
     public static final String TYPE_GOOGLE = "google";
 
 
-    public static final int SUCCESS = 1;                //成功
+    public static final int SUCCESS = 1;//成功
+    public static final int NET_ERROR = 2;
+    public static final int Error = 3;
     public static final int STATUS_ACCOUNT_EXIST = -21;                //账号已存在
     public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //账号不存在
     public static final int STATUS_PASSWORD_ERROR = -3;               //密码错误
@@ -51,7 +53,8 @@ public class SDKConstant {
     public static final String share_url = "share_url";
     public static final String openType="open_type";//Facebook页面的打开类型
     public static final int SHARE_PHOTO_REQUEST_CODE = 0x101;
-
+    public static final String NUTS_BIND_NUTS="NUTS_BIND_NUTS";
+    public static final String NUTS_BIND_EMAIL = "NUTS_BIND_EMAIL";
 
     //Google官方支付错误码
     static int SERVICE_TIMEOUT = -3;

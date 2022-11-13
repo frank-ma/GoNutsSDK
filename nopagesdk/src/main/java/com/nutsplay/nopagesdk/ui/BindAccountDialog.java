@@ -22,7 +22,6 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
@@ -148,7 +147,7 @@ public class BindAccountDialog extends Dialog {
                     if (loginCallBack != null) {
                         loginCallBack.onSuccess(SDKManager.getInstance().getUser());
                         //登录追踪
-                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
+//                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
                     }
                     dialog.dismiss();
                 }

@@ -26,8 +26,11 @@ import com.nutsplay.nopagesdk.beans.SDKLoginModel;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.beans.SDKResult;
 import com.nutsplay.nopagesdk.beans.User;
+import com.nutsplay.nopagesdk.beans.UserBindInfo;
 import com.nutsplay.nopagesdk.beans.VerifyCodeResult;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
+import com.nutsplay.nopagesdk.callback.BindFBCallback;
+import com.nutsplay.nopagesdk.callback.BindResultCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -40,9 +43,9 @@ import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
+import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
-import com.nutsplay.nopagesdk.manager.CustomerServiceManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
 import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.MiPayManager;
@@ -50,6 +53,8 @@ import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
+import com.nutsplay.nopagesdk.ui.BindAccountDialog;
+import com.nutsplay.nopagesdk.ui.BindEmailDialog;
 import com.nutsplay.nopagesdk.ui.BindTipDialog;
 import com.nutsplay.nopagesdk.ui.FBAppRequestActivity;
 import com.nutsplay.nopagesdk.ui.FBLoginActivity;
@@ -73,6 +78,10 @@ import com.nutspower.commonlibrary.utils.StringUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import net.aihelp.init.AIHelpSupport;
+import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
+
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -110,6 +119,7 @@ public class SDKManager {
     private boolean initStatus = false;
     private boolean aiHelpInitStatus = false;
     private boolean isLogin = false;
+    private BindResultCallBack bindResultCallBack;
 
     public static SDKManager getInstance() {
         if (INSTANCE == null) {
@@ -120,6 +130,14 @@ public class SDKManager {
             }
         }
         return INSTANCE;
+    }
+
+    public BindResultCallBack getBindResultCallBack() {
+        return bindResultCallBack;
+    }
+
+    public void setBindResultCallBack(BindResultCallBack bindResultCallBack) {
+        this.bindResultCallBack = bindResultCallBack;
     }
 
     public InitParameter getInitParameter() {
@@ -365,7 +383,7 @@ public class SDKManager {
             SDKGameUtils.getKeyHash(activity);
 
             //初始化客服系统
-            CustomerServiceManager.initAiHelp(activity,initParameter);
+            AIHelpManager.initAiHelp(activity,initParameter);
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -379,28 +397,28 @@ public class SDKManager {
     /**
      * 初始化AiHelp客服系统
      */
-//    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
-//
-//        try {
-//            AIHelpSupport.init(
-//                    activity,
-//                    parameters.getAihelpAppkey(),
-//                    parameters.getAihelpDomain(),
-//                    parameters.getAihelpAppID(),
-//                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-//            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
-//                @Override
-//                public void onAIHelpInitialized() {
-//
-//                    aiHelpInitStatus = true;
-//                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
-//                    if (resultCallBack != null) resultCallBack.onSuccess();
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
+
+        try {
+            AIHelpSupport.init(
+                    activity,
+                    parameters.getAihelpAppkey(),
+                    parameters.getAihelpDomain(),
+                    parameters.getAihelpAppID(),
+                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
+            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
+                @Override
+                public void onAIHelpInitialized() {
+
+                    aiHelpInitStatus = true;
+                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
+                    if (resultCallBack != null) resultCallBack.onSuccess();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 获取公钥
@@ -1558,6 +1576,7 @@ public class SDKManager {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
             GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
             client.signOut();
+            SDKManager.getInstance().setLogin(false);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -2790,10 +2809,10 @@ public class SDKManager {
         AppManager.startActivityWithData(activity,intent);
     }
 
-//    /**
-//     * 在线客服系统
-//     * AIHelp
-//     */
+    /**
+     * 在线客服系统
+     * AIHelp
+     */
 //    public void customerSupport(final Activity activity,final InitParameter initParameter,final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
 //        try {
 //            if (activity == null || initParameter == null) {
@@ -2814,9 +2833,10 @@ public class SDKManager {
 //                    nutsId = SDKManager.getInstance().getUser().getUserId();
 //                }
 //                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId + " serverId:" + serverId);
-
+//
 //                ELvaChatServiceSdk.showElva(userName, nutsId, serverId, "1", customData);
-
+//
+//
 //                ConversationConfig.Builder builder = new ConversationConfig.Builder();
 //                builder.setAlwaysShowHumanSupportButtonInBotPage(true);
 //                AIHelpSupport.showConversation(builder.build());
@@ -2851,90 +2871,24 @@ public class SDKManager {
 //    }
 
     /**
-     * 常见问题列表，
-     * 可以直接联系客服，有机器人客服，也可以转人工
-     *
-     * @param userName
-     * @param serverId
-     * @param customData
+     * 打开客服聊天界面
+     * AiHelp
      */
-//    private long lastTime = 0;
+    public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
+        AIHelpManager.customerSupport(playerName,serverId,userTags,customData,showRobot);
+    }
 
-//    public void showFAQs(final Activity activity, final InitParameter initParameter, final String userName, final String userTags,final String serverId, final HashMap<String, Object> customData) {
-//        try {
-//            if (activity == null || initParameter == null) {
-//                System.out.println("parameter is null");
-//                return;
-//            }
-//
-//            //防止快速点击
-//            long currentTime = System.currentTimeMillis();
-//            if (currentTime - lastTime < 2000) {
-//                return;
-//            } else {
-//                lastTime = currentTime;
-//            }
-//
-//            if (aiHelpInitStatus) {
-//                String nutsId = "";
-//                if (SDKManager.getInstance().getUser() != null && SDKManager.getInstance().getUser().getUserId() != null) {
-//                    nutsId = SDKManager.getInstance().getUser().getUserId();
-//                }
+    public void showFAQs(String userName, String serverId,String userTags, JSONObject customData,boolean showRobot) {
+        AIHelpManager.showFAQs(userName,serverId,userTags,customData,showRobot);
+    }
 
-//                HashMap<String, Object> config = new HashMap<>();
-//                config.put("showContactButtonFlag", "1");
-//                config.put("showConversationFlag", "1");
-//                config.put("elva-custom-metadata", customData);
-//                ELvaChatServiceSdk.setServerId(serverId == null ? "" : serverId);
-//                Log.e(TAG, "userName:" + userName + " nutsId:" + nutsId);
-//                ELvaChatServiceSdk.showFAQs(userName, nutsId, config);
-
-//                FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
-//                ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
-//                faqBuilder.setShowConversationMoment(ShowConversationMoment.ALWAYS);
-//                conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
-//                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
-//                faqBuilder.setConversationConfig(conversationBuilder.build());
-//                AIHelpSupport.showAllFAQSections(faqBuilder.build());
-//                //设置用户信息
-//                net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
-//                        .setServerId(serverId)
-//                        .setUserName(userName)
-//                        .setUserId(nutsId)
-//                        .setUserTags(userTags)
-//                        .setCustomData(customData.toString())
-//                        .build();
-//                AIHelpSupport.updateUserInfo(userConfig);
-
-//            } else {
-//                showProgress(activity);
-//                initAiHelp(activity, initParameter, new ResultCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//                        hideProgress();
-//                        lastTime = 0;
-//                        showFAQs(activity,initParameter,userName,userTags,serverId,customData);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg) {
-//
-//                    }
-//                });
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    /**
-//     * 获取AIhelp未读消息数
-//     * @param callback
-//     */
-//    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
-//        AIHelpSupport.startUnreadMessageCountPolling(callback);
-//    }
+    /**
+     * 获取AIhelp未读消息数
+     * @param callback
+     */
+    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
+        AIHelpSupport.startUnreadMessageCountPolling(callback);
+    }
 
     /**
      * 角色升级
@@ -3107,5 +3061,127 @@ public class SDKManager {
 
     public void setAppRequestCallback(ResultCallBack appRequestCallback) {
         this.appRequestCallback = appRequestCallback;
+    }
+
+
+    /**
+     * ==========================================新增2个接口==========================================
+     * 1.绑定邮箱
+     * 2.是否绑定FB接口
+     */
+
+    /**
+     * 检查账号是否绑定FB
+     * @param activity
+     * @param callback
+     */
+    public void isBindFacebook(Activity activity, BindFBCallback callback) {
+        if (activity == null || callback == null) return;
+        if (!SDKManager.getInstance().isInitStatus()) {
+            callback.onFail(SDKConstant.Error,"请先初始化SDK");
+            return;
+        }
+        try {
+            User user = SDKManager.getInstance().getUser();
+            if (user == null || user.getTicket().isEmpty()) {
+                callback.onFail(SDKConstant.ERROR,"Please Login first.");
+                return;
+            }
+            if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)) {
+                callback.onSuccess(true);
+            }else {
+                String ticket = user.getTicket();
+                if (StringUtils.isEmpty(ticket)) return;
+                String aesKey = AESUtils.generate16SecretKey();
+                String ivParameter = AESUtils.generate16SecretKey();
+                String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+                String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+                ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (StringUtils.isEmpty(result)) return;
+                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
+                        if (StringUtils.isEmpty(decodeData)) return;
+                        UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
+                        System.out.println(userBindInfo.toString());
+
+                        if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
+                            UserBindInfo.DataBean data = userBindInfo.getData();
+                            if (data == null) return;
+                            callback.onSuccess(data.isBindFacebook());
+                        }else {
+                            callback.onFail(userBindInfo.getCode(),userBindInfo.getMessage());
+                            SDKGameUtils.showServiceInfo(userBindInfo.getCode(),userBindInfo.getMessage());
+                        }
+                    }
+                    @Override
+                    public void onFailure(String msg) {
+                        callback.onFail(SDKConstant.ERROR,msg);
+                        System.out.println(msg);
+                    }
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 绑定邮箱
+     * @param activity
+     * @param callback
+     */
+    public void bindEmail(Activity activity, BindResultCallBack callback) {
+        if (activity == null || callback == null) return;
+        SDKManager.getInstance().setBindResultCallBack(callback);
+
+        if (!SDKManager.getInstance().isInitStatus()) {
+            callback.onFail(SDKConstant.Error,"请先初始化SDK");
+            return;
+        }
+//        if (!SDKManager.getInstance().isLogin()){
+//            callback.onFail(SDKConstant.Error,"请先登录");
+//            return;
+//        }
+        User user = SDKManager.getInstance().getUser();
+        if (user == null) {
+            callback.onFail(SDKConstant.Error,"请先登录");
+            return;
+        }
+        if (user.getSdkmemberType() != null && user.getSdkmemberType().equalsIgnoreCase(SDKConstant.TYPE_GUEST)) {
+            //游客账号，先提示绑定
+            SDKGameUtils.showServiceInfo(0,SDKLangConfig.getInstance().findMessage("30"));
+            //先绑定账号
+            BindAccountDialog.Builder builder = new BindAccountDialog.Builder(activity, new LoginCallBack() {
+                @Override
+                public void onSuccess(User user) {
+                    System.out.println("账号登录成功");
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+
+                }
+            });
+            builder.create().show();
+        }else {
+            //非游客账号
+            BindEmailDialog.Builder builder = new BindEmailDialog.Builder(activity, new ResultCallBack() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("绑定邮箱成功");
+                }
+                @Override
+                public void onFailure(String msg) {
+
+                }
+            });
+            builder.create().show();
+        }
     }
 }

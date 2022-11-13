@@ -22,8 +22,8 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
-import com.nutsplay.nopagesdk.manager.CustomerServiceManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
@@ -186,7 +186,7 @@ public class UserCenterDialog extends Dialog {
                     User user = SDKManager.getInstance().getUser();
                     if (user == null) return;
                     String username = user.getUserName();
-                    CustomerServiceManager.customerSupport(username,"","",new JSONObject(),true);
+                    AIHelpManager.customerSupport(username,"","",new JSONObject(),true);
                 }
             });
 

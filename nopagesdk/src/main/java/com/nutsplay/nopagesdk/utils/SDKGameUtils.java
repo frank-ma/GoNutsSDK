@@ -751,5 +751,4 @@ public class SDKGameUtils {
     public static void setTypeFace(Context context,TextView textView){
         textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica.ttf"));
     }
-
 }

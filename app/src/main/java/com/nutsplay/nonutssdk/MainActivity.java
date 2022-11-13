@@ -18,6 +18,8 @@ import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
+import com.nutsplay.nopagesdk.callback.BindFBCallback;
+import com.nutsplay.nopagesdk.callback.BindResultCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -32,6 +34,10 @@ import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 import com.xiaomi.billingclient.api.SkuDetails;
+
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +101,7 @@ public class MainActivity extends SDKBaseActivity {
     public void initSDK(View view) {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-//        initParameter.setBuglyId("");
+        initParameter.setBuglyId("");
         initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
@@ -592,6 +598,49 @@ public class MainActivity extends SDKBaseActivity {
         SDK.getInstance().openUserCenter(this);
     }
 
+    /**
+     * 检查是否绑定FB
+     * true绑定
+     * false未绑定
+     */
+    public void isBindFacebook(View view) {
+
+        SDK.getInstance().isBindFacebook(this, new BindFBCallback() {
+            @Override
+            public void onSuccess(boolean isBindFB) {
+                showLog("isBindFacebook:"+isBindFB);
+            }
+
+            @Override
+            public void onFail(int code,String msg) {
+                showLog("isBindFacebook:"+code+"----"+msg);
+            }
+        });
+    }
+
+    /**
+     * 绑定邮箱
+     * @param view
+     */
+    public void bindEmail(View view){
+        SDK.getInstance().bindEmail(this, new BindResultCallBack() {
+            @Override
+            public void onSuccess() {
+                showLog("bindEmail onSuccess");
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("bindEmail onCancel");
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                showLog("bindEmail onFail"+code+"----"+msg);
+            }
+        });
+    }
+
 //    /**
 //     * 在线客服系统
 //     * Key-Value可以自己根据需要自定义，会显示在客服后台中
@@ -822,6 +871,51 @@ public class MainActivity extends SDKBaseActivity {
             showLog(uri.getPath());
         }
     }
+
+
+    /**
+     * AiHelp客服系统
+     * @param view
+     */
+    public void fetchUnread(View view) {
+        SDK.getInstance().fetchUnreadMessage(new OnMessageCountArrivedCallback() {
+            @Override
+            public void onMessageCountArrived(int msgCount) {
+                showLog("AiHelp客服未读消息数量：" + msgCount);
+            }
+        });
+    }
+
+    public void FAQ(View view) {
+        //参数分别为:用户名，服务器id,用户标签，自定义数据
+        try {
+            JSONObject customData = new JSONObject();
+            customData.put("playerID","100011");
+            customData.put("level","12");
+            customData.put("coins","1999");
+            customData.put("diamond","0");
+            SDK.getInstance().showFAQs("Liuxiaobei","0","recharge,vip3,paid3",customData,true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void customerService(View view) {
+        //customerSupport(String userName, String serverId,String userTags, JSONObject customData)
+        //参数分别为:用户名，服务器id,用户标签，自定义数据
+        try {
+            JSONObject customData = new JSONObject();
+            customData.put("playerID","100011");
+            customData.put("level","12");
+            customData.put("coins","1999");
+            customData.put("diamond","0");
+            SDK.getInstance().customerSupport("Liuxiaobei","1","recharge,vip3,paid3",customData,true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * *************************生命周期方法****************************
