@@ -88,8 +88,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //SDK库的引用方式：三种
 //    implementation(name:'sdk_v3.0',ext:'aar')
-    implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v2.0.5'
+//    implementation project(path: ':nopagesdk')
+    implementation 'com.github.frank-ma:GoNutsSDK:v3.0'
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
