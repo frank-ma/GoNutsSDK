@@ -15,7 +15,7 @@ import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
@@ -196,13 +196,13 @@ public class SDK {
      * @param skuList
      * @param callback
      */
-//    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType,final SDKGetMiPaySkuDetailsCallback callback) {
-//        SDKManager.getInstance().sdkQuerySkuLocalPrice(activity, skuList, skuType,callback);
-//    }
-
-    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType,final SDKGetSkuDetailsCallback callback) {
+    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType,final SDKGetMiPaySkuDetailsCallback callback) {
         SDKManager.getInstance().sdkQuerySkuLocalPrice(activity, skuList, skuType,callback);
     }
+
+//    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType,final SDKGetSkuDetailsCallback callback) {
+//        SDKManager.getInstance().sdkQuerySkuLocalPrice(activity, skuList, skuType,callback);
+//    }
 
     /**
      * 创角色追踪

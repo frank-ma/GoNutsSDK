@@ -16,8 +16,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -41,7 +39,7 @@ import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
@@ -50,6 +48,7 @@ import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
 import com.nutsplay.nopagesdk.manager.InstallManager;
+import com.nutsplay.nopagesdk.manager.MiPayManager;
 import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
@@ -81,7 +80,6 @@ import net.aihelp.init.AIHelpSupport;
 import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
@@ -1648,16 +1646,6 @@ public class SDKManager {
                         if (orderModel.getCode() == 1) {
                             //创建订单成功
                             String transactionId = orderModel.getData().getTransactionId();//订单号
-
-
-                            //DB插入数据
-//                            PurchaseRecord purchaseRecord = new PurchaseRecord();
-//                            purchaseRecord.setTransactionId(transactionId);
-//                            purchaseRecord.setSkuId(referenceId);
-//                            purchaseRecord.setStatus(0);
-//                            DBManager.getInstance().insertOrReplace(purchaseRecord);
-
-
                             String payUrl = orderModel.getData().getPayUrl();
                             String channelCode = orderModel.getData().getChannelCode();
                             LogUtils.d(TAG, "payurl:" + payUrl + "    " + channelCode);
@@ -1667,9 +1655,10 @@ public class SDKManager {
                             } else {
                                 //使用Google内购一次性商品
                                 LogUtils.d(TAG, "发起Google内购一次性商品");
-                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.INAPP);
+                                //谷歌支付
+//                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.INAPP);
                                 //小米国际版支付
-//                                MiPayManager.getInstance().initMiPay(activity,referenceId,transactionId);
+                                MiPayManager.getInstance().initMiPay(activity,referenceId,transactionId);
                             }
 
                         } else {
@@ -1762,15 +1751,6 @@ public class SDKManager {
                         if (orderModel.getCode() == 1) {
                             //创建订单成功
                             String transactionId = orderModel.getData().getTransactionId();//订单号
-
-                            //DB插入数据
-//                            PurchaseRecord purchaseRecord = new PurchaseRecord();
-//                            purchaseRecord.setTransactionId(transactionId);
-//                            purchaseRecord.setSkuId(referenceId);
-//                            purchaseRecord.setStatus(0);
-//                            DBManager.getInstance().insertOrReplace(purchaseRecord);
-
-
                             //使用Google订阅
                             LogUtils.d(TAG, "发起Google订阅");
                             GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.SUBS);
@@ -1808,7 +1788,7 @@ public class SDKManager {
      * @param skuList
      * @param callback
      */
-    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType, final SDKGetSkuDetailsCallback callback) {
+    public void sdkQuerySkuLocalPrice(Activity activity, final List<String> skuList, String skuType, final SDKGetMiPaySkuDetailsCallback callback) {
 
         if (activity == null) {
             System.out.println("sdkQuerySkuLocalPrice failed:Activity is null.");
@@ -1830,9 +1810,10 @@ public class SDKManager {
             return;
         }
 
-        GooglePayHelp.getInstance().querySkuDetails(skuList, skuType, callback);
+        //谷歌支付系统
+//        GooglePayHelp.getInstance().querySkuDetails(skuList, skuType, callback);
         //改用小米国际版支付系统
-//        MiPayManager.getInstance().querySkuDetails(activity,skuList,BillingClient.SkuType.INAPP,callback);
+        MiPayManager.getInstance().querySkuDetails(activity,skuList,BillingClient.SkuType.INAPP,callback);
     }
 
     /**
@@ -1902,35 +1883,35 @@ public class SDKManager {
      * @param activity
      */
     public void checkLostOrder(Activity activity) {
-        GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
-            @Override
-            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
-                    GooglePayHelp.getInstance().setConnected(true);
-                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP,"");
-                }
-            }
-
-            @Override
-            public void onBillingServiceDisconnected() {
-                Log.i(TAG, "line1240-onBillingServiceDisconnected()");
-            }
-        });
-
-//        MiPayManager.getInstance().initMiPay(activity, new com.xiaomi.billingclient.api.BillingClientStateListener() {
+//        GooglePayHelp.getInstance().initGoogleIAP(activity, new BillingClientStateListener() {
+//            @Override
+//            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
+//                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
+//                    GooglePayHelp.getInstance().setConnected(true);
+//                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP,"");
+//                }
+//            }
+//
 //            @Override
 //            public void onBillingServiceDisconnected() {
 //                Log.i(TAG, "line1240-onBillingServiceDisconnected()");
 //            }
-//
-//            @Override
-//            public void onBillingSetupFinished(com.xiaomi.billingclient.api.BillingResult billingResult) {
-//                if (billingResult.getResponseCode() == com.xiaomi.billingclient.api.BillingClient.BillingResponseCode.OK){
-//                    MiPayManager.getInstance().setConnected(true);
-//                    MiPayManager.getInstance().queryLostOrder();
-//                }
-//            }
 //        });
+
+        MiPayManager.getInstance().initMiPay(activity, new com.xiaomi.billingclient.api.BillingClientStateListener() {
+            @Override
+            public void onBillingServiceDisconnected() {
+                Log.i(TAG, "line1240-onBillingServiceDisconnected()");
+            }
+
+            @Override
+            public void onBillingSetupFinished(com.xiaomi.billingclient.api.BillingResult billingResult) {
+                if (billingResult.getResponseCode() == com.xiaomi.billingclient.api.BillingClient.BillingResponseCode.OK){
+                    MiPayManager.getInstance().setConnected(true);
+                    MiPayManager.getInstance().queryLostOrder();
+                }
+            }
+        });
     }
 
 

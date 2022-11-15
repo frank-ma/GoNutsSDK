@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.BindFBCallback;
@@ -27,13 +26,14 @@ import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
+import com.nutsplay.nopagesdk.callback.SDKGetMiPaySkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
+import com.xiaomi.billingclient.api.SkuDetails;
 
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
@@ -388,9 +388,9 @@ public class MainActivity extends SDKBaseActivity {
 
 
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetMiPaySkuDetailsCallback() {
             @Override
-            public void onSuccess(List<com.nutsplay.nopagesdk.beans.SkuDetails> skuDetails) {
+            public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询本地价格成功：" + skuDetails.size()+"条");
                 if (skuDetails.size() == 0) return;
                 for (SkuDetails sku : skuDetails) {
@@ -418,12 +418,12 @@ public class MainActivity extends SDKBaseActivity {
         List<String> skuList = new ArrayList<>();
         skuList.add("com.nutspower.nutsgamesdk.sub1");
 
-        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetSkuDetailsCallback() {
+        SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetMiPaySkuDetailsCallback() {
             @Override
-            public void onSuccess(List<com.nutsplay.nopagesdk.beans.SkuDetails> skuDetails) {
+            public void onSuccess(List<SkuDetails> skuDetails) {
                 showLog("查询订阅本地价格成功：" + skuDetails.size());
                 if (skuDetails.size() == 0) return;
-                for (com.nutsplay.nopagesdk.beans.SkuDetails sku : skuDetails) {
+                for (SkuDetails sku : skuDetails) {
                     String skuId = sku.getSku();
                     String localPrice = sku.getPrice();
                     showLog(skuId + "    " + localPrice);
