@@ -5,7 +5,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
-        applicationId "com.nutspower.nutsgamesdk"
+        applicationId "atys.games.android.match.fast"
         minSdkVersion 21//19
         targetSdkVersion 30
         multiDexEnabled true

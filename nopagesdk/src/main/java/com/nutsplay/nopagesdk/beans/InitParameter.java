@@ -1,7 +1,5 @@
 package com.nutsplay.nopagesdk.beans;
 
-import com.nutsplay.nopagesdk.kernel.SDKConstant;
-
 import java.io.Serializable;
 
 /**
@@ -26,15 +24,6 @@ public class InitParameter implements Serializable {
     private String aihelpAppkey="";
     private String aihelpDomain="";
     private String aihelpAppID="";
-    private int screenOrientation = SDKConstant.LANDSCAPE;//横屏游戏
-
-    public int getScreenOrientation() {
-        return screenOrientation;
-    }
-
-    public void setScreenOrientation(int screenOrientation) {
-        this.screenOrientation = screenOrientation;
-    }
 
     public String getClientId() {
         return clientId;

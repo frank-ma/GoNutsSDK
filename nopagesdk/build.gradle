@@ -72,20 +72,23 @@ dependencies {
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 
+
+
+    //AIhelp，Bugly,Adjust,Firebase由CP接入响应的Unity版本
     //AIHelp客服
     api 'net.aihelp:android-aihelp-aar:2.4.12'
 
     //小米国际支付库/api
-    api(name:'billing-1.0.3',ext:'aar')
+//    api(name:'billing-1.0.3',ext:'aar')
 
     //Bugly
-    implementation 'com.tencent.bugly:crashreport:latest.release'
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+//    implementation 'com.tencent.bugly:crashreport:latest.release'
+//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 
     //adjust
-    api 'com.adjust.sdk:adjust-android:4.28.1'
-    api 'com.android.installreferrer:installreferrer:2.2'
-    api 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+//    api 'com.adjust.sdk:adjust-android:4.28.1'
+//    api 'com.android.installreferrer:installreferrer:2.2'
+//    api 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 }
 
 
