@@ -7,7 +7,8 @@ package com.nutsplay.nopagesdk.kernel;
  */
 public class SDKConstant {
 
-
+    public static final int LANDSCAPE = 0;//横屏
+    public static final int PORTRAIT = 1;//竖屏
     public static final String Login = "login";
     public static final String Bind = "bind";
     public static final String android = "android";

@@ -105,11 +105,12 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setLanguage("en");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
+        initParameter.setScreenOrientation(SDKConstant.PORTRAIT);//竖屏游戏
         initParameter.setShowUserAgreement(true);
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setUIVersion(0);//默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+        initParameter.setUIVersion(1);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -167,7 +168,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setLanguage("zh_hk");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
-        initParameter.setUIVersion(0);
+        initParameter.setUIVersion(1);
         initParameter.setShowUserAgreement(true);
 
         SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:background="@drawable/shape_bg_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:padding="4dp"
+                android:src="@drawable/button_close_black"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notice"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/color_515151"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="14dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_bg_gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_agreement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Your pricacy is important to us,please take a moment to read the following to earn more about how we collect and use your personal information.Tap Agree to accept our Privacy Policy and proceed to the game."
+                    android:textColor="@color/color_696969"/>
+
+                <TextView
+                    android:id="@+id/user_protocol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Agreement"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_5363c6"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+        </ScrollView>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:id="@+id/login_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            app:blurRadius="16px"
+            app:shadowColor="@color/color_8B9EFF"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="10px">
+
+            <TextView
+                android:id="@+id/tv_accept"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_button_purple"
+                android:gravity="center"
+                android:text="Agree"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+    </LinearLayout>
+
+</FrameLayout>

@@ -66,11 +66,22 @@ public class ResetPwdDialog extends Dialog {
             final ResetPwdDialog dialog = new ResetPwdDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd_normal", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+//            }
 
             TextView resetTitle = layout.findViewById(SDKResUtils.getResId(context, "reset_title", "id"));
             TextView reset = layout.findViewById(SDKResUtils.getResId(context, "tv_reset", "id"));

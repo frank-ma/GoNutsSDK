@@ -21,7 +21,7 @@
         <activity
             android:name="com.nutsplay.nonutssdk.MainActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -92,7 +92,6 @@
         <activity
             android:name="net.aihelp.ui.HostActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
-            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             tools:replace="android:configChanges" />
     </application>

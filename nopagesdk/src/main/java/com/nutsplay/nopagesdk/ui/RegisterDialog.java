@@ -65,11 +65,22 @@ public class RegisterDialog extends Dialog {
             final RegisterDialog dialog = new RegisterDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup_normal", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+//            }
 
             TextView signUp = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
@@ -79,6 +90,7 @@ public class RegisterDialog extends Dialog {
             final TextView loginTv = layout.findViewById(SDKResUtils.getResId(context, "tv_login", "id"));
             final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
             ImageView ivDone = layout.findViewById(SDKResUtils.getResId(context, "iv_done", "id"));
+            TextView tipRegister = layout.findViewById(SDKResUtils.getResId(context, "tip_register", "id"));
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context,signUp);
@@ -93,6 +105,9 @@ public class RegisterDialog extends Dialog {
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            if (tipRegister != null){
+                tipRegister.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            }
 
             //显隐密码
             pwdToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

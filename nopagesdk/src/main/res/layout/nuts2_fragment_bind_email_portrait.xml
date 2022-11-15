@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="512dp"
+        android:background="@drawable/shape_login_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/button_return_36" />
+
+
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:visibility="gone"
+                android:src="@drawable/button_close_black" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:text="Bind Email"/>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            app:blurRadius="10dp"
+            app:shadowColor="@color/color_efefef"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="8px">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_bg_white">
+
+                <ImageView
+                    android:id="@+id/icon_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_grey_user"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"/>
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Username(6-14)"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/icon_account"
+                    android:textColor="@color/color_4c506b"
+                    android:layout_marginLeft="10dp"/>
+
+                <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    app:blurRadius="4dp"
+                    app:shadowColor="@color/color_0c67ff"
+                    app:shadowRadius="15dp"
+                    app:xOffset="0dp"
+                    app:yOffset="2dp">
+
+                    <TextView
+                        android:id="@+id/btn_send_verification_code"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/selector_button_blue"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="3dp"
+                        android:text="Send the Code"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+            </LinearLayout>
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:blurRadius="10dp"
+            app:shadowColor="@color/color_efefef"
+            android:layout_marginTop="20dp"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="8px">
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_bg_white">
+
+                <ImageView
+                    android:id="@+id/icon_verify_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_grey_safety"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"/>
+
+                <EditText
+                    android:id="@+id/et_verification_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:hint="Verification code"
+                    android:inputType="text"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/icon_verify_code"
+                    android:textColor="@color/color_4c506b"
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+            android:id="@+id/login_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="160dp"
+            android:gravity="center"
+            app:blurRadius="16px"
+            app:shadowColor="@color/color_9868f0"
+            app:shadowRadius="15dp"
+            app:xOffset="0dp"
+            app:yOffset="10px">
+
+            <TextView
+                android:id="@+id/tv_bind"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_button_purple"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Bind"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:translationZ="10px" />
+
+        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+    </LinearLayout>
+</FrameLayout>

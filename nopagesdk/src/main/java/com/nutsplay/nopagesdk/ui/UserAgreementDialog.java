@@ -3,6 +3,8 @@ package com.nutsplay.nopagesdk.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,16 +62,23 @@ public class UserAgreementDialog extends Dialog {
             final UserAgreementDialog dialog = new UserAgreementDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()) {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_useragreement", "layout"), null);
-            } else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_agreement", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_useragreement", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_useragreement_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_agreement_normal", "layout"), null);
+                    break;
             }
 
             ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "ic_close", "id"));
             TextView protocolContent = layout.findViewById(SDKResUtils.getResId(context, "user_agreement", "id"));
             TextView accept = layout.findViewById(SDKResUtils.getResId(context, "tv_accept", "id"));
             TextView title = layout.findViewById(SDKResUtils.getResId(context, "title", "id"));
+            TextView userProtocolTv = layout.findViewById(SDKResUtils.getResId(context, "user_protocol", "id"));
             //显隐关闭按钮
             closeIv.setVisibility(canClose? View.VISIBLE:View.GONE);
 
@@ -83,12 +92,16 @@ public class UserAgreementDialog extends Dialog {
             //设置TextView的内容可以滚动
             protocolContent.setMovementMethod(ScrollingMovementMethod.getInstance());
 
+            //设置超链接
+            String webLinkText = "<a href='http://nutspower.com/PrivacyNotice.html'>Privacy Policy</a>";
+            userProtocolTv.setText(Html.fromHtml(webLinkText));
+            userProtocolTv.setMovementMethod(LinkMovementMethod.getInstance());
             //协议内容
             try {
                 SDKKernel.getInstance().setActivity((Activity) context);
                 String userProtocol = SDKKernel.getInstance().getInitData().getData().getPolicy_txt();
                 if (userProtocol == null || userProtocol.isEmpty()) userProtocol = "No Policy";
-                protocolContent.setText(userProtocol);
+//                protocolContent.setText(userProtocol);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,7 @@
 package com.nutsplay.nopagesdk.beans;
 
+import com.nutsplay.nopagesdk.kernel.SDKConstant;
+
 import java.io.Serializable;
 
 /**
@@ -20,10 +22,19 @@ public class InitParameter implements Serializable {
     private boolean isDebug = false;
     private boolean hasUI = true;
     private boolean showUserAgreement = true;
-    private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
+    private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI  2:竖屏游戏
     private String aihelpAppkey="";
     private String aihelpDomain="";
     private String aihelpAppID="";
+    private int screenOrientation = SDKConstant.LANDSCAPE;//横屏游戏
+
+    public int getScreenOrientation() {
+        return screenOrientation;
+    }
+
+    public void setScreenOrientation(int screenOrientation) {
+        this.screenOrientation = screenOrientation;
+    }
 
     public String getClientId() {
         return clientId;

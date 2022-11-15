@@ -153,12 +153,16 @@ public class Toasty {
             currentToast = new Toast(context);
 //        }
         final View toastLayout;
-        if (SDKManager.getInstance().isCommonVersion()){
-            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast_normal","layout"), null);
-        }else {
-            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+        switch (SDKManager.getInstance().getUIVersion()){
+            case 0:
+            case 1:
+                toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(SDKResUtils.getResId(context,"sdk_layout_toast_normal","layout"), null);
+                break;
+            default:
+                toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+                break;
         }
 
         currentToast.setGravity(Gravity.TOP,0,0);

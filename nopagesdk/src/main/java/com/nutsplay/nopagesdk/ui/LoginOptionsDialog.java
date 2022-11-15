@@ -59,12 +59,17 @@ public class LoginOptionsDialog extends Dialog {
             final LoginOptionsDialog dialog = new LoginOptionsDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose", "layout"), null);
+                    break;
+                case 1://竖版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose_normal", "layout"), null);
+                    break;
             }
-
 
             //findView
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));

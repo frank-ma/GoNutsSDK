@@ -69,11 +69,18 @@ public class LoginDialog extends Dialog {
             final LoginDialog dialog = new LoginDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()) {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login", "layout"), null);
-            } else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+                    break;
             }
+
             TextView signIn = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_in", "id"));
             TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
@@ -83,6 +90,7 @@ public class LoginDialog extends Dialog {
             ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
             ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
+            TextView tipLogin = layout.findViewById(SDKResUtils.getResId(context, "tip_login", "id"));
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context, signIn);
@@ -93,6 +101,9 @@ public class LoginDialog extends Dialog {
             createAccount.setText(Html.fromHtml("<font color=\"#BBBBBB\">"+ signUpTip +"</font><font color=\"#977cdc\"> " + signUp +"</font>"));
 
             signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+            if (tipLogin != null){
+                tipLogin.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+            }
             //增加下划线
             resetPwd.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             resetPwd.getPaint().setAntiAlias(true);

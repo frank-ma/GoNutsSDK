@@ -308,9 +308,10 @@ public class SDKManager {
      *
      * @return
      */
-    public boolean isCommonVersion() {
-        if (getInitParameter() == null) return true;
-        return getInitParameter().getUIVersion() == 0;
+    public int getUIVersion() {
+//        if (getInitParameter() == null) return true;
+//        return getInitParameter().getUIVersion() == 0;
+        return getInitParameter().getUIVersion();
     }
 
     //*******************************************SDK接口*********************************************

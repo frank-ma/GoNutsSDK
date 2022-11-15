@@ -80,15 +80,28 @@ public class UserCenterDialog extends Dialog {
             final UserCenterDialog dialog = new UserCenterDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_usercenter", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_usercenter", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_usercenter_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center_normal", "layout"), null);
+                    break;
             }
+
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_usercenter", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_user_center", "layout"), null);
+//            }
 
             ImageView imgClose = layout.findViewById(SDKResUtils.getResId(context, "img_close", "id"));
             ImageView userIcon = layout.findViewById(SDKResUtils.getResId(context, "user_icon", "id"));
             TextView userNameTv = layout.findViewById(SDKResUtils.getResId(context, "tv_name", "id"));
+            TextView userEmailTv = layout.findViewById(SDKResUtils.getResId(context, "tv_email", "id"));
 
             TextView customServiceTv = layout.findViewById(SDKResUtils.getResId(context, "tv_customer_service", "id"));
             TextView bindFbTv = layout.findViewById(SDKResUtils.getResId(context,"tv_bind_fb","id"));
@@ -98,10 +111,11 @@ public class UserCenterDialog extends Dialog {
             View bindEmailLayout = layout.findViewById(SDKResUtils.getResId(context,"layout_bind_email","id"));
             View resetPwdLayout = layout.findViewById(SDKResUtils.getResId(context,"layout_reset_pwd","id"));
 
-            requestData(bindFbTv,bindEmailLayout,resetPwdLayout,userNameTv,userIcon);
+            requestData(bindFbTv,bindEmailLayout,resetPwdLayout,userNameTv,userEmailTv,userIcon);
 
             //设置自定义字体
             SDKGameUtils.setTypeFace(context,userNameTv);
+            SDKGameUtils.setTypeFace(context,userEmailTv);
             SDKGameUtils.setTypeFaceBold(context,customServiceTv);
             SDKGameUtils.setTypeFaceBold(context,bindFbTv);
             SDKGameUtils.setTypeFaceBold(context,bindEmailTv);
@@ -208,7 +222,7 @@ public class UserCenterDialog extends Dialog {
         /**
          * 初始化用户状态
          */
-        private void requestData(View bindFB ,View bindEmail,View resetPwd,TextView userName,ImageView userIcon) {
+        private void requestData(View bindFB ,View bindEmail,View resetPwd,TextView userName,TextView userEmail,ImageView userIcon) {
             try {
                 String ticket = SDKManager.getInstance().getUser().getTicket();
                 if (ticket.isEmpty()) return;
@@ -228,7 +242,7 @@ public class UserCenterDialog extends Dialog {
                         if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
                             UserBindInfo.DataBean data = userBindInfo.getData();
                             if (data == null) return;
-                            initView(data,bindFB,bindEmail,resetPwd,userName,userIcon);
+                            initView(data,bindFB,bindEmail,resetPwd,userName,userEmail,userIcon);
                         }else {
                             SDKGameUtils.showServiceInfo(userBindInfo.getCode(),userBindInfo.getMessage());
                         }
@@ -254,10 +268,11 @@ public class UserCenterDialog extends Dialog {
          * @param userName
          * @param userIcon
          */
-        private void initView(UserBindInfo.DataBean data,View bindFB ,View bindEmail,View resetPwd,TextView userName,ImageView userIcon) {
+        private void initView(UserBindInfo.DataBean data,View bindFB ,View bindEmail,View resetPwd,TextView userName,TextView userEmail,ImageView userIcon) {
             User user = SDKManager.getInstance().getUser();
             if (user == null) return;
             String msg = "";
+            String bindEmailStr="";
             int resId = 0;
             switch (SDKManager.getInstance().getUser().getSdkmemberType()){
                 case SDKConstant.TYPE_GUEST:
@@ -276,8 +291,8 @@ public class UserCenterDialog extends Dialog {
                     resId = SDKResUtils.getResId(context,"usercenter_nuts_account","drawable");
                     msg += SDKLangConfig.getInstance().findMessage("account_which_bind_email") + "：" + data.getBindAccount();
                     if (StringUtils.isEmpty(data.getBindEmail())) break;
-                    String bindEmailStr = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail") + SDKGameUtils.hideEmail(data.getBindEmail());
-                    msg += "\n"+ bindEmailStr;
+                    bindEmailStr = SDKLangConfig.getInstance().findMessage("nuts_BoundEmail") + SDKGameUtils.hideEmail(data.getBindEmail());
+//                    msg += "\n"+ bindEmailStr;
                     break;
                 case SDKConstant.TYPE_FACEBOOK:
                     bindFB.setVisibility(View.GONE);
@@ -292,6 +307,7 @@ public class UserCenterDialog extends Dialog {
             }
 
             userName.setText(msg);
+            userEmail.setText(bindEmailStr);
             userIcon.setImageResource(resId);
         }
     }

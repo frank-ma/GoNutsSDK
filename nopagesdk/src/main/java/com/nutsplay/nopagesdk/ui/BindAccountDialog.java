@@ -65,11 +65,23 @@ public class BindAccountDialog extends Dialog {
             final BindAccountDialog dialog = new BindAccountDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
+                    break;
+                case 1:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account_portrait", "layout"), null);
+                    break;
+                default:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+                    break;
             }
+
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+//            }
 
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView bindTips = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_tips", "id"));
