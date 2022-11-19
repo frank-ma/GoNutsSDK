@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NoPageSdk</string>
-    <string name="facebook_app_id">295570801431576</string>
-    <string name="fb_login_protocol_scheme">fb295570801431576</string>
+<!--    <string name="facebook_app_id">295570801431576</string>-->
+<!--    <string name="fb_login_protocol_scheme">fb295570801431576</string>-->
 <!--    Emma    Adjust事件ID-->
 <!--    <string name="adjust_google_iap">84d7kd</string>-->
 <!--    <string name="adjust_login">ockst9</string>-->
