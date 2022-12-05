@@ -217,7 +217,7 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:background="@drawable/selector_button_purple"
+                android:background="@drawable/selector_button_bluesky"
                 android:gravity="center"
                 android:text="Register"
                 android:ellipsize="end"

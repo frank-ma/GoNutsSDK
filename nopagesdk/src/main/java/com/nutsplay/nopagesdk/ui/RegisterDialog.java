@@ -99,7 +99,7 @@ public class RegisterDialog extends Dialog {
 
             String signInTip = SDKLangConfig.getInstance().findMessage("sign_in_tip")+" ";
             String signIn = SDKLangConfig.getInstance().findMessage("sign_in");
-            loginTv.setText(Html.fromHtml("<font color=\"#BBBBBB\">" + signInTip + "</font><font color=\"#977cdc\"> " + signIn + "</font>"));
+            loginTv.setText(Html.fromHtml("<font color=\"#BBBBBB\">" + signInTip + "</font><font color=\"#4f84e2\"> " + signIn + "</font>"));
 
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));

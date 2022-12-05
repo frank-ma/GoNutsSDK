@@ -188,7 +188,7 @@
         <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
             android:id="@+id/login_shadow"
             app:shadowRadius="15dp"
-            app:shadowColor="@color/color_9868f0"
+            app:shadowColor="@color/color_6495ec"
             app:blurRadius="16px"
             app:xOffset="0dp"
             app:yOffset="10px"
@@ -204,7 +204,7 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:background="@drawable/selector_button_purple"
+                android:background="@drawable/selector_button_bluesky"
                 android:gravity="center"
                 android:text="Register"
                 android:ellipsize="end"
@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:textColor="@color/color_977cdc"
+            android:textColor="@color/color_4F84E2"
             android:textSize="13sp"
             android:text="Already have an account? Login here"/>
     </LinearLayout>

@@ -23,9 +23,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User Agreement"
-                android:textSize="16sp"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 android:layout_centerInParent="true"
-                android:textColor="@color/color_8168b8"/>
+                android:textColor="@color/black"/>
 
             <ImageView
                 android:id="@+id/ic_close"
@@ -45,13 +46,31 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_bg_gray">
 
-            <TextView
-                android:id="@+id/user_agreement"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text=""
-                android:textColor="@color/color_696969"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_agreement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Your pricacy is important to us,please take a moment to read the following to earn more about how we collect and use your personal information.Tap Agree to accept our Privacy Policy and proceed to the game."
+                    android:textColor="@color/color_696969"/>
+
+                <TextView
+                    android:id="@+id/user_protocol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Agreement"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_3c69eb"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
         </ScrollView>
 
         <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
@@ -62,7 +81,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             app:blurRadius="16px"
-            app:shadowColor="@color/color_9868f0"
+            app:shadowColor="@color/color_6495ec"
             app:shadowRadius="15dp"
             app:xOffset="0dp"
             app:yOffset="10px">
@@ -72,9 +91,10 @@
                 android:layout_width="450dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/selector_button_purple"
+                android:background="@drawable/selector_button_bluesky"
                 android:gravity="center"
                 android:text="Agree"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

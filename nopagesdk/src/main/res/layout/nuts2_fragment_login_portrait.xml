@@ -190,7 +190,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="0dp"
-                android:background="@drawable/selector_button_purple"
+                android:background="@drawable/selector_button_bluesky"
                 android:text="Login"
                 android:textColor="@color/white"
                 android:textSize="18sp"

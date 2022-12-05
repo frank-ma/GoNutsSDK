@@ -89,7 +89,7 @@ dependencies {
     //SDK库的引用方式：三种
 //    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v3.0.1'
+//    implementation 'com.github.frank-ma:GoNutsSDK:v3.0.3'
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'

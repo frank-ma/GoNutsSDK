@@ -96,7 +96,7 @@
                     android:textColor="@color/white"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:background="@drawable/selector_button_purple"/>
+                    android:background="@drawable/selector_button_bluesky"/>
             </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
         </LinearLayout>

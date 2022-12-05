@@ -10,7 +10,7 @@
         android:layout_width="480dp"
         android:layout_height="270dp"
         android:orientation="vertical"
-        android:background="@drawable/shape_bg_white">
+        android:background="@drawable/usercenter_background">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:padding="4dp"
-                android:src="@drawable/button_close_black" />
+                android:src="@drawable/button_close_white" />
 
         </RelativeLayout>
 
@@ -98,7 +98,7 @@
                 android:layout_marginTop="17dp"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_20c20b"
+                app:shadowColor="@color/color_5fdbb9"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="8px">
@@ -113,6 +113,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:textStyle="bold"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
                     android:drawablePadding="37dp"
@@ -129,7 +130,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_0c67ff"
+                app:shadowColor="@color/color_398FFF"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="8px">
@@ -144,6 +145,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:textStyle="bold"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
                     android:drawablePadding="37dp"
@@ -162,7 +164,7 @@
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_812dff"
+                app:shadowColor="@color/color_6495ec"
                 app:shadowRadius="15dp"
                 android:visibility="gone"
                 app:xOffset="0dp"
@@ -173,12 +175,13 @@
                     android:layout_width="400dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/selector_button_purple"
+                    android:background="@drawable/selector_button_bluesky"
                     android:drawableLeft="@drawable/icon_email"
                     android:drawablePadding="-90dp"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:textStyle="bold"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
                     android:text="Bind Email"
@@ -196,7 +199,7 @@
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_ff2f2f"
+                app:shadowColor="@color/color_FF6E73"
                 app:shadowRadius="15dp"
                 android:visibility="visible"
                 app:xOffset="0dp"
@@ -213,6 +216,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:textStyle="bold"
                     android:paddingStart="104dp"
                     android:paddingLeft="104dp"
                     android:text="Reset Password"

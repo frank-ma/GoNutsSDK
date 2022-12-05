@@ -110,7 +110,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
+        initParameter.setUIVersion(SDKConstant.LANDSCAPE);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override

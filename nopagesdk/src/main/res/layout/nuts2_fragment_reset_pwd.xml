@@ -93,7 +93,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     app:blurRadius="4dp"
-                    app:shadowColor="@color/color_0c67ff"
+                    app:shadowColor="@color/color_4ba0ff"
                     app:shadowRadius="15dp"
                     android:layout_marginRight="4dp"
                     android:layout_marginTop="3dp"
@@ -259,7 +259,7 @@
         <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
             android:id="@+id/login_shadow"
             app:shadowRadius="15dp"
-            app:shadowColor="@color/color_ff4747"
+            app:shadowColor="@color/color_FF6E73"
             app:blurRadius="10dp"
             app:xOffset="0dp"
             app:yOffset="8px"

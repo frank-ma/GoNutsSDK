@@ -147,7 +147,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:translationZ="8px"
-                    android:background="@drawable/selector_button_purple">
+                    android:background="@drawable/selector_button_bluesky">
 
                     <ImageView
                         android:layout_width="wrap_content"

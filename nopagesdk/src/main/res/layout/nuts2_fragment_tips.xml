@@ -56,7 +56,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_0c67ff"
+                app:shadowColor="@color/color_3175ff"
                 app:shadowRadius="20dp"
                 app:xOffset="0dp"
                 app:yOffset="4dp">
@@ -82,21 +82,22 @@
                 android:layout_marginLeft="30dp"
                 android:gravity="center"
                 app:blurRadius="10dp"
-                app:shadowColor="@color/color_812dff"
+                app:shadowColor="@color/color_6495ec"
                 app:shadowRadius="20dp"
                 app:xOffset="0dp"
                 app:yOffset="4dp">
+
                 <TextView
                     android:id="@+id/tv_bind"
                     android:layout_width="130dp"
                     android:layout_height="35dp"
-                    android:textSize="14sp"
-                    android:text="Bind Email"
-                    android:gravity="center"
-                    android:textColor="@color/white"
+                    android:background="@drawable/selector_button_bluesky"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxLines="1"
-                    android:background="@drawable/selector_button_purple"/>
+                    android:text="Bind Email"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
 

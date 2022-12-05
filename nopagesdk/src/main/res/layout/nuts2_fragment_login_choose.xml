@@ -22,68 +22,84 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/button_close_white" />
 
-        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            app:blurRadius="15dp"
-            android:layout_marginTop="12dp"
-            app:shadowColor="@color/color_3f169c"
-            app:shadowRadius="15dp"
-            app:xOffset="4dp"
-            app:yOffset="8px">
+            android:text="Welcome!"
+            android:textStyle="bold"
+            android:textSize="44sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tv_visitor_sign_in"
-                android:layout_width="400dp"
-                android:layout_height="40dp"
-                android:text="Quick Play"
-                android:translationZ="8px"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
-                android:paddingLeft="94dp"
-                android:drawablePadding="26dp"
-                android:textStyle="bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:drawableLeft="@drawable/icon_quickplay"
-                android:background="@drawable/selector_button_green"/>
-
-        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
-
-
-        <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            app:blurRadius="15dp"
-            app:shadowColor="@color/color_1924ff"
-            app:shadowRadius="15dp"
-            app:xOffset="4dp"
-            app:yOffset="8px">
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/fb_login"
-                android:layout_width="400dp"
-                android:layout_height="40dp"
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/shape_button_facebook"
-                android:drawableLeft="@drawable/icon_facebook"
-                android:drawablePadding="26dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="94dp"
-                android:text="Login with Facebook"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:translationZ="8px" />
+                android:gravity="center"
+                app:blurRadius="20dp"
+                app:shadowColor="@color/color_0bae83"
+                app:shadowRadius="15dp"
+                app:xOffset="4dp"
+                app:yOffset="8px">
 
-        </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+                <TextView
+                    android:id="@+id/tv_visitor_sign_in"
+                    android:layout_width="210dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_button_green"
+                    android:drawableLeft="@drawable/icon_quickplay"
+                    android:drawablePadding="20dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="43dp"
+                    android:text="Quick Play"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:translationZ="8px" />
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+
+
+            <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:blurRadius="20dp"
+                app:shadowColor="@color/color_2568FF"
+                app:shadowRadius="15dp"
+                app:xOffset="4dp"
+                app:yOffset="8px">
+
+                <TextView
+                    android:id="@+id/fb_login"
+                    android:layout_width="210dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_button_facebook"
+                    android:drawableLeft="@drawable/icon_facebook"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="12dp"
+                    android:text="Login with Facebook"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:translationZ="8px" />
+
+            </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +110,7 @@
             <View
                 android:layout_width="99dp"
                 android:layout_height="1dp"
-                android:background="@color/color_eae4f1" />
+                android:background="@color/color_ABC4F0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,13 +118,13 @@
                 android:layout_marginLeft="27dp"
                 android:layout_marginRight="27dp"
                 android:textSize="12sp"
-                android:textColor="@color/color_d4cdde"
+                android:textColor="@color/color_ABC4F0"
                 android:text="Other Login methods" />
 
             <View
                 android:layout_width="99dp"
                 android:layout_height="1dp"
-                android:background="@color/color_eae4f1" />
+                android:background="@color/color_ABC4F0" />
 
         </LinearLayout>
 
@@ -124,7 +140,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 app:blurRadius="4dp"
-                app:shadowColor="@color/color_812dff"
+                app:shadowColor="@color/color_6495ec"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="2dp">
@@ -136,7 +152,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:translationZ="8px"
-                    android:background="@drawable/selector_button_purple">
+                    android:background="@drawable/selector_button_bluesky">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -168,7 +184,7 @@
                 android:gravity="center"
                 app:blurRadius="4dp"
                 android:layout_marginLeft="40dp"
-                app:shadowColor="@color/color_ff4747"
+                app:shadowColor="@color/color_6996F0"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="2dp">
@@ -178,7 +194,7 @@
                     android:layout_width="182dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/selector_button_orange"
+                    android:background="@drawable/selector_button_blue"
                     android:gravity="center">
 
                     <ImageView

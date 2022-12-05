@@ -98,7 +98,7 @@ public class LoginDialog extends Dialog {
 
             String signUpTip = SDKLangConfig.getInstance().findMessage("sign_up_tip")+" ";
             String signUp = SDKLangConfig.getInstance().findMessage("sign_up")+" ";
-            createAccount.setText(Html.fromHtml("<font color=\"#BBBBBB\">"+ signUpTip +"</font><font color=\"#977cdc\"> " + signUp +"</font>"));
+            createAccount.setText(Html.fromHtml("<font color=\"#BBBBBB\">"+ signUpTip +"</font><font color=\"#4f84e2\"> " + signUp +"</font>"));
 
             signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
             if (tipLogin != null){
