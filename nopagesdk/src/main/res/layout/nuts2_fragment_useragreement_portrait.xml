@@ -67,7 +67,7 @@
                     android:layout_marginTop="40dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/color_5363c6"
+                    android:textColor="@color/color_3c69eb"
                     android:layout_gravity="center_horizontal"/>
             </LinearLayout>
 
@@ -81,7 +81,7 @@
             android:layout_marginTop="22dp"
             android:gravity="center"
             app:blurRadius="16px"
-            app:shadowColor="@color/color_8B9EFF"
+            app:shadowColor="@color/color_6495ec"
             app:shadowRadius="15dp"
             app:xOffset="0dp"
             app:yOffset="10px">

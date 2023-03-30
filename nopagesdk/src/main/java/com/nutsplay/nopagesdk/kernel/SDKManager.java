@@ -10,11 +10,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
@@ -45,7 +43,6 @@ import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
-import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
@@ -76,10 +73,6 @@ import com.nutsplay.nopagesdk.view.SDKProgressDialog;
 import com.nutsplay.nopagesdk.view.SDKProgressEmptyDialog;
 import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
-
-import net.aihelp.init.AIHelpSupport;
-import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -385,7 +378,7 @@ public class SDKManager {
             SDKGameUtils.getKeyHash(activity);
 
             //初始化客服系统
-            AIHelpManager.initAiHelp(activity,initParameter);
+//            AIHelpManager.initAiHelp(activity,initParameter);
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -399,28 +392,28 @@ public class SDKManager {
     /**
      * 初始化AiHelp客服系统
      */
-    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
-
-        try {
-            AIHelpSupport.init(
-                    activity,
-                    parameters.getAihelpAppkey(),
-                    parameters.getAihelpDomain(),
-                    parameters.getAihelpAppID(),
-                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
-            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
-                @Override
-                public void onAIHelpInitialized() {
-
-                    aiHelpInitStatus = true;
-                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
-                    if (resultCallBack != null) resultCallBack.onSuccess();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void initAiHelp(final Activity activity, final InitParameter parameters, final ResultCallBack resultCallBack) {
+//
+//        try {
+//            AIHelpSupport.init(
+//                    activity,
+//                    parameters.getAihelpAppkey(),
+//                    parameters.getAihelpDomain(),
+//                    parameters.getAihelpAppID(),
+//                    SDKGameUtils.getAIHelpLanguage(parameters.getLanguage()));
+//            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
+//                @Override
+//                public void onAIHelpInitialized() {
+//
+//                    aiHelpInitStatus = true;
+//                    Log.e("AIHelp", "AiHelp初始化成功,v"+AIHelpSupport.getSDKVersion());
+//                    if (resultCallBack != null) resultCallBack.onSuccess();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 获取公钥
@@ -1878,7 +1871,7 @@ public class SDKManager {
             return;
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
-        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
+//        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
     }
 
 
@@ -2877,20 +2870,20 @@ public class SDKManager {
      * AiHelp
      */
     public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
-        AIHelpManager.customerSupport(playerName,serverId,userTags,customData,showRobot);
+//        AIHelpManager.customerSupport(playerName,serverId,userTags,customData,showRobot);
     }
 
     public void showFAQs(String userName, String serverId,String userTags, JSONObject customData,boolean showRobot) {
-        AIHelpManager.showFAQs(userName,serverId,userTags,customData,showRobot);
+//        AIHelpManager.showFAQs(userName,serverId,userTags,customData,showRobot);
     }
 
     /**
      * 获取AIhelp未读消息数
      * @param callback
      */
-    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
-        AIHelpSupport.startUnreadMessageCountPolling(callback);
-    }
+//    public void fetchUnreadMessages(OnMessageCountArrivedCallback callback){
+//        AIHelpSupport.startUnreadMessageCountPolling(callback);
+//    }
 
     /**
      * 角色升级

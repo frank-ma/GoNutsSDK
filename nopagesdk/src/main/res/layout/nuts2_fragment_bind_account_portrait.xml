@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/color_676CD9"
+            android:textColor="@color/color_4F84E2"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="33dp"
             android:ellipsize="end"

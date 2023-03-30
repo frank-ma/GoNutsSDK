@@ -162,7 +162,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="8dp"
             android:layout_marginRight="19dp"
-            android:textColor="@color/color_676CD9"
+            android:textColor="@color/color_4F84E2"
             android:text="Forget Password?"
             android:ellipsize="end"
             android:maxLines="1"
@@ -172,7 +172,7 @@
         <com.nutsplay.nopagesdk.view.shadow.ShadowLayout
             android:id="@+id/login_shadow"
             app:shadowRadius="15dp"
-            app:shadowColor="@color/color_9868f0"
+            app:shadowColor="@color/color_6495ec"
             app:blurRadius="16px"
             app:xOffset="0dp"
             app:yOffset="10px"

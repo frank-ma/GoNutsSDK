@@ -176,7 +176,7 @@
             android:layout_marginTop="160dp"
             android:gravity="center"
             app:blurRadius="16px"
-            app:shadowColor="@color/color_9868f0"
+            app:shadowColor="@color/color_6495ec"
             app:shadowRadius="15dp"
             app:xOffset="0dp"
             app:yOffset="10px">

@@ -10,9 +10,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
@@ -34,11 +32,7 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
-
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +104,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setUIVersion(SDKConstant.LANDSCAPE);//0：新UI横版  1：新UI竖版   其他：老UI
+        initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -196,9 +190,7 @@ public class MainActivity extends SDKBaseActivity {
     }
 
     public void loginUI(View view) {
-
         login();
-
     }
 
     private void login() {
@@ -227,8 +219,6 @@ public class MainActivity extends SDKBaseActivity {
                 } else if (SDKConstant.TYPE_GOOGLE.equals(user.getSdkmemberType())){
                     //Google登录
                 }
-
-
             }
 
             @Override
@@ -879,14 +869,14 @@ public class MainActivity extends SDKBaseActivity {
      * AiHelp客服系统
      * @param view
      */
-    public void fetchUnread(View view) {
-        SDK.getInstance().fetchUnreadMessage(new OnMessageCountArrivedCallback() {
-            @Override
-            public void onMessageCountArrived(int msgCount) {
-                showLog("AiHelp客服未读消息数量：" + msgCount);
-            }
-        });
-    }
+//    public void fetchUnread(View view) {
+//        SDK.getInstance().fetchUnreadMessage(new OnMessageCountArrivedCallback() {
+//            @Override
+//            public void onMessageCountArrived(int msgCount) {
+//                showLog("AiHelp客服未读消息数量：" + msgCount);
+//            }
+//        });
+//    }
 
     public void FAQ(View view) {
         //参数分别为:用户名，服务器id,用户标签，自定义数据

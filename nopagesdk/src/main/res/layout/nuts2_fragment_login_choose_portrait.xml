@@ -104,7 +104,7 @@
             <View
                 android:layout_width="80dp"
                 android:layout_height="1dp"
-                android:background="@color/color_eae4f1" />
+                android:background="@color/color_ABC4F0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,13 +112,13 @@
                 android:layout_marginLeft="27dp"
                 android:layout_marginRight="27dp"
                 android:textSize="14sp"
-                android:textColor="@color/color_d4cdde"
+                android:textColor="@color/color_ABC4F0"
                 android:text="Other Login methods" />
 
             <View
                 android:layout_width="80dp"
                 android:layout_height="1dp"
-                android:background="@color/color_eae4f1" />
+                android:background="@color/color_ABC4F0" />
 
         </LinearLayout>
 
@@ -179,7 +179,7 @@
                 android:gravity="center"
                 android:layout_marginTop="10dp"
                 app:blurRadius="4dp"
-                app:shadowColor="@color/color_86BFFF"
+                app:shadowColor="@color/color_6996F0"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
                 app:yOffset="2dp">

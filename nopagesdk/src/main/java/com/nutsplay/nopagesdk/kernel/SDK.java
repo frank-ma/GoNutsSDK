@@ -17,12 +17,9 @@ import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
-import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutspower.commonlibrary.utils.StringUtils;
-
-import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
 import org.json.JSONObject;
 
@@ -399,10 +396,10 @@ public class SDK {
     }
 
     //获取未读消息
-    public  void fetchUnreadMessage(OnMessageCountArrivedCallback callback){
-        if (callback == null) return;
-        AIHelpManager.fetchUnreadMessage(callback);
-    }
+//    public  void fetchUnreadMessage(OnMessageCountArrivedCallback callback){
+//        if (callback == null) return;
+//        AIHelpManager.fetchUnreadMessage(callback);
+//    }
 
     /**
      * Adjust自定义追踪事件

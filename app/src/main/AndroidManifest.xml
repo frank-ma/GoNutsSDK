@@ -89,13 +89,13 @@
             android:name="com.facebook.sdk.CodelessDebugLogEnabled"
             android:value="true" />
 
-        <activity
-            android:name="net.aihelp.ui.HostActivity"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="fullSensor"
-            android:exported="true"
-            tools:replace="android:screenOrientation"/>
+<!--        <activity-->
+<!--            android:name="net.aihelp.ui.HostActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
+<!--            android:screenOrientation="fullSensor"-->
+<!--            android:exported="true"-->
+<!--            tools:replace="android:screenOrientation"/>-->
     </application>
 
 

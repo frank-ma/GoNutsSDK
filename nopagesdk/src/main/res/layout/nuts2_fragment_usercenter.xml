@@ -101,6 +101,7 @@
                 app:shadowColor="@color/color_5fdbb9"
                 app:shadowRadius="15dp"
                 app:xOffset="0dp"
+                android:visibility="invisible"
                 app:yOffset="8px">
 
                 <TextView
