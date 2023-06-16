@@ -603,6 +603,53 @@ public class SDKGameUtils {
         }
     }
 
+    /**
+     * 获取HelpShift语言代码
+     * @param language
+     * @return
+     */
+    public static String getHelpShiftLanguageAlia(String language){
+        if (language == null || language.isEmpty()){
+            return "en";
+        }
+        language = language.toLowerCase();
+        if (language.contains("cn")) {
+            return "zh_Hans";
+        } else if (language.contains("en")) {
+            return "en";
+        } else if (language.contains("th")) {
+            return "th";
+        } else if (language.contains("vn") || language.contains("vi")) {
+            return "vi";
+        } else if (language.contains("ar")) {
+            return "ar";
+        } else if (language.contains("kr") || language.contains("ko")) {
+            return "ko";
+        } else if (language.contains("hk")) {
+            return "zh_HK";
+        } else if (language.contains("fr") || language.contains("fo")) {
+            return "fr";
+        } else if (language.contains("br") || language.contains("pt")) {
+            return "pt";
+        } else if (language.contains("de") || language.contains("deu")) {
+            return "de";
+        } else if (language.contains("sp") || language.contains("es")) {
+            return "es";
+        } else if (language.contains("it")) {
+            return "it";
+        } else if (language.contains("jp") || language.contains("ja")) {
+            return "ja";
+        } else if (language.contains("idn") || language.contains("id")) {
+            return "id";
+        } else if (language.contains("by") || language.contains("ru")) {
+            return "ru";
+        } else if (language.contains("tr")) {
+            return "tr";
+        } else {
+            return "en";
+        }
+    }
+
     public static String getStringLanguage(int langugae) {
         String lan = null;
         if (langugae == 1) {

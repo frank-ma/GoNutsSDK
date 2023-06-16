@@ -24,6 +24,11 @@ public class SDKApplication extends MultiDexApplication {
         x.Ext.init(this);
         context = this;
         TrackingManager.trackingInit(this, AF_DEV_KEY);
+
+
+        //FB SDK 初始化
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
     }
 
 

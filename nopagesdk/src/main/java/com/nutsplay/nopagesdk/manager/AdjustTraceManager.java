@@ -2,6 +2,9 @@ package com.nutsplay.nopagesdk.manager;
 
 import android.app.Activity;
 
+import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustEvent;
+import com.adjust.sdk.AdjustPlayStoreSubscription;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
@@ -36,10 +39,10 @@ public class AdjustTraceManager {
     public void googleIap(Activity context, double revenue, String currency, String orderId) {
         try {
             String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_google_iap", "string"));
-//            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
-//            adjustEvent.setRevenue(revenue, currency);
-//            adjustEvent.setOrderId(orderId);
-//            Adjust.trackEvent(adjustEvent);
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            adjustEvent.setRevenue(revenue, currency);
+            adjustEvent.setOrderId(orderId);
+            Adjust.trackEvent(adjustEvent);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -52,8 +55,8 @@ public class AdjustTraceManager {
     public void adjustLogin(Activity context) {
         try {
             String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_login", "string"));
-//            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
-//            Adjust.trackEvent(adjustEvent);
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            Adjust.trackEvent(adjustEvent);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -66,8 +69,8 @@ public class AdjustTraceManager {
     public void adjustRegister(Activity context) {
         try {
             String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_register", "string"));
-//            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
-//            Adjust.trackEvent(adjustEvent);
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            Adjust.trackEvent(adjustEvent);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -81,8 +84,8 @@ public class AdjustTraceManager {
     public void adjustCustomEvent(String eventID){
         try {
             if (StringUtils.isEmpty(eventID)) return;
-//            AdjustEvent adjustEvent = new AdjustEvent(eventID);
-//            Adjust.trackEvent(adjustEvent);
+            AdjustEvent adjustEvent = new AdjustEvent(eventID);
+            Adjust.trackEvent(adjustEvent);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -97,7 +100,7 @@ public class AdjustTraceManager {
     public void adjustTrackAdRevenue(String source, JSONObject payload){
         try{
             if (StringUtils.isEmpty(source) || payload == null) return;
-//            Adjust.trackAdRevenue(source,payload);
+            Adjust.trackAdRevenue(source,payload);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -114,15 +117,15 @@ public class AdjustTraceManager {
      */
     public void adjustTrackSubs(double price,String currency,String sku,String orderId,String signature,String purchaseToken){
         try {
-//            AdjustPlayStoreSubscription subscription = new AdjustPlayStoreSubscription(
-//                    (long) price,
-//                    currency,
-//                    sku,
-//                    orderId,
-//                    signature,
-//                    purchaseToken);
-//            subscription.setPurchaseTime(System.currentTimeMillis());
-//            Adjust.trackPlayStoreSubscription(subscription);
+            AdjustPlayStoreSubscription subscription = new AdjustPlayStoreSubscription(
+                    (long) price,
+                    currency,
+                    sku,
+                    orderId,
+                    signature,
+                    purchaseToken);
+            subscription.setPurchaseTime(System.currentTimeMillis());
+            Adjust.trackPlayStoreSubscription(subscription);
         }catch (Exception e){
             e.printStackTrace();
         }

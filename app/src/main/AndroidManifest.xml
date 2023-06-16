@@ -7,7 +7,7 @@
 
     <!-- google支付权限 -->
     <application
-        android:name="com.nutsplay.nopagesdk.kernel.SDKApplication"
+        android:name="com.nutsplay.nonutssdk.App"
         android:allowBackup="false"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"

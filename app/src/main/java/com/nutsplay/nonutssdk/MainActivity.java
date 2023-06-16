@@ -30,13 +30,14 @@ import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
+import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-
+import java.util.Map;
 
 
 public class MainActivity extends SDKBaseActivity {
@@ -45,12 +46,14 @@ public class MainActivity extends SDKBaseActivity {
 
 //    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "36386748bb";
-    String referenceId = "com.nutspower.nutsgamesdk.sub2";
+//    String referenceId = "com.nutspower.nutsgamesdk.sub2";
+    String referenceId = "com.nuts.sm.android.googleplay.1";
 
 
 
 //    private String clientId = "5dad5c14e73f210d548bf491";//MiPay      635f680c95b526b99391e7e7
-    private String clientId = "636a036795b526cd86c8e28d";//MiPay      635f680c95b526b99391e7e7
+//    private String clientId = "6449d80495b526d070beff5a";//MiPay      635f680c95b526b99391e7e7
+    private String clientId = "6451e5c395b526d070bf0113";//alpha
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
 //    String referenceId = "gem_0001";
@@ -97,13 +100,13 @@ public class MainActivity extends SDKBaseActivity {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
         initParameter.setBuglyId("");
-        initParameter.setLanguage("en");
+        initParameter.setLanguage("ja");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
-        initParameter.setAihelpAppID(AIHelpAppID);
-        initParameter.setAihelpDomain(AIHelpDomain);
+//        initParameter.setAihelpAppkey(AIHelpAppKey);
+//        initParameter.setAihelpAppID(AIHelpAppID);
+//        initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -282,7 +285,7 @@ public class MainActivity extends SDKBaseActivity {
 
     public void purchase(View view) {
         String referenceId = "com.dyhd.game.seawar3d.pay00991";
-        String skuId = "item_1";
+        String skuId = "com.nuts.sm.android.googleplay.1";
         SDK.getInstance().sdkPurchase(this, "0", skuId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -1017,5 +1020,17 @@ public class MainActivity extends SDKBaseActivity {
 
     public void clear(View view) {
         logTv.setText("");
+    }
+
+    public void faq(View view) {
+        Map<String,Object> config = new HashMap<>();
+        HelpShiftManager.showFAQs(this,config);
+    }
+
+    public void conversation(View view) {
+        Map<String, Object> config = new HashMap<>();
+        //配置根据需要添加
+//        config.put("tags", new String[]{"foo", "bar"});
+        HelpShiftManager.showConversation(this,config);
     }
 }

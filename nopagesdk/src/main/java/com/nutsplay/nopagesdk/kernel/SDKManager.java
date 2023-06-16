@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
@@ -46,6 +48,7 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
+import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
@@ -196,6 +199,9 @@ public class SDKManager {
 
     public void setUser(User token) {
         SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_user, token);
+        //设置客服语言
+
+        HelpShiftManager.setUser(token);
     }
 
     public User getTempUser() {
@@ -379,6 +385,7 @@ public class SDKManager {
 
             //初始化客服系统
 //            AIHelpManager.initAiHelp(activity,initParameter);
+            HelpShiftManager.setHelpShiftLan(initParameter.getLanguage());
 
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -1572,6 +1579,9 @@ public class SDKManager {
             GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
             client.signOut();
             SDKManager.getInstance().setLogin(false);
+
+            //客服登出
+            HelpShiftManager.logout();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1872,6 +1882,8 @@ public class SDKManager {
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
 //        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
+        //设置客服语言
+        HelpShiftManager.setHelpShiftLan(language);
     }
 
 
