@@ -53,7 +53,7 @@ public class MainActivity extends SDKBaseActivity {
 
 //    private String clientId = "5dad5c14e73f210d548bf491";//MiPay      635f680c95b526b99391e7e7
 //    private String clientId = "6449d80495b526d070beff5a";//MiPay      635f680c95b526b99391e7e7
-    private String clientId = "6451e5c395b526d070bf0113";//alpha
+    private String clientId = "64aed91995b526d070bf580c";//viking
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
 //    String referenceId = "gem_0001";
@@ -377,7 +377,7 @@ public class MainActivity extends SDKBaseActivity {
 //        skuList.add("com.nuts.pa.android.googleplay.19");
 
         //test xiaomiPay
-        skuList.add("com.dyhd.game.seawar3d.pay00991");
+        skuList.add("viking.package4999");
 
 
 
