@@ -3,7 +3,6 @@
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url 'https://artifacts.applovin.com/android' }
         maven { url "https://dl.bintray.com/ironsource-mobile/android-sdk" }
@@ -27,7 +26,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
     }
