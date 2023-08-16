@@ -53,26 +53,28 @@
         <!-- android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard" -->
         <!-- android:theme="@android:style/Theme.Translucent" /> -->
         <!-- facebook登录相关 -->
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:exported="true"/>
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true"
-            android:screenOrientation="sensorLandscape">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name="com.facebook.FacebookActivity"-->
+<!--            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:exported="true"/>-->
+<!--        <activity-->
+<!--            android:name="com.facebook.CustomTabActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="sensorLandscape">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="@string/fb_login_protocol_scheme" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.ApplicationId"-->
+<!--            android:value="@string/facebook_app_id" />-->
+
+
         <!-- <meta-data -->
         <!-- android:name="applovin.sdk.key" -->
         <!-- android:value="iwQgra9X9i9VIXscPrXx9XKOeDuorbdXV3DKdNto40HNT8_z-Wv83DWhRPTG_6pV91qoOgZThsrE_qCzL55OJc" /> -->
@@ -85,9 +87,9 @@
         <!-- <action android:name="com.android.vending.INSTALL_REFERRER" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <meta-data
-            android:name="com.facebook.sdk.CodelessDebugLogEnabled"
-            android:value="true" />
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.CodelessDebugLogEnabled"-->
+<!--            android:value="true" />-->
 
 <!--        <activity-->
 <!--            android:name="net.aihelp.ui.HostActivity"-->
