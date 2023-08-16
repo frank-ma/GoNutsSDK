@@ -57,7 +57,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
-    api 'com.android.billingclient:billing:4.0.0'//2.0.3//2.2.1//3.0.3
+    api 'com.android.billingclient:billing:6.0.0'//2.0.3//2.2.1//3.0.3//4.0.0
+    api 'com.google.guava:guava:18.0'
     //Gson
     api 'com.google.code.gson:gson:2.8.6'
 

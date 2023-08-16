@@ -6,7 +6,8 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
 //        applicationId "com.nuts.atw.android.googleplay"
-        applicationId "games.atys.viking.android"
+//        applicationId "games.atys.viking.android"
+        applicationId "com.nutspower.nutsgamesdk"
         minSdkVersion 21//19
         targetSdkVersion 30
         multiDexEnabled true

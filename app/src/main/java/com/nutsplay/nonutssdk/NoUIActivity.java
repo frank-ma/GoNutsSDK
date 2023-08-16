@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.android.billingclient.api.ProductDetails;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -271,12 +271,12 @@ public class NoUIActivity extends BaseActivity {
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList,SDKConstant.INAPP, new SDKGetSkuDetailsCallback() {
             @Override
-            public void onSuccess(List<SkuDetails> skuDetails) {
+            public void onSuccess(List<ProductDetails> skuDetails) {
                 showLog("查询本地价格成功："+skuDetails.size());
                 if (skuDetails.size() == 0)return;
-                for (SkuDetails sku:skuDetails){
-                    String skuId=sku.getSku();
-                    String localPrice=sku.getPrice();
+                for (ProductDetails sku:skuDetails){
+                    String skuId=sku.getProductId();
+                    String localPrice=sku.getOneTimePurchaseOfferDetails().getFormattedPrice();
                     showLog(skuId+"    "+localPrice);
                 }
             }

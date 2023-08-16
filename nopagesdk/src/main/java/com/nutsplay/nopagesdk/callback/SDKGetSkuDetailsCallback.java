@@ -1,7 +1,7 @@
 package com.nutsplay.nopagesdk.callback;
 
 
-import com.nutsplay.nopagesdk.beans.SkuDetails;
+import com.android.billingclient.api.ProductDetails;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface SDKGetSkuDetailsCallback {
 
-    void onSuccess(List<SkuDetails> skuDetails);
+    void onSuccess(List<ProductDetails> skuDetails);
 
     void onFailure(int code,String msg);
 }

@@ -14,16 +14,19 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
-import com.android.billingclient.api.PriceChangeConfirmationListener;
-import com.android.billingclient.api.PriceChangeFlowParams;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchaseHistoryRecord;
 import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.common.collect.ImmutableList;
 import com.nutsplay.nopagesdk.beans.PayResult;
 import com.nutsplay.nopagesdk.beans.SDKOrderModel;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
@@ -48,7 +51,7 @@ import java.util.List;
 /**
  * Created by frankma on 2019-09-25 15:40
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc:  已适配V6版本Google 支付库
  */
 public class GooglePayHelp implements PurchasesUpdatedListener {
 
@@ -56,7 +59,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
     private String skuId = "";
 
-    private String itemType = BillingClient.SkuType.INAPP;//inapp普通商品   subs订阅商品
+    private String itemType = BillingClient.ProductType.INAPP;//inapp普通商品   subs订阅商品
 
     private BillingClient billingClient;
 
@@ -98,7 +101,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     //初始化成功
                     Log.d(TAG, "Google 初始化成功");
                     setConnected(true);
-                    queryPurchase(true, type,transactionId);
+                    queryPurchase(activity,true, type,transactionId);
                 } else {
                     SDKToast.getInstance().ToastShow(billingResult.getDebugMessage(), 2);
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
@@ -112,6 +115,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             @Override
             public void onBillingServiceDisconnected() {
 //                reConnectGooglePlay(type);
+                setConnected(false);
             }
         });
 
@@ -142,7 +146,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     setConnected(true);
 
 
-                    queryPurchase(true, type,transactionId);
+                    queryPurchase(activity,true, type,transactionId);
                 } else {
                     SDKToast.getInstance().ToastShow(billingResult.getDebugMessage(), 2);
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
@@ -155,7 +159,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 
             @Override
             public void onBillingServiceDisconnected() {
-
+                  setConnected(false);
 //                reConnectGooglePlay(type,transactionId);
             }
         });
@@ -175,12 +179,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * 1 每次启动应用时都调用，以便恢复掉单数据；
      * 2 onResume()方法中调用，因为当您的应用在后台运行时，用户可能会发起购买交易，例如在GP商店中兑换促销代码；
      */
-    public void queryPurchase(final boolean isBuy, final String type,String transactionId) {
+    public void queryPurchase(Activity activity,final boolean isBuy, final String type,String transactionId) {
 
         if (!isConnected() || billingClient == null) {
             return;
         }
-        billingClient.queryPurchasesAsync(type, new PurchasesResponseListener() {
+        billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(type).build(), new PurchasesResponseListener() {
             @Override
             public void onQueryPurchasesResponse(@NonNull @NotNull BillingResult billingResult, @NonNull @NotNull List<Purchase> purchasesList) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
@@ -191,14 +195,14 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         return;
                     }
                     //如果是订阅，直接进行购买，如果有订阅是不能购买的
-                    if (BillingClient.SkuType.SUBS.equals(type)) {
-                        if (isBuy) launchBillingFlow(skuId, type,transactionId);
+                    if (BillingClient.ProductType.SUBS.equals(type)) {
+                        if (isBuy) launchBillingFlow(activity,skuId, type,transactionId);
                     } else {
                         //消耗型商品
                         if (purchasesList.size() == 0) {
                             //没有掉单，直接购买
                             LogUtils.d(TAG, "no lost order");
-                            if (isBuy) launchBillingFlow(skuId, itemType,transactionId);
+                            if (isBuy) launchBillingFlow(activity,skuId, itemType,transactionId);
                         } else {
                             //有掉单，先补单
                             LogUtils.d("lost order", "lost order size:" + purchasesList.size());
@@ -212,7 +216,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                             }
                             //要买的item没有掉单可以直接购买
                             if (!isItemLost && isBuy) {
-                                launchBillingFlow(skuId, itemType,transactionId);
+                                launchBillingFlow(activity,skuId, itemType,transactionId);
                             }
                         }
                     }
@@ -248,7 +252,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
 //            LogUtils.d(TAG, "掉单数量：" + records.size());
 //            if (records.size() > 0) {
 //                for (Purchase purchase : records) {
-//                    notifyServerForLostOrder(BillingClient.SkuType.INAPP, purchase);
+//                    notifyServerForLostOrder(BillingClient.ProductType.INAPP, purchase);
 //                }
 //            }
 //        } catch (Exception e) {
@@ -264,7 +268,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     private void queryHistoryPurchase() {
 
         if (billingClient == null) return;
-        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
+        billingClient.queryPurchaseHistoryAsync(BillingClient.ProductType.INAPP, new PurchaseHistoryResponseListener() {
             @Override
             public void onPurchaseHistoryResponse(@NotNull BillingResult billingResult, List<PurchaseHistoryRecord> purchaseHistoryRecordList) {
                 if (purchaseHistoryRecordList != null) {
@@ -287,28 +291,28 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     /**
      * 价格变动确认流程
      */
-    private void priceChangeConfirm(Activity activity) {
-        if (billingClient == null) return;
-        SkuDetails changeSku = null;
-        PriceChangeFlowParams priceChangeFlowParams = PriceChangeFlowParams.newBuilder()
-                .setSkuDetails(changeSku).build();
-        billingClient.launchPriceChangeConfirmationFlow(activity, priceChangeFlowParams,
-                new PriceChangeConfirmationListener() {
-                    @Override
-                    public void onPriceChangeConfirmationResult(@NotNull BillingResult billingResult) {
-                        int responseCode = billingResult.getResponseCode();
-
-                        if (responseCode == BillingClient.BillingResponseCode.OK) {
-                            //用户确认了价格变动，谢谢支持
-
-
-                        } else if (responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-                            //用户没有确认价格变动
-
-                        }
-                    }
-                });
-    }
+//    private void priceChangeConfirm(Activity activity) {
+//        if (billingClient == null) return;
+//        SkuDetails changeSku = null;
+//        PriceChangeFlowParams priceChangeFlowParams = PriceChangeFlowParams.newBuilder()
+//                .setSkuDetails(changeSku).build();
+//        billingClient.launchPriceChangeConfirmationFlow(activity, priceChangeFlowParams,
+//                new PriceChangeConfirmationListener() {
+//                    @Override
+//                    public void onPriceChangeConfirmationResult(@NotNull BillingResult billingResult) {
+//                        int responseCode = billingResult.getResponseCode();
+//
+//                        if (responseCode == BillingClient.BillingResponseCode.OK) {
+//                            //用户确认了价格变动，谢谢支持
+//
+//
+//                        } else if (responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+//                            //用户没有确认价格变动
+//
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * 查询商品的本地价格
@@ -339,44 +343,25 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             return;
         }
 
-
-        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-        params.setSkusList(skuList).setType(type);
-        billingClient.querySkuDetailsAsync(params.build(),
-                new SkuDetailsResponseListener() {
+        ArrayList<QueryProductDetailsParams.Product> list = new ArrayList<>();
+        for (String id:skuList){
+            QueryProductDetailsParams.Product productItem = QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId(id)
+                    .setProductType(type)
+                    .build();
+            list.add(productItem);
+        }
+        QueryProductDetailsParams queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
+                        .setProductList(list)
+                        .build();
+        billingClient.queryProductDetailsAsync(queryProductDetailsParams,
+                new ProductDetailsResponseListener() {
                     @Override
-                    public void onSkuDetailsResponse(@NotNull BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                    public void onProductDetailsResponse(@NotNull BillingResult billingResult, @NotNull List<ProductDetails> skuDetailsList) {
 
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            if (skuDetailsList != null && skuDetailsList.size() > 0) {
-
-                                List<com.nutsplay.nopagesdk.beans.SkuDetails> skus = new ArrayList<>();
-                                LogUtils.d(TAG, "skuDetailsList.size()---" + skuDetailsList.size());
-                                for (SkuDetails skuDetails : skuDetailsList) {
-                                    com.nutsplay.nopagesdk.beans.SkuDetails sku = new com.nutsplay.nopagesdk.beans.SkuDetails();
-                                    sku.setSku(skuDetails.getSku());
-                                    sku.setType(skuDetails.getType());
-                                    sku.setPrice(skuDetails.getPrice());
-                                    sku.setPriceCurrencyCode(skuDetails.getPriceCurrencyCode());
-                                    sku.setPriceAmountMicros(skuDetails.getPriceAmountMicros());
-                                    sku.setTitle(skuDetails.getTitle());
-                                    sku.setDescription(skuDetails.getDescription());
-                                    sku.setOriginalJson(skuDetails.getOriginalJson());
-                                    sku.setIconUrl(skuDetails.getIconUrl());
-                                    sku.setFreeTrialPeriod(skuDetails.getFreeTrialPeriod());
-                                    sku.setIntroductoryPrice(skuDetails.getIntroductoryPrice());
-                                    sku.setIntroductoryPriceAmountMicros(skuDetails.getIntroductoryPriceAmountMicros());
-                                    sku.setIntroductoryPriceCycles(skuDetails.getIntroductoryPriceCycles() + "");
-                                    sku.setOriginalPrice(skuDetails.getOriginalPrice());
-//                                    sku.setRewarded(skuDetails.isRewarded());
-                                    sku.setSubscriptionPeriod(skuDetails.getSubscriptionPeriod());
-                                    sku.setIntroductoryPricePeriod(skuDetails.getIntroductoryPricePeriod());
-
-                                    skus.add(sku);
-                                }
-                                if (skus.size() > 0) {
-                                    callback.onSuccess(skus);
-                                }
+                            if (skuDetailsList.size() > 0) {
+                                callback.onSuccess(skuDetailsList);
                             } else {
                                 callback.onFailure(SDKConstant.developer_error, "skuDetailsList is null or skuDetailsList.size() == 0,Please make sure the app has been uploaded to Google Play.");
                             }
@@ -390,7 +375,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
     /**
      * 发起订阅
      */
-    public void doSubscription(String subsId,String transactionId) {
+    public void doSubscription(Activity activity,String subsId,String transactionId) {
 
         if (billingClient == null) return;
         BillingResult result = billingClient.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS);
@@ -398,7 +383,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
             //用户的GooglePlay版本支持订阅功能
             //查询是否有该订阅
             //如果没有支付该订阅
-            launchBillingFlow(skuId, BillingClient.SkuType.SUBS,transactionId);
+            launchBillingFlow(activity,skuId, BillingClient.ProductType.SUBS,transactionId);
 
         } else {
             SDKToast.getInstance().ToastShow("Your Google Play version does not support subscriptions, please upgrade it", 3);
@@ -411,13 +396,114 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      *
      * @param skuId
      */
-    public void launchBillingFlow(String skuId,String type,String transactionId) {
+    public void launchBillingFlow(Activity activity,String skuId,String type,String transactionId) {
 
         if (!isConnected() || billingClient == null) {
             return;
         }
 
         if (skuId == null || skuId.isEmpty()) return;
+
+        //先判断，因为在极少数情况下，某些设备无法支持 ProductDetails 和 queryProductDetailsAsync()，
+        // 这通常是因为 Google Play 服务版本已过时。
+
+        //TODO 采用新支付功能
+        NewVersionPurchase(activity,skuId, type, transactionId);
+//        OldVersionPurchase(skuId, type, transactionId);
+
+//        BillingResult result = billingClient.isFeatureSupported("queryProductDetailsAsync");
+//        if (result.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+//            NewVersionPurchase(activity,skuId, type, transactionId);
+//        }else {
+//            OldVersionPurchase(skuId, type, transactionId);
+//        }
+    }
+
+    /**
+     * 新版本支付
+     * @param skuId
+     * @param type
+     * @param transactionId
+     */
+    private void NewVersionPurchase(Activity activity,String skuId, String type, String transactionId) {
+        ImmutableList<QueryProductDetailsParams.Product> productList = ImmutableList.of(QueryProductDetailsParams.Product.newBuilder()
+                .setProductId(skuId)
+                .setProductType(type)
+                .build());
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                .setProductList(productList)
+                .build();
+        billingClient.queryProductDetailsAsync(
+                params,
+                new ProductDetailsResponseListener() {
+                    public void onProductDetailsResponse(@NotNull BillingResult billingResult, @NotNull List<ProductDetails> productDetailsList) {
+                        // Process the result
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            if (productDetailsList.size() > 0){
+                                LogUtils.d(TAG, "skuDetailsList.size()---" + productDetailsList.size());
+                                for (ProductDetails productDetails : productDetailsList) {
+                                    String sku = productDetails.getProductId();
+                                    if (sku.equals(skuId)) {
+                                        BuildBillingFlow(activity,transactionId,productDetails);
+                                    }
+                                }
+                            }else {
+                                //找不到商品信息，说明Google商店未配置该商品
+                                SDKManager.getInstance().hideProgress();
+                                if (SDKManager.getInstance().getPurchaseCallBack() != null) {
+                                    SDKManager.getInstance().getPurchaseCallBack().onFailure(SDKConstant.no_upload_apk, "Google Play does not have the item id.");
+                                    destroy();
+                                }
+                            }
+                        }else {
+                            SDKManager.getInstance().hideProgress();
+                            if (SDKManager.getInstance().getPurchaseCallBack() != null) {
+                                SDKManager.getInstance().getPurchaseCallBack().onFailure(billingResult.getResponseCode(), billingResult.getDebugMessage());
+                                destroy();
+                            }
+                        }
+                    }
+                }
+        );
+    }
+
+    /**
+     * 构建购买流
+     * @param activity
+     * @param transactionId
+     * @param productDetails
+     */
+    private void BuildBillingFlow(Activity activity,String transactionId,ProductDetails productDetails) {
+        //优惠Token
+//        String offerToken = productDetails
+//                .getSubscriptionOfferDetails()
+//                .get(selectedOfferIndex)
+//                .getOfferToken();
+
+        ImmutableList<BillingFlowParams.ProductDetailsParams> productDetailsParamsList =
+                ImmutableList.of(BillingFlowParams.ProductDetailsParams.newBuilder()
+                                .setProductDetails(productDetails)
+//                                .setOfferToken(offerToken)
+                                .build());
+
+        BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
+                .setObfuscatedAccountId(transactionId)
+                .setIsOfferPersonalized(true)//对欧盟用户实行价格自动化设置，Play界面会披露声明
+                .build();
+
+        if (billingClient == null) return;
+        BillingResult bResult = billingClient.launchBillingFlow(activity, billingFlowParams);
+        LogUtils.d(TAG, "launchBillingFlow---responseCode:" + bResult.getResponseCode() + "  msg:" + bResult.getDebugMessage());
+    }
+
+    /**
+     * Google Play服务版本过时时调用旧版本
+     * @param skuId
+     * @param type
+     * @param transactionId
+     */
+    private void OldVersionPurchase(String skuId, String type, String transactionId) {
         List<String> skuList = new ArrayList<>();
         skuList.add(skuId);
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
@@ -460,14 +546,12 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                         }
                     }
                 });
-
-
     }
 
     /**
      * Google Play服务重连策略
      */
-    private void reConnectGooglePlay(final String type,String transactionId) {
+    private void reConnectGooglePlay(Activity activity,final String type,String transactionId) {
 
         if (billingClient == null) return;
         billingClient.startConnection(new BillingClientStateListener() {
@@ -480,7 +564,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     setConnected(true);
 
 
-                    queryPurchase(true, type,transactionId);
+                    queryPurchase(activity,true, type,transactionId);
                 } else {
                     Log.d(TAG, "Google 初始化失败---responseCode:" + billingResult.getResponseCode() + "---" + billingResult.getDebugMessage());
                     SDKManager.getInstance().hideProgress();
@@ -589,6 +673,8 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
      * 支付成功，回调服务器，然后消费掉商品以便继续购买
      *
      * @param purchase
+     *  V6：支付成功后Google返回数据
+     * [Purchase. Json: {"orderId":"GPA.3354-3055-4665-76453","packageName":"com.nutspower.nutsgamesdk","productId":"nuts_product_1","purchaseTime":1692120566546,"purchaseState":0,"purchaseToken":"dhpofmmojjmhfpeljjijgocp.AO-J1OwRIIQcbymASFB5NBLMpdbXNZGQOHVDNAhjJ6SU0cyGVKTv9xU17_b2Xksdqs4W_cOJbWJqLXj1ppq_HA2ZQLhIvp6-77n1XSDC6niGiqAUgF50Ojw","obfuscatedAccountId":"202308151027333283662588","quantity":1,"acknowledged":false}]
      */
     private void notifyServer(final String itemType, final boolean isBudan, final Purchase purchase) {
         if (purchase == null) return;
@@ -710,7 +796,7 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
                     }
                     if (orderModel.getCode() == 1) {
 
-                        LogUtils.d(TAG, "通知服务器成功");
+                        LogUtils.d(TAG, "通知服务器成功："+orderModel.toString());
                         String orderId = orderModel.getData().getTransactionId();
                         double price = orderModel.getData().getPrice();
                         String currency = orderModel.getData().getCurrency();

@@ -1670,7 +1670,7 @@ public class SDKManager {
                             } else {
                                 //使用Google内购一次性商品
                                 LogUtils.d(TAG, "发起Google内购一次性商品");
-                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.INAPP);
+                                GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.ProductType.INAPP);
                                 //小米国际版支付
 //                                MiPayManager.getInstance().initMiPay(activity,referenceId,transactionId);
                             }
@@ -1776,7 +1776,7 @@ public class SDKManager {
 
                             //使用Google订阅
                             LogUtils.d(TAG, "发起Google订阅");
-                            GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.SkuType.SUBS);
+                            GooglePayHelp.getInstance().initGoogleIAP(activity, referenceId, transactionId, BillingClient.ProductType.SUBS);
 
                         } else {
                             hideProgress();
@@ -1912,7 +1912,7 @@ public class SDKManager {
             public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
                     GooglePayHelp.getInstance().setConnected(true);
-                    GooglePayHelp.getInstance().queryPurchase(false, SDKConstant.INAPP,"");
+                    GooglePayHelp.getInstance().queryPurchase(activity,false, SDKConstant.INAPP,"");
                 }
             }
 

@@ -10,11 +10,13 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
+import com.android.billingclient.api.ProductDetails;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.SkuDetails;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.BindFBCallback;
@@ -33,7 +35,9 @@ import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
 import com.nutspower.nutsgamesdk.R;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,10 +54,9 @@ public class MainActivity extends SDKBaseActivity {
     String referenceId = "com.nuts.sm.android.googleplay.1";
 
 
-
-//    private String clientId = "5dad5c14e73f210d548bf491";//MiPay      635f680c95b526b99391e7e7
+    private String clientId = "5dad5c14e73f210d548bf491";//测试应用      635f680c95b526b99391e7e7
 //    private String clientId = "6449d80495b526d070beff5a";//MiPay      635f680c95b526b99391e7e7
-    private String clientId = "64aed91995b526d070bf580c";//viking
+//    private String clientId = "64aed91995b526d070bf580c";//viking
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
 //    String referenceId = "gem_0001";
@@ -284,8 +287,8 @@ public class MainActivity extends SDKBaseActivity {
      */
 
     public void purchase(View view) {
-        String referenceId = "com.dyhd.game.seawar3d.pay00991";
-        String skuId = "com.nuts.sm.android.googleplay.1";
+//        String referenceId = "com.dyhd.game.seawar3d.pay00991";
+        String skuId = "nuts_product_1";
         SDK.getInstance().sdkPurchase(this, "0", skuId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -377,18 +380,22 @@ public class MainActivity extends SDKBaseActivity {
 //        skuList.add("com.nuts.pa.android.googleplay.19");
 
         //test xiaomiPay
-        skuList.add("viking.package4999");
+//        skuList.add("viking.package4999");
 
+
+        skuList.add("nuts_product_1");
+        skuList.add("nuts_product_2");
+        skuList.add("nuts_product_3");
 
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override
-            public void onSuccess(List<com.nutsplay.nopagesdk.beans.SkuDetails> skuDetails) {
+            public void onSuccess(List<ProductDetails> skuDetails) {
                 showLog("查询本地价格成功：" + skuDetails.size()+"条");
                 if (skuDetails.size() == 0) return;
-                for (SkuDetails sku : skuDetails) {
-                    String skuId = sku.getSku();
-                    String localPrice = sku.getPrice();
+                for (ProductDetails product : skuDetails) {
+                    String skuId = product.getProductId();
+                    String localPrice = product.getOneTimePurchaseOfferDetails().getFormattedPrice();
                     showLog(skuId + "    " + localPrice);
                 }
             }
@@ -413,12 +420,12 @@ public class MainActivity extends SDKBaseActivity {
 
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.SUBS,new SDKGetSkuDetailsCallback() {
             @Override
-            public void onSuccess(List<com.nutsplay.nopagesdk.beans.SkuDetails> skuDetails) {
+            public void onSuccess(List<ProductDetails> skuDetails) {
                 showLog("查询订阅本地价格成功：" + skuDetails.size());
                 if (skuDetails.size() == 0) return;
-                for (com.nutsplay.nopagesdk.beans.SkuDetails sku : skuDetails) {
-                    String skuId = sku.getSku();
-                    String localPrice = sku.getPrice();
+                for (ProductDetails sku : skuDetails) {
+                    String skuId = sku.getProductId();
+                    String localPrice = sku.getOneTimePurchaseOfferDetails().getFormattedPrice();
                     showLog(skuId + "    " + localPrice);
                 }
             }

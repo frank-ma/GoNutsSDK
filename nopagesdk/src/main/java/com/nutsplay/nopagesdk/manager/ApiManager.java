@@ -274,7 +274,7 @@ public class ApiManager {
     public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, Purchase purchase, NetCallBack callBack){
         try {
             String url = getDomainName() + "/phi";
-            if (BillingClient.SkuType.SUBS.equals(type)){
+            if (BillingClient.ProductType.SUBS.equals(type)){
                 url = getDomainName() + "/psk";
             }
 
