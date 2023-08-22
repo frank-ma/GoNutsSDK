@@ -54,8 +54,9 @@ public class MainActivity extends SDKBaseActivity {
     String referenceId = "com.nuts.sm.android.googleplay.1";
 
 
-    private String clientId = "5dad5c14e73f210d548bf491";//测试应用      635f680c95b526b99391e7e7
-//    private String clientId = "6449d80495b526d070beff5a";//MiPay      635f680c95b526b99391e7e7
+//    private String clientId = "5dad5c14e73f210d548bf491";//测试应用      635f680c95b526b99391e7e7
+    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
+//    private String clientId = "6449d80495b526d070beff5a";//MiPay
 //    private String clientId = "64aed91995b526d070bf580c";//viking
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";

@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "30.0.2"
     defaultConfig {
 //        applicationId "com.nuts.atw.android.googleplay"
 //        applicationId "games.atys.viking.android"
         applicationId "com.nutspower.nutsgamesdk"
         minSdkVersion 21//19
-        targetSdkVersion 30
+        targetSdkVersion 34
         multiDexEnabled true
         versionCode 7
         versionName "3.0.3_mitest"
@@ -82,7 +82,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.google.android.material:material:1.2.1'
     testImplementation 'junit:junit:4.13.2'
@@ -91,30 +91,14 @@ dependencies {
     //SDK库的引用方式：三种
 //    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v3.2'
+//    implementation 'com.github.frank-ma:GoNutsSDK:v4.0.3'//v3.2
 
     //检测内存泄漏
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'//1.6.1
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'//1.6.1
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'//1.6.1
     //Stetho基本操作
     implementation 'com.facebook.stetho:stetho:1.5.0'
-
-
-
-
-//    //Google内购
-//    api 'com.android.billingclient:billing:4.0.0'//2.0.3//2.2.1//3.0.3
-//    //Gson
-//    api 'com.google.code.gson:gson:2.8.6'
-//    //google登录
-//    api 'com.google.android.gms:play-services-auth:18.0.0'
-//    //Google评价用到核心库
-//    api 'com.google.android.play:core:1.9.0'
-//    // Facebook Android SDK (everything)
-//    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
-//    //分包
-//    api 'androidx.multidex:multidex:2.0.1'
     //动画加载库Lottie
     api 'com.airbnb.android:lottie:5.0.3'
 }

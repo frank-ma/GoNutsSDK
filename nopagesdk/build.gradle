@@ -10,13 +10,13 @@ static def releaseTime() {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    compileSdkVersion 33
+    buildToolsVersion '30.0.2'//30.0.2
 
 
     defaultConfig {
         minSdkVersion 21//16
-        targetSdkVersion 30
+        targetSdkVersion 34
         versionCode 5
         versionName "3.2"
         multiDexEnabled true
@@ -51,7 +51,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0'
@@ -61,16 +61,12 @@ dependencies {
     api 'com.google.guava:guava:18.0'
     //Gson
     api 'com.google.code.gson:gson:2.8.6'
-
     //google登录
     api 'com.google.android.gms:play-services-auth:18.0.0'
     //Google评价用到核心库
     api 'com.google.android.play:core:1.9.0'
-
     // Facebook Android SDK (everything)
-    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
-//    api 'com.facebook.android:facebook-android-sdk:13.0.0'//7.1.0
-
+    api 'com.facebook.android:facebook-android-sdk:16.2.0'//13.0.0//11.1.1//7.1.0
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 
