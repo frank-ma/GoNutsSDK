@@ -42,6 +42,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    namespace 'com.nutsplay.nopagesdk'
 
 }
 

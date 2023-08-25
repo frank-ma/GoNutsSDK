@@ -3135,6 +3135,8 @@ public class SDKManager {
 
     /**
      * 绑定邮箱
+     * 坚果账号登录才能绑定邮箱，绑定邮箱是为了找回密码
+     * 游客得先绑定坚果账号才能绑定邮箱
      * @param activity
      * @param callback
      */
@@ -3146,10 +3148,6 @@ public class SDKManager {
             callback.onFail(SDKConstant.Error,"请先初始化SDK");
             return;
         }
-//        if (!SDKManager.getInstance().isLogin()){
-//            callback.onFail(SDKConstant.Error,"请先登录");
-//            return;
-//        }
         User user = SDKManager.getInstance().getUser();
         if (user == null) {
             callback.onFail(SDKConstant.Error,"请先登录");
@@ -3162,17 +3160,18 @@ public class SDKManager {
             BindAccountDialog.Builder builder = new BindAccountDialog.Builder(activity, new LoginCallBack() {
                 @Override
                 public void onSuccess(User user) {
-                    System.out.println("账号登录成功");
+                    LogUtils.d(TAG,"绑定邮箱:账号登录成功");
+                    bindEmail(activity,callback);
                 }
 
                 @Override
                 public void onCancel() {
-
+                    callback.onFail(SDKConstant.ERROR,"User cancel");
                 }
 
                 @Override
                 public void onFailure(int code, String msg) {
-
+                    callback.onFail(code,msg);
                 }
             });
             builder.create().show();
@@ -3181,11 +3180,12 @@ public class SDKManager {
             BindEmailDialog.Builder builder = new BindEmailDialog.Builder(activity, new ResultCallBack() {
                 @Override
                 public void onSuccess() {
-                    System.out.println("绑定邮箱成功");
+                    LogUtils.e(TAG,"绑定邮箱成功");
+                    callback.onSuccess();
                 }
                 @Override
                 public void onFailure(String msg) {
-
+                    callback.onFail(SDKConstant.ERROR,msg);
                 }
             });
             builder.create().show();

@@ -99,7 +99,7 @@ public class MainActivity extends SDKBaseActivity {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
         initParameter.setBuglyId("");
-        initParameter.setLanguage("ja");
+        initParameter.setLanguage("zh_cn");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setShowUserAgreement(true);
