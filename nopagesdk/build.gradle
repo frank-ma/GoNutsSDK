@@ -10,7 +10,7 @@ static def releaseTime() {
 }
 
 android {
-//    namespace 'com.qingteng.namespace'
+    namespace 'com.nutsplay.nopagesdk'
     compileSdk 33
     defaultConfig {
         minSdkVersion 21//16
@@ -42,8 +42,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    namespace 'com.nutsplay.nopagesdk'
-
 }
 
 dependencies {

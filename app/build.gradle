@@ -4,7 +4,7 @@ plugins {
 
 
 android {
-//    namespace 'com.qingteng.namespace'
+    namespace 'com.nutsplay.nonutssdk'
     compileSdk 33
     defaultConfig {
         applicationId "com.nutsplay.nonutssdk"
@@ -78,10 +78,9 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-    namespace 'com.nutsplay.nonutssdk'
 }
 
 dependencies {
@@ -95,7 +94,7 @@ dependencies {
     //SDK库的引用方式：三种
 //    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v4.1.1'//4.0.3//v3.2
+//    implementation 'com.github.frank-ma:GoNutsSDK:v4.1.2'//4.0.3//v3.2
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'//1.6.1
