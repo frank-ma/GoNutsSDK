@@ -1,15 +1,15 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'com.google.gms.google-services'
+plugins {
+    id 'com.android.application'
+}
+
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.2"
+//    namespace 'com.qingteng.namespace'
+    compileSdk 33
     defaultConfig {
-//        applicationId "com.nuts.atw.android.googleplay"
-//        applicationId "games.atys.viking.android"
-        applicationId "com.nutspower.nutsgamesdk"
+        applicationId "com.nutsplay.nonutssdk"
         minSdkVersion 21//19
-        targetSdkVersion 34
+        targetSdkVersion 33
         multiDexEnabled true
         versionCode 7
         versionName "3.0.3_mitest"
@@ -21,12 +21,12 @@ android {
         }
     }
 
-    repositories {
-        flatDir {
-            dirs 'libs'
-            dirs '../nopagesdk/libs'//引用library的类库
-        }
-    }
+//    repositories {
+//        flatDir {
+//            dirs 'libs'
+//            dirs '../nopagesdk/libs'//引用library的类库
+//        }
+//    }
 
     signingConfigs {
         debug {
@@ -47,7 +47,6 @@ android {
             //开启混淆
             minifyEnabled false
             //Zipalign优化
-            zipAlignEnabled false
             // 移除无用的resource文件
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -58,7 +57,6 @@ android {
             //开启混淆
             minifyEnabled false
             //Zipalign优化
-            zipAlignEnabled false
             // 移除无用的resource文件
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -71,12 +69,17 @@ android {
         variant.outputs.all {
             def date = new Date().format("yyyyMMdd" , TimeZone.getTimeZone("GMT+08"))
             if(variant.buildType.name == 'debug'){
-                outputFileName = "goSdk_MiPay_${date}_${defaultConfig.versionName}.apk"
+                outputFileName = "goSdk_${date}_${defaultConfig.versionName}.apk"
             }
             if(variant.buildType.name == 'release'){
-                outputFileName = "goSdk_MiPay_${date}_${defaultConfig.versionName}.apk"
+                outputFileName = "goSdk_${date}_${defaultConfig.versionName}.apk"
             }
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -91,7 +94,7 @@ dependencies {
     //SDK库的引用方式：三种
 //    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
-//    implementation 'com.github.frank-ma:GoNutsSDK:v4.0.3'//v3.2
+//    implementation 'com.github.frank-ma:GoNutsSDK:v4.1'//4.0.3//v3.2
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'//1.6.1

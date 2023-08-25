@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.nutspower.nutsgamesdk">
+    package="com.nutsplay.nonutssdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,8 +16,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-<!--        <activity android:name="com.nutsplay.nonutssdk.MainActivity"></activity>-->
-        <!-- <activity android:name="com.nutsplay.nonutssdk.AdsActivity" /> -->
         <activity
             android:name="com.nutsplay.nonutssdk.MainActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"

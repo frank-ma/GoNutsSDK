@@ -35,7 +35,7 @@ public class UserAgreementDialog extends Dialog {
         super(context);
         Window window = getWindow();
         if (window == null) return;
-        window.setWindowAnimations(SDKResUtils.getResId(context,"dialog_anim_style","style"));
+        window.setWindowAnimations(SDKResUtils.getResId(context, "dialog_anim_style", "style"));
     }
 
     public UserAgreementDialog(@NonNull Context context, int themeResId) {

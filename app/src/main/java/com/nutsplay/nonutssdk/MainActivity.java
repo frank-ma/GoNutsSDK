@@ -10,9 +10,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.android.billingclient.api.ProductDetails;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -34,10 +32,7 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
-import com.nutspower.nutsgamesdk.R;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

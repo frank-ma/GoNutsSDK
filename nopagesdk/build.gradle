@@ -10,22 +10,17 @@ static def releaseTime() {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion '30.0.2'//30.0.2
-
-
+//    namespace 'com.qingteng.namespace'
+    compileSdk 33
     defaultConfig {
         minSdkVersion 21//16
-        targetSdkVersion 34
-        versionCode 5
-        versionName "3.2"
+        targetSdkVersion 33
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         sit{
-            debuggable true
         }
         release {
             minifyEnabled false
@@ -42,11 +37,12 @@ android {
         }
     }
 
-    repositories {
-        flatDir {
-            dirs 'lib','libs'
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
         }
     }
+
 }
 
 dependencies {
@@ -104,6 +100,6 @@ task deleteBuild(type: Delete) {
 task makeJar(type: Jar) {
     archivesBaseName = SDK_BASENAME + SDK_VERSION
     from(project.zipTree('build/intermediates/packaged-classes/release/classes.jar'))
-    destinationDir = file(sdkDestinationPath)
+    destinationDirectory = file(sdkDestinationPath)
 }
 makeJar.dependsOn(deleteBuild, build)
