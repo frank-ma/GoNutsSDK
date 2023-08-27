@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply plugin: 'maven-publish'
+
 
 buildscript {
     ext {
@@ -12,6 +12,7 @@ buildscript {
         maven { url "https://dl.bintray.com/ironsource-mobile/android-sdk" }
         maven { url "https://plugins.gradle.org/m2/"}
 
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         //noinspection AndroidGradlePluginVersion
@@ -24,29 +25,22 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 //        classpath "com.applovin.quality:AppLovinQualityServiceGradlePlugin:3.+"
+
+
+
+        //上传library库到github仓库的关键
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
-def versionName = "4.1.6"
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.github.frank-ma'
-            artifactId = 'GoNutsSDK'
-            version = versionName
-            pom {
-                description = 'test'
-            }
-        }
-    }
-}
+
 
 
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 }
@@ -54,3 +48,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
