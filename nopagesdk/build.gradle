@@ -116,9 +116,9 @@ afterEvaluate {
                 artifactId = 'GoNutsSDK'
                 version = versionName
 
-//                //aar文件
-//                def projectName = project.getName()
-//                artifact "build/outputs/aar/gosdk.aar"
+                //aar文件
+                def projectName = project.getName()
+                artifact "build/outputs/aar/gosdk.aar"
             }
         }
     }

@@ -95,7 +95,7 @@ dependencies {
 //    implementation(name:'sdk_v3.0',ext:'aar')
     implementation project(path: ':nopagesdk')
 //    https://jitpack.io/com/github/frank-ma/GoNutsSDK/3.2/ 正确的依赖库里面都有aar文件，4.1.6里面没有
-//    implementation 'com.github.frank-ma:GoNutsSDK:4.1.6'//4.0.3//v3.2
+//    implementation 'com.github.frank-ma:GoNutsSDK:v4.1.7'//4.0.3//v3.2
 
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'//1.6.1
