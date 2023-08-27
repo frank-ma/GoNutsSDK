@@ -1,8 +1,41 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-group = 'com.github.frank-ma'
-version = '4.2.0'
 
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'com.github.frank-ma'
+                artifactId = 'GoNutsSDK'
+                version = "4.2.0"
+                artifact "build/outputs/aar/gosdk.aar"
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.implementation.allDependencies.each { dependency ->
+                        if (dependency.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                        }
+                    }
+                }
+            }
+//        repositories {
+//            maven {
+//                name = "GoNutsSDK"
+//                url ''
+//                credentials{
+//                    username "frank-ma"
+//                    password "aa_123456@"
+//                }
+//            }
+//        }
+        }
+    }
+}
 
 def static getProductName() {
     return "gosdk"
@@ -17,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 33
     defaultConfig {
-        versionName '4.0.0'
+        versionName "4.0.0"
         minSdkVersion 21//16
         targetSdkVersion 33
         multiDexEnabled true
@@ -110,29 +143,6 @@ task makeJar(type: Jar) {
 makeJar.dependsOn(deleteBuild, build)
 
 
-def versionName = "4.2.0"
-afterEvaluate {
-    publishing {
-        publications {
-            mavenAar(MavenPublication) {
-                from components.findByName('release')
 
-                groupId = 'com.github.frank-ma'
-                artifactId = 'GoNutsSDK'
-                version = versionName
-            }
-        }
-//        repositories {
-//            maven {
-//                name = "GoNutsSDK"
-//                url ''
-//                credentials{
-//                    username "frank-ma"
-//                    password "aa_123456@"
-//                }
-//            }
-//        }
-    }
-}
 
 
