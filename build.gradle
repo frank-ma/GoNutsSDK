@@ -25,11 +25,6 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 //        classpath "com.applovin.quality:AppLovinQualityServiceGradlePlugin:3.+"
-
-
-
-        //上传library库到github仓库的关键
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 

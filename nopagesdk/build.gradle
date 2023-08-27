@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
+group = 'com.github.frank-ma'
+version = '4.2.0'
+
 
 def static getProductName() {
     return "gosdk"
@@ -107,20 +110,28 @@ task makeJar(type: Jar) {
 makeJar.dependsOn(deleteBuild, build)
 
 
-def versionName = "4.1.7"
+def versionName = "4.2.0"
 afterEvaluate {
     publishing {
         publications {
-            release(MavenPublication) {
+            mavenAar(MavenPublication) {
+                from components.findByName('release')
+
                 groupId = 'com.github.frank-ma'
                 artifactId = 'GoNutsSDK'
                 version = versionName
-
-                //aar文件
-                def projectName = project.getName()
-                artifact "build/outputs/aar/gosdk.aar"
             }
         }
+//        repositories {
+//            maven {
+//                name = "GoNutsSDK"
+//                url ''
+//                credentials{
+//                    username "frank-ma"
+//                    password "aa_123456@"
+//                }
+//            }
+//        }
     }
 }
 
