@@ -78,8 +78,8 @@ public class NoUIActivity extends BaseActivity {
 
         SDK.getInstance().sdkLoginWithVisitor(this, new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                showLog("login success:userId-" + user.getUserId());
+            public void onSuccess(String ticket,String sdkMemberType) {
+                showLog("login success:userId-" + ticket);
             }
 
             @Override
@@ -107,11 +107,9 @@ public class NoUIActivity extends BaseActivity {
         initParameter.setHasUI(true);
         SDK.getInstance().sdkDefaultLogin(this, initParameter, new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                if (user == null) return;
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
-                showLog("默认登录成功："+user.toString());
+                showLog("默认登录成功：" + ticket);
             }
 
             @Override
@@ -148,11 +146,9 @@ public class NoUIActivity extends BaseActivity {
 
         SDK.getInstance().sdkLoginNoUI(this, userNameEt.getText().toString(), pwdEt.getText().toString(), new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                if (user == null) return;
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
-                showLog("登录成功：" + user.toString());
+                showLog("登录成功：" + ticket);
             }
 
             @Override
@@ -172,11 +168,9 @@ public class NoUIActivity extends BaseActivity {
 
         SDK.getInstance().sdkSwitchAccountNoUI(this,userNameEt.getText().toString(),pwdEt.getText().toString(), new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                if (user == null) return;
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
-                showLog("切换账号成功：" + user.toString());
+                showLog("切换账号成功：" + ticket);
             }
 
             @Override

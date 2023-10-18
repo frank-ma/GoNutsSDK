@@ -876,7 +876,7 @@ public class SDKManager {
                         @Override
                         public void run() {
                             hideProgress();
-                            loginCallBack.onSuccess(getUser());
+                            loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
                             //登录追踪
                             TrackingManager.loginTracking(getUser().getUserId());
 
@@ -976,7 +976,7 @@ public class SDKManager {
                         @Override
                         public void run() {
                             hideProgress();
-                            loginCallBack.onSuccess(getUser());
+                            loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
                             //登录追踪
                             TrackingManager.loginTracking(getUser().getUserId());
                         }
@@ -1017,7 +1017,7 @@ public class SDKManager {
                             user.setUserName(userName);
                             user.setBindEmail(loginModel.getData().getBindEmail());
                             setUser(user);
-                            loginCallBack.onSuccess(user);
+                            loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
 
                             //记住账号密码
                             SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
@@ -1195,7 +1195,7 @@ public class SDKManager {
 
                         //登录追踪
                         TrackingManager.loginTracking(loginModel.getData().getPassportId());
-                        loginCallBack.onSuccess(user);
+                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         resultCallBack.onSuccess();
 
                     } else {
@@ -1349,7 +1349,7 @@ public class SDKManager {
                                 user.setUserName(thirdName);
                             }
                             setUser(user);
-                            loginCallBack.onSuccess(user);
+                            loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
 
                             if (resultCallBack != null) resultCallBack.onSuccess();
 
@@ -1446,7 +1446,7 @@ public class SDKManager {
                             user.setFacebookEmail(facebookUser.getEmail());
 
                             setUser(user);
-                            loginCallBack.onSuccess(user);
+                            loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
 
                             if (resultCallBack!=null) resultCallBack.onSuccess();
 
@@ -3159,7 +3159,7 @@ public class SDKManager {
             //先绑定账号
             BindAccountDialog.Builder builder = new BindAccountDialog.Builder(activity, new LoginCallBack() {
                 @Override
-                public void onSuccess(User user) {
+                public void onSuccess(String ticket,String sdkMemberType) {
                     LogUtils.d(TAG,"绑定邮箱:账号登录成功");
                     bindEmail(activity,callback);
                 }

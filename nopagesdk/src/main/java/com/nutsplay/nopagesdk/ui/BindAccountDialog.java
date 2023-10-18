@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
@@ -140,7 +141,8 @@ public class BindAccountDialog extends Dialog {
                         public void onSuccess() {
                             //绑定成功后，用新账号登录
                             SPManager.getInstance(context).putBoolean(SPKey.guest_has_bind_account,true);
-                            if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                            User user = SDKManager.getInstance().getUser();
+                            if (loginCallBack != null) loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                             dialog.dismiss();
                         }
 
@@ -157,7 +159,8 @@ public class BindAccountDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     if (loginCallBack != null) {
-                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                        User user = SDKManager.getInstance().getUser();
+                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         //登录追踪
 //                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
                     }

@@ -170,11 +170,9 @@ public class MainActivity extends SDKBaseActivity {
         SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){
 
             @Override
-            public void onSuccess(User user) {
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
-                showLog("默认登录成功："+user.toString());
-
+                showLog("默认登录成功：" + ticket);
             }
 
             @Override
@@ -198,27 +196,20 @@ public class MainActivity extends SDKBaseActivity {
     private void login() {
         SDK.getInstance().sdkLogin(this, new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                if (user == null) return;
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
                 //如果用户是facebook登录的话，获取fb信息
-                if (SDKConstant.TYPE_FACEBOOK.equals(user.getSdkmemberType())){
-                    String fbName = user.getFacebookName();
-                    String fbPortrait=user.getFacebookPortrait();
-                    String fbEmail=user.getFacebookEmail();
-                    String fbID=user.getFacebookId();
-                }
-                showLog("登录成功：" + user.toString());
+
+                showLog("登录成功：" + ticket);
 //                showLog("UserName：" + user.getUserName());
                 //判断用户的登录类型
-                if (SDKConstant.TYPE_GUEST.equals(user.getSdkmemberType())){
+                if (SDKConstant.TYPE_GUEST.equals(sdkMemberType)){
                     //游客
-                } else if (SDKConstant.TYPE_ACCOUNT.equals(user.getSdkmemberType())){
+                } else if (SDKConstant.TYPE_ACCOUNT.equals(sdkMemberType)){
                     //账号登录
-                } else if (SDKConstant.TYPE_FACEBOOK.equals(user.getSdkmemberType())){
+                } else if (SDKConstant.TYPE_FACEBOOK.equals(sdkMemberType)){
                     //fb登录
-                } else if (SDKConstant.TYPE_GOOGLE.equals(user.getSdkmemberType())){
+                } else if (SDKConstant.TYPE_GOOGLE.equals(sdkMemberType)){
                     //Google登录
                 }
             }
@@ -239,11 +230,9 @@ public class MainActivity extends SDKBaseActivity {
 
         SDK.getInstance().sdkSwitchAccount(this, new LoginCallBack() {
             @Override
-            public void onSuccess(User user) {
-                if (user == null) return;
+            public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                String ticket = user.getTicket();
-                showLog("切换账号成功：" + user.toString());
+                showLog("切换账号成功：" + ticket);
             }
 
             @Override
