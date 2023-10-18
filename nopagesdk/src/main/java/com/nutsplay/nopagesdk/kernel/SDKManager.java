@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -517,11 +516,12 @@ public class SDKManager {
     private void doCallback(InitCallBack initCallBack) {
         setInitStatus(true);
         //获取当前登录的用户信息
-        if (getUser() == null || StringUtils.isBlank(getUser().getUserId()) || StringUtils.isBlank(getUser().getTicket())) {
-            initCallBack.onSuccess(null);
-        } else {
-            initCallBack.onSuccess(getUser());
-        }
+//        if (getUser() == null || StringUtils.isBlank(getUser().getUserId()) || StringUtils.isBlank(getUser().getTicket())) {
+//            initCallBack.onSuccess(null);
+//        } else {
+//            initCallBack.onSuccess(getUser());
+//        }
+        initCallBack.onSuccess();
     }
 
     /**
@@ -842,7 +842,7 @@ public class SDKManager {
                 Log.e(TAG,"The SDK is not initialized.");
                 initSDK(activity, getInitParameter(), new InitCallBack() {
                     @Override
-                    public void onSuccess(@Nullable User user) {
+                    public void onSuccess() {
                         sdkLogin(activity,loginCallBack,isLogin);
                     }
 
@@ -917,7 +917,7 @@ public class SDKManager {
             }
             initSDK(activity, initParameter, new InitCallBack() {
                 @Override
-                public void onSuccess(@Nullable User user) {
+                public void onSuccess() {
                     NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack,null);
                 }
 

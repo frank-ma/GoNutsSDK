@@ -10,12 +10,11 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
+
 import com.android.billingclient.api.ProductDetails;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
-import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.BindFBCallback;
 import com.nutsplay.nopagesdk.callback.BindResultCallBack;
@@ -32,7 +31,9 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,15 +111,7 @@ public class MainActivity extends SDKBaseActivity {
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
-            public void onSuccess(@Nullable User user) {
-                //user为上次登录的用户，可能为空，所以客户端要做判断,客户端拿到这个信息之后，可以显示在登录界面左上角，告诉用户自动登录的是哪个账号，玩家就可以决定要不要切换账号
-//                右上角要放一个切换账号的按钮
-                if (user != null){
-                    showLog(user.toString());
-                    showLog("当前自动登录的用户类型是："+user.getSdkmemberType()+"-"+user.getUserId());
-                }else{
-                    showLog("当前没有自动登录的用户");
-                }
+            public void onSuccess() {
                 showLog("初始化成功");
             }
 

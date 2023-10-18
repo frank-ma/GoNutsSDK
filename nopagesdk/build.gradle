@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 33
     defaultConfig {
-        versionName "4.0.0"
+        versionName "5.2"
         minSdkVersion 21//16
         targetSdkVersion 33
         multiDexEnabled true
@@ -71,8 +71,8 @@ android {
     }
     android.libraryVariants.all { variant ->
         variant.outputs.all {
-//            outputFileName = getProductName() + "_v${defaultConfig.versionName}" + '.aar'
-            outputFileName = getProductName() + '.aar'
+            outputFileName = getProductName() + "_v${defaultConfig.versionName}" + '.aar'
+//            outputFileName = getProductName() + '.aar'
         }
     }
 
