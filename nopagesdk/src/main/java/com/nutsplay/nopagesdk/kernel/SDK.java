@@ -13,7 +13,6 @@ import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
-import com.nutsplay.nopagesdk.callback.RegisterCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
@@ -21,14 +20,12 @@ import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
 /**
  * Created by frank-ma on 2019-09-19 10:05
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 这是给游戏方调用的接口
  */
 public class SDK {
 
@@ -67,10 +64,9 @@ public class SDK {
      * @param pwd
      * @param resultCallBack
      */
-    public void sdkRegister(final Activity activity, final String userName, final String pwd, final RegisterCallBack resultCallBack) {
-
-        SDKManager.getInstance().sdkRegister(activity,userName,pwd,resultCallBack);
-    }
+//    public void sdkRegister(final Activity activity, final String userName, final String pwd, final RegisterCallBack resultCallBack) {
+//        SDKManager.getInstance().sdkRegister(activity,userName,pwd,resultCallBack);
+//    }
 
     /**
      * 登录 UI
@@ -86,9 +82,9 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkDefaultLogin(Activity activity,InitParameter initParameter,LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkDefaultLogin(activity,initParameter,loginCallBack);
-    }
+//    public void sdkDefaultLogin(Activity activity,InitParameter initParameter,LoginCallBack loginCallBack){
+//        SDKManager.getInstance().sdkDefaultLogin(activity,initParameter,loginCallBack);
+//    }
 
     /**
      * SDK登陆接口
@@ -97,10 +93,9 @@ public class SDK {
      * @param loginCallBack
      *
      */
-    public void sdkLoginNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
-
-        SDKManager.getInstance().sdkLoginNoUI(activity,userName,pwd,loginCallBack);
-    }
+//    public void sdkLoginNoUI(final Activity activity, final String userName, final String pwd, final LoginCallBack loginCallBack) {
+//        SDKManager.getInstance().sdkLoginNoUI(activity,userName,pwd,loginCallBack);
+//    }
 
     /**
      * 切换账号 UI
@@ -118,9 +113,9 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkSwitchAccountNoUI(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkSwitchAccountNoUI(activity,userName,pwd,loginCallBack);
-    }
+//    public void sdkSwitchAccountNoUI(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
+//        SDKManager.getInstance().sdkSwitchAccountNoUI(activity,userName,pwd,loginCallBack);
+//    }
 
     /**
      * 游客登录
@@ -128,9 +123,9 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginWithVisitor(Activity activity, LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkLoginWithVisitor(activity,loginCallBack);
-    }
+//    public void sdkLoginWithVisitor(Activity activity, LoginCallBack loginCallBack){
+//        SDKManager.getInstance().sdkLoginWithVisitor(activity,loginCallBack);
+//    }
 
     /**
      * SDK三方账户登录接口
@@ -138,20 +133,20 @@ public class SDK {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLoginThirdAccount(Activity activity, String oauthId, String thirdName, String oauthSource, final LoginCallBack loginCallBack) {
-
-        SDKManager.getInstance().sdkLoginThirdAccount(activity, oauthId, thirdName,oauthSource, loginCallBack, new ResultCallBack() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-            }
-        });
-    }
+//    public void sdkLoginThirdAccount(Activity activity, String oauthId, String thirdName, String oauthSource, final LoginCallBack loginCallBack) {
+//
+//        SDKManager.getInstance().sdkLoginThirdAccount(activity, oauthId, thirdName,oauthSource, loginCallBack, new ResultCallBack() {
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String msg) {
+//
+//            }
+//        });
+//    }
 
     /**
      * 注销账号
@@ -166,7 +161,7 @@ public class SDK {
 
 
     /**
-     * SDK下单接口
+     * SDK支付接口
      *
      * @param activity
      * @param purchaseCallBack
@@ -233,9 +228,9 @@ public class SDK {
      * @param newPwd
      * @param callback
      */
-    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final ResultCallBack callback){
-        SDKManager.getInstance().sdkResetPwd(activity,account,oldPwd,newPwd,callback);
-    }
+//    public void sdkResetPwd(Activity activity, String account, String oldPwd, String newPwd, final ResultCallBack callback){
+//        SDKManager.getInstance().sdkResetPwd(activity,account,oldPwd,newPwd,callback);
+//    }
 
     /**
      * 第三方账号绑定账号密码
@@ -247,11 +242,9 @@ public class SDK {
      * @param pwd      密码
      * @param callback
      */
-    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String pwd, final ResultCallBack callback) {
-
-        SDKManager.getInstance().sdkBindAccount(activity,oauthid,oauthsource,account,pwd,callback);
-
-    }
+//    public void sdkBindAccount(Activity activity, String oauthid, String oauthsource, String account, String pwd, final ResultCallBack callback) {
+//        SDKManager.getInstance().sdkBindAccount(activity,oauthid,oauthsource,account,pwd,callback);
+//    }
 
     /**
      * 游客绑定FB等第三方账户
@@ -260,15 +253,14 @@ public class SDK {
      * @param callback
      */
     public void sdkGuestBindThird(Activity activity, final ResultCallBack callback) {
-
         SDKManager.getInstance().sdkGuestBindFB(activity,callback);
     }
 
     /**
+     * 生命周期方法
      * 在activity的onRestart()方法中调用
      */
     public void sdkOnRestart(Activity activity) {
-
         SDKManager.getInstance().sdkOnRestart(activity);
     }
 
@@ -276,15 +268,13 @@ public class SDK {
      * 在activity的onDestroy()方法中调用
      */
     public void sdkOnDestroy(Activity activity) {
-
         SDKManager.getInstance().sdkOnDestroy();
     }
 
-    public void sdkGetFbUserInfo(Activity activity, ResultCallBack resultCallBack) {
-
-        if (activity == null)return;
-        SDKManager.getInstance().sdkGetFbUserInfo(activity,resultCallBack);
-    }
+//    public void sdkGetFbUserInfo(Activity activity, ResultCallBack resultCallBack) {
+//        if (activity == null) return;
+//        SDKManager.getInstance().sdkGetFbUserInfo(activity,resultCallBack);
+//    }
 
     public void facebookGameLogin(FbLoginListener fbLoginListener) {
         SDKManager.getInstance().facebookGameLogin(fbLoginListener);
@@ -306,9 +296,9 @@ public class SDK {
         SDKManager.getInstance().systemSharePhoto(activity,path);
     }
 
-    public void facebookAppRequest(Activity activity,String message,ResultCallBack resultCallBack){
-        SDKManager.getInstance().facebookAppRequest(activity,message,resultCallBack);
-    }
+//    public void facebookAppRequest(Activity activity,String message,ResultCallBack resultCallBack){
+//        SDKManager.getInstance().facebookAppRequest(activity,message,resultCallBack);
+//    }
 
     /**
      * 打开用户中心界面
@@ -328,9 +318,9 @@ public class SDK {
      * @param customData 自定义数据
      * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
-    public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
-        SDKManager.getInstance().customerSupport(playerName,userTags,serverId,customData,showRobot);
-    }
+//    public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
+//        SDKManager.getInstance().customerSupport(playerName,userTags,serverId,customData,showRobot);
+//    }
 
     /**
      * FAQ
@@ -340,9 +330,9 @@ public class SDK {
      * @param customData 自定义数据
      * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
-    public void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot){
-        SDKManager.getInstance().showFAQs(userName,serverId,userTags,customData,showRobot);
-    }
+//    public void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot){
+//        SDKManager.getInstance().showFAQs(userName,serverId,userTags,customData,showRobot);
+//    }
 
     public void isBindFacebook(Activity activity, BindFBCallback callback){
         SDKManager.getInstance().isBindFacebook(activity,callback);
@@ -380,6 +370,11 @@ public class SDK {
         SDKManager.getInstance().showUserAgreement(activity,callBack);
     }
 
+    /**
+     * 用户安装来源归因
+     * @param activity
+     * @param installCallBack
+     */
     public void installReferrer(Activity activity, InstallCallBack installCallBack) {
         SDKManager.getInstance().installReferrer(activity,installCallBack);
     }

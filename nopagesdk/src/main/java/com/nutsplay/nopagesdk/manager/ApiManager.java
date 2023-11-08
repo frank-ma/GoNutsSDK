@@ -1,7 +1,5 @@
 package com.nutsplay.nopagesdk.manager;
 
-import android.content.Context;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -16,6 +14,7 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -649,34 +648,71 @@ public class ApiManager {
      * @param content 报错日志内容
      * @param callBack
      */
-    public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+//    public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+//
+//        try {
+//            String url = getDomainName() + "/crash";
+//
+//            UploadLog uploadLog = new UploadLog();
+//            uploadLog.setClientID(mClientID);
+//            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
+//                uploadLog.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
+//            }
+//            uploadLog.setPackageName(context.getPackageName());
+//            uploadLog.setCrashTitle(title);
+//            uploadLog.setCrashContent(content);
+//            uploadLog.setDeviceID(identifier);
+//            String jsonData = GsonUtils.tojsonString(uploadLog);
+//
+//            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+//            Map<String, String> data = new TreeMap<>();
+//            data.put("asong", encryptJsonData);
+//
+//            Map<String, String> headerMap = new TreeMap<>();
+//            headerMap.put("uniqueid",identifier);
+//            headerMap.put("rak",aesKey16byRSA);
+//            headerMap.put("siv",ivParameter);
+//            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
-        try {
-            String url = getDomainName() + "/crash";
+    /**
+     * java服务器的push方法，防止一个服务器有问题，push日志不上
+     */
+    public void pushLog(String title, String content, NetCallBack netCallBack) {
+        content += "_clientID_" + mClientID;
+        content += "_clientType_" + "android";
+        ping(title,content,"go.0egg.com",netCallBack);
+    }
 
-            UploadLog uploadLog = new UploadLog();
-            uploadLog.setClientID(mClientID);
-            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
-                uploadLog.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
-            }
-            uploadLog.setPackageName(context.getPackageName());
-            uploadLog.setCrashTitle(title);
-            uploadLog.setCrashContent(content);
-            uploadLog.setDeviceID(identifier);
-            String jsonData = GsonUtils.tojsonString(uploadLog);
-
-            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
-            Map<String, String> data = new TreeMap<>();
-            data.put("asong", encryptJsonData);
-
-            Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
-            headerMap.put("rak",aesKey16byRSA);
-            headerMap.put("siv",ivParameter);
-            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    /**
+     * Ping方法
+     * @param webAddress
+     * @return
+     */
+    public void ping(String title, String content,String webAddress,NetCallBack netCallBack){
+        new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String pingResult = "";
+                        InetAddress inetAddress = InetAddress.getByName(webAddress);
+                        boolean reachable = inetAddress.isReachable(5000);
+                        LogUtils.e(TAG,"Ping结果："+reachable);
+                        if (reachable) {
+                            pingResult += "_Ping "+webAddress +" success";
+                        } else {
+                            pingResult += "_Ping "+webAddress +" fail";
+                        }
+                        String url = "http://logcat.0egg.com/crashlog?title=" + title + "&content=" + content + pingResult;
+                        NetClient.getInstance().clientGet(url, null, null, netCallBack);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
     }
 
 

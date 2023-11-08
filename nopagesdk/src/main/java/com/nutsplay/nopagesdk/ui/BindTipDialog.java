@@ -10,11 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
@@ -113,13 +111,14 @@ public class BindTipDialog extends Dialog {
             enterGame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (loginCallBack != null) {
-                        User user = SDKManager.getInstance().getUser();
-                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
+                    dialog.dismiss();
+//                    if (loginCallBack != null) {
+//                        User user = SDKManager.getInstance().getUser();
+//                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         //登录追踪
-                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
-                        dialog.dismiss();
-                    }
+//                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
+//                        dialog.dismiss();
+//                    }
                 }
             });
 

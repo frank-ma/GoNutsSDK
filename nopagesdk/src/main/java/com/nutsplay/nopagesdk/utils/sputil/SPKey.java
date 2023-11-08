@@ -6,7 +6,8 @@ package com.nutsplay.nopagesdk.utils.sputil;
  */
 
 public class SPKey {
-
+    public static final String Last_login = "Last_Login";
+    public static final String key_first_init = "key_first_init";
     public static final String key_bean_init="SDKParams";
     public static final String key_bean_data_init="SDKDataInit";
     public static final String key_bean_data_user="SDKDataUser";
@@ -30,6 +31,7 @@ public class SPKey {
     public static final String key_pwd_last_login = "key_pwd_last_login";
     public static final String key_sdk_language="key_sdk_language";
     public static final String key_first_open="key_first_open";
+    public static final String key_first_install="key_first_install";
     public static final String key_first_account_login="key_first_account_login";
     public static final String guest_has_bind_account="guest_has_bind_account";
 }

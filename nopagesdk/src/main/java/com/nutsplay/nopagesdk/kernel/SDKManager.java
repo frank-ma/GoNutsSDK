@@ -2,6 +2,8 @@ package com.nutsplay.nopagesdk.kernel;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.backup.BackupManager;
+import android.app.backup.RestoreObserver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
+import com.facebook.FacebookSdk;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -176,12 +179,12 @@ public class SDKManager {
         this.shareResultCallBack = shareResultCallBack;
     }
 
-    public void setAuto(boolean auto) {
+    public void setAutoLogin(boolean auto) {
         SPManager.getInstance(getActivity()).putBoolean(SPKey.key_sdk_auto, auto);
     }
 
-    public boolean isAuto() {
-        return SPManager.getInstance(getActivity()).getBoolean(SPKey.key_sdk_auto);
+    public boolean isAutoLogin() {
+        return SPManager.getInstance(getActivity()).getBoolean(SPKey.key_sdk_auto,false);
     }
 
     public void setGuestLoginCount(int count) {
@@ -196,11 +199,22 @@ public class SDKManager {
         return (User) SPManager.getInstance(getActivity()).getBean(SPKey.key_bean_data_user);
     }
 
-    public void setUser(User token) {
-        SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_user, token);
-        //设置客服语言
+    public void setUser(User user) {
+        try {
+            SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_user, user);
+            //通知备份管理器数据改变
+            BackupManager backupManager = new BackupManager(getActivity());
+            backupManager.dataChanged();
 
-        HelpShiftManager.setUser(token);
+            //设置客服语言
+            HelpShiftManager.setUser(user);
+
+//            String codeStr = user.getSdkmemberType() + "|" + user.getTicket() + "|" + user.getUserName() + "|" + user.getUserId();
+//            FileUtils.write2File(activity, NutsBase64.encode(codeStr));
+//            FileUtils.write2File(activity, GsonUtils.tojsonString(user));
+        }catch (Exception e){
+            //e.printStackTrace();
+        }
     }
 
     public User getTempUser() {
@@ -224,6 +238,26 @@ public class SDKManager {
             setLogin(true);
             setUser(getTempUser());
         }
+    }
+
+    public void restoreUserInfo(){
+        BackupManager manager = new BackupManager(getActivity());
+        manager.requestRestore(new RestoreObserver() {
+            @Override
+            public void restoreStarting(int numPackages) {
+                super.restoreStarting(numPackages);
+            }
+
+            @Override
+            public void onUpdate(int nowBeingRestored, String currentPackage) {
+                super.onUpdate(nowBeingRestored, currentPackage);
+            }
+
+            @Override
+            public void restoreFinished(int error) {
+                super.restoreFinished(error);
+            }
+        });
     }
 
     public boolean isLogin() {
@@ -347,6 +381,7 @@ public class SDKManager {
      */
     public void initSDK( Activity activity,  InitParameter initParameter, InitCallBack initCallBack) {
         try {
+
             if (activity == null) {
                 System.out.println("initSDK failed:Activity is null.");
                 return;
@@ -455,7 +490,7 @@ public class SDKManager {
                         hideProgress();
                         SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
                         initCallBack.onFailure(SDKConstant.get_public_key_other_code,"code:"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
-                        SDKManager.getInstance().sdkUploadLog(activity,"get_public_key_other_code","getRASPublicKey:resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
+                        sdkUploadLog(activity,"getRASPublicKey_alpha","resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
                     }
                 }
 
@@ -464,6 +499,7 @@ public class SDKManager {
                     hideProgress();
                     LogUtils.e("getRASPublicKey", "onFailure----" + errorMsg);
                     initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
+                    sdkUploadLog(activity,"getRASPublicKey_alpha",errorMsg);
 
                     //用AF统计失败事件
                     Map<String,Object> map=new HashMap<>();
@@ -474,6 +510,7 @@ public class SDKManager {
 
         }catch (Exception e){
             hideProgress();
+            initCallBack.onFailure(SDKConstant.get_public_key_net_error,e.getMessage());
             e.printStackTrace();
         }
     }
@@ -560,36 +597,31 @@ public class SDKManager {
                         initCallBackListener.onFailure(SDKConstant.init_response_null,"server response is empty.");
                         return;
                     }
-                    try {
-                        LogUtils.d(TAG, "SDKInitGo---" + aesKey+"|"+result);
-                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
-                        SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
-                        if (initgoBean == null) {
-                            initCallBackListener.onFailure(SDKConstant.init_initgoBean_null,"InitGoBean is null.");
-                            return;
-                        }
-                        if (initgoBean.getCode() == 1) {
-                            LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
-                            setInitData(initgoBean);
 
-                            openUserAgreement(activity,initCallBackListener);
-                        } else if (initgoBean.getCode() == -6) {
-                            //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
-                            LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
-                            handleLogout(activity);
-                            SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
-//                            initCallBackListener.onFailure(SDKConstant.init_other_code_6,initgoBean.getMessage());
+                    LogUtils.d(TAG, "SDKInitGo---" + aesKey + "|" + result);
+                    String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
+                    SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
+                    if (initgoBean == null) {
+                        initCallBackListener.onFailure(SDKConstant.init_initgoBean_null, "InitGoBean is null.");
+                        return;
+                    }
+                    if (initgoBean.getCode() == 1) {
+                        LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
+                        setInitData(initgoBean);
 
-                        } else {
-                            LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
-                            SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
-//                            initCallBackListener.onFailure(SDKConstant.init_other_code+initgoBean.getCode(),initgoBean.getMessage());
-                            SDKManager.getInstance().sdkUploadLog(activity,"SDKInitGo","SDKInitGo:resultCode-"+initgoBean.getCode()+" msg:"+initgoBean.getMessage());
-                        }
-
-                    } catch (Exception e) {
-                        hideProgress();
-                        e.printStackTrace();
+                        openUserAgreement(activity, initCallBackListener);
+                    } else if (initgoBean.getCode() == -6) {
+                        //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
+                        LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
+                        handleLogout(activity);
+                        SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
+                        initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
+                        sdkUploadLog(activity, "SDKInitGo_epsilon", "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
+                    } else {
+                        LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
+                        SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
+                        initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
+                        sdkUploadLog(activity, "SDKInitGo_epsilon", "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
                     }
                 }
 
@@ -597,17 +629,17 @@ public class SDKManager {
                 public void onFailure(String errorMsg) {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
-//                    sdkUploadLog(activity, "init interface error", errorMsg);
                     initCallBackListener.onFailure(SDKConstant.init_net_error,errorMsg);
+                    sdkUploadLog(activity, "SDKInitGo_epsilon", errorMsg);
                     //用AF统计失败事件
-                    Map<String,Object> map=new HashMap<>();
+                    Map<String,Object> map = new HashMap<>();
                     map.put("msg",errorMsg);
                     TrackingManager.EventTracking(activity,"init_net_error",map);
-
                 }
             });
         } catch (Exception e) {
             hideProgress();
+            initCallBackListener.onFailure(SDKConstant.init_net_error,e.getMessage());
             e.printStackTrace();
         }
 
@@ -854,47 +886,171 @@ public class SDKManager {
                 return;
             }
 
-            //自动登录
-            if (isAuto()) {
-                if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
-
-                    boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
-                    if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType()) && !hasBind) {
-
-                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
-
-                            BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
-                            builder.create().show();
-                            return;
-                        } else {
-                            SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
-                        }
-
+            //新用户第一次安装
+            if (AppManager.isFirstRun(activity)) {
+                NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack,null);
+            }else {
+                //否则自动登录
+                if (isAutoLogin()){
+                    if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())){
+                        //对游客账号进行绑定提醒
+                        guestTip(activity,getUser());
+                        //有登录信息，直接登录
+                        loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
+                        TrackingManager.loginTracking(getUser().getUserId());
+                    }else {
+                        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
+                        builder.create().show();
                     }
-                    showProgress(activity);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgress();
-                            loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
-                            //登录追踪
-                            TrackingManager.loginTracking(getUser().getUserId());
-
-                        }
-                    }, 1000);
-                    return;
-
+                }else {
+                    //不是自动登录，即退出登录状态，重新选择登录方式
+                    LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
+                    builder.create().show();
                 }
             }
-            LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
-            builder.create().show();
-
-
         } catch (Exception e) {
             hideProgress();
             e.printStackTrace();
         }
     }
+
+
+    private void guestTip(Activity activity,User user) {
+        boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
+        if (SDKConstant.TYPE_GUEST.equals(user.getSdkmemberType()) && !hasBind) {
+            if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
+                BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
+                builder.create().show();
+            } else {
+                SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
+            }
+        }
+    }
+
+
+//    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack, final boolean isLogin) {
+//
+//        try {
+//            if (activity == null) {
+//                System.out.println("sdkLogin failed:Activity is null.");
+//                return;
+//            }
+//            setActivity(activity);
+//
+//            if (loginCallBack == null) {
+//                System.out.println("sdkLogin failed:loginCallBack is null.");
+//                return;
+//            }
+//            SDKManager.getInstance().setLoginCallBack(loginCallBack);
+//
+//            //未初始化则重新初始化一次
+//            if (!isInitStatus()) {
+//                Log.e(TAG,"The SDK is not initialized.");
+//                initSDK(activity, getInitParameter(), new InitCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        sdkLogin(activity,loginCallBack,isLogin);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int code,String msg) {
+//                        loginCallBack.onFailure(code,msg);
+//                    }
+//                });
+//                return;
+//            }
+//
+//            if (AppManager.isFirstRun(activity)) {
+//
+//            }
+//
+//            if (!isLogin() && !isAuto()) {
+//                //退出登录后，重新选择登录方式
+//                LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
+//                builder.create().show();
+//                return;
+//            }
+//
+//            //自动登录
+//            if (isAuto()) {
+//                if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
+//
+//                    boolean hasBind = SPManager.getInstance(activity).getBoolean(SPKey.guest_has_bind_account,false);
+//                    if (SDKConstant.TYPE_GUEST.equals(getUser().getSdkmemberType()) && !hasBind) {
+//
+//                        if (SDKManager.getInstance().getGuestLoginCount() >= 5) {
+//
+//                            BindTipDialog.Builder builder = new BindTipDialog.Builder(activity, loginCallBack);
+//                            builder.create().show();
+//                            return;
+//                        } else {
+//                            SDKManager.getInstance().setGuestLoginCount(SDKManager.getInstance().getGuestLoginCount() + 1);
+//                        }
+//
+//                    }
+//                    showProgress(activity);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            hideProgress();
+//                            loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
+//                            //登录追踪
+//                            TrackingManager.loginTracking(getUser().getUserId());
+//                        }
+//                    }, 1000);
+//                    return;
+//
+//                }
+//            }
+//
+//            //刚安装第一次登录
+////            String lastLoginMsg = NutsBase64.decode(FileUtils.readFile(activity));
+////            String lastLoginMsg = FileUtils.readFile(activity);
+//            //MyPrefsBackupAgent类会自动备份SP
+//
+//            String lastLoginMsg = SPManager.getInstance(activity).getString(SPKey.Last_login,"");
+//            User lastUser = (User) GsonUtils.json2Bean(lastLoginMsg, User.class);
+//            if (lastUser == null || lastUser.getUserId().isEmpty()){
+//                //文件中没有登录信息，默认游客登录
+//                NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack,null);
+//            }else {
+//                //有登录信息
+////                hideProgress();
+//                SDKManager.getInstance().setUser(lastUser);
+//                //提取到本地存储的登录信息
+//                loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
+//                TrackingManager.loginTracking(getUser().getUserId());
+//            }
+////            int len = lastLoginMsg.split("\\|").length;
+////            if (lastLoginMsg.isEmpty() || len == 0){
+////                //文件中没有登录信息，登录选择
+////                LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
+////                builder.create().show();
+////            }else {
+////                //有登录信息
+////                hideProgress();
+////                if (len >= 3){
+////                    String[] split = lastLoginMsg.split("\\|");
+////                    User user = new User();
+////                    user.setSdkmemberType(split[0]);
+////                    user.setTicket(split[1]);
+////                    user.setUserName(split[2]);
+////                    if (len == 4){
+////                        user.setUserId(split[3]);
+////                    }
+////                    SDKManager.getInstance().setUser(user);
+////                }
+////
+////                //提取到本地存储的登录信息
+////                loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
+////                TrackingManager.loginTracking(getUser().getUserId());
+////            }
+//
+//        } catch (Exception e) {
+//            hideProgress();
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 默认游客登录，自动初始化
@@ -913,6 +1069,10 @@ public class SDKManager {
             SDKManager.getInstance().setLoginCallBack(loginCallBack);
             if (activity == null) {
                 System.out.println("initSDK failed:Activity is null.");
+                return;
+            }
+            if (isInitStatus()) {
+                NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack,null);
                 return;
             }
             initSDK(activity, initParameter, new InitCallBack() {
@@ -969,7 +1129,7 @@ public class SDKManager {
             }
 
             //自动登录
-            if (isAuto()) {
+            if (isAutoLogin()) {
                 if (getUser() != null) {
                     showProgress(activity);
                     new Handler().postDelayed(new Runnable() {
@@ -1076,11 +1236,11 @@ public class SDKManager {
 
         //登出操作
 //        handleLogout(activity);
-//        取消自动登录
-        SDKManager.getInstance().setAuto(false);
 
         //登录操作
-        sdkLogin(activity, loginCallBack,false);
+//        sdkLogin(activity, loginCallBack,false);
+        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,false);
+        builder.create().show();
     }
 
     /**
@@ -1485,6 +1645,60 @@ public class SDKManager {
      *
      * @param activity
      */
+//    public void sdkUploadLog(Activity activity, String title, String content) {
+//
+//        try {
+//            if (activity == null) {
+//                System.out.println("sdkUploadLog failed:Activity is null.");
+//                return;
+//            }
+//            setActivity(activity);
+//
+//            final String aesKey = AESUtils.generate16SecretKey();
+//            final String ivParameter = AESUtils.generate16SecretKey();
+//            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+//            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+//            ApiManager.getInstance().SDKUploadLog(activity, aesKey, ivParameter,aesKey16byRSA, title, content, new NetCallBack() {
+//                @Override
+//                public void onSuccess(String result) {
+//
+//                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + aesKey+"|"+result);
+//                    if (result == null || result.isEmpty()) {
+//                        return;
+//                    }
+//                    try {
+//                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
+//                        SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(decodeData, SDKResult.class);
+//                        if (sdkResult == null) {
+//                            return;
+//                        }
+//                        if (sdkResult.getCode() == 1) {
+//                            LogUtils.e(TAG, "SDKUploadLog---onSuccess");
+//                        } else {
+//                            LogUtils.e(TAG, "SDKUploadLog---" + sdkResult.getCode()+"---"+sdkResult.getMessage());
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(String errorMsg) {
+//                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + errorMsg);
+//                }
+//            });
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /**
+     * 上传日志，返回结果是404，不用管返回结果
+     * @param activity
+     * @param title
+     * @param content
+     */
     public void sdkUploadLog(Activity activity, String title, String content) {
 
         try {
@@ -1494,41 +1708,17 @@ public class SDKManager {
             }
             setActivity(activity);
 
-            final String aesKey = AESUtils.generate16SecretKey();
-            final String ivParameter = AESUtils.generate16SecretKey();
-            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
-            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-
-            ApiManager.getInstance().SDKUploadLog(activity, aesKey, ivParameter,aesKey16byRSA, title, content, new NetCallBack() {
+            ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-
-                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" + aesKey+"|"+result);
-                    if (result == null || result.isEmpty()) {
-                        return;
-                    }
-                    try {
-                        String decodeData = AESUtils.decrypt(result, aesKey,ivParameter);
-                        SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(decodeData, SDKResult.class);
-                        if (sdkResult == null) {
-                            return;
-                        }
-                        if (sdkResult.getCode() == 1) {
-                            LogUtils.e(TAG, "SDKUploadLog---onSuccess");
-                        } else {
-                            LogUtils.e(TAG, "SDKUploadLog---" + sdkResult.getCode()+"---"+sdkResult.getMessage());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" +result);
                 }
 
                 @Override
-                public void onFailure(String errorMsg) {
-                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + errorMsg);
+                public void onFailure(String msg) {
+                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + msg);
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1571,14 +1761,15 @@ public class SDKManager {
         try {
             User user = new User();
             setUser(user);
-            setAuto(false);
+            SDKManager.getInstance().setAutoLogin(false);
             //FB登出
-            com.facebook.login.LoginManager.getInstance().logOut();
+            if (FacebookSdk.isInitialized()){
+                com.facebook.login.LoginManager.getInstance().logOut();
+            }
             //Google登出
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
             GoogleSignInClient client = GoogleSignIn.getClient(activity, gso);
             client.signOut();
-            SDKManager.getInstance().setLogin(false);
 
             //客服登出
             HelpShiftManager.logout();

@@ -216,7 +216,7 @@ public class LoginOptionsDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     //恢复自动登录
-                    SDKManager.getInstance().setAuto(true);
+                    SDKManager.getInstance().setAutoLogin(true);
 
                     if (loginCallBack != null) loginCallBack.onCancel();
                     dialog.dismiss();

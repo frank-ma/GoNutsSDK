@@ -192,6 +192,14 @@
                 android:text="showFAO"
                 android:visibility="visible"
                 android:textColor="@color/white" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="backUp"
+                android:text="备份"
+                android:visibility="visible"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

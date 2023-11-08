@@ -2,6 +2,7 @@ package com.nutsplay.nonutssdk;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.android.billingclient.api.ProductDetails;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
@@ -31,9 +34,13 @@ import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.ui.SDKBaseActivity;
+import com.nutsplay.nopagesdk.utils.DeviceUtils;
+import com.nutsplay.nopagesdk.utils.FileUtils;
+import com.nutspower.commonlibrary.utils.LogUtils;
 
 import org.json.JSONObject;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +57,9 @@ public class MainActivity extends SDKBaseActivity {
     String referenceId = "com.nuts.sm.android.googleplay.1";
 
 
-//    private String clientId = "5dad5c14e73f210d548bf491";//测试应用      635f680c95b526b99391e7e7
-    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
+    private String clientId = "64e3342d95b526d070bf82c9";//测试应用      635f680c95b526b99391e7e7
+//    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
+//    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
 //    private String clientId = "6449d80495b526d070beff5a";//MiPay
 //    private String clientId = "64aed91995b526d070bf580c";//viking
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
@@ -123,12 +131,6 @@ public class MainActivity extends SDKBaseActivity {
 
     }
 
-    public void goToNoUIActivity(View view) {
-
-        Intent intent = new Intent(this, NoUIActivity.class);
-        startActivity(intent);
-    }
-
 //    public void initAihelp(View view) {
 //
 //        InitParameter initParameter = new InitParameter();
@@ -145,42 +147,6 @@ public class MainActivity extends SDKBaseActivity {
 //            }
 //        });
 //    }
-
-    /**
-     * 默认登录：自动执行初始化和游客登录
-     *
-     * @param view
-     */
-    public void defaultLogin(View view) {
-        InitParameter initParameter = new InitParameter();
-        initParameter.setClientId(clientId);
-        initParameter.setLanguage("zh_hk");
-        initParameter.setDebug(true);
-        initParameter.setHasUI(true);
-        initParameter.setUIVersion(1);
-        initParameter.setShowUserAgreement(true);
-
-        SDK.getInstance().sdkDefaultLogin(this,initParameter,new LoginCallBack(){
-
-            @Override
-            public void onSuccess(String ticket,String sdkMemberType) {
-                //ticket传给游戏服务器做登录校验
-                showLog("默认登录成功：" + ticket);
-            }
-
-            @Override
-            public void onFailure(int code,String msg) {
-                showLog("默认登录失败：" + msg);
-
-            }
-
-            @Override
-            public void onCancel() {
-                showLog("默认登录取消");
-            }
-
-        });
-    }
 
     public void loginUI(View view) {
         login();
@@ -514,25 +480,6 @@ public class MainActivity extends SDKBaseActivity {
     }
 
 
-    /**
-     * 获取用户FB信息
-     *
-     * @param view
-     */
-    public void getFbUserInfo(View view){
-        SDK.getInstance().sdkGetFbUserInfo(this, new ResultCallBack(){
-
-            @Override
-            public void onFailure(String msg) {
-                showLog("获取用户信息失败：" + msg);
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-        });
-    }
 
     /**
      * FB游戏登录
@@ -773,18 +720,18 @@ public class MainActivity extends SDKBaseActivity {
      */
     public void appInvite(View view){
 
-        SDK.getInstance().facebookAppRequest(this,"My Invite Code:2131234,Come Play with me!",new ResultCallBack(){
-
-            @Override
-            public void onFailure(String msg) {
-                showLog("邀请失败："+msg);
-            }
-
-            @Override
-            public void onSuccess() {
-                showLog("邀请好友成功");
-            }
-        });
+//        SDK.getInstance().facebookAppRequest(this,"My Invite Code:2131234,Come Play with me!",new ResultCallBack(){
+//
+//            @Override
+//            public void onFailure(String msg) {
+//                showLog("邀请失败："+msg);
+//            }
+//
+//            @Override
+//            public void onSuccess() {
+//                showLog("邀请好友成功");
+//            }
+//        });
     }
 
     /**
@@ -874,7 +821,7 @@ public class MainActivity extends SDKBaseActivity {
             customData.put("level","12");
             customData.put("coins","1999");
             customData.put("diamond","0");
-            SDK.getInstance().showFAQs("Liuxiaobei","0","recharge,vip3,paid3",customData,true);
+//            SDK.getInstance().showFAQs("Liuxiaobei","0","recharge,vip3,paid3",customData,true);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -890,7 +837,7 @@ public class MainActivity extends SDKBaseActivity {
             customData.put("level","12");
             customData.put("coins","1999");
             customData.put("diamond","0");
-            SDK.getInstance().customerSupport("Liuxiaobei","1","recharge,vip3,paid3",customData,true);
+//            SDK.getInstance().customerSupport("Liuxiaobei","1","recharge,vip3,paid3",customData,true);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1018,4 +965,39 @@ public class MainActivity extends SDKBaseActivity {
 //        config.put("tags", new String[]{"foo", "bar"});
         HelpShiftManager.showConversation(this,config);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == DeviceUtils.REQUEST_CODE_READ_PHONE_STATE){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                FileUtils.createMkdirsAndFiles("test");
+            }
+        }
+    }
+
+    /**
+     * 备份
+     * @param view
+     */
+    public void backUp(View view) {
+        //加入备份队列，闲时备份
+//        BackupManager backupManager = new BackupManager(this);
+//        backupManager.dataChanged();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    InetAddress inetAddress = InetAddress.getByName("go.0egg.com");
+                    boolean reachable = inetAddress.isReachable(5000);
+                    LogUtils.e(TAG,"Ping结果："+reachable);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
 }

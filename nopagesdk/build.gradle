@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 33
     defaultConfig {
-        versionName "5.2"
+        versionName "5.4"
         minSdkVersion 21//16
         targetSdkVersion 33
         multiDexEnabled true
@@ -100,7 +100,8 @@ dependencies {
     //Google评价用到核心库
     api 'com.google.android.play:core:1.9.0'
     // Facebook Android SDK (everything)
-    api 'com.facebook.android:facebook-android-sdk:16.2.0'//13.0.0//11.1.1//7.1.0
+//    api 'com.facebook.android:facebook-android-sdk:16.2.0'//16.2fb登录闪退//13.0.0//11.1.1//7.1.0
+    api 'com.facebook.android:facebook-android-sdk:13.1.0'//13.0.0//11.1.1//7.1.0
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 

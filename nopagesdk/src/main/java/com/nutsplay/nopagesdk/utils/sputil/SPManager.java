@@ -90,6 +90,14 @@ public class SPManager {
     public int getInt(String key) {
         return mPreferences.getInt(key, 0);
     }
+    public boolean putFloat(String key, float value) {
+        mEditor.putFloat(key, value);
+        return mEditor.commit();
+    }
+
+    public float getFloat(String key) {
+        return mPreferences.getFloat(key, 0f);
+    }
 
     public int getInt(String key, int defValue) {
         return mPreferences.getInt(key, defValue);

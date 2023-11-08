@@ -178,7 +178,8 @@ public class DeviceUtils {
     public static boolean checkPermission(Activity context) {
         if (context == null) return false;
         if (    ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED ) {
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
+        ) {
 
             ActivityCompat.requestPermissions(context, new String[]{
                     Manifest.permission.ACCESS_NETWORK_STATE,
