@@ -101,7 +101,7 @@ public class InstallManager {
                 String userID = SDKManager.getInstance().getUser().getUserId();
                 content = referrerUrl;
             }
-            SDKManager.getInstance().sdkUploadLog(activity,"installReferrer",content);
+            SDKManager.getInstance().sdkUploadLog("installReferrer",content);
             callBack.onSuccess(referrerUrl);
             //断开连接，以免占用资源和泄露
             referrerClient.endConnection();

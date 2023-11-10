@@ -65,5 +65,14 @@ public class AppManager {
         }
         return versionCode;
     }
+    public static String getVersionName(Context context){
+        String versionName = "";
+        try {
+            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return versionName;
+    }
 
 }

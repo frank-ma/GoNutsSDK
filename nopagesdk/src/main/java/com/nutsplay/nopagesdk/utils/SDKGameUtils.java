@@ -9,7 +9,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.text.format.Formatter;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,18 +29,25 @@ import androidx.appcompat.app.AlertDialog;
 import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -676,15 +686,12 @@ public class SDKGameUtils {
                 md.update(signature.toByteArray());
                 Log.d("KeyHash", "packageName:" + context.getPackageName() + " KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            Log.d("KeyHash:", e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            Log.d("KeyHash:", e.toString());
         } catch (Exception e){
+            SDKManager.getInstance().sdkUploadLog("7",e.getMessage());
             e.printStackTrace();
             Log.d("KeyHash:", e.toString());
+        }finally {
+            SDKManager.getInstance().sdkUploadLog("8","getKeyHash()");
         }
     }
 
@@ -797,5 +804,60 @@ public class SDKGameUtils {
      */
     public static void setTypeFace(Context context,TextView textView){
         textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica.ttf"));
+    }
+
+    /**
+     * 获取时间戳
+     * @return
+     */
+    public static String getCurrentTime(){
+        // 时间戳格式化
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String dateStr = sdf.format(new Date(System.currentTimeMillis()));
+        return dateStr;
+    }
+
+    private static String ipAddress = "";
+
+    /**
+     * 获取公网IP地址
+     * @return
+     */
+    public static String getPublicIPAddress() {
+        //在子线程中进行http请求
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (ipAddress.isEmpty()){
+                        URL url = new URL("http://checkip.amazonaws.com");
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setConnectTimeout(5000);
+                        con.setReadTimeout(5000);
+                        con.setRequestMethod("GET");
+                        InputStream in = new BufferedInputStream(con.getInputStream());
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        ipAddress = reader.readLine();
+                        reader.close();
+                        in.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        return ipAddress;
+    }
+
+    public static String getWifiIPAddress(Context context) {
+        try {
+            WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            return Formatter.formatIpAddress(ipAddress);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 }

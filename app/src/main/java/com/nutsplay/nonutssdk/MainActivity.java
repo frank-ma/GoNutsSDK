@@ -93,7 +93,7 @@ public class MainActivity extends SDKBaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-        initB.callOnClick();
+//        initB.callOnClick();
 
 
         //startActivity(new Intent(this,AdsActivity.class));

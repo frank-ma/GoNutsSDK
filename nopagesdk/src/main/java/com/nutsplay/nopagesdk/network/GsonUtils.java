@@ -24,9 +24,8 @@ public class GsonUtils {
         } catch (Exception e) {
             SDKToast.getInstance().ToastShow("json格式错误，解析失败: "+e.getMessage(),3);
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public static String tojsonString(Object type){

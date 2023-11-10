@@ -57,6 +57,7 @@ public class SDKConstant {
     public static final String NUTS_BIND_NUTS="NUTS_BIND_NUTS";
     public static final String NUTS_BIND_EMAIL = "NUTS_BIND_EMAIL";
 
+
     //Google官方支付错误码
     static int SERVICE_TIMEOUT = -3;
     static int FEATURE_NOT_SUPPORTED = -2;
@@ -124,6 +125,7 @@ public class SDKConstant {
     public static final int not_init = 118; //未初始化
     public static final int not_login = 119; //未登录
 
+
     //init初始化失败错误码
     public static final int refuse_protocol = 120; //玩家拒绝协议
 
@@ -143,7 +145,7 @@ public class SDKConstant {
     public static int fb_share_error = 131;//facebook分享失败
     public static int fb_login_error = 132;//facebook登录失败
     public static int google_login_error = 133;//google登录失败
-
+    public static int init_error = 134;//初始化错误
 
 
     //小米支付响应代码

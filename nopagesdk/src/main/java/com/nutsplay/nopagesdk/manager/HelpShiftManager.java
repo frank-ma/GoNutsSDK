@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.helpshift.Helpshift;
 import com.nutsplay.nopagesdk.beans.User;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
@@ -64,7 +65,10 @@ public class HelpShiftManager {
             if (StringUtils.isEmpty(lan)) return;
             Helpshift.setLanguage(SDKGameUtils.getHelpShiftLanguageAlia(lan));
         }catch (Exception e){
+            SDKManager.getInstance().sdkUploadLog("9",e.getMessage());
             e.printStackTrace();
+        }finally {
+            SDKManager.getInstance().sdkUploadLog("10","setHelpShiftLan()");
         }
     }
 

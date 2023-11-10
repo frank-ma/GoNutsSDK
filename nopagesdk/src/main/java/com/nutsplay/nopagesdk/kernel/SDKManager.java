@@ -285,7 +285,10 @@ public class SDKManager {
                 progressDialog.setCancelable(true);
             }
         } catch (Exception e) {
+            SDKManager.getInstance().sdkUploadLog("3",e.getMessage());
             e.printStackTrace();
+        } finally {
+            SDKManager.getInstance().sdkUploadLog("4","showProgress()");
         }
     }
 
@@ -381,50 +384,42 @@ public class SDKManager {
      */
     public void initSDK( Activity activity,  InitParameter initParameter, InitCallBack initCallBack) {
         try {
-
-            if (activity == null) {
-                System.out.println("initSDK failed:Activity is null.");
-                return;
-            }
-            setActivity(activity);
-
-            if (initParameter == null) {
-                System.out.println("initSDK failed:InitParameter is null.");
-                return;
-            }
-            setInitParameter(initParameter);
+            //注意：开始初始化了啊
 
             if (initCallBack == null) {
                 System.out.println("initSDK failed:InitCallBack is null.");
+                sdkUploadLog("1","initSDK failed:InitCallBack is null.");
                 return;
             }
-
+            if (activity == null || initParameter == null) {
+                sdkUploadLog("2","activity == null || initParameter == null");
+                initCallBack.onFailure(SDKConstant.ERROR,"activity == null || initParameter == null");
+                return;
+            }
+            //设置参数
+            setActivity(activity);
+            setInitParameter(initParameter);
+            //开启Loading
             showProgress(activity);
-
             //配置debug模式
             LogUtils.setIsDeBug(initParameter.isDebug());
-
             //向用户申请读取手机信息的权限
             DeviceUtils.checkPermission(activity);
-
             //初始化bugly
 //            CrashReport.initCrashReport(activity.getApplicationContext(), initParameter.getBuglyId(), false);
 //            if (initParameter.getBuglyChannel() != null && !initParameter.getBuglyChannel().isEmpty()) {
 //                CrashReport.setAppChannel(activity.getApplicationContext(), initParameter.getBuglyChannel());
 //            }
-
-
             //获取keyHash
             SDKGameUtils.getKeyHash(activity);
-
             //初始化客服系统
 //            AIHelpManager.initAiHelp(activity,initParameter);
             HelpShiftManager.setHelpShiftLan(initParameter.getLanguage());
-
             //获取公钥
             getPublicKey(activity, initCallBack);
-
         }catch (Exception e){
+            sdkUploadLog("11",e.getMessage());
+            if (initCallBack != null) initCallBack.onFailure(SDKConstant.init_error,e.getMessage());
             hideProgress();
             e.printStackTrace();
         }
@@ -467,19 +462,23 @@ public class SDKManager {
             ApiManager.getInstance().getRASPublicKey(new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
+                    sdkUploadLog("15","getRASPublicKey_alpha");
 
                     if (result == null || result.isEmpty()){
                         hideProgress();
                         initCallBack.onFailure(SDKConstant.get_public_key_null,"response null");
+                        sdkUploadLog("16","getRASPublicKey_alpha" + "result==null");
                         return;
                     }
                     SDKResult sdkResult = (SDKResult) GsonUtils.json2Bean(result, SDKResult.class);
                     if (sdkResult == null) {
                         hideProgress();
                         initCallBack.onFailure(SDKConstant.get_public_key_format_error,"sdkResult is null：json解析格式错误");
+                        sdkUploadLog("17","getRASPublicKey_alpha" + "sdkResult==null");
                         return;
                     }
                     if (sdkResult.getCode() == 1) {
+                        sdkUploadLog("18","getRASPublicKey_alpha" + " success");
                         String publickey = NetUtils.decode(sdkResult.getData());
                         publickey = publickey.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
                         SPManager.getInstance(activity).putString(SPKey.PUBLIC_KEY, publickey);
@@ -487,19 +486,20 @@ public class SDKManager {
                         //初始化接口go
                         doSdkInit(activity, initCallBack);
                     } else {
-                        hideProgress();
                         SDKGameUtils.showServiceInfo(sdkResult.getCode(), sdkResult.getMessage());
                         initCallBack.onFailure(SDKConstant.get_public_key_other_code,"code:"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
-                        sdkUploadLog(activity,"getRASPublicKey_alpha","resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
+                        sdkUploadLog("19","getRASPublicKey_alpha"+"resultCode-"+sdkResult.getCode()+" msg:"+sdkResult.getMessage());
+                        hideProgress();
                     }
                 }
 
                 @Override
                 public void onFailure(String errorMsg) {
+                    initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
+                    sdkUploadLog("14","getRASPublicKey_alpha"+errorMsg);
+
                     hideProgress();
                     LogUtils.e("getRASPublicKey", "onFailure----" + errorMsg);
-                    initCallBack.onFailure(SDKConstant.get_public_key_net_error,errorMsg);
-                    sdkUploadLog(activity,"getRASPublicKey_alpha",errorMsg);
 
                     //用AF统计失败事件
                     Map<String,Object> map=new HashMap<>();
@@ -509,9 +509,12 @@ public class SDKManager {
             });
 
         }catch (Exception e){
-            hideProgress();
             initCallBack.onFailure(SDKConstant.get_public_key_net_error,e.getMessage());
+            sdkUploadLog("12",e.getMessage());
+            hideProgress();
             e.printStackTrace();
+        }finally {
+            sdkUploadLog("13","getRASPublicKey()");
         }
     }
 
@@ -536,11 +539,13 @@ public class SDKManager {
                 public void onFail(int code,String msg) {
                     setInitStatus(false);
                     initCallBack.onFailure(SDKConstant.refuse_protocol,msg);
+                    sdkUploadLog("28","userAgreement fail " + code + msg);
                 }
                 @Override
                 public void onCancel() {
                     setInitStatus(false);
                     initCallBack.onFailure(SDKConstant.refuse_protocol,"user refuse protocol");
+                    sdkUploadLog("29","userAgreement cancel.");
                 }
             },false);
             builder.create().show();
@@ -559,6 +564,7 @@ public class SDKManager {
 //            initCallBack.onSuccess(getUser());
 //        }
         initCallBack.onSuccess();
+        sdkUploadLog("27","initCallBack.onSuccess() ");
     }
 
     /**
@@ -592,6 +598,8 @@ public class SDKManager {
 
                 @Override
                 public void onSuccess(String result) {
+                    sdkUploadLog("20","SDKInitGo_epsilon" + result);
+
                     hideProgress();
                     if (result == null || result.isEmpty()) {
                         initCallBackListener.onFailure(SDKConstant.init_response_null,"server response is empty.");
@@ -603,9 +611,11 @@ public class SDKManager {
                     SDKInitModel initgoBean = (SDKInitModel) GsonUtils.json2Bean(decodeData, SDKInitModel.class);
                     if (initgoBean == null) {
                         initCallBackListener.onFailure(SDKConstant.init_initgoBean_null, "InitGoBean is null.");
+                        sdkUploadLog("21","SDKInitGo_epsilon" + decodeData);
                         return;
                     }
                     if (initgoBean.getCode() == 1) {
+                        sdkUploadLog("22","SDKInitGo_epsilon code == 1");
                         LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                         setInitData(initgoBean);
 
@@ -616,12 +626,12 @@ public class SDKManager {
                         handleLogout(activity);
                         SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
                         initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
-                        sdkUploadLog(activity, "SDKInitGo_epsilon", "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
+                        sdkUploadLog("23","SDKInitGo_epsilon "+"resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
                     } else {
                         LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                         SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
                         initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
-                        sdkUploadLog(activity, "SDKInitGo_epsilon", "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
+                        sdkUploadLog("24","SDKInitGo_epsilon "+ "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
                     }
                 }
 
@@ -630,7 +640,7 @@ public class SDKManager {
                     hideProgress();
                     LogUtils.e(TAG, "SDKInitGo---onFailure:" + errorMsg);
                     initCallBackListener.onFailure(SDKConstant.init_net_error,errorMsg);
-                    sdkUploadLog(activity, "SDKInitGo_epsilon", errorMsg);
+                    sdkUploadLog("25","SDKInitGo_epsilon"+ errorMsg);
                     //用AF统计失败事件
                     Map<String,Object> map = new HashMap<>();
                     map.put("msg",errorMsg);
@@ -638,8 +648,9 @@ public class SDKManager {
                 }
             });
         } catch (Exception e) {
-            hideProgress();
             initCallBackListener.onFailure(SDKConstant.init_net_error,e.getMessage());
+            sdkUploadLog("26",e.getMessage());
+            hideProgress();
             e.printStackTrace();
         }
 
@@ -1695,19 +1706,11 @@ public class SDKManager {
 
     /**
      * 上传日志，返回结果是404，不用管返回结果
-     * @param activity
      * @param title
      * @param content
      */
-    public void sdkUploadLog(Activity activity, String title, String content) {
-
+    public void sdkUploadLog(String title, String content) {
         try {
-            if (activity == null) {
-                System.out.println("sdkUploadLog failed:Activity is null.");
-                return;
-            }
-            setActivity(activity);
-
             ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
@@ -1722,8 +1725,24 @@ public class SDKManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
+        try {
+            //上传日志到游戏BI后台
+            ApiManager.getInstance().gameBIPushLog(getActivity(),title, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    LogUtils.e(TAG, "gameBIPushLog---onSuccess:" +result);
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    LogUtils.e(TAG, "gameBIPushLog---onFailure:" +msg);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 注销账号

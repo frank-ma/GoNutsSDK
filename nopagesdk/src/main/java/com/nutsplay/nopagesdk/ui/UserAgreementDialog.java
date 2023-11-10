@@ -103,6 +103,7 @@ public class UserAgreementDialog extends Dialog {
                 if (userProtocol == null || userProtocol.isEmpty()) userProtocol = "No Policy";
 //                protocolContent.setText(userProtocol);
             } catch (Exception e) {
+                callBack.onSuccess();
                 e.printStackTrace();
             }
             //接受按钮
@@ -110,8 +111,8 @@ public class UserAgreementDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
 
-                    if (context == null) return;
                     callBack.onSuccess();
+                    if (context == null) return;
                     SPManager.getInstance(context).putBoolean(SPKey.key_first_open,false);
                     dialog.dismiss();
                 }

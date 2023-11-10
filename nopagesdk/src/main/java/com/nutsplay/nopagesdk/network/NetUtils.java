@@ -3,8 +3,6 @@ package com.nutsplay.nopagesdk.network;
 import android.util.Base64;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * Created by frank-ma on 2019/7/24 4:18 PM
  * Email: frankma9103@gmail.com
@@ -50,8 +48,6 @@ public class NetUtils {
         byte[] base64Result = Base64.decode(source, Base64.DEFAULT);// 先用base64解密
         try {
             result = new String(base64Result,"utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -15,6 +15,7 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutspower.commonlibrary.utils.LogUtils;
@@ -176,20 +177,27 @@ public class DeviceUtils {
      * @param context
      */
     public static boolean checkPermission(Activity context) {
-        if (context == null) return false;
-        if (    ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            ActivityCompat.requestPermissions(context, new String[]{
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.ACCESS_WIFI_STATE
-            }, REQUEST_CODE_READ_PHONE_STATE);
-            return false;
-        } else {
-            LogUtils.e("the permission of '" + Manifest.permission.READ_PHONE_STATE + "' is enable.");
-            return true;
-        }
+       try {
+           if (context == null) return false;
+           if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
+                   ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
+           ) {
+               ActivityCompat.requestPermissions(context, new String[]{
+                       Manifest.permission.ACCESS_NETWORK_STATE,
+                       Manifest.permission.ACCESS_WIFI_STATE
+               }, REQUEST_CODE_READ_PHONE_STATE);
+               return false;
+           } else {
+               LogUtils.e("the permission of '" + Manifest.permission.READ_PHONE_STATE + "' is enable.");
+               return true;
+           }
+       }catch (Exception e){
+           SDKManager.getInstance().sdkUploadLog("5",e.getMessage());
+           e.printStackTrace();
+           return false;
+       }finally {
+           SDKManager.getInstance().sdkUploadLog("6","checkPermission()");
+       }
     }
 
 //    public static boolean checkPermission(Activity context) {
