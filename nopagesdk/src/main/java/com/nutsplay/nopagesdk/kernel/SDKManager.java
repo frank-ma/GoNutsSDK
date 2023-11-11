@@ -619,7 +619,8 @@ public class SDKManager {
                         LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
                         setInitData(initgoBean);
 
-                        openUserAgreement(activity, initCallBackListener);
+                        doCallback(initCallBackListener);
+//                        openUserAgreement(activity, initCallBackListener);
                     } else if (initgoBean.getCode() == -6) {
                         //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                         LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());

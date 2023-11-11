@@ -96,6 +96,12 @@ public class UserAgreementDialog extends Dialog {
             String webLinkText = "<a href='http://nutspower.com/PrivacyNotice.html'>Privacy Policy</a>";
             userProtocolTv.setText(Html.fromHtml(webLinkText));
             userProtocolTv.setMovementMethod(LinkMovementMethod.getInstance());
+            userProtocolTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SDKManager.getInstance().sdkUploadLog("30","click protocol link");
+                }
+            });
             //协议内容
             try {
                 SDKKernel.getInstance().setActivity((Activity) context);

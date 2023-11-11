@@ -712,18 +712,22 @@ public class ApiManager {
      * @return
      */
     public void ping(String title, String content,String webAddress,NetCallBack netCallBack){
+
         new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         String pingResult = "";
-                        InetAddress inetAddress = InetAddress.getByName(webAddress);
-                        boolean reachable = inetAddress.isReachable(5000);
-                        LogUtils.e(TAG,"Ping结果："+reachable);
-                        if (reachable) {
-                            pingResult += "_Ping "+webAddress +" success";
-                        } else {
-                            pingResult += "_Ping "+webAddress +" fail";
+                        if (title.equals("14") || title.equals("25")){
+                            //获取公钥接口失败或初始化接口失败，才Ping接口
+                            InetAddress inetAddress = InetAddress.getByName(webAddress);
+                            boolean reachable = inetAddress.isReachable(5000);
+                            LogUtils.e(TAG,"Ping结果："+reachable);
+                            if (reachable) {
+                                pingResult += "_Ping "+webAddress +" success";
+                            } else {
+                                pingResult += "_Ping "+webAddress +" fail";
+                            }
                         }
                         String url = "http://logcat.0egg.com/crashlog?title=" + title + "&content=" + content + pingResult;
                         NetClient.getInstance().clientGetLog(url, null, null, netCallBack);
