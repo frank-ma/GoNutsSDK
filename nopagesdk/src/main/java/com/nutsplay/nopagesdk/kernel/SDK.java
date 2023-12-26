@@ -16,6 +16,7 @@ import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutspower.commonlibrary.utils.StringUtils;
@@ -318,9 +319,12 @@ public class SDK {
      * @param customData 自定义数据
      * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
-//    public void customerSupport(String playerName, String serverId, String userTags, JSONObject customData,boolean showRobot) {
-//        SDKManager.getInstance().customerSupport(playerName,userTags,serverId,customData,showRobot);
-//    }
+    public void customerSupport() {
+        AIHelpManager.getInstance().show();
+    }
+    public void customerSupport(String entranceId) {
+        AIHelpManager.getInstance().show(entranceId);
+    }
 
     /**
      * FAQ

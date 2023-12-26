@@ -24,6 +24,15 @@ public class InitParameter implements Serializable {
     private String aihelpAppkey="";
     private String aihelpDomain="";
     private String aihelpAppID="";
+    private String pushLogUrl="";//日志上报地址
+
+    public String getPushLogUrl() {
+        return pushLogUrl;
+    }
+
+    public void setPushLogUrl(String pushLogUrl) {
+        this.pushLogUrl = pushLogUrl;
+    }
 
     public String getClientId() {
         return clientId;

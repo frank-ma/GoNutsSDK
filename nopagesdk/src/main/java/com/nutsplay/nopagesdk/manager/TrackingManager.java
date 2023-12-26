@@ -10,6 +10,8 @@ import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
+import net.aihelp.config.UserConfig;
+
 import java.util.Map;
 
 /**
@@ -93,6 +95,13 @@ public class TrackingManager {
 
             //adjust追踪
             AdjustTraceManager.getInstance().adjustLogin(SDKManager.getInstance().getActivity());
+
+            //登录成功之后传递用户ID给客服系统
+            UserConfig userConfig = new UserConfig.Builder()
+                    .setUserId(accountId)
+                    .setUserTags("login")
+                    .build();
+            AIHelpManager.getInstance().updateUserInfo(userConfig);
 
             //登录成功之后检查掉单
             new Handler().postDelayed(new Runnable() {

@@ -2,13 +2,8 @@ package com.nutsplay.nopagesdk.manager;
 
 import android.app.Activity;
 
-import com.helpshift.Helpshift;
 import com.nutsplay.nopagesdk.beans.User;
-import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.utils.SDKGameUtils;
-import com.nutspower.commonlibrary.utils.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -37,7 +32,7 @@ public class HelpShiftManager {
 //            config.put("cifs", cifMap);
 
             // pass the config map in the api
-            Helpshift.showConversation(activity, config);
+//            Helpshift.showConversation(activity, config);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,8 +44,8 @@ public class HelpShiftManager {
      */
     public static void showFAQs(Activity activity,Map<String, Object> configMap) {
         try {
-            configMap.put("enableContactUs", "AFTER_VIEWING_FAQS");
-            Helpshift.showFAQs(activity, configMap);
+//            configMap.put("enableContactUs", "AFTER_VIEWING_FAQS");
+//            Helpshift.showFAQs(activity, configMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,15 +56,15 @@ public class HelpShiftManager {
      * @param lan
      */
     public static void setHelpShiftLan(String lan){
-        try{
-            if (StringUtils.isEmpty(lan)) return;
-            Helpshift.setLanguage(SDKGameUtils.getHelpShiftLanguageAlia(lan));
-        }catch (Exception e){
-            SDKManager.getInstance().sdkUploadLog("9",e.getMessage());
-            e.printStackTrace();
-        }finally {
-            SDKManager.getInstance().sdkUploadLog("10","setHelpShiftLan()");
-        }
+//        try{
+//            if (StringUtils.isEmpty(lan)) return;
+//            Helpshift.setLanguage(SDKGameUtils.getHelpShiftLanguageAlia(lan));
+//        }catch (Exception e){
+//            SDKManager.getInstance().sdkUploadLog("9",e.getMessage());
+//            e.printStackTrace();
+//        }finally {
+//            SDKManager.getInstance().sdkUploadLog("10","setHelpShiftLan()");
+//        }
     }
 
     /**
@@ -77,19 +72,19 @@ public class HelpShiftManager {
      */
     public static void setUser(User user){
         try {
-            if (user == null || user.getUserId().isEmpty()) return;
-            Map<String, String> userData = new HashMap<>();
-            userData.put("userId", user.getUserId());
-            userData.put("userEmail", user.getBindEmail());
-            userData.put("userName", user.getUserName());
-            userData.put("userAuthToken", user.getTicket());
-            Helpshift.login(userData);
+//            if (user == null || user.getUserId().isEmpty()) return;
+//            Map<String, String> userData = new HashMap<>();
+//            userData.put("userId", user.getUserId());
+//            userData.put("userEmail", user.getBindEmail());
+//            userData.put("userName", user.getUserName());
+//            userData.put("userAuthToken", user.getTicket());
+//            Helpshift.login(userData);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
     public static void logout(){
-        Helpshift.logout();
+//        Helpshift.logout();
     }
 }

@@ -93,10 +93,11 @@ public class MainActivity extends SDKBaseActivity {
 //        webTv.setText(Html.fromHtml(csdnLink1));
 
 
-//        initB.callOnClick();
+        initB.callOnClick();
 
 
         //startActivity(new Intent(this,AdsActivity.class));
+
     }
 
 
@@ -111,10 +112,11 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setLanguage("zh_cn");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
+        initParameter.setPushLogUrl("");
         initParameter.setShowUserAgreement(true);
-//        initParameter.setAihelpAppkey(AIHelpAppKey);
-//        initParameter.setAihelpAppID(AIHelpAppID);
-//        initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
@@ -828,16 +830,15 @@ public class MainActivity extends SDKBaseActivity {
 
     }
 
+    /**
+     * 在线客服
+     * @param view
+     */
     public void customerService(View view) {
         //customerSupport(String userName, String serverId,String userTags, JSONObject customData)
         //参数分别为:用户名，服务器id,用户标签，自定义数据
         try {
-            JSONObject customData = new JSONObject();
-            customData.put("playerID","100011");
-            customData.put("level","12");
-            customData.put("coins","1999");
-            customData.put("diamond","0");
-//            SDK.getInstance().customerSupport("Liuxiaobei","1","recharge,vip3,paid3",customData,true);
+            SDK.getInstance().customerSupport();
         }catch (Exception e){
             e.printStackTrace();
         }

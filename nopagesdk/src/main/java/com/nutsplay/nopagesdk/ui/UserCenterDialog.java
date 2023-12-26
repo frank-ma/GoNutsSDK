@@ -33,8 +33,6 @@ import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
-import org.json.JSONObject;
-
 /**
  * Created by frankma on 2019-10-09 18:22
  * Email: frankma9103@gmail.com
@@ -197,10 +195,7 @@ public class UserCenterDialog extends Dialog {
             customServiceTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    User user = SDKManager.getInstance().getUser();
-                    if (user == null) return;
-                    String username = user.getUserName();
-                    AIHelpManager.customerSupport(username,"","",new JSONObject(),true);
+                    AIHelpManager.getInstance().show();
                 }
             });
 

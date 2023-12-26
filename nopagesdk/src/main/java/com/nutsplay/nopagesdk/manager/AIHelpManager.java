@@ -3,134 +3,120 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 
 import com.nutsplay.nopagesdk.beans.InitParameter;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 
-import org.json.JSONObject;
+import net.aihelp.config.UserConfig;
+import net.aihelp.init.AIHelpSupport;
+import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
+import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
 /**
- * Created by frank-ma on 2018/12/28 下午9:23
+ * Created by frankma on 2023/10/24 9:36 PM
  * Email: frankma9103@gmail.com
- * Desc: AIHELP 客服系统
+ * Desc:  AiHelp客服系统
+ * 文档：https://aihelp.net/FAQ/#/AIhelp-Support/app/zh-CN/EB5AE263D8AB85A4/0B9CFFA02F4F21FD/14D0F99762615284
  */
 public class AIHelpManager {
 
+    private static final String TAG = "AIHelpManager";
+    private volatile static AIHelpManager INSTANCE;
 
-    /**
-     * 初始化AiHelp客服系统
-     */
-    public static void initAiHelp(Activity activity, InitParameter parameters) {
+    public static AIHelpManager getInstance() {
+        if (INSTANCE == null) {
+            synchronized (AIHelpManager.class) {
+                if (null == INSTANCE) {
+                    INSTANCE = new AIHelpManager();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
-//        try {
-//            if (parameters.getAihelpAppkey().isEmpty() ||
-//                    parameters.getAihelpAppID().isEmpty() ||
-//                    parameters.getAihelpDomain().isEmpty()) {
-//                System.out.println("AiHelp初始化失败：参数信息不全");
-//                return;
-//            }
-//            AIHelpSupport.init(activity,
-//                    parameters.getAihelpAppkey(),
-//                    parameters.getAihelpDomain(),
-//                    parameters.getAihelpAppID(),
-//                    SDKGameUtils.getAIHelpLanguageAlia(parameters.getLanguage()));
-//            AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
-//                @Override
-//                public void onAIHelpInitialized() {
-//                    Log.e("AIHelp", "AiHelp初始化成功");
-//                }
-//            });
-//            Log.e("Aihelp","AIhelp-v"+AIHelpSupport.getSDKVersion());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    public static void initAiHelp(Activity activity, InitParameter initParameter) {
+        AIHelpSupport.init(activity,
+                initParameter.getAihelpAppkey(),
+                initParameter.getAihelpDomain(),
+                initParameter.getAihelpAppID(),
+                SDKGameUtils.getAIHelpLanguage(initParameter.getLanguage()));
+        AIHelpSupport.setOnAIHelpInitializedCallback(new OnAIHelpInitializedCallback() {
+            @Override
+            public void onAIHelpInitialized(boolean isSuccess, String message) {
+                System.out.println("AIHelp初始化结果:" + isSuccess + message);
+            }
+        });
     }
 
     /**
-     *  获取未读消息数量
+     * E001默认的入口模板ID
+     */
+    public void show() {
+        AIHelpSupport.show("E001");
+    }
+
+    /**
+     * 你可以通过在 AIHelp 后台自定义「帮助中心」入口，用相应的入口 ID 拉起 AIHelp 帮助中心页面：
+     *
+     * @param entranceId
+     */
+    public void show(String entranceId) {
+        AIHelpSupport.show(entranceId);
+    }
+
+    /**
+     * 传用户信息
+     * UserConfig userConfig
+     *
+     * @param userConfig UserConfig userConfig = new UserConfig.Builder()
+     *                   .setUserId("123456789")
+     *                   .setUserName("AIHelper")
+     *                   .setUserTags("recharge,suggestion")
+     *                   .build();
+     */
+    public void updateUserInfo(UserConfig userConfig) {
+        AIHelpSupport.updateUserInfo(userConfig);
+    }
+
+    /**
+     * 用户退出登录时调用此方法告知 AIHelp 来清除登录用户的信息，以保证游客/用户信息的准确性：
+     */
+    public void resetUserInfo() {
+        AIHelpSupport.resetUserInfo();
+    }
+
+    public void updateSDKLanguage(String lan) {
+        AIHelpSupport.updateSDKLanguage(lan);
+    }
+
+    /**
+     * 未读消息
+     * 方法内部每 5 分钟主动拉取一次当前用户的未读消息数量，并在以下两种情况时将结果返回给调用者：
+     * <p>
+     * 1、有进行中客诉的用户收到新消息时，返回该用户累计未读的消息数量；
+     * <p>
+     * 2、用户打开客服会话窗口时，返回数字 0 以标记用户已读当前消息。
+     *
      * @param callback
      */
-//    public static void fetchUnreadMessage(OnMessageCountArrivedCallback callback) {
-//        if (callback == null) return;
-//        AIHelpSupport.startUnreadMessageCountPolling(callback);
-//    }
+    public void startUnreadMessageCountPolling(OnMessageCountArrivedCallback callback) {
+        AIHelpSupport.startUnreadMessageCountPolling(callback);
+    }
 
     /**
-     * 直接进入客服聊天界面
+     * 日志文件的绝对路径
+     * AIHelp 目前只支持上传 .log / .bytes / .txt / .zip 格式的文件。
      *
-     * @param playerName
-     * @param serverId
-     * @param userTags
-     * @param customData
+     * @param filePath
      */
-    public static void customerSupport(String playerName, String serverId, String userTags,JSONObject customData,boolean showRobot) {
-
-//        try {
-//            String nutsId = "";
-////            if (SDKManager.getInstance().isLogin()){
-//                if (SDKManager.getInstance().getUser() != null) {
-//                    nutsId = SDKManager.getInstance().getUser().getUserId();
-//                }
-////            }
-//
-//            ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
-//            conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(true);
-//            if (showRobot){
-//                conversationBuilder.setConversationIntent(ConversationIntent.BOT_SUPPORT);
-//            }else {
-//                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
-//            }
-//            AIHelpSupport.showConversation(conversationBuilder.build());
-//            //设置用户信息
-//            net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
-//                    .setServerId(serverId)
-//                    .setUserName(playerName)
-//                    .setUserId(nutsId)
-//                    .setUserTags(userTags)
-//                    .setCustomData(customData.toString())
-//                    .build();
-//            AIHelpSupport.updateUserInfo(userConfig);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    public void uploadLog(String filePath) {
+        AIHelpSupport.setUploadLogPath(filePath);
     }
 
     /**
-     * FAQ
-     * @param userName
-     * @param serverId
-     * @param userTags
-     * @param customData
-     * @param showRobot
+     * 关闭所以AIHelp页面
      */
-    public static void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot) {
-//        try {
-//            String nutsId = "";
-////            if (SDKManager.getInstance().isLogin()){
-//                if (SDKManager.getInstance().getUser() != null) {
-//                    nutsId = SDKManager.getInstance().getUser().getUserId();
-//                }
-////            }
-//
-//            FaqConfig.Builder faqBuilder = new FaqConfig.Builder();
-//            ConversationConfig.Builder conversationBuilder = new ConversationConfig.Builder();
-//            conversationBuilder.setAlwaysShowHumanSupportButtonInBotPage(showRobot);
-//            if (showRobot){
-//                conversationBuilder.setConversationIntent(ConversationIntent.BOT_SUPPORT);
-//            }else {
-//                conversationBuilder.setConversationIntent(ConversationIntent.HUMAN_SUPPORT);
-//            }
-//            faqBuilder.setShowConversationMoment(ShowConversationMoment.ALWAYS);
-//            faqBuilder.setConversationConfig(conversationBuilder.build());
-//            AIHelpSupport.showAllFAQSections(faqBuilder.build());
-//            //设置用户信息
-//            net.aihelp.config.UserConfig userConfig = new net.aihelp.config.UserConfig.Builder()
-//                    .setServerId(serverId)
-//                    .setUserName(userName)
-//                    .setUserId(nutsId)
-//                    .setUserTags(userTags)
-//                    .setCustomData(customData.toString())
-//                    .build();
-//            AIHelpSupport.updateUserInfo(userConfig);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    public void close() {
+        AIHelpSupport.close();
     }
+
+
 }

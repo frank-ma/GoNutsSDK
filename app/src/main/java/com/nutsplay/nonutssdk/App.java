@@ -3,15 +3,16 @@ package com.nutsplay.nonutssdk;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.LogLevel;
 import com.facebook.stetho.Stetho;
-import com.helpshift.Helpshift;
-import com.helpshift.UnsupportedOSVersionException;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,11 +51,11 @@ public class App extends SDKApplication {
 //            config.put("notificationIcon", R.drawable.notification_icon);
 //            config.put("notificationChannelId",  "your channel name here");
             ///todo 添加配置  初始化helpshift api
-            Helpshift.install(this,
-                    "algames_platform_20230609004001142-6097eb4ea8c6e4a",
-                    "algames.helpshift.com",
-                    config);
-        } catch (UnsupportedOSVersionException e) {
+//            Helpshift.install(this,
+//                    "algames_platform_20230609004001142-6097eb4ea8c6e4a",
+//                    "algames.helpshift.com",
+//                    config);
+        } catch (Exception e) {
             // Android OS versions prior to Lollipop (< SDK 21) are not supported.
         }
     }

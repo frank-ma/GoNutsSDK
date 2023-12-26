@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 public class SPManager {
 
-    private static final String SharedPreferenceFileName = "sp_nutsplay_client";
+//    private static final String SharedPreferenceFileName = "sp_nutsplay_client";
 
     private SharedPreferences mPreferences;
 
@@ -54,13 +54,23 @@ public class SPManager {
     private SPManager(Context context) {
 
         if (context == null )return;
-        mPreferences = context.getSharedPreferences(SharedPreferenceFileName, Context.MODE_PRIVATE);
+        mPreferences = context.getSharedPreferences(getSharedPreferenceFileName(context), Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
+    }
+
+    /**
+     * 获取文件名
+     * 为了保证每个游戏的共享文件不是同一个
+     * @param context
+     * @return
+     */
+    private String getSharedPreferenceFileName(Context context){
+        return context.getPackageName()+".sp";
     }
 
     public boolean putString(String key, String value) {
         if (mEditor == null){
-            mPreferences = context.getSharedPreferences(SharedPreferenceFileName, Context.MODE_PRIVATE);
+            mPreferences = context.getSharedPreferences(getSharedPreferenceFileName(context), Context.MODE_PRIVATE);
             mEditor = mPreferences.edit();
         }
         mEditor.putString(key, value);

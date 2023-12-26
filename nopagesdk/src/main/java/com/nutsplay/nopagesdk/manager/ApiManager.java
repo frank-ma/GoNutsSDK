@@ -701,9 +701,6 @@ public class ApiManager {
         content += "_clientID_" + getClientID();
         content += "_clientType_" + "android";
         ping(title,content,"go.0egg.com",netCallBack);
-
-
-
     }
 
     /**
@@ -748,11 +745,18 @@ public class ApiManager {
      * app_version=0.10.0.16        客户端安装包版本号
      * user_id=0                             用户id，为0即可
      * device_id=                           设备号，游戏内是用unity生成的唯一标识，sdk可能没法获取，只用sdk上报记录同一个设备唯一即可
+     *
+     * //String url = "http://52.87.240.108:8081/api/reports/user_step_records";
+     *
      */
     public void gameBIPushLog(Activity activity,String step,NetCallBack netCallBack){
         try {
-            String url = "http://52.87.240.108:8081/api/reports/user_step_records";
-
+            String url = "";
+            if (SDKManager.getInstance().getInitParameter().getPushLogUrl().trim().isEmpty()) {
+                return;
+            }else {
+                url = SDKManager.getInstance().getInitParameter().getPushLogUrl();
+            }
             GameLog gameLog = new GameLog();
             gameLog.setStep(step);
             gameLog.setStep_type("4");

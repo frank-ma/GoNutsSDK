@@ -47,6 +47,7 @@ import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
+import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.ApiManager;
 import com.nutsplay.nopagesdk.manager.AppManager;
 import com.nutsplay.nopagesdk.manager.GooglePayHelp;
@@ -413,7 +414,7 @@ public class SDKManager {
             //获取keyHash
             SDKGameUtils.getKeyHash(activity);
             //初始化客服系统
-//            AIHelpManager.initAiHelp(activity,initParameter);
+            AIHelpManager.initAiHelp(activity,initParameter);
             HelpShiftManager.setHelpShiftLan(initParameter.getLanguage());
             //获取公钥
             getPublicKey(activity, initCallBack);
@@ -1712,22 +1713,24 @@ public class SDKManager {
      */
     public void sdkUploadLog(String title, String content) {
         try {
-            ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
-                @Override
-                public void onSuccess(String result) {
-                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" +result);
-                }
+            if (SDKManager.getInstance().getInitParameter().getPushLogUrl().trim().isEmpty()){
+                return;
+            }
 
-                @Override
-                public void onFailure(String msg) {
-                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + msg);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            //坚果日志上报，目前接口无法访问
+//            ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
+//                @Override
+//                public void onSuccess(String result) {
+//                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" +result);
+//                }
+//
+//                @Override
+//                public void onFailure(String msg) {
+//                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + msg);
+//                }
+//            });
 
-        try {
+
             //上传日志到游戏BI后台
             ApiManager.getInstance().gameBIPushLog(getActivity(),title, new NetCallBack() {
                 @Override
@@ -1740,7 +1743,7 @@ public class SDKManager {
                     LogUtils.e(TAG, "gameBIPushLog---onFailure:" +msg);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -1793,6 +1796,9 @@ public class SDKManager {
 
             //客服登出
             HelpShiftManager.logout();
+
+            //客服登出
+            AIHelpManager.getInstance().resetUserInfo();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -2092,9 +2098,9 @@ public class SDKManager {
             return;
         }
         SDKManager.getInstance().getInitParameter().setLanguage(language);
-//        AIHelpSupport.updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
         //设置客服语言
         HelpShiftManager.setHelpShiftLan(language);
+        AIHelpManager.getInstance().updateSDKLanguage(SDKGameUtils.getAIHelpLanguageAlia(language));
     }
 
 

@@ -146,14 +146,14 @@ public class FileUtils {
      */
     public static void write2File(Activity context, String text) {
 
-//        if (text == null || text.isEmpty()) return;
+        if (text == null || text.isEmpty()) return;
         //如果用户没有授予访问sdcard文件的权限的话，就存储在SharedPreference里
         if (!hasPermission(context)) {
             SPManager.getInstance(context).putString(SPKey.Last_login,text);
             return;
         }
 
-        String path = createMkdirsAndFiles(Path, getFileName(context));
+        String path = createMkdirsAndFiles("/"+context.getPackageName()+Path, getFileName(context));
 //        String path = createMkdirsAndFiles(FileName);
         File file = new File(path);
         if (!file.exists()) {

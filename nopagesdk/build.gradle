@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 33
     defaultConfig {
-        versionName "5.5.1"
+        versionName "5.6"
         minSdkVersion 21//16
         targetSdkVersion 33
         multiDexEnabled true
@@ -125,7 +125,13 @@ dependencies {
 
     //HelpShift
 //    implementation 'com.android.support:appcompat-v7:28.0.0'
-    api 'com.helpshift:helpshift-sdkx:10.2.2'
+//    api 'com.helpshift:helpshift-sdkx:10.2.2'
+
+    //UMP sdk
+    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
+
+    //AIhelp
+    api 'net.aihelp:android-aihelp-aar:4.4.+'
 }
 
 
