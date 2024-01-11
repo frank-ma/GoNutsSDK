@@ -112,7 +112,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setLanguage("zh_cn");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
-        initParameter.setPushLogUrl("");
+        initParameter.setPushLogUrl("");//为空则不走游戏的日志上报地址
         initParameter.setShowUserAgreement(true);
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);

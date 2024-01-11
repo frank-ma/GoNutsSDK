@@ -1718,17 +1718,17 @@ public class SDKManager {
             }
 
             //坚果日志上报，目前接口无法访问
-//            ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" +result);
-//                }
-//
-//                @Override
-//                public void onFailure(String msg) {
-//                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + msg);
-//                }
-//            });
+            ApiManager.getInstance().pushLog(title, content, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    LogUtils.e(TAG, "SDKUploadLog---onSuccess:" +result);
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    LogUtils.e(TAG, "SDKUploadLog---onFailure:" + msg);
+                }
+            });
 
 
             //上传日志到游戏BI后台
