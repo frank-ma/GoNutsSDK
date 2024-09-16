@@ -17,12 +17,12 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
@@ -66,11 +66,23 @@ public class BindAccountDialog extends Dialog {
             final BindAccountDialog dialog = new BindAccountDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
+                    break;
+                case 1:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account_portrait", "layout"), null);
+                    break;
+                default:
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+                    break;
             }
+
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_bind_account", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_account", "layout"), null);
+//            }
 
             TextView bind = layout.findViewById(SDKResUtils.getResId(context, "tv_bind", "id"));
             TextView bindTips = layout.findViewById(SDKResUtils.getResId(context, "tv_bind_tips", "id"));
@@ -96,10 +108,10 @@ public class BindAccountDialog extends Dialog {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if (isChecked){
                         pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_close","drawable"));
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility_off","drawable"));
                     }else {
                         pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"eyes_open","drawable"));
+                        pwdToggle.setBackgroundResource(SDKResUtils.getResId(context,"icon_grey_visibility","drawable"));
                     }
                     pwd.setSelection(pwd.getText().toString().length());
                 }
@@ -129,7 +141,8 @@ public class BindAccountDialog extends Dialog {
                         public void onSuccess() {
                             //绑定成功后，用新账号登录
                             SPManager.getInstance(context).putBoolean(SPKey.guest_has_bind_account,true);
-                            if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                            User user = SDKManager.getInstance().getUser();
+                            if (loginCallBack != null) loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                             dialog.dismiss();
                         }
 
@@ -146,9 +159,10 @@ public class BindAccountDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     if (loginCallBack != null) {
-                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                        User user = SDKManager.getInstance().getUser();
+                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         //登录追踪
-                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
+//                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
                     }
                     dialog.dismiss();
                 }

@@ -11,7 +11,7 @@ public class InitParameter implements Serializable {
 
     private String clientId;
     private String clientKey;
-//    private String buglyId;
+    private String buglyId;
     private String buglyChannel;
 //    private String appsflyerId;
 //    private String dataeyeId;
@@ -20,10 +20,10 @@ public class InitParameter implements Serializable {
     private boolean isDebug = false;
     private boolean hasUI = true;
     private boolean showUserAgreement = true;
-    private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI
-//    private String aihelpAppkey="";
-//    private String aihelpDomain="";
-//    private String aihelpAppID="";
+    private int UIVersion = 0; //默认是通用UI版本     0:通用UI（Poly那套UI）    1：侵权游戏UI  2:竖屏游戏
+    private String aihelpAppkey="";
+    private String aihelpDomain="";
+    private String aihelpAppID="";
 
     public String getClientId() {
         return clientId;
@@ -103,29 +103,29 @@ public class InitParameter implements Serializable {
         this.UIVersion = UIVersion;
     }
 
-//    public String getAihelpAppkey() {
-//        return aihelpAppkey;
-//    }
-//
-//    public void setAihelpAppkey(String aihelpAppkey) {
-//        this.aihelpAppkey = aihelpAppkey;
-//    }
-//
-//    public String getAihelpDomain() {
-//        return aihelpDomain;
-//    }
-//
-//    public void setAihelpDomain(String aihelpDomain) {
-//        this.aihelpDomain = aihelpDomain;
-//    }
-//
-//    public String getAihelpAppID() {
-//        return aihelpAppID;
-//    }
-//
-//    public void setAihelpAppID(String aihelpAppID) {
-//        this.aihelpAppID = aihelpAppID;
-//    }
+    public String getAihelpAppkey() {
+        return aihelpAppkey;
+    }
+
+    public void setAihelpAppkey(String aihelpAppkey) {
+        this.aihelpAppkey = aihelpAppkey;
+    }
+
+    public String getAihelpDomain() {
+        return aihelpDomain;
+    }
+
+    public void setAihelpDomain(String aihelpDomain) {
+        this.aihelpDomain = aihelpDomain;
+    }
+
+    public String getAihelpAppID() {
+        return aihelpAppID;
+    }
+
+    public void setAihelpAppID(String aihelpAppID) {
+        this.aihelpAppID = aihelpAppID;
+    }
 
     public boolean isShowUserAgreement() {
         return showUserAgreement;
@@ -133,5 +133,13 @@ public class InitParameter implements Serializable {
 
     public void setShowUserAgreement(boolean showUserAgreement) {
         this.showUserAgreement = showUserAgreement;
+    }
+
+    public String getBuglyId() {
+        return buglyId;
+    }
+
+    public void setBuglyId(String buglyId) {
+        this.buglyId = buglyId;
     }
 }

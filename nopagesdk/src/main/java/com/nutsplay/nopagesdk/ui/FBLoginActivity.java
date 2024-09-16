@@ -24,10 +24,10 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.facebook.UserRequest;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
+import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -101,8 +101,8 @@ public class FBLoginActivity extends BaseActivity {
 
                     @Override
                     public void onCancel() {
-                        if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener()!=null){
-                            com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onCancel();
+                        if (NutsLoginManager.getInstance().getFBLoginListener()!=null){
+                            NutsLoginManager.getInstance().getFBLoginListener().onCancel();
                         }
                         finish();
                     }
@@ -110,8 +110,8 @@ public class FBLoginActivity extends BaseActivity {
                     @Override
                     public void onError(FacebookException exception) {
                         LogUtils.e("FacebookID",exception.getMessage());
-                        if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener()!=null){
-                            com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onFailure(exception.getMessage());
+                        if (NutsLoginManager.getInstance().getFBLoginListener()!=null){
+                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(exception.getMessage());
                         }
                         finish();
                     }
@@ -128,12 +128,17 @@ public class FBLoginActivity extends BaseActivity {
 
                 try {
                     JSONObject userObj = response.getJSONObject();
-                    if (userObj == null)return;
+                    if (userObj == null) {
+                        if (NutsLoginManager.getInstance().getFBLoginListener() != null) {
+                            NutsLoginManager.getInstance().getFBLoginListener().onFailure("userObj is null");
+                        }
+                        return;
+                    }
 
                     FacebookUser facebookUser = jsonToUser(userObj);
                     Log.e(TAG,"fb_email:" + facebookUser.getEmail());
-                    if (com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener() != null) {
-                        com.nutsplay.nopagesdk.manager.LoginManager.getInstance().getFBLoginListener().onSuccess(facebookUser);
+                    if (NutsLoginManager.getInstance().getFBLoginListener() != null) {
+                        NutsLoginManager.getInstance().getFBLoginListener().onSuccess(facebookUser);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -164,7 +169,7 @@ public class FBLoginActivity extends BaseActivity {
             }
             String permissions = builder.toString();
             return new FacebookUser(picture,name,id,email,permissions);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new FacebookUser();

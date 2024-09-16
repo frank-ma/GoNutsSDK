@@ -40,10 +40,14 @@ public class SDKProgressDialog extends Dialog {
 //        progressDialog = new SDKProgressDialog(context);
         progressDialog = new SDKProgressDialog(context, SDKResUtils.getResId(context,"DialogStyle","style"));
 
-        if (SDKManager.getInstance().isCommonVersion()){
-            progressDialog.setContentView(SDKResUtils.getResId(context,"nuts2_toast_loading","layout"));
-        }else {
-            progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
+        switch (SDKManager.getInstance().getUIVersion()){
+            case 0:
+            case 1:
+                progressDialog.setContentView(SDKResUtils.getResId(context,"nuts2_toast_loading","layout"));
+                break;
+            default:
+                progressDialog.setContentView(SDKResUtils.getResId(context,"sdk_layout_loading","layout"));
+                break;
         }
 
         if (progressDialog.getWindow()!=null) progressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;

@@ -19,8 +19,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
+import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -52,10 +51,13 @@ public class RegisterDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private RegisterResultCallBack registerCallBack;
-        public Builder(Context context,RegisterResultCallBack registerCallBack) {
+        private LoginCallBack loginCallBack;
+        private boolean isLogin = true;//是登录还是切换账号
+
+        public Builder(Context context, LoginCallBack loginCallBack,boolean isLogin) {
             this.context = context;
-            this.registerCallBack = registerCallBack;
+            this.loginCallBack = loginCallBack;
+            this.isLogin = isLogin;
         }
 
         public RegisterDialog create() {
@@ -63,11 +65,22 @@ public class RegisterDialog extends Dialog {
             final RegisterDialog dialog = new RegisterDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup_normal", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_register", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_signup", "layout"), null);
+//            }
 
             TextView signUp = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_up", "id"));
             final EditText userName = layout.findViewById(SDKResUtils.getResId(context, "et_name", "id"));
@@ -77,6 +90,7 @@ public class RegisterDialog extends Dialog {
             final TextView loginTv = layout.findViewById(SDKResUtils.getResId(context, "tv_login", "id"));
             final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
             ImageView ivDone = layout.findViewById(SDKResUtils.getResId(context, "iv_done", "id"));
+            TextView tipRegister = layout.findViewById(SDKResUtils.getResId(context, "tip_register", "id"));
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context,signUp);
@@ -85,12 +99,15 @@ public class RegisterDialog extends Dialog {
 
             String signInTip = SDKLangConfig.getInstance().findMessage("sign_in_tip")+" ";
             String signIn = SDKLangConfig.getInstance().findMessage("sign_in");
-            loginTv.setText(Html.fromHtml("<font color=\"#BBBBBB\">" + signInTip + "</font><font color=\"#977cdc\"> " + signIn + "</font>"));
+            loginTv.setText(Html.fromHtml("<font color=\"#BBBBBB\">" + signInTip + "</font><font color=\"#4f84e2\"> " + signIn + "</font>"));
 
             userName.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_account_tips"));//请输入账号
             pwd.setHint(SDKLangConfig.getInstance().findMessage("nutsplay_viewstring_password_tips"));
             repeatPwd.setHint(SDKLangConfig.getInstance().findMessage("repeat_password"));
             signUp.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            if (tipRegister != null){
+                tipRegister.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            }
 
             //显隐密码
             pwdToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -130,21 +147,18 @@ public class RegisterDialog extends Dialog {
                     //判断密码
                     if (!SDKGameUtils.match2Pw(context,pwd,repeatPwd)){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     if (!psw.equals(rePsw)) {
                         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("pwd_different"), 2);
                         return;
                     }
-                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, registerCallBack, new ResultCallBack() {
+                    SDKManager.getInstance().sdkRegister2Dialog((Activity) context, account, psw, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-                            if (registerCallBack != null) registerCallBack.onSuccess(account,psw);
                             dialog.dismiss();
                             //注册成功
 //                            SaveUserInfoDialog.Builder builder = new SaveUserInfoDialog.Builder(context,account,psw);
@@ -165,7 +179,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginOptionsDialog optionsDialog = new LoginOptionsDialog.Builder(context, SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     optionsDialog.show();
                 }
             });
@@ -174,7 +188,7 @@ public class RegisterDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), true).create();
+                    LoginDialog loginDialog = new LoginDialog.Builder(context,SDKManager.getInstance().getLoginCallBack(), isLogin).create();
                     loginDialog.show();
                 }
             });

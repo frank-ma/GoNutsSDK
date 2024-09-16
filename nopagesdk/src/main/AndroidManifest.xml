@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.nutsplay.nopagesdk">
+    xmlns:tools="http://schemas.android.com/tools">
+
+
     <uses-permission android:name="android.permission.INTERNET" />
-<!--    <uses-permission-->
-<!--        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"-->
-<!--        tools:ignore="ProtectedPermissions" />-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <uses-permission android:name="com.android.vending.BILLING" />
-    <!-- af Optional -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 存储照片 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
     <!-- Firebase -->
 <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 <!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->
 
     <application>
 
         <activity
             android:name="com.nutsplay.nopagesdk.ui.PayWebActivity"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard" />
+            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
+            android:exported="false"/>
         <activity
             android:name="com.nutsplay.nopagesdk.ui.FBLoginActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"/>
         <activity android:name="com.nutsplay.nopagesdk.ui.FBAppRequestActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"/>
 
         <activity
             android:name="com.nutsplay.nopagesdk.ui.GoogleLoginActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"/>
         <activity
             android:name="com.nutsplay.nopagesdk.ui.ScreenShotActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent"
+            android:exported="false"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+            android:label="@string/app_name"
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
 
+
+
+
+
+
+
+<!--        <activity-->
+<!--            android:name="net.aihelp.ui.HostActivity"-->
+<!--            tools:node="replace"-->
+<!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"-->
+<!--            android:screenOrientation="sensorLandscape"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
 <!--        <receiver-->
 <!--            android:name="com.adjust.sdk.AdjustReferrerReceiver"-->
 <!--            android:permission="android.permission.INSTALL_PACKAGES"-->

@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -65,19 +66,30 @@ public class ResetPwdDialog extends Dialog {
             final ResetPwdDialog dialog = new ResetPwdDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd_normal", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_reset_pwd", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_reset_pwd", "layout"), null);
+//            }
 
             TextView resetTitle = layout.findViewById(SDKResUtils.getResId(context, "reset_title", "id"));
             TextView reset = layout.findViewById(SDKResUtils.getResId(context, "tv_reset", "id"));
             final EditText accountEt = layout.findViewById(SDKResUtils.getResId(context, "et_account", "id"));
             btnSend = layout.findViewById(SDKResUtils.getResId(context, "btn_send_verification_code", "id"));
             final EditText verificationCode = layout.findViewById(SDKResUtils.getResId(context, "et_verification_code", "id"));
-            final EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
-            final EditText newPwdRepeat = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd_repeat", "id"));
+            EditText newPwd = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd", "id"));
+            EditText newPwdRepeat = layout.findViewById(SDKResUtils.getResId(context, "et_new_pwd_repeat", "id"));
             final ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             final ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
 
@@ -148,6 +160,7 @@ public class ResetPwdDialog extends Dialog {
 
             //重置密码
             reset.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
 

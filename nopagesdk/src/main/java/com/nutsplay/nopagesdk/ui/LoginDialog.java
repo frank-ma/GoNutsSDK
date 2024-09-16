@@ -20,19 +20,14 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
-import com.nutsplay.nopagesdk.utils.toast.SDKToast;
-import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
@@ -74,11 +69,18 @@ public class LoginDialog extends Dialog {
             final LoginDialog dialog = new LoginDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()) {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login", "layout"), null);
-            } else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login", "layout"), null);
+                    break;
             }
+
             TextView signIn = layout.findViewById(SDKResUtils.getResId(context, "tv_sign_in", "id"));
             TextView createAccount = layout.findViewById(SDKResUtils.getResId(context, "tv_create_account", "id"));
             TextView resetPwd = layout.findViewById(SDKResUtils.getResId(context, "tv_reset_pwd", "id"));
@@ -88,6 +90,7 @@ public class LoginDialog extends Dialog {
             ImageView backIv = layout.findViewById(SDKResUtils.getResId(context, "iv_back", "id"));
             ImageView closeIv = layout.findViewById(SDKResUtils.getResId(context, "iv_close", "id"));
             ToggleButton pwdToggle = layout.findViewById(SDKResUtils.getResId(context, "pwd_toggle", "id"));
+            TextView tipLogin = layout.findViewById(SDKResUtils.getResId(context, "tip_login", "id"));
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context, signIn);
@@ -95,9 +98,12 @@ public class LoginDialog extends Dialog {
 
             String signUpTip = SDKLangConfig.getInstance().findMessage("sign_up_tip")+" ";
             String signUp = SDKLangConfig.getInstance().findMessage("sign_up")+" ";
-            createAccount.setText(Html.fromHtml("<font color=\"#BBBBBB\">"+ signUpTip +"</font><font color=\"#977cdc\"> " + signUp +"</font>"));
+            createAccount.setText(Html.fromHtml("<font color=\"#BBBBBB\">"+ signUpTip +"</font><font color=\"#4f84e2\"> " + signUp +"</font>"));
 
             signIn.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+            if (tipLogin != null){
+                tipLogin.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
+            }
             //增加下划线
             resetPwd.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             resetPwd.getPaint().setAntiAlias(true);
@@ -147,37 +153,23 @@ public class LoginDialog extends Dialog {
                     }
                     if (!SDKGameUtils.matchPw(context,pwd,pwd.getText().toString())){
                         pwdToggle.setChecked(true);
-                        pwd.setTextColor(R.color.color_da6a6a);
                         return;
                     }else {
                         pwdToggle.setChecked(false);
-                        pwd.setTextColor(R.color.color_4c506b);
                     }
 
                     //登录账号
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
-                    SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), new ResultCallBack() {
+                    SDKManager.getInstance().sdkLogin2Dialog((Activity) context, userName.getText().toString(), pwd.getText().toString(), loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
-
-                            if (SDKManager.getInstance().getUser() != null) {
-                                if (SDKManager.getInstance().getUser().getBindEmail().isEmpty()) {
-                                    String content = SDKLangConfig.getInstance().findMessage("bind_email_tips");
-                                    SDKToast.getInstance().ToastShow(content, 1);
-                                }
-                                if (loginCallBack != null) loginCallBack.onSuccess(SDKManager.getInstance().getUser());
-                            }
-                            dialog.dismiss();
                             SDKManager.getInstance().hideEmptyProgress();
+                            dialog.dismiss();
                         }
 
                         @Override
                         public void onFailure(String msg) {
                             SDKManager.getInstance().hideEmptyProgress();
-                            if (loginCallBack != null)
-                                loginCallBack.onFailure(SDKConstant.network_error, msg);
-                            LogUtils.d("sdkLogin2Dialog", msg);
-
                         }
                     });
                 }
@@ -192,17 +184,7 @@ public class LoginDialog extends Dialog {
                     if (SDKGameUtils.isMultiClicks()) {
                         return;
                     }
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
-                        @Override
-                        public void onSuccess(final String account, final String pas) {
-
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-
-                        }
-                    });
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }

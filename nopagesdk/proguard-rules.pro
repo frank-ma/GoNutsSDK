@@ -173,7 +173,7 @@
 -keep class com.nutsplay.nopagesdk.kernel.SDKConstant{*;}
 -keep class com.nutsplay.nopagesdk.kernel.SDKLangConfig{*;}
 -keep class com.nutsplay.nopagesdk.kernel.SDKApplication{*;}
--keep class com.nutsplay.nopagesdk.manager.LoginManager{
+-keep class com.nutsplay.nopagesdk.manager.NutsLoginManager{
     <fields>;
     <methods>;
 }

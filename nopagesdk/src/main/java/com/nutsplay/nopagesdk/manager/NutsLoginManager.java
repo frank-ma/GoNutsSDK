@@ -23,16 +23,17 @@ import com.nutspower.commonlibrary.utils.StringUtils;
  * 因为经常会换谷歌开发者账号，所以谷歌登录被我们弃用了
  *
  */
-public class LoginManager {
+public class NutsLoginManager {
 
-    private volatile static LoginManager INSTANCE;
+    private static final String TAG = "NutsLoginManager";
+    private volatile static NutsLoginManager INSTANCE;
 
-    public static LoginManager getInstance() {
+    public static NutsLoginManager getInstance() {
 
         if (INSTANCE == null) {
-            synchronized (LoginManager.class) {
+            synchronized (NutsLoginManager.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new LoginManager();
+                    INSTANCE = new NutsLoginManager();
                 }
             }
         }
@@ -160,7 +161,5 @@ public class LoginManager {
         SDKManager.getInstance().sdkLoginThirdAccount(activity, visitor, "",SDKConstant.TYPE_GUEST, loginCallBack,resultCallBack);
 
     }
-
-
 
 }

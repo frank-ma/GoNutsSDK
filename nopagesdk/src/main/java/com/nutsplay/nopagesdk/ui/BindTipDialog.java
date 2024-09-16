@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
@@ -55,11 +54,22 @@ public class BindTipDialog extends Dialog {
             if (inflater == null) return dialog;
 
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_tips", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_tips", "layout"), null);
+                    break;
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_tips_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_tips", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_bind_tips", "layout"), null);
+//            }
 
             TextView tvTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
             TextView tvContent = layout.findViewById(SDKResUtils.getResId(context, "tv_content", "id"));
@@ -69,8 +79,8 @@ public class BindTipDialog extends Dialog {
             //设置自定义字体
             SDKGameUtils.setTypeFace(context,tvTips);
             SDKGameUtils.setTypeFace(context,tvContent);
-            SDKGameUtils.setTypeFace(context,bind);
-            SDKGameUtils.setTypeFace(context,enterGame);
+            SDKGameUtils.setTypeFaceBold(context,bind);
+            SDKGameUtils.setTypeFaceBold(context,enterGame);
 
 
             tvTips.setText(SDKLangConfig.getInstance().findMessage("tourist_signin_tips"));
@@ -101,12 +111,14 @@ public class BindTipDialog extends Dialog {
             enterGame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (loginCallBack != null) {
-                        loginCallBack.onSuccess(SDKManager.getInstance().getUser());
+                    dialog.dismiss();
+//                    if (loginCallBack != null) {
+//                        User user = SDKManager.getInstance().getUser();
+//                        loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         //登录追踪
-                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
-                        dialog.dismiss();
-                    }
+//                        TrackingManager.loginTracking(SDKManager.getInstance().getUser().getUserId());
+//                        dialog.dismiss();
+//                    }
                 }
             });
 

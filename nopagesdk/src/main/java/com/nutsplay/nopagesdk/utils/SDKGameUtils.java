@@ -9,7 +9,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.text.format.Formatter;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,18 +29,25 @@ import androidx.appcompat.app.AlertDialog;
 import com.nutsplay.nopagesdk.R;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
+import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -202,10 +212,10 @@ public class SDKGameUtils {
         boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -221,11 +231,11 @@ public class SDKGameUtils {
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("38"));
             doneView.setVisibility(View.INVISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_da6a6a","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
         }else {
             doneView.setVisibility(View.VISIBLE);
-            anchor.setTextColor(SDKResUtils.getResId(context,"color_4c506b","color"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -261,10 +271,10 @@ public class SDKGameUtils {
         boolean isMatch = code.matches("\\w{4,24}");
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("40"));
-            anchor.setTextColor(R.color.color_da6a6a);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return false;
         }else {
-            anchor.setTextColor(R.color.color_4c506b);
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
             return true;
         }
     }
@@ -361,7 +371,6 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
-
             return false;
         }
         return true;
@@ -377,9 +386,12 @@ public class SDKGameUtils {
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
             showPopWindow(context,anchor,SDKLangConfig.getInstance().findMessage("41"));
+            anchor.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            anchor.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     public static boolean match2Pw(Context context, EditText pswEt,EditText pswEt2){
@@ -387,9 +399,14 @@ public class SDKGameUtils {
         if (!matchPw(context,pswEt2,pswEt2.getText().toString())) return false;
         if (!pswEt.getText().toString().equals(pswEt2.getText().toString())){
             showPopWindow(context,pswEt2,SDKLangConfig.getInstance().findMessage("pwd_different"));
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_da6a6a));
             return false;
+        }else {
+            pswEt.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            pswEt2.setTextColor(context.getResources().getColor(R.color.color_4c506b));
+            return true;
         }
-        return true;
     }
 
     /**
@@ -399,7 +416,9 @@ public class SDKGameUtils {
      */
     public static String hideEmail(String email) {
         if (email == null || email.isEmpty()) return "";
-        return email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
+//        return email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
+        //含义就是只显示第1，3，4括号内的内容:开头和结尾两个字符
+        return email.replaceAll("(\\w{2})(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1***$3$4");
     }
 
 
@@ -547,6 +566,99 @@ public class SDKGameUtils {
         return aihelpLang[index];
     }
 
+    /**
+     * 获取AIhelp语言代码
+     * @param language
+     * @return
+     */
+    public static String getAIHelpLanguageAlia(String language){
+        if (language == null || language.isEmpty()){
+            return "en";
+        }
+        language = language.toLowerCase();
+        if (language.contains("cn")) {
+            return "zh_CN";
+        } else if (language.contains("en")) {
+            return "en";
+        } else if (language.contains("th")) {
+            return "th";
+        } else if (language.contains("vn") || language.contains("vi")) {
+            return "vi";
+        } else if (language.contains("ar")) {
+            return "ar";
+        } else if (language.contains("kr") || language.contains("ko")) {
+            return "ko";
+        } else if (language.contains("hk")) {
+            return "zh_TW";
+        } else if (language.contains("fr") || language.contains("fo")) {
+            return "fr";
+        } else if (language.contains("br") || language.contains("pt")) {
+            return "pt";
+        } else if (language.contains("de") || language.contains("deu")) {
+            return "de";
+        } else if (language.contains("sp") || language.contains("es")) {
+            return "es";
+        } else if (language.contains("it")) {
+            return "it";
+        } else if (language.contains("jp") || language.contains("ja")) {
+            return "ja";
+        } else if (language.contains("idn") || language.contains("id")) {
+            return "id";
+        } else if (language.contains("by") || language.contains("ru")) {
+            return "ru";
+        } else if (language.contains("tr")) {
+            return "tr";
+        } else {
+            return "en";
+        }
+    }
+
+    /**
+     * 获取HelpShift语言代码
+     * @param language
+     * @return
+     */
+    public static String getHelpShiftLanguageAlia(String language){
+        if (language == null || language.isEmpty()){
+            return "en";
+        }
+        language = language.toLowerCase();
+        if (language.contains("cn")) {
+            return "zh_Hans";
+        } else if (language.contains("en")) {
+            return "en";
+        } else if (language.contains("th")) {
+            return "th";
+        } else if (language.contains("vn") || language.contains("vi")) {
+            return "vi";
+        } else if (language.contains("ar")) {
+            return "ar";
+        } else if (language.contains("kr") || language.contains("ko")) {
+            return "ko";
+        } else if (language.contains("hk")) {
+            return "zh_HK";
+        } else if (language.contains("fr") || language.contains("fo")) {
+            return "fr";
+        } else if (language.contains("br") || language.contains("pt")) {
+            return "pt";
+        } else if (language.contains("de") || language.contains("deu")) {
+            return "de";
+        } else if (language.contains("sp") || language.contains("es")) {
+            return "es";
+        } else if (language.contains("it")) {
+            return "it";
+        } else if (language.contains("jp") || language.contains("ja")) {
+            return "ja";
+        } else if (language.contains("idn") || language.contains("id")) {
+            return "id";
+        } else if (language.contains("by") || language.contains("ru")) {
+            return "ru";
+        } else if (language.contains("tr")) {
+            return "tr";
+        } else {
+            return "en";
+        }
+    }
 
     public static String getStringLanguage(int langugae) {
         String lan = null;
@@ -574,15 +686,12 @@ public class SDKGameUtils {
                 md.update(signature.toByteArray());
                 Log.d("KeyHash", "packageName:" + context.getPackageName() + " KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            Log.d("KeyHash:", e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            Log.d("KeyHash:", e.toString());
         } catch (Exception e){
+            SDKManager.getInstance().sdkUploadLog("7",e.getMessage());
             e.printStackTrace();
             Log.d("KeyHash:", e.toString());
+        }finally {
+            SDKManager.getInstance().sdkUploadLog("8","getKeyHash()");
         }
     }
 
@@ -697,4 +806,58 @@ public class SDKGameUtils {
         textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica.ttf"));
     }
 
+    /**
+     * 获取时间戳
+     * @return
+     */
+    public static String getCurrentTime(){
+        // 时间戳格式化
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String dateStr = sdf.format(new Date(System.currentTimeMillis()));
+        return dateStr;
+    }
+
+    private static String ipAddress = "";
+
+    /**
+     * 获取公网IP地址
+     * @return
+     */
+    public static String getPublicIPAddress() {
+        //在子线程中进行http请求
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (ipAddress.isEmpty()){
+                        URL url = new URL("http://checkip.amazonaws.com");
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setConnectTimeout(5000);
+                        con.setReadTimeout(5000);
+                        con.setRequestMethod("GET");
+                        InputStream in = new BufferedInputStream(con.getInputStream());
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        ipAddress = reader.readLine();
+                        reader.close();
+                        in.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        return ipAddress;
+    }
+
+    public static String getWifiIPAddress(Context context) {
+        try {
+            WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            return Formatter.formatIpAddress(ipAddress);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.nutsplay.nonutssdk.MainActivity">
 
     <LinearLayout
@@ -80,14 +79,6 @@
                 android:text="切换账号"
                 android:textColor="@color/white" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:onClick="userCenter"
-                android:text="用户中心"
-                android:textColor="@color/white" />
-
         </LinearLayout>
 
 
@@ -130,13 +121,35 @@
                 android:textColor="@color/white" />
 
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="userCenter"
+                android:text="用户中心"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="bindEmail"
+                android:text="绑定邮箱"
+                android:textColor="@color/white" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="customerService"
                 android:text="在线客服"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/white" />
 
             <Button
@@ -145,14 +158,50 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="FAQ"
                 android:text="FAQ"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/white" />
-
-
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="isBindFacebook"
+                android:text="isbindFB"
+                android:visibility="visible"
+                android:textColor="@color/white" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="conversation"
+                android:text="客服对话"
+                android:visibility="visible"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="faq"
+                android:text="showFAO"
+                android:visibility="visible"
+                android:textColor="@color/white" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="backUp"
+                android:text="备份"
+                android:visibility="visible"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -223,29 +272,13 @@
                 android:visibility="visible" />
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="other"
-                android:text="其他"
-                android:textColor="@color/colorAccent"
-                android:visibility="visible" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:onClick="saveShot"
-                android:text="截图保存"
-                android:textColor="@color/colorAccent"
-                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <Button
                 android:layout_width="wrap_content"
@@ -288,6 +321,32 @@
                 android:text="FB系统分享"
                 android:visibility="visible"
                 android:textColor="@color/colorAccent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="other"
+                android:text="其他"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="saveShot"
+                android:text="截图保存"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -313,7 +372,6 @@
                 android:text="评分"
                 android:visibility="visible"
                 android:textColor="@color/colorAccent" />
-
         </LinearLayout>
 
         <View
@@ -388,6 +446,13 @@
                 android:onClick="vi"
                 android:text="越南语"
                 android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="clear"
+                android:text="清空日志"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout
@@ -459,7 +524,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"/>
 
     </LinearLayout>
 

@@ -1,6 +1,6 @@
 package com.nutsplay.nopagesdk.manager;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
@@ -16,8 +16,8 @@ import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
 /**
@@ -50,13 +50,29 @@ public class ApiManager {
         mClientID = initParameter.getClientId();
         identifier = Installations.id(SDKManager.getInstance().getActivity());
 
-        String goDomainName1 = "https://go.0egg.com/foo";
-        String goDomainName2 = "https://go.0egg.com/foo";
-
-        domains = new String[]{goDomainName1,goDomainName2};
-        index = new Random().nextInt(domains.length);
+//        String goDomainName1 = "https://go.0egg.com/foo";
+//        String goDomainName2 = "https://go.0egg.com/foo";
+//        domains = new String[]{goDomainName1,goDomainName2};
+//        index = new Random().nextInt(domains.length);
     }
 
+    public String getDeviceID(){
+        if (identifier == null || identifier.isEmpty()){
+            identifier = Installations.id(SDKManager.getInstance().getActivity());
+        }
+        return identifier;
+    }
+
+    public String getClientID(){
+        if (SDKManager.getInstance().getInitParameter() == null){
+            return mClientID;
+        }else {
+            if (mClientID == null || mClientID.isEmpty()){
+                mClientID = SDKManager.getInstance().getInitParameter().getClientId();
+            }
+        }
+        return mClientID;
+    }
 
     public static ApiManager getInstance() {
         if (INSTANCE == null) {
@@ -69,10 +85,9 @@ public class ApiManager {
         return INSTANCE;
     }
 
-    private String addDomainName(){
-        if (domains == null || domains.length == 0) return goDomainName1;
-
-        return domains[index];
+    private String getDomainName(){
+//        if (domains == null || domains.length == 0) return goDomainName1;
+        return goDomainName1;
     }
 
     /**
@@ -86,9 +101,9 @@ public class ApiManager {
      * @param jsonCallback
      */
     public void getRASPublicKey(NetCallBack jsonCallback){
-        String url= addDomainName() + "/alpha";
+        String url= getDomainName() + "/alpha";
         Map<String, String> headerMap = new TreeMap<>();
-        headerMap.put("uniqueid",identifier);
+        headerMap.put("uniqueid",getDeviceID());
         NetClient.getInstance().clientGet(url, null, headerMap,jsonCallback);
     }
 
@@ -100,10 +115,10 @@ public class ApiManager {
     public void SDKInitGo(String aesKey16, String ivParameter,String aesKey16byRSA, NetCallBack callBack) {
 
         try {
-            String url = addDomainName() + "/epsilon";
+            String url = getDomainName() + "/epsilon";
 
             Init initBean = new Init();
-            initBean.setClientID(mClientID);
+            initBean.setClientID(getClientID());
             if (SDKManager.getInstance()!=null && SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
             }
@@ -116,7 +131,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -135,10 +150,10 @@ public class ApiManager {
     public void SDKRegisterAccount(String aesKey16, String ivParameter,String aesKey16byRSA, String userName, String pwd,NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/iota";
+            String url = getDomainName() + "/iota";
 
             AccountLogin registerAccount = new AccountLogin();
-            registerAccount.setClientID(mClientID);
+            registerAccount.setClientID(getClientID());
             registerAccount.setAccount(userName);
             registerAccount.setSecond(SHA1Utils.sha1UpperCase(pwd));
             String jsonData = GsonUtils.tojsonString(registerAccount);
@@ -149,7 +164,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -171,10 +186,10 @@ public class ApiManager {
     public void SDKLoginGo(String aesKey16, String ivParameter,String aesKey16byRSA,String userName, String pwd, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/sigma";
+            String url = getDomainName() + "/sigma";
 
             AccountLogin accountLogin = new AccountLogin();
-            accountLogin.setClientID(mClientID);
+            accountLogin.setClientID(getClientID());
             accountLogin.setAccount(userName);
             accountLogin.setSecond(SHA1Utils.sha1UpperCase(pwd));
             String jsonData = GsonUtils.tojsonString(accountLogin);
@@ -185,7 +200,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -204,10 +219,10 @@ public class ApiManager {
      */
     public void SDKLoginThird(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthId,String oauthsource, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/omega";
+            String url = getDomainName() + "/omega";
 
             ThirdLogin thirdLogin = new ThirdLogin();
-            thirdLogin.setClientID(mClientID);
+            thirdLogin.setClientID(getClientID());
             thirdLogin.setOauthId(oauthId);
             thirdLogin.setOauthSource(oauthsource);
             String jsonData = GsonUtils.tojsonString(thirdLogin);
@@ -217,7 +232,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -237,10 +252,10 @@ public class ApiManager {
      */
     public void SDKMakeOrder(String aesKey16,String ivParameter, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/delta";
+            String url = getDomainName() + "/delta";
 
             MakeOrder makeOrder = new MakeOrder();
-            makeOrder.setClientID(mClientID);
+            makeOrder.setClientID(getClientID());
             makeOrder.setServerID(serverId);
             makeOrder.setUserID(SDKManager.getInstance().getUser().getUserId());
             makeOrder.setDevice(DEVICE_TYPE);
@@ -253,7 +268,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -273,15 +288,15 @@ public class ApiManager {
      */
     public void SDKPurchaseNotify(String type,String aesKey16, String ivParameter,String aesKey16byRSA, Purchase purchase, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/phi";
-            if (BillingClient.SkuType.SUBS.equals(type)){
-                url = addDomainName() + "/psk";
+            String url = getDomainName() + "/phi";
+            if (BillingClient.ProductType.SUBS.equals(type)){
+                url = getDomainName() + "/psk";
             }
 
             if (purchase == null) return;
             String transactionId = purchase.getAccountIdentifiers() == null ? "" : purchase.getAccountIdentifiers().getObfuscatedAccountId();
             Notify notify = new Notify();
-            notify.setClientID(mClientID);
+            notify.setClientID(getClientID());
             notify.setTransactionId(transactionId);
             notify.setChannelCode("GOOGLE");
             String purchaseData = purchase.getOriginalJson();
@@ -294,7 +309,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -305,6 +320,43 @@ public class ApiManager {
 
     }
 
+    /**
+     * 小米国际版充值-回调接口
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param callBack
+     */
+//    public void SDKPurchaseNotifyMiPay(String aesKey16, String ivParameter, String aesKey16byRSA, com.xiaomi.billingclient.api.Purchase purchase, NetCallBack callBack){
+//        try {
+//            String url = getDomainName() + "/phi";
+//
+//            if (purchase == null) return;
+//            String transactionId = purchase.getObfuscatedProfileId();
+//            Notify notify = new Notify();
+//            notify.setClientID(getClientID());
+//            notify.setTransactionId(transactionId);
+//            notify.setChannelCode("XIAOMI");
+//            String purchaseData = purchase.getPurchaseToken();
+//
+//            notify.setPurchase(purchaseData);
+//            String jsonData = GsonUtils.tojsonString(notify);
+//
+//            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+//            Map<String, String> data = new TreeMap<>();
+//            data.put("asong", encryptJsonData);
+//
+//            Map<String, String> headerMap = new TreeMap<>();
+//            headerMap.put("uniqueid",getID());
+//            headerMap.put("rak",aesKey16byRSA);
+//            headerMap.put("siv",ivParameter);
+//            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
 
     /**
      * 第三方充值完成后查询订单状态接口
@@ -314,10 +366,10 @@ public class ApiManager {
      */
     public void SDKQueryOrderStatus(String aesKey16, String ivParameter,String aesKey16byRSA,String transactionId, NetCallBack callBack){
         try {
-            String url = addDomainName() + "/psi";
+            String url = getDomainName() + "/psi";
 
             QueryOrder queryOrder = new QueryOrder();
-            queryOrder.setClientID(mClientID);
+            queryOrder.setClientID(getClientID());
             queryOrder.setTransactionId(transactionId);
             String jsonData = GsonUtils.tojsonString(queryOrder);
 
@@ -326,7 +378,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -349,10 +401,10 @@ public class ApiManager {
     public void SDKResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String oldPwd,String newPwd, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/zeta";
+            String url = getDomainName() + "/zeta";
 
             ResetPwd resetPwd = new ResetPwd();
-            resetPwd.setClientID(mClientID);
+            resetPwd.setClientID(getClientID());
             resetPwd.setAccount(account);
             resetPwd.setSecond(SHA1Utils.sha1UpperCase(oldPwd));
             resetPwd.setNewsecond(SHA1Utils.sha1UpperCase(newPwd));
@@ -363,7 +415,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -385,10 +437,10 @@ public class ApiManager {
     public void SDKBindAccount(String aesKey16,String ivParameter, String aesKey16byRSA,String oauthid,String oauthSource,String account,String second, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/rho";
+            String url = getDomainName() + "/rho";
 
             BindAccount bindAccount = new BindAccount();
-            bindAccount.setClientID(mClientID);
+            bindAccount.setClientID(getClientID());
             bindAccount.setOauthid(oauthid);
             bindAccount.setOauthsource(oauthSource);
             bindAccount.setAccount(account);
@@ -400,7 +452,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -422,10 +474,10 @@ public class ApiManager {
     public void SDKGuestBindThirdAccount(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/tau";
+            String url = getDomainName() + "/tau";
 
             GuestBindThird guestBind = new GuestBindThird();
-            guestBind.setClientID(mClientID);
+            guestBind.setClientID(getClientID());
             guestBind.setOauthid(oauthid);
             guestBind.setOauthsource("android");
             guestBind.setNewoauthId(thirdId);
@@ -437,7 +489,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -463,10 +515,10 @@ public class ApiManager {
     public void SDKRequestBindEmail(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/adam";
+            String url = getDomainName() + "/adam";
 
             BindEmail bindEmail = new BindEmail();
-            bindEmail.setClientID(mClientID);
+            bindEmail.setClientID(getClientID());
             bindEmail.setTicket(ticket);
             bindEmail.setEmail(email);
             String jsonData = GsonUtils.tojsonString(bindEmail);
@@ -476,7 +528,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -500,10 +552,10 @@ public class ApiManager {
     public void SDKBindEmailConfirm(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,String email,String verifyCode, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/mojo";
+            String url = getDomainName() + "/mojo";
 
             BindEmailConfirm bindEmail = new BindEmailConfirm();
-            bindEmail.setClientID(mClientID);
+            bindEmail.setClientID(getClientID());
             bindEmail.setTicket(ticket);
             bindEmail.setEmail(email);
             bindEmail.setVerifyCode(verifyCode);
@@ -514,7 +566,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -541,10 +593,10 @@ public class ApiManager {
     public void SDKRequestResetPwd(String aesKey16, String ivParameter,String aesKey16byRSA,String account, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/rush";
+            String url = getDomainName() + "/rush";
 
             RequestResetPwd resetPwd = new RequestResetPwd();
-            resetPwd.setClientID(mClientID);
+            resetPwd.setClientID(getClientID());
             resetPwd.setAccount(account);
             String jsonData = GsonUtils.tojsonString(resetPwd);
 
@@ -553,7 +605,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -578,10 +630,10 @@ public class ApiManager {
     public void SDKResetPwdByVerifycode(String aesKey16, String ivParameter,String aesKey16byRSA,String account,String verifyCode,String newSecond, NetCallBack callBack){
 
         try {
-            String url = addDomainName() + "/swift";
+            String url = getDomainName() + "/swift";
 
             ResetPwdByEmail resetPwdByEmail = new ResetPwdByEmail();
-            resetPwdByEmail.setClientID(mClientID);
+            resetPwdByEmail.setClientID(getClientID());
             resetPwdByEmail.setAccount(account);
             resetPwdByEmail.setVerifycode(verifyCode);
             resetPwdByEmail.setNewsecond(SHA1Utils.sha1UpperCase(newSecond));
@@ -592,7 +644,7 @@ public class ApiManager {
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -612,28 +664,135 @@ public class ApiManager {
      * @param content 报错日志内容
      * @param callBack
      */
-    public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+//    public void SDKUploadLog(Context context,String aesKey16,String ivParameter, String aesKey16byRSA,String title,String content, NetCallBack callBack){
+//
+//        try {
+//            String url = getDomainName() + "/crash";
+//
+//            UploadLog uploadLog = new UploadLog();
+//            uploadLog.setClientID(getClientID());
+//            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
+//                uploadLog.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
+//            }
+//            uploadLog.setPackageName(context.getPackageName());
+//            uploadLog.setCrashTitle(title);
+//            uploadLog.setCrashContent(content);
+//            uploadLog.setDeviceID(getID());
+//            String jsonData = GsonUtils.tojsonString(uploadLog);
+//
+//            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+//            Map<String, String> data = new TreeMap<>();
+//            data.put("asong", encryptJsonData);
+//
+//            Map<String, String> headerMap = new TreeMap<>();
+//            headerMap.put("uniqueid",getID());
+//            headerMap.put("rak",aesKey16byRSA);
+//            headerMap.put("siv",ivParameter);
+//            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
+    /**
+     * java服务器的push方法，防止一个服务器有问题，push日志不上
+     */
+    public void pushLog(String title, String content, NetCallBack netCallBack) {
+        content += "_clientID_" + getClientID();
+        content += "_clientType_" + "android";
+        ping(title,content,"go.0egg.com",netCallBack);
+
+
+
+    }
+
+    /**
+     * Ping方法
+     * @param webAddress
+     * @return
+     */
+    public void ping(String title, String content,String webAddress,NetCallBack netCallBack){
+        new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String pingResult = "";
+                        InetAddress inetAddress = InetAddress.getByName(webAddress);
+                        boolean reachable = inetAddress.isReachable(5000);
+                        LogUtils.e(TAG,"Ping结果："+reachable);
+                        if (reachable) {
+                            pingResult += "_Ping "+webAddress +" success";
+                        } else {
+                            pingResult += "_Ping "+webAddress +" fail";
+                        }
+                        String url = "http://logcat.0egg.com/crashlog?title=" + title + "&content=" + content + pingResult;
+                        NetClient.getInstance().clientGetLog(url, null, null, netCallBack);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+    }
+
+    /**
+     * post请求地址：http://52.87.240.108:8081/api/reports/user_step_records
+     * post参数：
+     * step=                                    步骤编号，从游戏调用sdkinit开始，每个打点一个编号
+     * step_type=4                         步骤类型，固定为4，表示sdk上报日志
+     * time=0                                 上报时间戳，秒，默认为0则用BI服务器收到上报的时间
+     * version=0.10.0.16                客户端资源版本号，sdk取不到的话就和app_version一致就行
+     * app_version=0.10.0.16        客户端安装包版本号
+     * user_id=0                             用户id，为0即可
+     * device_id=                           设备号，游戏内是用unity生成的唯一标识，sdk可能没法获取，只用sdk上报记录同一个设备唯一即可
+     */
+    public void gameBIPushLog(Activity activity,String step,NetCallBack netCallBack){
         try {
-            String url = addDomainName() + "/crash";
+            String url = "http://52.87.240.108:8081/api/reports/user_step_records";
 
-            UploadLog uploadLog = new UploadLog();
-            uploadLog.setClientID(mClientID);
-            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
-                uploadLog.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
-            }
-            uploadLog.setPackageName(context.getPackageName());
-            uploadLog.setCrashTitle(title);
-            uploadLog.setCrashContent(content);
-            uploadLog.setDeviceID(identifier);
-            String jsonData = GsonUtils.tojsonString(uploadLog);
+            GameLog gameLog = new GameLog();
+            gameLog.setStep(step);
+            gameLog.setStep_type("4");
+            gameLog.setTime(System.currentTimeMillis()/1000);
+            gameLog.setVersion(AppManager.getVersionName(activity));
+            gameLog.setApp_version(AppManager.getVersionName(activity));
+            gameLog.setUser_id(0);
+            gameLog.setDevice_id(getDeviceID());
+//            gameLog.setIp(SDKGameUtils.getPublicIPAddress());
+            String jsonData = GsonUtils.tojsonString(gameLog);
 
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", jsonData);
+
+            NetClient.getInstance().clientPostLog(url, data, null,netCallBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+     * 查询用户绑定信息接口
+     * @param aesKey16
+     * @param ivParameter
+     * @param aesKey16byRSA
+     * @param ticket
+     */
+    public void queryUserInfo(String aesKey16, String ivParameter,String aesKey16byRSA,String ticket,NetCallBack callBack){
+        try {
+            String url = getDomainName() + "/pyrenees";
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setClientID(getClientID());
+            userInfo.setTicket(ticket);
+            String jsonData = GsonUtils.tojsonString(userInfo);
             String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+
             Map<String, String> data = new TreeMap<>();
             data.put("asong", encryptJsonData);
 
             Map<String, String> headerMap = new TreeMap<>();
-            headerMap.put("uniqueid",identifier);
+            headerMap.put("uniqueid", getDeviceID());
             headerMap.put("rak",aesKey16byRSA);
             headerMap.put("siv",ivParameter);
             NetClient.getInstance().clientPost(url, data, headerMap,callBack);
@@ -641,8 +800,6 @@ public class ApiManager {
             e.printStackTrace();
         }
     }
-
-
 
 /**
  * **************************************************************************************************
@@ -919,6 +1076,55 @@ public class ApiManager {
         }
     }
 
+    private class UserInfo extends Bean implements Serializable{
+        private String ticket;
 
+        public void setTicket(String ticket) {
+            this.ticket = ticket;
+        }
+    }
+    private class GameLog extends Bean implements Serializable{
+        private String step;
+        private String step_type;
+        private long time;
+        private String version;
+        private int user_id;
+
+        private String device_id;
+        private String app_version;
+        private String ip;
+
+        public void setStep(String step) {
+            this.step = step;
+        }
+
+        public void setStep_type(String step_type) {
+            this.step_type = step_type;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public void setDevice_id(String device_id) {
+            this.device_id = device_id;
+        }
+
+        public void setApp_version(String app_version) {
+            this.app_version = app_version;
+        }
+
+        public void setIp(String ip) {
+            this.ip = ip;
+        }
+    }
 
 }

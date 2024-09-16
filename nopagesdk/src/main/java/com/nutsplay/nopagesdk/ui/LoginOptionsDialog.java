@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
-import com.nutsplay.nopagesdk.callback.RegisterResultCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
-import com.nutsplay.nopagesdk.manager.LoginManager;
+import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
@@ -58,12 +59,17 @@ public class LoginOptionsDialog extends Dialog {
             final LoginOptionsDialog dialog = new LoginOptionsDialog(context);
             if (inflater == null) return dialog;
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose", "layout"), null);
+                    break;
+                case 1://竖版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "nuts2_fragment_login_choose_portrait", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_login_choose_normal", "layout"), null);
+                    break;
             }
-
 
             //findView
             TextView visitorLogin = layout.findViewById(SDKResUtils.getResId(context, "tv_visitor_sign_in", "id"));
@@ -76,13 +82,8 @@ public class LoginOptionsDialog extends Dialog {
             View llRegister = layout.findViewById(SDKResUtils.getResId(context,"ll_register","id"));
 
 
-            //切换账号时显示关闭按钮
-            if (isLogin){
-                closeImg.setVisibility(View.INVISIBLE);
-            }else {
-                closeImg.setVisibility(View.VISIBLE);
-            }
-
+            //切换账号时显示Close按钮
+            closeImg.setVisibility(isLogin ? View.INVISIBLE:View.VISIBLE);
 
             //设置自定义字体
             SDKGameUtils.setTypeFaceBold(context,visitorLogin);
@@ -106,7 +107,7 @@ public class LoginOptionsDialog extends Dialog {
 
 //                    SDKManager.getInstance().showEmptyProgress((Activity) context);
                     SDKManager.getInstance().showProgress((Activity) context);
-                    LoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                    NutsLoginManager.getInstance().visitorLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
@@ -148,17 +149,7 @@ public class LoginOptionsDialog extends Dialog {
                     }
                     SDKManager.getInstance().handleLogout((Activity) context);
 
-                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, new RegisterResultCallBack() {
-                        @Override
-                        public void onSuccess(String account, String pwd) {
-                            System.out.println(account+"---"+pwd);
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                            System.out.println(msg);
-                        }
-                    });
+                    RegisterDialog.Builder builder = new RegisterDialog.Builder(context, loginCallBack,isLogin);
                     builder.create().show();
                     dialog.dismiss();
                 }
@@ -175,7 +166,7 @@ public class LoginOptionsDialog extends Dialog {
                     SDKManager.getInstance().handleLogout((Activity) context);
 
                     SDKManager.getInstance().showEmptyProgress((Activity) context);
-                    LoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
+                    NutsLoginManager.getInstance().facebookLogin((Activity) context, loginCallBack, new ResultCallBack() {
                         @Override
                         public void onSuccess() {
                             dialog.dismiss();
@@ -225,7 +216,7 @@ public class LoginOptionsDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     //恢复自动登录
-                    SDKManager.getInstance().setAuto(true);
+                    SDKManager.getInstance().setAutoLogin(true);
 
                     if (loginCallBack != null) loginCallBack.onCancel();
                     dialog.dismiss();

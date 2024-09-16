@@ -144,21 +144,25 @@ public class Toasty {
         return custom(context, message, ToastyUtils.getDrawable(context, iconRes), textColor,
                 tintColor, duration, withIcon, shouldTint);
     }
-    static Toast currentToast;
+    private static Toast currentToast;
     public static @CheckResult
     Toast custom(@NonNull Context context, @NonNull String message, Drawable icon,
                  @ColorInt int textColor, @ColorInt int tintColor, int duration,
                  boolean withIcon, boolean shouldTint) {
-//        if (currentToast==null){
+        if (currentToast == null){
             currentToast = new Toast(context);
-//        }
+        }
         final View toastLayout;
-        if (SDKManager.getInstance().isCommonVersion()){
-            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast_normal","layout"), null);
-        }else {
-            toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+        switch (SDKManager.getInstance().getUIVersion()){
+            case 0:
+            case 1:
+                toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(SDKResUtils.getResId(context,"sdk_layout_toast_normal","layout"), null);
+                break;
+            default:
+                toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(SDKResUtils.getResId(context,"sdk_layout_toast","layout"), null);
+                break;
         }
 
         currentToast.setGravity(Gravity.TOP,0,0);
@@ -223,7 +227,10 @@ public class Toasty {
     Toast custom(boolean isSuccess, @NonNull Context context, @NonNull String message, Drawable icon,
                  @ColorInt int textColor, @ColorInt int tintColor, int duration,
                  boolean withIcon, boolean shouldTint) {
-        currentToast = new Toast(context);
+        if (currentToast == null) {
+            currentToast = new Toast(context);
+        }
+
         final View toastLayout;
         int resource = 0;
         if (isSuccess) {

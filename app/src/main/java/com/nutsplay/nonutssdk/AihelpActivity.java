@@ -2,8 +2,6 @@ package com.nutsplay.nonutssdk;
 
 import android.os.Bundle;
 
-import com.nutspower.nutsgamesdk.R;
-
 /**
  * 客服系统 Aihelp
  *

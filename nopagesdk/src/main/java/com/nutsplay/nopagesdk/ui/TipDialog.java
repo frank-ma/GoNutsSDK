@@ -65,11 +65,20 @@ public class TipDialog extends Dialog {
             if (inflater == null) return dialog;
 
             View layout;
-            if (SDKManager.getInstance().isCommonVersion()){
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips_normal", "layout"), null);
-            }else {
-                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips", "layout"), null);
+            switch (SDKManager.getInstance().getUIVersion()){
+                case 0://横版UI
+                case 1://竖版UI
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips_normal", "layout"), null);
+                    break;
+                default://旧版
+                    layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips", "layout"), null);
+                    break;
             }
+//            if (SDKManager.getInstance().getUIVersion()){
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips_normal", "layout"), null);
+//            }else {
+//                layout = inflater.inflate(SDKResUtils.getResId(context, "sdk_dialog_tips", "layout"), null);
+//            }
 
             TextView tvTips = layout.findViewById(SDKResUtils.getResId(context, "tv_tips", "id"));
             TextView tvContent = layout.findViewById(SDKResUtils.getResId(context, "tv_content", "id"));

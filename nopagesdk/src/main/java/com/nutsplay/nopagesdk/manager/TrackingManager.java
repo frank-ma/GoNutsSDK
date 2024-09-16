@@ -83,7 +83,7 @@ public class TrackingManager {
     public static void loginTracking(String accountId){
 
         try {
-            SDKManager.getInstance().setAuto(true);
+            SDKManager.getInstance().setAutoLogin(true);
             SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
 
 

@@ -1902,6 +1902,42 @@ public class SDKLangConfig {
         zh_CN.setProperty("sign_in_tip","已经有一个帐户？");
         zh_HK.setProperty("sign_in_tip","已經有一個帳戶？");
         ru.setProperty("sign_in_tip","У вас уже есть аккаунт?");
+
+
+        //用户协议
+        ar.setProperty("userAgreement","اتفاقية المستخدم");
+        de.setProperty("userAgreement","Nutzungsbedingungen");
+        en.setProperty("userAgreement","User Agreement");
+        es.setProperty("userAgreement","Acuerdo del Usuario");
+        fr.setProperty("userAgreement","Accord de l'utilisateur");
+        id.setProperty("userAgreement","Perjanjian Pengguna");
+        it.setProperty("userAgreement","Accordo per gli utenti");
+        ja.setProperty("userAgreement","ユーザー規約");
+        ko.setProperty("userAgreement","사용자 계약");
+        pt.setProperty("userAgreement","Termo de Acordo do Usuário");
+        th.setProperty("userAgreement","ข้อตกลงการใช้");
+        vi.setProperty("userAgreement","sự thỏa thuận của người dùng");
+        zh_CN.setProperty("userAgreement","用户协议");
+        zh_HK.setProperty("userAgreement","用戶協議");
+        ru.setProperty("userAgreement","Пользовательское Соглашение");
+
+
+        //客服
+        ar.setProperty("str_customer_service","خدمة الزبائن");
+        de.setProperty("str_customer_service","Kundendienst");
+        en.setProperty("str_customer_service","Customer Service");
+        fr.setProperty("str_customer_service","Service Clients");
+        id.setProperty("str_customer_service","Pelayanan Pelanggan");
+        ja.setProperty("str_customer_service","顧客サービス");
+        ko.setProperty("str_customer_service","고객 서비스");
+        th.setProperty("str_customer_service","บริการลูกค้า");
+        zh_CN.setProperty("str_customer_service","客服");
+        ru.setProperty("str_customer_service","обслуживание клиентов");
+        vi.setProperty("str_customer_service","dịch vụ khách hàng");
+        zh_HK.setProperty("str_customer_service","客服");
+        es.setProperty("str_customer_service","Servicio al Cliente");
+        it.setProperty("str_customer_service","Assistenza Clienti");
+        pt.setProperty("str_customer_service","Atendimento ao Cliente");
     }
 }
 

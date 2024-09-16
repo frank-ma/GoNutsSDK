@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.nutspower.nutsgamesdk">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- google支付权限 -->
     <application
-        android:name="com.nutsplay.nopagesdk.kernel.SDKApplication"
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:name="com.nutsplay.nonutssdk.App"
+        android:allowBackup="true"
+        android:backupInForeground="true"
+        android:backupAgent="com.nutsplay.nopagesdk.utils.sputil.MyPrefsBackupAgent"
+        android:restoreAnyVersion="true"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup">
-<!--        <activity android:name="com.nutsplay.nonutssdk.MainActivity"></activity>-->
-        <!-- <activity android:name="com.nutsplay.nonutssdk.AdsActivity" /> -->
+        android:usesCleartextTraffic="true">
+
+        <meta-data android:name="com.google.android.backup.api_key"
+            android:value="unused" />
+
         <activity
             android:name="com.nutsplay.nonutssdk.MainActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="fullSensor"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.nutsplay.nonutssdk.NoUIActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:screenOrientation="sensorLandscape" /> <!-- sdk -->
+            android:screenOrientation="sensorLandscape"
+            android:exported="false"/>
+        <!-- sdk -->
         <!-- <activity -->
         <!-- android:name="com.nutsplay.nopagesdk.ui.PayWebActivity" -->
         <!-- android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard" /> -->
@@ -52,26 +58,39 @@
         <!-- android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard" -->
         <!-- android:theme="@android:style/Theme.Translucent" /> -->
         <!-- facebook登录相关 -->
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+<!--        <activity-->
+<!--            android:name="com.facebook.FacebookActivity"-->
+<!--            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:exported="true"/>-->
+
+
+
+
         <activity
             android:name="com.facebook.CustomTabActivity"
+            android:screenOrientation="sensorLandscape"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" /> <!-- <meta-data -->
+            android:value="@string/facebook_app_id" />
+
+
+
+
+
+
+
+
+        <!-- <meta-data -->
         <!-- android:name="applovin.sdk.key" -->
         <!-- android:value="iwQgra9X9i9VIXscPrXx9XKOeDuorbdXV3DKdNto40HNT8_z-Wv83DWhRPTG_6pV91qoOgZThsrE_qCzL55OJc" /> -->
         <!-- adjust统计相关的 -->
@@ -83,9 +102,17 @@
         <!-- <action android:name="com.android.vending.INSTALL_REFERRER" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <meta-data
-            android:name="com.facebook.sdk.CodelessDebugLogEnabled"
-            android:value="true" />
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.CodelessDebugLogEnabled"-->
+<!--            android:value="true" />-->
+
+<!--        <activity-->
+<!--            android:name="net.aihelp.ui.HostActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
+<!--            android:screenOrientation="fullSensor"-->
+<!--            android:exported="true"-->
+<!--            tools:replace="android:screenOrientation"/>-->
     </application>
 
 

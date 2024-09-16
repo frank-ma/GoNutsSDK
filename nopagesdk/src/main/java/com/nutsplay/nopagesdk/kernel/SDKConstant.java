@@ -7,7 +7,8 @@ package com.nutsplay.nopagesdk.kernel;
  */
 public class SDKConstant {
 
-
+    public static final int LANDSCAPE = 0;//横屏
+    public static final int PORTRAIT = 1;//竖屏
     public static final String Login = "login";
     public static final String Bind = "bind";
     public static final String android = "android";
@@ -18,6 +19,9 @@ public class SDKConstant {
     public static final String TYPE_GOOGLE = "google";
 
 
+    public static final int SUCCESS = 1;//成功
+    public static final int NET_ERROR = 2;
+    public static final int Error = 3;
     public static final int STATUS_ACCOUNT_EXIST = -21;                //账号已存在
     public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //账号不存在
     public static final int STATUS_PASSWORD_ERROR = -3;               //密码错误
@@ -50,6 +54,8 @@ public class SDKConstant {
     public static final String share_url = "share_url";
     public static final String openType="open_type";//Facebook页面的打开类型
     public static final int SHARE_PHOTO_REQUEST_CODE = 0x101;
+    public static final String NUTS_BIND_NUTS="NUTS_BIND_NUTS";
+    public static final String NUTS_BIND_EMAIL = "NUTS_BIND_EMAIL";
 
 
     //Google官方支付错误码
@@ -119,6 +125,7 @@ public class SDKConstant {
     public static final int not_init = 118; //未初始化
     public static final int not_login = 119; //未登录
 
+
     //init初始化失败错误码
     public static final int refuse_protocol = 120; //玩家拒绝协议
 
@@ -138,4 +145,59 @@ public class SDKConstant {
     public static int fb_share_error = 131;//facebook分享失败
     public static int fb_login_error = 132;//facebook登录失败
     public static int google_login_error = 133;//google登录失败
+    public static int init_error = 134;//初始化错误
+
+
+    //小米支付响应代码
+    public @interface BillingResponseCode {
+        int NET_NOT_WORK = -4;
+        int SERVICE_TIMEOUT = -3;
+        int FEATURE_NOT_SUPPORTED = -2;
+        int SERVICE_DISCONNECTED = -1;
+        int OK = 0;
+        int USER_CANCELED = 1;
+        int SERVICE_UNAVAILABLE = 2;
+        int BILLING_UNAVAILABLE = 3;
+        int ITEM_UNAVAILABLE = 4;
+        int DEVELOPER_ERROR = 5;
+        int ERROR = 6;
+        int ITEM_ALREADY_OWNED = 7;
+        int ITEM_NOT_OWNED = 8;
+        int PAYMENT_UNKNOWN = 9;
+        int PAYMENT_SHOW_DIALOG = 10;
+    }
+
+//    eg:
+//            0 OK
+//    Success.
+//    1 USER_CANCELED
+//    User pressed back or canceled a dialog.
+//    2 SERVICE_UNAVAILABLE
+//    Network connection is down.
+//            3 BILLING_UNAVAILABLE
+//    Billing API version is not supported for the type requested.
+//    4 ITEM_UNAVAILABLE
+//    Requested product is not available for purchase.
+//    5 DEVELOPER_ERROR
+//    Invalid arguments provided to the API. This error can also indicate that the application was not correctly signed or properly set up for In-app Billing in GetApps, or does not have the necessary permissions in its manifest.
+//    6 ERROR
+//    Fatal error during the net.aihelp.common.API action.
+//            7 ITEM_ALREADY_OWNED
+//    Failure to purchase since item is already owned.
+//            8 ITEM_NOT_OWNED
+//    Failure to consume since item is not owned.
+//            9 PAYMENT_UNKNOWN
+//    Payment result unknown.
+//   10 PAYMENT_SHOW_DIALOG
+//    Payment show dialog.
+//    -1 SERVICE_DISCONNECTED
+//    GetApps service is not connected now - potentially transient state.
+//    E.g. GetApps could have been updated in the background while your app was still running. So feel free to introduce your retry policy for such use case. It should lead to a call to BillingClient.startConnection(BillingClientStateListener) right after or in some time after you received this code.
+//    -2 FEATURE_NOT_SUPPORTED
+//    Requested feature is not supported by GetApps on the current device.
+//    -3 SERVICE_TIMEOUT
+//    The request has reached the maximum timeout before GetApps responds.
+//            -4 NET_NOT_WORK
+//    Network Unavailable
+
 }

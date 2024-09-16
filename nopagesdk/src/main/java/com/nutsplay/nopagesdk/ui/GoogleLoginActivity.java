@@ -14,7 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
-import com.nutsplay.nopagesdk.manager.LoginManager;
+import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
 /**
@@ -42,7 +42,7 @@ public class GoogleLoginActivity extends BaseActivity {
             String googleID = account.getId();
             String displayName = account.getDisplayName();
             LogUtils.e("GoogleId",googleID + " displayName:"+displayName);
-            LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
+            NutsLoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
             finish();
         }else {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -68,17 +68,17 @@ public class GoogleLoginActivity extends BaseActivity {
                 String googleID = account.getId();
                 String displayName = account.getDisplayName();
                 LogUtils.e("GoogleId",googleID + " displayName:"+displayName);
-                LoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
+                NutsLoginManager.getInstance().getGoogleLoginListener().onSuccess(googleID,displayName);
                 finish();
             }
         } catch (ApiException e) {
             String errorInfo = GoogleSignInStatusCodes.getStatusCodeString(e.getStatusCode());
             Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode()+"---"+errorInfo);
-            LoginManager.getInstance().getGoogleLoginListener().onFailure(e.getStatusCode(),"signInResult:failed code=" + e.getStatusCode()+"---" +errorInfo);
+            NutsLoginManager.getInstance().getGoogleLoginListener().onFailure(e.getStatusCode(),"signInResult:failed code=" + e.getStatusCode()+"---" +errorInfo);
             finish();
         } catch (Exception e){
             e.printStackTrace();
-            LoginManager.getInstance().getGoogleLoginListener().onFailure(SDKConstant.google_login_error,"signInResult:failed code=" + e.getMessage());
+            NutsLoginManager.getInstance().getGoogleLoginListener().onFailure(SDKConstant.google_login_error,"signInResult:failed code=" + e.getMessage());
             finish();
         }
     }

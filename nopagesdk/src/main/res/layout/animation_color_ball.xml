@@ -9,15 +9,15 @@
 
     <com.nutsplay.nopagesdk.view.CradleBall
         android:id="@+id/ball_one"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_gravity="center"
         smaug:cradle_ball_color="@color/dotRed" />
 
     <com.nutsplay.nopagesdk.view.CradleBall
         android:id="@+id/ball_two"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
         smaug:cradle_ball_color="@color/dotYellow"
@@ -25,8 +25,8 @@
 
     <com.nutsplay.nopagesdk.view.CradleBall
         android:id="@+id/ball_three"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"

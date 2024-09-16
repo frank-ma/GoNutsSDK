@@ -1,7 +1,44 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'com.github.frank-ma'
+                artifactId = 'GoNutsSDK'
+                version = "4.2.0"
+                artifact "build/outputs/aar/gosdk.aar"
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.implementation.allDependencies.each { dependency ->
+                        if (dependency.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                        }
+                    }
+                }
+            }
+//        repositories {
+//            maven {
+//                name = "GoNutsSDK"
+//                url ''
+//                credentials{
+//                    username "frank-ma"
+//                    password "aa_123456@"
+//                }
+//            }
+//        }
+        }
+    }
+}
 
 def static getProductName() {
-    return "sdk"
+    return "gosdk"
 }
 
 // 发布时间
@@ -10,22 +47,18 @@ static def releaseTime() {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.2'
-
-
+    namespace 'com.nutsplay.nopagesdk'
+    compileSdk 33
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 42
-        versionName "3.0"
+        versionName "5.5"
+        minSdkVersion 21//16
+        targetSdkVersion 33
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         sit{
-            debuggable true
         }
         release {
             minifyEnabled false
@@ -39,36 +72,60 @@ android {
     android.libraryVariants.all { variant ->
         variant.outputs.all {
             outputFileName = getProductName() + "_v${defaultConfig.versionName}" + '.aar'
+//            outputFileName = getProductName() + '.aar'
+        }
+    }
+
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
-    api 'com.android.billingclient:billing:4.0.0'//2.0.3//2.2.1//3.0.3
+    api 'com.android.billingclient:billing:6.0.0'//2.0.3//2.2.1//3.0.3//4.0.0
+    api 'com.google.guava:guava:18.0'
     //Gson
     api 'com.google.code.gson:gson:2.8.6'
-
     //google登录
     api 'com.google.android.gms:play-services-auth:18.0.0'
     //Google评价用到核心库
     api 'com.google.android.play:core:1.9.0'
-
     // Facebook Android SDK (everything)
-    api 'com.facebook.android:facebook-android-sdk:11.1.1'//7.1.0
-
+//    api 'com.facebook.android:facebook-android-sdk:16.2.0'//16.2fb登录闪退//13.0.0//11.1.1//7.1.0
+    api 'com.facebook.android:facebook-android-sdk:13.1.0'//13.0.0//11.1.1//7.1.0
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 
-    //动画加载库Lottie
-    api 'com.airbnb.android:lottie:5.0.3'
 
+
+    //AIhelp，Bugly,Adjust,Firebase由CP接入响应的Unity版本
+    //AIHelp客服
+//    api 'net.aihelp:android-aihelp-aar:2.4.12'
+
+    //小米国际支付库/api
+//    api(name:'billing-1.0.3',ext:'aar')
+
+    //Bugly
+//    implementation 'com.tencent.bugly:crashreport:latest.release'
+//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+
+    //adjust
+    api 'com.adjust.sdk:adjust-android:4.28.1'
+    api 'com.android.installreferrer:installreferrer:2.2'
+    api 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+
+    //HelpShift
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+    api 'com.helpshift:helpshift-sdkx:10.2.2'
 }
 
 
@@ -82,6 +139,11 @@ task deleteBuild(type: Delete) {
 task makeJar(type: Jar) {
     archivesBaseName = SDK_BASENAME + SDK_VERSION
     from(project.zipTree('build/intermediates/packaged-classes/release/classes.jar'))
-    destinationDir = file(sdkDestinationPath)
+    destinationDirectory = file(sdkDestinationPath)
 }
 makeJar.dependsOn(deleteBuild, build)
+
+
+
+
+

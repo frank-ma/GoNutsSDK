@@ -1,7 +1,5 @@
 package com.nutsplay.nopagesdk.callback;
 
-import com.nutsplay.nopagesdk.beans.User;
-
 /**
  * Created by frank-ma on 2019-09-18 20:54
  * Email: frankma9103@gmail.com
@@ -9,7 +7,8 @@ import com.nutsplay.nopagesdk.beans.User;
  */
 public interface LoginCallBack{
 
-    void onSuccess(User user);
+//    void onSuccess(User user);
+    void onSuccess(String ticket,String sdkMemberType);
 
     void onCancel();
 

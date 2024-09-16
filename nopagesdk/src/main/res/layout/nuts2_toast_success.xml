@@ -33,7 +33,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="Billing service unavailable on device."
-            android:background="@drawable/shape_button_green"/>
+            android:background="@drawable/shape_button_blue"/>
     </com.nutsplay.nopagesdk.view.shadow.ShadowLayout>
 
 

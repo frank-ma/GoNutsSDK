@@ -67,11 +67,9 @@ public class PayResult implements Serializable {
         isSuc = suc;
     }
 
-    @Deprecated
     public String getOrderid() {
         return orderid;
     }
-    @Deprecated
     public void setOrderid(String orderid) {
         this.orderid = orderid;
     }
