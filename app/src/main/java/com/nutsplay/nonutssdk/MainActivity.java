@@ -108,7 +108,6 @@ public class MainActivity extends SDKBaseActivity {
     public void initSDK(View view) {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setBuglyId("");
         initParameter.setLanguage("zh_cn");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
@@ -117,7 +116,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
-        initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
+        initParameter.setUIVersion(SDKConstant.LANDSCAPE);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -159,10 +158,7 @@ public class MainActivity extends SDKBaseActivity {
             @Override
             public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                //如果用户是facebook登录的话，获取fb信息
-
                 showLog("登录成功：" + ticket);
-//                showLog("UserName：" + user.getUserName());
                 //判断用户的登录类型
                 if (SDKConstant.TYPE_GUEST.equals(sdkMemberType)){
                     //游客
@@ -170,8 +166,6 @@ public class MainActivity extends SDKBaseActivity {
                     //账号登录
                 } else if (SDKConstant.TYPE_FACEBOOK.equals(sdkMemberType)){
                     //fb登录
-                } else if (SDKConstant.TYPE_GOOGLE.equals(sdkMemberType)){
-                    //Google登录
                 }
             }
 
@@ -921,7 +915,7 @@ public class MainActivity extends SDKBaseActivity {
      * 参数为：定义好的事件id
      */
     public void other(View view){
-//        SDK.getInstance().adjustCustomEvent("eventID");
+        SDK.getInstance().adjustCustomEvent("eventID");
 
         /**
          * 获取客服未读消息数

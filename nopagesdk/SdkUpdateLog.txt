@@ -1,11 +1,37 @@
 
                       更新日志：
 ****************************************************************
+（陈志佳团队）LittleBigFamily
+gosdk_v6.0(For FT)(20241224)
+应谷歌升级目标版本到 34的要求，谷歌结算库也要相应的升级到7.0.0（6.0.1以上）
+升级方法：
+1、无需替换aar,直接更新谷歌结算库从6.0.0到7.0.0
+//谷歌结算库
+implementation 'com.android.billingclient:billing:7.0.0'
+
+****************************************************************
 gosdk_v5.6.1(For Project S II)(20240111)
 修复初始化缓慢的问题：
 日志上报的接口访问超时，做了判断处理，接口已经可以访问
 
+更新方法：
+1.添加客服AIhelp的依赖库：
+//AIhelp
+implementation 'net.aihelp:android-aihelp-aar:4.4.+'
+2.初始化时，配置AIhelp的参数：
+    private String AIHelpAppID = "nutspoweronlineentertainmentlimited_platform_434e03b9313aad38930d71bbd6e40e8d";
+    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_2d9728067a2a48d3b09ab3fb70fd18a2";
+    private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
+        InitParameter initParameter = new InitParameter();
+        ...
+        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpAppID(AIHelpAppID);
+        initParameter.setAihelpDomain(AIHelpDomain);
+        SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {...})
+
+3.客服调用方法：
+SDK.getInstance().customerSupport();
 ****************************************************************
 gosdk_v5.6(For Tils 3D)(20231226)
 1.客服系统Helpshift改成AiHelp

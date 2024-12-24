@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.nutsplay.nonutssdk'
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "com.nutsplay.nonutssdk"
         minSdkVersion 21//19
-        targetSdkVersion 33
+        targetSdkVersion 34
         multiDexEnabled true
         versionCode 7
         versionName "4.1.2"

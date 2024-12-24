@@ -48,11 +48,11 @@ static def releaseTime() {
 
 android {
     namespace 'com.nutsplay.nopagesdk'
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
-        versionName "5.6.1"
+        versionName "6.0"
         minSdkVersion 21//16
-        targetSdkVersion 33
+        targetSdkVersion 34
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -91,7 +91,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
-    api 'com.android.billingclient:billing:6.0.0'//2.0.3//2.2.1//3.0.3//4.0.0
+    api 'com.android.billingclient:billing:7.0.0'//2.0.3//2.2.1//3.0.3//4.0.0//6.0.0
     api 'com.google.guava:guava:18.0'
     //Gson
     api 'com.google.code.gson:gson:2.8.6'
