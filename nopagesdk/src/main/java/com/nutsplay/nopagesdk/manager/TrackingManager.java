@@ -1,10 +1,10 @@
 package com.nutsplay.nopagesdk.manager;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -75,14 +75,16 @@ public class TrackingManager {
         SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());
 
         //adjust注册账号追踪
-        AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
+//        AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
+        //热云追踪
+        ReYunTraceManager.getInstance().registerTrack(SDKConstant.TYPE_ACCOUNT,"success");
     }
 
     /**
      * 登录追踪
-     * @param accountId
+     * @param user
      */
-    public static void loginTracking(String accountId){
+    public static void loginTracking(User user){
 
         try {
             SDKManager.getInstance().setAutoLogin(true);
@@ -94,11 +96,13 @@ public class TrackingManager {
 //            AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Login", eventValue);
 
             //adjust追踪
-            AdjustTraceManager.getInstance().adjustLogin(SDKManager.getInstance().getActivity());
+//            AdjustTraceManager.getInstance().adjustLogin(SDKManager.getInstance().getActivity());
+            //热云追踪
+            ReYunTraceManager.getInstance().loginTrack(user.getUserId(), user.getSdkmemberType(), "success");
 
             //登录成功之后传递用户ID给客服系统
             UserConfig userConfig = new UserConfig.Builder()
-                    .setUserId(accountId)
+                    .setUserId(user.getUserId())
                     .setUserTags("login")
                     .build();
             AIHelpManager.getInstance().updateUserInfo(userConfig);
@@ -142,6 +146,16 @@ public class TrackingManager {
     }
 
     /**
+     * 用户产生订单时上报
+     * @param revenue
+     * @param currency
+     * @param orderId
+     */
+    public static void makeOrderTrack(double revenue, String currency, String orderId,String orderState){
+        ReYunTraceManager.getInstance().makeOrderTrack(revenue,currency,orderId,orderState);
+    }
+
+    /**
      * 支付追踪
      * @param accountId
      * @param orderId
@@ -162,9 +176,11 @@ public class TrackingManager {
         //dataEye追踪
 //        DCTrackingPoint.paymentSuccess(accountId, orderId, currencyAmount, currencyType, payType);
         //Adjust
-        if (itemType.equals(SDKConstant.INAPP)){
-            AdjustTraceManager.getInstance().googleIap((Activity) context,currencyAmount,currencyType,orderId);
-        }
+//        if (itemType.equals(SDKConstant.INAPP)){
+//            AdjustTraceManager.getInstance().googleIap((Activity) context,currencyAmount,currencyType,orderId);
+//        }
+        //热云追踪
+        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");
     }
 
     /**
@@ -184,5 +200,10 @@ public class TrackingManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //登出，注销用户 ID
+    public static void logout() {
+        ReYunTraceManager.getInstance().logout();
     }
 }

@@ -895,15 +895,6 @@ public class GooglePayHelp implements PurchasesUpdatedListener {
         //支付追踪
         TrackingManager.purchaseTracking(SDKManager.getInstance().getActivity(), itemType, SDKManager.getInstance().getUser().getUserId(), orderId, Double.parseDouble(price), currency, type);
 
-        //更新DB
-//        PurchaseRecord purchaseRecord = new PurchaseRecord();
-//        purchaseRecord.setTransactionId(transactionId);
-//        purchaseRecord.setStatus(1);
-//        purchaseRecord.setSkuId(skuId);
-//        purchaseRecord.setGoogleId(purchase.getOrderId());
-//        purchaseRecord.setPurchaseJson(purchase.toString());
-//        DBManager.getInstance().insertOrReplace(purchaseRecord);
-
 
         if (!isCallback) return;
         //回调接口

@@ -24,6 +24,7 @@ public class InitParameter implements Serializable {
     private String aihelpAppkey="";
     private String aihelpDomain="";
     private String aihelpAppID="";
+    private String reyunAppID="";
     private String pushLogUrl="";//日志上报地址
 
     public String getPushLogUrl() {
@@ -150,5 +151,13 @@ public class InitParameter implements Serializable {
 
     public void setBuglyId(String buglyId) {
         this.buglyId = buglyId;
+    }
+
+    public String getReyunAppID() {
+        return reyunAppID;
+    }
+
+    public void setReyunAppID(String reyunAppID) {
+        this.reyunAppID = reyunAppID;
     }
 }

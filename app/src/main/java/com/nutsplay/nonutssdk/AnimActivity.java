@@ -3,8 +3,11 @@ package com.nutsplay.nonutssdk;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
+import com.nuts.test.R;
 
 
 public class AnimActivity extends AppCompatActivity {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.android.billingclient.api.ProductDetails;
+import com.nuts.test.R;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
@@ -57,7 +58,8 @@ public class MainActivity extends SDKBaseActivity {
     String referenceId = "com.nuts.sm.android.googleplay.1";
 
 
-    private String clientId = "64e3342d95b526d070bf82c9";//测试应用      635f680c95b526b99391e7e7
+    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）     635f680c95b526b99391e7e7
+//    private String clientId = "64e3342d95b526d070bf82c9";//测试应用      635f680c95b526b99391e7e7
 //    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
 //    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
 //    private String clientId = "6449d80495b526d070beff5a";//MiPay
@@ -68,6 +70,7 @@ public class MainActivity extends SDKBaseActivity {
 
     private TextView logTv,webTv,login;
     private Button initB,defaultLogin;
+    private String reyunAppId="c48e4cf4e8f80a2b";
 
     //poly
 //    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_18d51c55-b1e5-43f4-bcbe-daad1b7381a8";
@@ -116,6 +119,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
+        initParameter.setReyunAppID(reyunAppId);
         initParameter.setUIVersion(SDKConstant.LANDSCAPE);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {

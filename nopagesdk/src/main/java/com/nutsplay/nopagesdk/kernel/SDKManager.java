@@ -54,6 +54,7 @@ import com.nutsplay.nopagesdk.manager.GooglePayHelp;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.NutsLoginManager;
+import com.nutsplay.nopagesdk.manager.ReYunTraceManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
@@ -416,6 +417,8 @@ public class SDKManager {
             //初始化客服系统
             AIHelpManager.initAiHelp(activity,initParameter);
             HelpShiftManager.setHelpShiftLan(initParameter.getLanguage());
+            //初始化追踪
+            ReYunTraceManager.getInstance().init(activity,initParameter.getReyunAppID(),initParameter.isDebug());
             //获取公钥
             getPublicKey(activity, initCallBack);
         }catch (Exception e){
@@ -910,7 +913,7 @@ public class SDKManager {
                         guestTip(activity,getUser());
                         //有登录信息，直接登录
                         loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
-                        TrackingManager.loginTracking(getUser().getUserId());
+                        TrackingManager.loginTracking(getUser());
                     }else {
                         LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack,isLogin);
                         builder.create().show();
@@ -1151,7 +1154,7 @@ public class SDKManager {
                             hideProgress();
                             loginCallBack.onSuccess(getUser().getTicket(),getUser().getSdkmemberType());
                             //登录追踪
-                            TrackingManager.loginTracking(getUser().getUserId());
+                            TrackingManager.loginTracking(getUser());
                         }
                     }, 1000);
                     return;
@@ -1197,7 +1200,7 @@ public class SDKManager {
                             SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
 
                             //登录追踪
-                            TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                            TrackingManager.loginTracking(user);
 
                         } else {
                             LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
@@ -1367,7 +1370,7 @@ public class SDKManager {
                         }
 
                         //登录追踪
-                        TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                        TrackingManager.loginTracking(user);
                         loginCallBack.onSuccess(user.getTicket(),user.getSdkmemberType());
                         resultCallBack.onSuccess();
 
@@ -1527,7 +1530,7 @@ public class SDKManager {
                             if (resultCallBack != null) resultCallBack.onSuccess();
 
                             //游客登录追踪
-                            TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                            TrackingManager.loginTracking(user);
 
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
@@ -1624,7 +1627,7 @@ public class SDKManager {
                             if (resultCallBack!=null) resultCallBack.onSuccess();
 
                             //游客登录追踪
-                            TrackingManager.loginTracking(loginModel.getData().getPassportId());
+                            TrackingManager.loginTracking(user);
 
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
@@ -1799,6 +1802,9 @@ public class SDKManager {
 
             //客服登出
             AIHelpManager.getInstance().resetUserInfo();
+
+            //第三方追踪登出
+            TrackingManager.logout();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1869,6 +1875,8 @@ public class SDKManager {
                             //创建订单成功
                             String transactionId = orderModel.getData().getTransactionId();//订单号
 
+                            //下单追踪
+                            TrackingManager.makeOrderTrack(orderModel.getData().getPrice(),"USD",transactionId,"success");
 
                             //DB插入数据
 //                            PurchaseRecord purchaseRecord = new PurchaseRecord();
@@ -1898,6 +1906,8 @@ public class SDKManager {
                             SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
                             purchaseCallBack.onFailure(orderModel.getCode(),orderModel.getMessage());
                         }
+
+
                     } catch (Exception e) {
                         hideProgress();
                         e.printStackTrace();
