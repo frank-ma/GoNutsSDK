@@ -54,7 +54,6 @@ import com.nutsplay.nopagesdk.manager.GooglePayHelp;
 import com.nutsplay.nopagesdk.manager.HelpShiftManager;
 import com.nutsplay.nopagesdk.manager.InstallManager;
 import com.nutsplay.nopagesdk.manager.NutsLoginManager;
-import com.nutsplay.nopagesdk.manager.ReYunTraceManager;
 import com.nutsplay.nopagesdk.manager.TrackingManager;
 import com.nutsplay.nopagesdk.network.GsonUtils;
 import com.nutsplay.nopagesdk.network.NetUtils;
@@ -417,8 +416,8 @@ public class SDKManager {
             //初始化客服系统
             AIHelpManager.initAiHelp(activity,initParameter);
             HelpShiftManager.setHelpShiftLan(initParameter.getLanguage());
-            //初始化追踪
-            ReYunTraceManager.getInstance().init(activity,initParameter.getReyunAppID(),initParameter.isDebug());
+            //初始化热云追踪
+//            ReYunTraceManager.getInstance().init(activity,initParameter.getReyunAppID(),initParameter.isDebug());
             //获取公钥
             getPublicKey(activity, initCallBack);
         }catch (Exception e){

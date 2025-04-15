@@ -1,5 +1,89 @@
 
                       更新日志：
+
+****************************************************************
+（陈志佳团队）Family Go!  Lifetime Sim game（内部代号：FG）
+gosdk_v6.2(For FG)(20250415)
+
+三方追踪改回Adjust
+更新方法：
+1.替换最新版 gosdk_v6.2.aar
+2.添加依赖库：
+    //adjust
+    implementation 'com.adjust.sdk:adjust-android:4.28.1'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+3.参数需等账号申请下来再修改一下
+4.在自己的 APP 的onCreate()方法中初始化 adjust：
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        initAdjust();
+    }
+
+
+ public void initAdjust() {
+        String appToken = "7bwy6y88uhhc";//这是以前的参数，到时候会替换
+//        ENVIRONMENT_SANDBOX 沙盒模式； ENVIRONMENT_PRODUCTION 生产模式；自己视情况切换
+        String environment = AdjustConfig.ENVIRONMENT_SANDBOX;
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+//        config.setLogLevel(LogLevel.DEBUG);//可以更改日志的级别
+        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
+//        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
+//        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
+//        config.setLogLevel(LogLevel.WARN); // disable info logs
+//        config.setLogLevel(LogLevel.ERROR); // disable warning logs
+//        config.setLogLevel(LogLevel.ASSERT); // disable error logs
+//        config.setLogLevel(LogLevel.SUPRESS); // disable all logs
+        Adjust.onCreate(config);
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+                Adjust.onResume();
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+                Adjust.onPause();
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+
+            }
+        });
+    }
+
+
+
+****************************************************************
+（陈志佳团队）LittleBigFamily（内部代号：FT）
+gosdk_v6.1.1(For FT)(20250107)
+三方追踪改用热云（明年五月左右有可能换回 adjust）
+更新文档：https://www.showdoc.com.cn/p/905e87f017e67eaa25f09f3374467578
+修复一个 bug：ReYunTraceManager有处代码用于文档说明，没有删掉
+
 ****************************************************************
 （陈志佳团队）LittleBigFamily
 gosdk_v6.1(For FT)(20250106)

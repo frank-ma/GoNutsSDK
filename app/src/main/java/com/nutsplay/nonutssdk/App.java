@@ -12,7 +12,6 @@ import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.LogLevel;
 import com.facebook.stetho.Stetho;
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
-import com.reyun.solar.engine.SolarEngineManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,19 +31,19 @@ public class App extends SDKApplication {
 
 //        LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
-//        initAdjust();
+        initAdjust();
         initHelpShift();
 
-        reInitReYun();
+//        reInitReYun();
 
     }
 
     /**
-     * 初始化热云追踪
+     * 预初始化热云追踪
      */
-    private void reInitReYun() {
-        SolarEngineManager.getInstance().preInit(this, "c48e4cf4e8f80a2b");
-    }
+//    private void reInitReYun() {
+//        SolarEngineManager.getInstance().preInit(this, "c48e4cf4e8f80a2b");
+//    }
 
     /**
      * 客服系统

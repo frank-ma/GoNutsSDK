@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 34
     defaultConfig {
-        versionName "6.1"
+        versionName "6.2"
         minSdkVersion 21//16
         targetSdkVersion 34
         multiDexEnabled true
@@ -134,7 +134,7 @@ dependencies {
     api 'net.aihelp:android-aihelp-aar:4.4.+'
 
     //热云三方追踪
-    api 'com.reyun.solar.engine.oversea:solar-engine-core:1.2.9.3'
+//    api 'com.reyun.solar.engine.oversea:solar-engine-core:1.2.9.3'
 }
 
 

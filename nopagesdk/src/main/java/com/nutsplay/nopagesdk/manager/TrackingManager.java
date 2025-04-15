@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.manager;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -75,9 +76,9 @@ public class TrackingManager {
         SDKManager.getInstance().checkLostOrder(SDKManager.getInstance().getActivity());
 
         //adjust注册账号追踪
-//        AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
+        AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
         //热云追踪
-        ReYunTraceManager.getInstance().registerTrack(SDKConstant.TYPE_ACCOUNT,"success");
+//        ReYunTraceManager.getInstance().registerTrack(SDKConstant.TYPE_ACCOUNT,"success");
     }
 
     /**
@@ -96,9 +97,9 @@ public class TrackingManager {
 //            AppsFlyerLib.getInstance().trackEvent(SDKManager.getInstance().getActivity(), "Login", eventValue);
 
             //adjust追踪
-//            AdjustTraceManager.getInstance().adjustLogin(SDKManager.getInstance().getActivity());
+            AdjustTraceManager.getInstance().adjustLogin(SDKManager.getInstance().getActivity());
             //热云追踪
-            ReYunTraceManager.getInstance().loginTrack(user.getUserId(), user.getSdkmemberType(), "success");
+//            ReYunTraceManager.getInstance().loginTrack(user.getUserId(), user.getSdkmemberType(), "success");
 
             //登录成功之后传递用户ID给客服系统
             UserConfig userConfig = new UserConfig.Builder()
@@ -152,7 +153,7 @@ public class TrackingManager {
      * @param orderId
      */
     public static void makeOrderTrack(double revenue, String currency, String orderId,String orderState){
-        ReYunTraceManager.getInstance().makeOrderTrack(revenue,currency,orderId,orderState);
+//        ReYunTraceManager.getInstance().makeOrderTrack(revenue,currency,orderId,orderState);
     }
 
     /**
@@ -175,12 +176,12 @@ public class TrackingManager {
 //        AppsFlyerLib.getInstance().trackEvent(context, "NutsGooglePay", eventValues);
         //dataEye追踪
 //        DCTrackingPoint.paymentSuccess(accountId, orderId, currencyAmount, currencyType, payType);
-        //Adjust
-//        if (itemType.equals(SDKConstant.INAPP)){
-//            AdjustTraceManager.getInstance().googleIap((Activity) context,currencyAmount,currencyType,orderId);
-//        }
+//        Adjust
+        if (itemType.equals(SDKConstant.INAPP)){
+            AdjustTraceManager.getInstance().googleIap((Activity) context,currencyAmount,currencyType,orderId);
+        }
         //热云追踪
-        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");
+//        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");
     }
 
     /**
