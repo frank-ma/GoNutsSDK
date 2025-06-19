@@ -27,7 +27,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nutsplay.nopagesdk.R;
-import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
@@ -455,62 +454,62 @@ public class SDKGameUtils {
      * @param msg
      */
     public static void showServiceInfo(int code,String msg) {
-        if (SDKToast.getInstance() == null) return;
-        if (code == SDKConstant.STATUS_ACCOUNT_EXIST) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("1"), 3);
-        } else if (code == SDKConstant.STATUS_ACCOUNT_DO_NOT_EXIST) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("2"), 3);
-        } else if (code == SDKConstant.STATUS_PASSWORD_ERROR) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("3"), 3);
-        } else if (code == SDKConstant.STATUS_EMAIL_EXIST) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
-        } else if (code == SDKConstant.STATUS_EMAIL_NOT_EXIST) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_no_bind"), 3);
-        } else if (code == SDKConstant.STATUS_PARAMETER_ERROR) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (code == SDKConstant.STATUS_TICKET_INVALID) {
-            SDKToast.getInstance().ToastShow("ticket无效，请先登录", 3);
-        } else if (code == SDKConstant.STATUS_VERIFY_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
-        } else if (code == SDKConstant.STATUS_ACCOUNT_BOUND) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("7"), 3);
-        } else if (code == SDKConstant.STATUS_GAME_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("8"), 3);
-        } else if (code == SDKConstant.STATUS_USER_FROZEN) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("9"), 3);
-        } else if (code == SDKConstant.STATUS_ACCOUNT_ERROR) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
-        } else if (code == SDKConstant.STATUS_EMAIL_NOT_FIXED) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("11"), 3);
-        } else if (code == SDKConstant.STATUS_EMAIL_FORMAT_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("12"), 3);
-        } else if (code == SDKConstant.STATUS_ACCOUNT_FORMAT_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
-        } else if (code == SDKConstant.STATUS_PASSWD_FORMAT_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("15"), 3);
-        } else if (code == SDKConstant.STATUS_SERVER_INVALID) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_service_err"), 3);
-        } else if (code == SDKConstant.STATUS_PRODUCTION_DO_NOT_EXIST) {
-            SDKToast.getInstance().ToastShow("status_production_do_not_exist", 3);
-        } else if (code == SDKConstant.STATUS_THIRD_ACCOUNT_USED){
-            SDKToast.getInstance().ToastShow("third account used",3);
-        } else if (code == SDKConstant.STATUS_ANTIADDICTIVE_ALREADY_EXIST){
-            SDKToast.getInstance().ToastShow("antiaddictive already exist",3);
-        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_NOT_EXIST) {//临时绑定记录不存在
-            SDKToast.getInstance().ToastShow("The binding record does not exist", 3);
-        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_CODE_INVALID) {//临时绑定验证码不正确
-            SDKToast.getInstance().ToastShow("Code invalid", 3);
-        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_EMAIL_NOT_MATCH) {//邮箱不一致
-            SDKToast.getInstance().ToastShow("Email not match", 3);
-        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_SEND_EMAIL_FAIL) {//往邮箱发送邮件失败
-            SDKToast.getInstance().ToastShow("Failed to send mail to mailbox", 3);
-        } else if (code == SDKConstant.STATUS_ACCOUNT_NOT_BOUND) {//此ID尚未绑定过自定义账号(用于申请email绑定时)
-            SDKToast.getInstance().ToastShow("Please bind an account before you can bind the mailbox, or directly bind your Facebook account.", 3);
-        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_ALREADY_EXIST) {//临时绑定记录已存在
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
-        } else {
-            SDKToast.getInstance().ToastShow(msg, 3);
-        }
+//        if (SDKToast.getInstance() == null) return;
+//        if (code == SDKConstant.STATUS_ACCOUNT_EXIST) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("1"), 3);
+//        } else if (code == SDKConstant.STATUS_ACCOUNT_DO_NOT_EXIST) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("2"), 3);
+//        } else if (code == SDKConstant.STATUS_PASSWORD_ERROR) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("3"), 3);
+//        } else if (code == SDKConstant.STATUS_EMAIL_EXIST) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
+//        } else if (code == SDKConstant.STATUS_EMAIL_NOT_EXIST) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("email_no_bind"), 3);
+//        } else if (code == SDKConstant.STATUS_PARAMETER_ERROR) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
+//        } else if (code == SDKConstant.STATUS_TICKET_INVALID) {
+//            SDKToast.getInstance().ToastShow("ticket无效，请先登录", 3);
+//        } else if (code == SDKConstant.STATUS_VERIFY_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("6"), 3);
+//        } else if (code == SDKConstant.STATUS_ACCOUNT_BOUND) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("7"), 3);
+//        } else if (code == SDKConstant.STATUS_GAME_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("8"), 3);
+//        } else if (code == SDKConstant.STATUS_USER_FROZEN) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("9"), 3);
+//        } else if (code == SDKConstant.STATUS_ACCOUNT_ERROR) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("10"), 3);
+//        } else if (code == SDKConstant.STATUS_EMAIL_NOT_FIXED) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("11"), 3);
+//        } else if (code == SDKConstant.STATUS_EMAIL_FORMAT_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("12"), 3);
+//        } else if (code == SDKConstant.STATUS_ACCOUNT_FORMAT_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("13"), 3);
+//        } else if (code == SDKConstant.STATUS_PASSWD_FORMAT_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("15"), 3);
+//        } else if (code == SDKConstant.STATUS_SERVER_INVALID) {
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_service_err"), 3);
+//        } else if (code == SDKConstant.STATUS_PRODUCTION_DO_NOT_EXIST) {
+//            SDKToast.getInstance().ToastShow("status_production_do_not_exist", 3);
+//        } else if (code == SDKConstant.STATUS_THIRD_ACCOUNT_USED){
+//            SDKToast.getInstance().ToastShow("third account used",3);
+//        } else if (code == SDKConstant.STATUS_ANTIADDICTIVE_ALREADY_EXIST){
+//            SDKToast.getInstance().ToastShow("antiaddictive already exist",3);
+//        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_NOT_EXIST) {//临时绑定记录不存在
+//            SDKToast.getInstance().ToastShow("The binding record does not exist", 3);
+//        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_CODE_INVALID) {//临时绑定验证码不正确
+//            SDKToast.getInstance().ToastShow("Code invalid", 3);
+//        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_EMAIL_NOT_MATCH) {//邮箱不一致
+//            SDKToast.getInstance().ToastShow("Email not match", 3);
+//        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_SEND_EMAIL_FAIL) {//往邮箱发送邮件失败
+//            SDKToast.getInstance().ToastShow("Failed to send mail to mailbox", 3);
+//        } else if (code == SDKConstant.STATUS_ACCOUNT_NOT_BOUND) {//此ID尚未绑定过自定义账号(用于申请email绑定时)
+//            SDKToast.getInstance().ToastShow("Please bind an account before you can bind the mailbox, or directly bind your Facebook account.", 3);
+//        } else if (code == SDKConstant.STATUS_TEMPEMAILBIND_ALREADY_EXIST) {//临时绑定记录已存在
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("5"), 3);
+//        } else {
+//            SDKToast.getInstance().ToastShow(msg, 3);
+//        }
 
     }
 

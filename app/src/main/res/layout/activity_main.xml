@@ -174,6 +174,14 @@
                 android:text="isbindFB"
                 android:visibility="visible"
                 android:textColor="@color/white" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="isBindGoogle"
+                android:text="isbindGoogle"
+                android:visibility="visible"
+                android:textColor="@color/white" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -198,10 +206,23 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="backUp"
                 android:text="备份"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@color/white" />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="googleLogin"
+            android:text="Google登录"
+            android:visibility="visible"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -361,6 +382,14 @@
                 android:backgroundTint="@color/black"
                 android:onClick="guestBindFB"
                 android:text="绑定FB"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:onClick="guestBindGoogle"
+                android:text="游客绑定Google"
                 android:textColor="@color/colorAccent"
                 android:visibility="visible" />
 

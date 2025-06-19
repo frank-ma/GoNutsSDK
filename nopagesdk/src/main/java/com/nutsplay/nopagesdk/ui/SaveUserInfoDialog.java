@@ -2,7 +2,6 @@ package com.nutsplay.nopagesdk.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.manager.AppManager;
-import com.nutsplay.nopagesdk.utils.QrcodeUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 
 /**
@@ -104,9 +102,9 @@ public class SaveUserInfoDialog extends Dialog {
          */
         private void generationQrcode(ImageView ivQrcode) {
 
-            String content= account+"|"+pwd;
-            Bitmap qrImage = QrcodeUtils.createQRImage(content, 400, 400);
-            ivQrcode.setImageBitmap(qrImage);
+//            String content= account+"|"+pwd;
+//            Bitmap qrImage = QrcodeUtils.createQRImage(content, 400, 400);
+//            ivQrcode.setImageBitmap(qrImage);
         }
     }
 

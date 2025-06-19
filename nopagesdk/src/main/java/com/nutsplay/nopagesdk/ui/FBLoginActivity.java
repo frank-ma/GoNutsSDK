@@ -14,6 +14,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.LoginStatusCallback;
 import com.facebook.gamingservices.FriendFinderDialog;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -42,8 +43,6 @@ public class FBLoginActivity extends BaseActivity {
     private static final String TAG = "FBLoginActivity";
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
-    private static final String USER_POSTS = "user_posts";
-    private static final String AUTH_TYPE = "rerequest";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,14 +81,31 @@ public class FBLoginActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 快速登录
+     */
+    private void retrieveLoginStatus(){
+        LoginManager.getInstance().retrieveLoginStatus(this, new LoginStatusCallback() {
+            @Override public void onCompleted(AccessToken accessToken) {
+                // User was previously logged in, can log them in directly here.
+                // If this callback is called, a popup notification appears that says
+                // "Logged in as <User Name>"
+                String userId = accessToken.getUserId();
 
+            }
+            @Override public void onFailure() {
+                // No access token could be retrieved for the user
+            }
+            @Override public void onError(Exception exception) {
+                // An error occurred
+                }
+        });
+    }
 
     /**
      * 处理FB登录回调
      */
     private void HandlerFacebookLogin() {
-
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -111,7 +127,7 @@ public class FBLoginActivity extends BaseActivity {
                     public void onError(FacebookException exception) {
                         LogUtils.e("FacebookID",exception.getMessage());
                         if (NutsLoginManager.getInstance().getFBLoginListener()!=null){
-                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(exception.getMessage());
+                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(SDKConstant.fb_login_error,"HandlerFacebookLogin():"+exception.getMessage());
                         }
                         finish();
                     }
@@ -130,7 +146,7 @@ public class FBLoginActivity extends BaseActivity {
                     JSONObject userObj = response.getJSONObject();
                     if (userObj == null) {
                         if (NutsLoginManager.getInstance().getFBLoginListener() != null) {
-                            NutsLoginManager.getInstance().getFBLoginListener().onFailure("userObj is null");
+                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(SDKConstant.fb_login_error,"getFacebookUserInfo():userObj is null");
                         }
                         return;
                     }
@@ -146,6 +162,7 @@ public class FBLoginActivity extends BaseActivity {
             }
         });
     }
+
 
     private FacebookUser jsonToUser(JSONObject userObj) {
         try {
@@ -241,10 +258,4 @@ public class FBLoginActivity extends BaseActivity {
         if (callbackManager != null) callbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-//    @Override
-//    public void finish() {
-//        overridePendingTransition(0,0);
-//        super.finish();
-//    }
 }

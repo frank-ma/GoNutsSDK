@@ -6,7 +6,6 @@ import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.api.GoogleLoginListener;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
-import com.nutsplay.nopagesdk.callback.ThirdLoginResultCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -14,7 +13,6 @@ import com.nutsplay.nopagesdk.ui.FBLoginActivity;
 import com.nutsplay.nopagesdk.ui.GoogleLoginActivity;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
-import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
  * Created by frankma on 2019-09-23 22:05
@@ -66,7 +64,7 @@ public class NutsLoginManager {
      * @param activity
      * @param loginCallBack
      */
-    public void facebookLogin(final Activity activity, final LoginCallBack loginCallBack,final ResultCallBack resultCallBack) {
+    public void facebookLogin(final Activity activity, final LoginCallBack loginCallBack, final ResultCallBack resultCallBack) {
 
         if (activity == null || loginCallBack == null) return;
 
@@ -79,7 +77,7 @@ public class NutsLoginManager {
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(int code,String msg) {
                 if (msg!=null && !msg.isEmpty()) SDKToast.getInstance().ToastShow(msg,3);
                 resultCallBack.onFailure(msg);
                 loginCallBack.onFailure(SDKConstant.fb_login_error,msg);
@@ -95,33 +93,26 @@ public class NutsLoginManager {
     }
 
     /**
-     * FB登录
+     * 获取FB ID
      *
      * @param activity
-     * @param resultCallBack
+     * @param fbloginListener
      */
-    public void facebookLogin(final Activity activity, final ThirdLoginResultCallBack resultCallBack) {
+    public void getFacebookId(final Activity activity, final FbLoginListener fbloginListener) {
 
-        if (activity == null || resultCallBack == null) return;
-
+        if (activity == null || fbloginListener == null) return;
         AppManager.startActivity(FBLoginActivity.class);
-        setFBLoginListener(new FbLoginListener() {
-            @Override
-            public void onSuccess(FacebookUser user) {
-                if (StringUtils.isNotBlank(user.getId())) resultCallBack.onSuccess(user.getId());
-            }
+        setFBLoginListener(fbloginListener);
+    }
 
-            @Override
-            public void onFailure(String msg) {
-                resultCallBack.onFailure(msg);
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-
+    /**
+     * Google登录(游客账号绑定Google账号)
+     * @param activity
+     */
+    public void googleLogin(final Activity activity, final GoogleLoginListener googleLoginListener) {
+        if (activity == null || googleLoginListener == null) return;
+        AppManager.startActivity(GoogleLoginActivity.class);
+        setGoogleLoginListener(googleLoginListener);
     }
 
     /**

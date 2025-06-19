@@ -22,9 +22,9 @@
             android:value="unused" />
 
         <activity
-            android:name="com.nutsplay.nonutssdk.MainActivity"
+            android:name="com.nutsplay.nonutssdk.MainActivity2"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="sensorPortrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,11 +33,11 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.nutsplay.nonutssdk.NoUIActivity"
-            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
-            android:screenOrientation="sensorLandscape"
-            android:exported="false"/>
+<!--        <activity-->
+<!--            android:name="com.nutsplay.nonutssdk.NoUIActivity"-->
+<!--            android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"-->
+<!--            android:screenOrientation="sensorLandscape"-->
+<!--            android:exported="false"/>-->
         <!-- sdk -->
         <!-- <activity -->
         <!-- android:name="com.nutsplay.nopagesdk.ui.PayWebActivity" -->
@@ -82,7 +82,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
 
 
 

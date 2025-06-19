@@ -10,7 +10,7 @@ import com.nutsplay.nopagesdk.facebook.FacebookUser;
 public interface FbLoginListener {
     void onSuccess(FacebookUser facebookUser);
 
-    void onFailure(String msg);
+    void onFailure(int code,String msg);
 
     void onCancel();
 }

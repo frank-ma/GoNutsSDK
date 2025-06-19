@@ -121,6 +121,8 @@ public class ApiManager {
             initBean.setClientID(getClientID());
             if (SDKManager.getInstance()!=null && SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
+            }else {
+                initBean.setTicket("");
             }
             String jsonData = GsonUtils.tojsonString(initBean);
             LogUtils.d(TAG,"InitGobody："+jsonData);
@@ -424,7 +426,7 @@ public class ApiManager {
         }
     }
     /**
-     * 第三方类型账号绑定注册账号
+     * 游客绑定注册账号
      *
      * @param aesKey16
      * @param aesKey16byRSA
@@ -460,26 +462,113 @@ public class ApiManager {
             e.printStackTrace();
         }
     }
+    //已注册的自定义账号, 绑定社交平台账号
 
     /**
-     * 游客绑定FB等第三方账号
-     *
+     接口/sau
+     功能: 已注册的自定义账号, 绑定社交平台账号
+     参数:
+     account 当前账号
+     second  当前密码
+     oauthSource 社交平台类型 如: facebook, apple, google等枚举值
+     oauthId 社交平台的用户id 如:9ju1a9d8f20ad0
+
+
+     返回值:
+     成功:
+     则返回一个含有ticket对象的成功结构体
+     失败错误码:
+
+     -3 STATUS_PASSWORD_ERROR 密码错误
+     -15 STATUS_ACCOUNT_FORMAT_INVALID 旧账号格式错误
+
+     -10 STATUS_USER_FROZEN 本账号属于被冻结状态
+     -29 STATUS_THIRD_ACCOUNT_USED 想要绑定到的社交账号已经被占用
+
+
+     -1 STATUS_FAIL 其他错误
+     -5 STATUS_PARAMETER_ERROR 其他参数错误
+     * @param aesKey16
+     * @param ivParameter
+     * @param aesKey16byRSA
+     * @param account 当前账号
+     * @param second 当前密码
+     * @param oauthSource 社交平台类型 如: facebook, apple, google等枚举值
+     * @param oauthId 社交平台的用户id 如:9ju1a9d8f20ad0
+     * @param callBack
+     */
+    public void AccountBindSocial(String aesKey16,String ivParameter, String aesKey16byRSA,String account,String second,String oauthId,String oauthSource,NetCallBack callBack){
+
+        try {
+            String url = getDomainName() + "/sau";
+
+            AccountBindSocial bindAccount = new AccountBindSocial();
+            bindAccount.setClientID(getClientID());
+            bindAccount.setAccount(account);
+            bindAccount.setSecond(SHA1Utils.sha1UpperCase(second));
+            bindAccount.setOauthId(oauthId);
+            bindAccount.setOauthSource(oauthSource);
+            String jsonData = GsonUtils.tojsonString(bindAccount);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid", getDeviceID());
+            headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",ivParameter);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 游客绑定第三方社交平台账号
+
+     接口/tau
+     功能: 游客账号绑定社交平台账号,注意绑定社交账号并不清空以前的游客账号, 两个方式都可以进入同一个passport.甚至一个游客账号可以绑定多个社交平台账号
+     参数:
+     oauthSource 当前游客类型 如: android, ios, vistor 这样的枚举值
+     oauthId 当前游客用户id 如:fff4264b-ee6a-3ecb-88e0-68e69bae1c49
+
+     newoauthSource 想要绑定的社交平台类型,如: facebook, apple, google等枚举值
+     newoauthId 想要绑定的社交平台用户id 如:9989113257845874
+
+
+     返回值:
+     成功:
+     则返回一个含有ticket对象的成功结构体
+     失败错误码:
+
+     -3 STATUS_PASSWORD_ERROR 密码错误
+     -2 STATUS_ACCOUNT_DO_NOT_EXIST 游客账号并不存在
+     -15 STATUS_ACCOUNT_FORMAT_INVALID 旧账号格式错误
+
+     -10 STATUS_USER_FROZEN 本账号属于被冻结状态
+     -29 STATUS_THIRD_ACCOUNT_USED 想要绑定到的社交账号已经被占用
+
+
+     -1 STATUS_FAIL 其他错误
+     -5 STATUS_PARAMETER_ERROR 其他参数错误
+
      * @param aesKey16
      * @param aesKey16byRSA
-     * @param oauthid 用户唯一标识
+     * @param oauthId 用户唯一标识
      * @param thirdId 第三方账号id
      * @param thirdSource 第三方账号来源
      * @param callBack
      */
-    public void SDKGuestBindThirdAccount(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthid,String thirdId,String thirdSource, NetCallBack callBack){
+    public void SDKGuestBindThirdAccount(String aesKey16, String ivParameter,String aesKey16byRSA,String oauthId,String thirdId,String thirdSource, NetCallBack callBack){
 
         try {
             String url = getDomainName() + "/tau";
 
             GuestBindThird guestBind = new GuestBindThird();
             guestBind.setClientID(getClientID());
-            guestBind.setOauthid(oauthid);
-            guestBind.setOauthsource("android");
+            guestBind.setOauthId(oauthId);
+            guestBind.setOauthSource("android");
             guestBind.setNewoauthId(thirdId);
             guestBind.setNewoauthSource(thirdSource);
             String jsonData = GsonUtils.tojsonString(guestBind);
@@ -833,7 +922,7 @@ public class ApiManager {
 
     private class Init extends Bean implements Serializable{
 
-        private String ticket;
+        private String ticket = "";
 
         public void setTicket(String ticket) {
             this.ticket = ticket;
@@ -969,20 +1058,65 @@ public class ApiManager {
             this.second = second;
         }
     }
+    private class AccountBindSocial extends Bean implements Serializable{
+        private String account;
+        private String second;
+        private String oauthId;
+        private String oauthSource;
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public String getSecond() {
+            return second;
+        }
+
+        public void setSecond(String second) {
+            this.second = second;
+        }
+
+        public String getOauthId() {
+            return oauthId;
+        }
+
+        public void setOauthId(String oauthId) {
+            this.oauthId = oauthId;
+        }
+
+        public String getOauthSource() {
+            return oauthSource;
+        }
+
+        public void setOauthSource(String oauthSource) {
+            this.oauthSource = oauthSource;
+        }
+    }
 
     private class GuestBindThird extends Bean implements Serializable{
 
-        private String oauthid;
-        private String oauthsource;
-        private String newoauthId;
-        private String newoauthSource;
+        /**
+         *      oauthSource 当前游客类型 如: android, ios, vistor 这样的枚举值
+         *      oauthId 当前游客用户id 如:fff4264b-ee6a-3ecb-88e0-68e69bae1c49
+         *
+         *      newoauthSource 想要绑定的社交平台类型,如: facebook, apple, google等枚举值
+         *      newoauthId 想要绑定的社交平台用户id 如:9989113257845874
+         */
+        private String oauthId;//当前游客用户id 如:fff4264b-ee6a-3ecb-88e0-68e69bae1c49
+        private String oauthSource;//当前游客类型 如: android, ios, vistor 这样的枚举值
+        private String newoauthId;//想要绑定的社交平台用户id 如:9989113257845874
+        private String newoauthSource;//想要绑定的社交平台类型,如: facebook, apple, google等枚举值
 
-        public void setOauthid(String oauthid) {
-            this.oauthid = oauthid;
+        public void setOauthId(String oauthId) {
+            this.oauthId = oauthId;
         }
 
-        public void setOauthsource(String oauthsource) {
-            this.oauthsource = oauthsource;
+        public void setOauthSource(String oauthSource) {
+            this.oauthSource = oauthSource;
         }
 
         public void setNewoauthId(String newoauthId) {

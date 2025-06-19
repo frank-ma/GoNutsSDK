@@ -13,6 +13,7 @@ public class User implements Serializable {
     private String ticket="";
     private String sdkmemberType="";
     private String userName="";//账号登录的时候的用户名
+    private String pwd="";//账号登录时的密码
     private String facebookName="";//玩家用Facebook登录时的Facebook昵称
     private String facebookId="";//FacebookID
     private String facebookPortrait="";//Facebook头像
@@ -51,6 +52,14 @@ public class User implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public void setSdkmemberType(String sdkmemberType) {

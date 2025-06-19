@@ -36,9 +36,12 @@ public class GoogleLoginActivity extends BaseActivity {
 
     private void handleGoogleLogin() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+
+
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account!=null){
+        if (account != null){
+            //表示用户已使用 Google 账号登录您的应用
             String googleID = account.getId();
             String displayName = account.getDisplayName();
             LogUtils.e("GoogleId",googleID + " displayName:"+displayName);
@@ -74,7 +77,7 @@ public class GoogleLoginActivity extends BaseActivity {
         } catch (ApiException e) {
             String errorInfo = GoogleSignInStatusCodes.getStatusCodeString(e.getStatusCode());
             Log.w("GoogleLoginActivity", "signInResult:failed code=" + e.getStatusCode()+"---"+errorInfo);
-            NutsLoginManager.getInstance().getGoogleLoginListener().onFailure(e.getStatusCode(),"signInResult:failed code=" + e.getStatusCode()+"---" +errorInfo);
+            NutsLoginManager.getInstance().getGoogleLoginListener().onFailure(e.getStatusCode(), errorInfo);
             finish();
         } catch (Exception e){
             e.printStackTrace();

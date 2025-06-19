@@ -5,8 +5,9 @@ package com.nutsplay.nopagesdk.callback;
  * Email: frankma9103@gmail.com
  * Desc:
  */
-public interface ThirdLoginResultCallBack extends CallBack{
+public interface BindGoogleCallback {
 
-    void onSuccess(String thirdId);
+    void onSuccess(boolean isBindGoogle);
 
+    void onFail(int code,String msg);
 }

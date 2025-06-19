@@ -28,7 +28,7 @@ public class TrackingManager {
      *
      * @param application
      */
-    public static void trackingInit(Application application,String afKey){
+    public static void trackingInit(Application application, String afKey) {
 
         //AF初始化
 //        AppsFlyerConversionListener conversionListener = new AppsFlyerConversionListener() {
@@ -64,10 +64,11 @@ public class TrackingManager {
 
     /**
      * 注册账号追踪
+     *
      * @param accountId
      */
-    public static void registerTracking(String accountId){
-        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("registerok"),1);
+    public static void registerTracking(String accountId) {
+        SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("registerok"), 1);
 
 //        Map<String, Object> eventValue = new HashMap<>();
 //        eventValue.put("accountId", accountId);
@@ -83,13 +84,15 @@ public class TrackingManager {
 
     /**
      * 登录追踪
+     *
      * @param user
      */
-    public static void loginTracking(User user){
+    public static void loginTracking(User user) {
 
         try {
+            SDKManager.getInstance().setLogin(true);
             SDKManager.getInstance().setAutoLogin(true);
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"),1);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("loginok"), 1);
 
 
 //            Map<String, Object> eventValue = new HashMap<>();
@@ -117,8 +120,7 @@ public class TrackingManager {
             }, 5000);
 
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -126,12 +128,13 @@ public class TrackingManager {
 
     /**
      * 创建角色追踪
+     *
      * @param context
      * @param serverId
      * @param roleId
      * @param roleName
      */
-    public static void createRoleTracking(Context context,String serverId,String roleId,String roleName){
+    public static void createRoleTracking(Context context, String serverId, String roleId, String roleName) {
         try {
 //            Map<String, Object> eventValue = new HashMap<>();
 //            eventValue.put("Game_ServiceId", serverId);
@@ -148,23 +151,25 @@ public class TrackingManager {
 
     /**
      * 用户产生订单时上报
+     *
      * @param revenue
      * @param currency
      * @param orderId
      */
-    public static void makeOrderTrack(double revenue, String currency, String orderId,String orderState){
+    public static void makeOrderTrack(double revenue, String currency, String orderId, String orderState) {
 //        ReYunTraceManager.getInstance().makeOrderTrack(revenue,currency,orderId,orderState);
     }
 
     /**
      * 支付追踪
+     *
      * @param accountId
      * @param orderId
      * @param currencyAmount
      * @param currencyType
      * @param payType
      */
-    public static void purchaseTracking(Context context,String itemType,String accountId, String orderId, double currencyAmount, String currencyType, String payType){
+    public static void purchaseTracking(Context context, String itemType, String accountId, String orderId, double currencyAmount, String currencyType, String payType) {
 
         //AF追踪
 //        Map<String, Object> eventValues = new HashMap<>();
@@ -177,8 +182,8 @@ public class TrackingManager {
         //dataEye追踪
 //        DCTrackingPoint.paymentSuccess(accountId, orderId, currencyAmount, currencyType, payType);
 //        Adjust
-        if (itemType.equals(SDKConstant.INAPP)){
-            AdjustTraceManager.getInstance().googleIap((Activity) context,currencyAmount,currencyType,orderId);
+        if (itemType.equals(SDKConstant.INAPP)) {
+            AdjustTraceManager.getInstance().googleIap((Activity) context, currencyAmount, currencyType, orderId);
         }
         //热云追踪
 //        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");
@@ -186,6 +191,7 @@ public class TrackingManager {
 
     /**
      * 公共的事件追踪方法
+     *
      * @param context
      * @param eventType
      * @param eventValue
@@ -194,7 +200,7 @@ public class TrackingManager {
         try {
 //            if (context!=null && eventType!=null && eventValue!=null){
 //                AppsFlyerLib.getInstance().trackEvent(context.getApplicationContext(), eventType, eventValue);
-                //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
+            //DE注意：自定义效果点必须先在平台上创建,每个APP只支持15个自定义效果点。创建方法：登录广告效果监测平台,进入对应的APP,在菜单 投放管理->效果点管理 中创建。
 //                DCTrackingPoint.setEffectPoint(eventType,eventValue);
 //            }
 

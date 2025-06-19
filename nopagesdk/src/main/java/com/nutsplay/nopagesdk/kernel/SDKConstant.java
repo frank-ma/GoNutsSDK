@@ -17,13 +17,16 @@ public class SDKConstant {
     public static final String TYPE_ACCOUNT = "account";
     public static final String TYPE_FACEBOOK = "facebook";
     public static final String TYPE_GOOGLE = "google";
+    public static final String TYPE_DOUBLE = "double";//google 和 facebook 都绑定了
 
 
     public static final int SUCCESS = 1;//成功
+    public static final int CONFLICT = 0;//冲突
     public static final int NET_ERROR = 2;
     public static final int Error = 3;
     public static final int STATUS_ACCOUNT_EXIST = -21;                //账号已存在
-    public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //账号不存在
+    public static final int STATUS_FAIL = -1;                //其他错误
+    public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //游客账号并不存在
     public static final int STATUS_PASSWORD_ERROR = -3;               //密码错误
     public static final int STATUS_EMAIL_EXIST = -4;                  //email已存在
     public static final int STATUS_EMAIL_NOT_EXIST = -41;             //email不存在
@@ -32,7 +35,7 @@ public class SDKConstant {
     public static final int STATUS_VERIFY_INVALID = -7;               //验证失败
     public static final int STATUS_ACCOUNT_BOUND = -8;                //账号已绑定过
     public static final int STATUS_GAME_INVALID = -9;                 //游戏代码错误
-    public static final int STATUS_USER_FROZEN = -10;                 //用户被冻结
+    public static final int STATUS_USER_FROZEN = -10;                 //本账号属于被冻结状态
     public static final int STATUS_ACCOUNT_ERROR = -11;               //账号错误
     public static final int STATUS_EMAIL_NOT_FIXED = -12;             //email未设置
     public static final int STATUS_EMAIL_FORMAT_INVALID = -14;        //email格式错误
@@ -40,7 +43,7 @@ public class SDKConstant {
     public static final int STATUS_PASSWD_FORMAT_INVALID = -16;       //密码格式错误
     public static final int STATUS_SERVER_INVALID = -17;              //服务器代码不正确
     public static final int STATUS_PRODUCTION_DO_NOT_EXIST = -26;     //购买商品未配置
-    public static final int STATUS_THIRD_ACCOUNT_USED = -29;          //第三方账号已被占用
+    public static final int STATUS_THIRD_ACCOUNT_USED = -29;          //第三方账号已被占用，想要绑定到的社交账号已经被占用
     public static final int STATUS_ANTIADDICTIVE_ALREADY_EXIST = -32; //防沉迷资料已存在
 
     public static final int STATUS_TEMPEMAILBIND_NOT_EXIST = -33;      //临时绑定记录不存在
@@ -56,6 +59,7 @@ public class SDKConstant {
     public static final int SHARE_PHOTO_REQUEST_CODE = 0x101;
     public static final String NUTS_BIND_NUTS="NUTS_BIND_NUTS";
     public static final String NUTS_BIND_EMAIL = "NUTS_BIND_EMAIL";
+
 
 
     //Google官方支付错误码

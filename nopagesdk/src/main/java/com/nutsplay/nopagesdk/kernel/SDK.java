@@ -7,7 +7,9 @@ import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.callback.AgreementCallBack;
 import com.nutsplay.nopagesdk.callback.BindFBCallback;
+import com.nutsplay.nopagesdk.callback.BindGoogleCallback;
 import com.nutsplay.nopagesdk.callback.BindResultCallBack;
+import com.nutsplay.nopagesdk.callback.BindStatusCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
 import com.nutsplay.nopagesdk.callback.LogOutCallBack;
@@ -16,6 +18,7 @@ import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
+import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
 import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
@@ -44,8 +47,8 @@ public class SDK {
     }
 
 
-    //********************************SDK接口******************************************
-
+    //********************************SDK无UI接口******************************************
+    //********************************SDK无UI接口******************************************
     /**
      * 初始化接口
      *
@@ -56,6 +59,80 @@ public class SDK {
     public void initSDK(Activity activity, InitParameter initParameter, InitCallBack initCallBack) {
         SDKManager.getInstance().initSDK(activity, initParameter, initCallBack);
     }
+
+    /**
+     * 登录 UI
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkLogin(Activity activity,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkLogin(activity,loginCallBack,true);
+    }
+
+    /**
+     * 社交平台账号登录
+     * @param loginType 登录类型
+     * @param loginCallBack 回调接口
+     */
+    public void LoginBySocial(Activity activity,String loginType,LoginCallBack loginCallBack){
+        SDKManager.getInstance().LoginBySocial(activity,loginType,loginCallBack);
+    }
+
+    /**
+     * 坚果账号登录
+     * 同时，隐藏坚果账号注册入口
+     * @param activity
+     * @param userName
+     * @param pwd
+     * @param loginCallBack
+     */
+    public void LoginByNuts(Activity activity,String userName,String pwd,LoginCallBack loginCallBack){
+        SDKManager.getInstance().LoginByNuts(activity,userName,pwd,loginCallBack);
+    }
+
+    /**
+     * 社交平台绑定接口
+     * @param activity
+     * @param type
+     * @param callBack
+     */
+    public void BindBySocial(Activity activity, String type, SocialBindCallBack callBack){
+        BindBySocial(activity,type,false,callBack);
+    }
+
+    /**
+     * 绑定社交账号
+     * @param activity 上下文，当前Activity
+     * @param type 社交账号类型，SDKConstant.TYPE_FACEBOOK 或 SDKConstant.TYPE_GOOGLE
+     * @param conflict 是否是绑定冲突，如果true，则需要切换社交账号重新绑定，默认false
+     * @param callBack 回调接口
+     */
+    public void BindBySocial(Activity activity, String type, boolean conflict, SocialBindCallBack callBack){
+        SDKManager.getInstance().BindBySocial(activity,type,conflict,callBack);
+    }
+
+    /**
+     * 查询绑定状态
+     * @param activity
+     * @param bindStatusCallBack
+     */
+    public void QueryBindStatus(Activity activity, BindStatusCallBack bindStatusCallBack){
+        SDKManager.getInstance().QueryBindStatus(activity,bindStatusCallBack);
+    }
+
+    /**
+     * 切换账号 UI
+     *
+     * @param activity
+     * @param loginCallBack
+     */
+    public void sdkSwitchAccount(Activity activity,LoginCallBack loginCallBack){
+        SDKManager.getInstance().sdkSwitchAccount(activity,loginCallBack);
+    }
+
+
+    //********************************SDK接口******************************************
+
 
     /**
      * 无UI
@@ -69,14 +146,7 @@ public class SDK {
 //        SDKManager.getInstance().sdkRegister(activity,userName,pwd,resultCallBack);
 //    }
 
-    /**
-     * 登录 UI
-     * @param activity
-     * @param loginCallBack
-     */
-    public void sdkLogin(Activity activity,LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkLogin(activity,loginCallBack,true);
-    }
+
 
     /**
      * 默认登录（自动初始化，初始化成功后默认游客登录）
@@ -98,15 +168,7 @@ public class SDK {
 //        SDKManager.getInstance().sdkLoginNoUI(activity,userName,pwd,loginCallBack);
 //    }
 
-    /**
-     * 切换账号 UI
-     *
-     * @param activity
-     * @param loginCallBack
-     */
-    public void sdkSwitchAccount(Activity activity,LoginCallBack loginCallBack){
-        SDKManager.getInstance().sdkSwitchAccount(activity,loginCallBack);
-    }
+
 
     /**
      * 切换账号 无UI
@@ -253,8 +315,24 @@ public class SDK {
      * @param activity
      * @param callback
      */
-    public void sdkGuestBindThird(Activity activity, final ResultCallBack callback) {
+    public void sdkGuestBindThird(Activity activity, final SocialBindCallBack callback) {
         SDKManager.getInstance().sdkGuestBindFB(activity,callback);
+    }
+
+    /**
+     * 游客绑定FB等第三方账户
+     *
+     * @param activity
+     * @param type 三方账户类型：google或facebook
+     * @param callback
+     */
+    public void sdkGuestBindThird(Activity activity, String type,final SocialBindCallBack callback) {
+        if (type == null) return;
+        if (type.equalsIgnoreCase(SDKConstant.TYPE_GOOGLE)){
+            SDKManager.getInstance().sdkGuestBindGoogle(activity,callback);
+        }else if (type.equalsIgnoreCase(SDKConstant.TYPE_FACEBOOK)){
+            SDKManager.getInstance().sdkGuestBindFB(activity,callback);
+        }
     }
 
     /**
@@ -338,8 +416,14 @@ public class SDK {
 //        SDKManager.getInstance().showFAQs(userName,serverId,userTags,customData,showRobot);
 //    }
 
+    //检查是否绑定FB
     public void isBindFacebook(Activity activity, BindFBCallback callback){
         SDKManager.getInstance().isBindFacebook(activity,callback);
+    }
+
+    //检查账号是否绑定Google
+    public void isBindGoogle(Activity activity, BindGoogleCallback callback){
+        SDKManager.getInstance().isBindGoogle(activity,callback);
     }
 
     /**

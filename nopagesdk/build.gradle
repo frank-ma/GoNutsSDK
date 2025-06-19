@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-
+//apply plugin: 'kotlin-android'
 
 afterEvaluate {
     publishing {
@@ -48,11 +48,11 @@ static def releaseTime() {
 
 android {
     namespace 'com.nutsplay.nopagesdk'
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
-        versionName "6.2"
+        versionName "7.0.1"
         minSdkVersion 21//16
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -87,21 +87,32 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.compose.runtime:runtime-android:1.8.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
     api 'com.android.billingclient:billing:7.0.0'//2.0.3//2.2.1//3.0.3//4.0.0//6.0.0
-    api 'com.google.guava:guava:18.0'
+//    implementation 'com.google.guava:guava:21.0'
+    implementation 'com.google.guava:guava:27.0.1-android'
+//    implementation ('com.google.guava:guava:21.0'){//18.0
+//        exclude group:'com.google.guava', module:'listenablefuture'
+//        transitive true
+//    }
     //Gson
     api 'com.google.code.gson:gson:2.8.6'
     //google登录
-    api 'com.google.android.gms:play-services-auth:18.0.0'
+//    api 'com.google.android.gms:play-services-auth:18.0.0'
+    api 'com.google.android.gms:play-services-auth:21.3.0'
+    //新版Google登录
+    implementation "androidx.credentials:credentials:1.5.0"
+    implementation "androidx.credentials:credentials-play-services-auth:1.5.0"
+    implementation "com.google.android.libraries.identity.googleid:googleid:1.1.1"
     //Google评价用到核心库
     api 'com.google.android.play:core:1.9.0'
     // Facebook Android SDK (everything)
 //    api 'com.facebook.android:facebook-android-sdk:16.2.0'//16.2fb登录闪退//13.0.0//11.1.1//7.1.0
-    api 'com.facebook.android:facebook-android-sdk:13.1.0'//13.0.0//11.1.1//7.1.0
+    api 'com.facebook.android:facebook-android-sdk:18.0.2'//13.1.0//13.0.0//11.1.1//7.1.0
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 

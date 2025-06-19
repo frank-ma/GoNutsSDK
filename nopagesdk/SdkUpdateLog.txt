@@ -1,8 +1,76 @@
 
                       更新日志：
+更新记录：（20250616）
+整理了一下SDK接口需求，应该就是下面这些，看看有啥问题
+
+登录
+
+自动登录接口： Login() 无参数，有缓存登录凭证则使用登录凭证登录，无缓存登录凭证则使用游客登录，游戏启动默认调用接口 (已有功能)
+社交平台账号登录接口： LoginBySocial(type) 参数type为社交平台类型，google, facebook, apple这三种，根据参数拉起对应平台的登录验证
+坚果账号登录接口： LoginByNuts(username, password) 参数为用户名和密码，调用坚果账号验证
+
+登录接口统一返回处理逻辑：
+登录成功：  执行成功回调 onSuccess(ticket, type) ticket为登录凭证, type为已绑定的社交平台类型(google, facebook, apple中的一种)
+登录取消：  执行取消回调 onCancel()
+账号验证失败：  执行失败回调 onFail(code, msg)
+
+
+绑定
+
+社交平台账号绑定接口：  BindBySocial(type) 参数type为社交平台类型，google，facebook, apple这三种，根据参数拉起对应平台的验证
+
+绑定接口统一处理逻辑：
+账号验证通过后，检查是否已绑定到SDK账号，
+如果没绑定，则执行绑定并执行成功回调，返回绑定成功状态(ret:0)以及账号当前绑定的社交平台类型 {ret:0, type: "google"}
+如果已绑定过其他SDK账号，则登录这个账号并执行成功回调，返回绑定冲突状态(ret:1)、平台类型以及平台账号登录后对应的ticket {ret:1, type:"google", ticket: "xxx"}，
+账号验证失败，执行失败回调 onFail(code, msg)
+账号验证取消，执行取消回调 onCancel()
+
+冲突状态下，游戏内会弹出界面让玩家选择
+1.更换社交平台账号绑定(选择后，重新调用社交平台账号绑定接口重走一遍绑定流程)
+2.加载原绑定账号(选择后，游戏使用接口返回的ticket直接登录游戏)
+3.回到游戏(选择后，关闭绑定界面，什么都不做)
+
+账号绑定状态查询接口： QueryBindStatus() 无参数，返回当前账号绑定状态和对应平台 {isBind: true, type: "xxx"}
+(登录接口和绑定接口都会正确返回账号当前已绑定的社交平台信息的话，这个绑定状态查询接口也可以不要)
+
+切换账号
+
+退出登录，回到游戏登录界面，不自动调用自动登录接口，而是打开游戏内的登录方式选择界面，玩家自己选择用哪种方式登录，无SDK接口需求
+
 
 ****************************************************************
-（陈志佳团队）Family Go!  Lifetime Sim game（内部代号：FG）
+（陈志佳团队）Family Go!  Lifetime Sim game（内部代号：FT）
+gosdk_v7.0.1(For FG)(20250619)
+1.升级FB SDK 到18.0.2
+implementation 'com.facebook.android:facebook-android-sdk:18.0.2'
+解决手机上没安装FB APP时无法授权登录的问题
+需加上客户端秘钥：
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
+2.主要目标：优化登录流程，将接口拆分出来，提供给FT游戏，UI部分大部分由游戏那边自己完成，这样会更契合游戏设计风格
+3.升级Google登录SDK到21.3.0
+implementation 'com.google.android.gms:play-services-auth:21.3.0'
+
+
+升级步骤：
+1.替换aar文件
+2.升级两个库
+implementation 'com.facebook.android:facebook-android-sdk:18.0.2'
+implementation 'com.google.android.gms:play-services-auth:21.3.0'
+在Manifest文件中添加：
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
+在values/strings.xml中添加：
+<string name="facebook_client_token">e64623f793bb41af8940d159cc9023ed</string>
+3.新增几个接口见文档：
+GoSDK安卓新版本/SDK接口：社交平台登录、注册账号登录、查询绑定状态、绑定社交平台账号。
+https://www.showdoc.com.cn/1589905592328067/7573666911321334
+
+****************************************************************
+（陈志佳团队）Family Go!  Lifetime Sim game（内部代号：FT）
 gosdk_v6.2(For FG)(20250415)
 
 三方追踪改回Adjust

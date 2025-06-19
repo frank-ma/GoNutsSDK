@@ -19,6 +19,7 @@ import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.beans.UserBindInfo;
 import com.nutsplay.nopagesdk.callback.NetCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
+import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
@@ -159,9 +160,9 @@ public class UserCenterDialog extends Dialog {
                         return;
                     }
 
-                    SDKManager.getInstance().sdkGuestBindFB((Activity) context, new ResultCallBack() {
+                    SDKManager.getInstance().sdkGuestBindFB((Activity) context, new SocialBindCallBack() {
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(String type,String ticket) {
                             //游客绑定FB成功
                             Log.d("UserCenterDialog","MainThreadID_bindfb:"+Looper.getMainLooper().getThread().getId());
                             Log.d("UserCenterDialog","ThreadID_bindfb:"+Thread.currentThread().getId());
@@ -169,7 +170,12 @@ public class UserCenterDialog extends Dialog {
                         }
 
                         @Override
-                        public void onFailure(String msg) {
+                        public void onFailure(int code, String msg) {
+
+                        }
+
+                        @Override
+                        public void onCancel() {
 
                         }
                     });
