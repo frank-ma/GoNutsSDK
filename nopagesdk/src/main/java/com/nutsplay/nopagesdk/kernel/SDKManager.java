@@ -924,8 +924,10 @@ public class SDKManager {
                     }
                 } else {
                     //不是自动登录，即退出登录状态，重新选择登录方式
-                    LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
-                    builder.create().show();
+//                    LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
+//                    builder.create().show();
+                    //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
+                    NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
                 }
             }
         } catch (Exception e) {
