@@ -13,7 +13,6 @@ import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.encryption.AESUtils;
 import com.nutsplay.nopagesdk.utils.encryption.SHA1Utils;
 import com.nutspower.commonlibrary.utils.LogUtils;
-import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -119,9 +118,9 @@ public class ApiManager {
 
             Init initBean = new Init();
             initBean.setClientID(getClientID());
-            if (SDKManager.getInstance()!=null && SDKManager.getInstance().getUser()!=null && StringUtils.isNotBlank(SDKManager.getInstance().getUser().getTicket())){
+            if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null) {
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
-            }else {
+            } else {
                 initBean.setTicket("");
             }
             String jsonData = GsonUtils.tojsonString(initBean);

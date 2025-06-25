@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 35
     defaultConfig {
-        versionName "7.0.2"
+        versionName "7.0.4"
         minSdkVersion 21//16
         targetSdkVersion 35
         multiDexEnabled true
@@ -113,6 +113,9 @@ dependencies {
     // Facebook Android SDK (everything)
 //    api 'com.facebook.android:facebook-android-sdk:16.2.0'//16.2fb登录闪退//13.0.0//11.1.1//7.1.0
     api 'com.facebook.android:facebook-android-sdk:18.0.2'//13.1.0//13.0.0//11.1.1//7.1.0
+    // Facebook Login only
+//    implementation 'com.facebook.android:facebook-login:latest.release'
+//    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     //分包
     api 'androidx.multidex:multidex:2.0.1'
 

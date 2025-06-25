@@ -629,7 +629,7 @@ public class SDKManager {
 
                         doCallback(initCallBackListener);
 //                        openUserAgreement(activity, initCallBackListener);
-                    } else if (initgoBean.getCode() == -6) {
+                    } else if (initgoBean.getCode() == SDKConstant.STATUS_TICKET_INVALID) {
                         //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
                         LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                         handleLogout(activity);
@@ -914,13 +914,15 @@ public class SDKManager {
                 if (isAutoLogin()) {
                     if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
                         //对游客账号进行绑定提醒
-                        guestTip(activity, getUser());
+                        //guestTip(activity, getUser());
                         //有登录信息，直接登录
                         loginCallBack.onSuccess(getUser().getTicket(), getUser().getSdkmemberType());
                         TrackingManager.loginTracking(getUser());
                     } else {
-                        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
-                        builder.create().show();
+                        //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
+//                        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
+//                        builder.create().show();
+                        NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
                     }
                 } else {
                     //不是自动登录，即退出登录状态，重新选择登录方式
@@ -2505,7 +2507,7 @@ public class SDKManager {
                             User user = getUser();
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
-//                            user.setSdkmemberType(oauthSource);
+                            user.setSdkmemberType(oauthSource);
                             user.setUserName(account);
                             user.setBindEmail(loginModel.getData().getBindEmail());
                             SDKManager.getInstance().setUser(user);
@@ -2518,7 +2520,7 @@ public class SDKManager {
                         } else if (loginModel.getCode() == SDKConstant.STATUS_ACCOUNT_BOUND) {
                             //-8 坚果账号已绑定
                             User user = getUser();
-//                            user.setSdkmemberType(oauthSource);
+                            user.setSdkmemberType(oauthSource);
                             SDKManager.getInstance().setUser(user);
 
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -2677,8 +2679,7 @@ public class SDKManager {
                             User user = new User();
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
-                            // TODO: 2025/6/18 暂定：游客绑完社交账号还是游客
-                            user.setSdkmemberType(SDKConstant.TYPE_GUEST);//绑定成功后，用户类型变成了第三方类型
+                            user.setSdkmemberType(thirdSource);//绑定成功后，用户类型变成了第三方类型
                             user.setUserName(thirdId);
                             SDKManager.getInstance().setUser(user);
 
@@ -2686,8 +2687,7 @@ public class SDKManager {
                         } else if (loginModel.getCode() == SDKConstant.STATUS_ACCOUNT_BOUND) {
                             //-8 游客账号已绑定
                             User user = getUser();
-                            // TODO: 2025/6/18 暂定：游客绑完社交账号还是游客
-                            user.setSdkmemberType(SDKConstant.TYPE_GUEST);
+                            user.setSdkmemberType(thirdSource);//绑定成功后，用户类型变成了第三方类型
                             SDKManager.getInstance().setUser(user);
 
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -3085,23 +3085,6 @@ public class SDKManager {
 
     public void facebookFriendFinder() {
         AppManager.startActivity(FBLoginActivity.class);
-        NutsLoginManager.getInstance().setFBLoginListener(new FbLoginListener() {
-            @Override
-            public void onSuccess(FacebookUser user) {
-
-            }
-
-            @Override
-            public void onFailure(int code, String msg) {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-
     }
 
     public void facebookShareLink(Activity activity, String url, ShareResultCallBack callBack) {
@@ -3636,7 +3619,7 @@ public class SDKManager {
             @Override
             public void onSuccess(boolean isBind, String bindType) {
                 User user = SDKManager.getInstance().getUser();
-                if ((isBind && bindType.equalsIgnoreCase(type)) || (isBind && bindType.equalsIgnoreCase(SDKConstant.TYPE_DOUBLE))) {
+                if (isBind) {
                     //已绑定
                     socialBindCallBack.onFailure(SDKConstant.STATUS_ACCOUNT_BOUND, "STATUS_ACCOUNT_BOUND,user type:"+bindType);
                 } else {
@@ -3754,52 +3737,51 @@ public class SDKManager {
             }
             LogUtils.e(TAG,"用户类型："+user.getSdkmemberType());
 
-//            if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)) {
-//                callback.onSuccess(true, SDKConstant.TYPE_GOOGLE);
-//            } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)) {
-//                callback.onSuccess(true, SDKConstant.TYPE_FACEBOOK);
-//            } else {
+            if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)) {
+                callback.onSuccess(true, SDKConstant.TYPE_GOOGLE);
+            } else if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)) {
+                callback.onSuccess(true, SDKConstant.TYPE_FACEBOOK);
+            } else {
+                String ticket = user.getTicket();
+                if (StringUtils.isEmpty(ticket)) return;
+                String aesKey = AESUtils.generate16SecretKey();
+                String ivParameter = AESUtils.generate16SecretKey();
+                String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+                String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+                ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (StringUtils.isEmpty(result)) return;
+                        String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
+                        if (StringUtils.isEmpty(decodeData)) return;
+                        UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
+                        System.out.println(userBindInfo.toString());
 
-            String ticket = user.getTicket();
-            if (StringUtils.isEmpty(ticket)) return;
-            String aesKey = AESUtils.generate16SecretKey();
-            String ivParameter = AESUtils.generate16SecretKey();
-            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
-            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-            ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
-                @Override
-                public void onSuccess(String result) {
-                    if (StringUtils.isEmpty(result)) return;
-                    String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
-                    if (StringUtils.isEmpty(decodeData)) return;
-                    UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
-                    System.out.println(userBindInfo.toString());
-
-                    if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
-                        UserBindInfo.DataBean data = userBindInfo.getData();
-                        if (data == null) return;
-                        if (data.isBindGoogle() && data.isBindFacebook()) {
-                            callback.onSuccess(true, SDKConstant.TYPE_DOUBLE);
-                        } else if (data.isBindFacebook()) {
-                            callback.onSuccess(true, SDKConstant.TYPE_FACEBOOK);
-                        } else if (data.isBindGoogle()) {
-                            callback.onSuccess(true, SDKConstant.TYPE_GOOGLE);
+                        if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
+                            UserBindInfo.DataBean data = userBindInfo.getData();
+                            if (data == null) {
+                                callback.onFailure(userBindInfo.getCode(), "data == null");
+                                return;
+                            }
+                            if (data.isBindFacebook()) {
+                                callback.onSuccess(true, SDKConstant.TYPE_FACEBOOK);
+                            } else if (data.isBindGoogle()) {
+                                callback.onSuccess(true, SDKConstant.TYPE_GOOGLE);
+                            } else {
+                                callback.onSuccess(false, "");
+                            }
                         } else {
-                            callback.onSuccess(false, "");
+                            callback.onFailure(userBindInfo.getCode(), userBindInfo.getMessage());
                         }
-
-                    } else {
-                        callback.onFailure(userBindInfo.getCode(), userBindInfo.getMessage());
-//                            SDKGameUtils.showServiceInfo(userBindInfo.getCode(), userBindInfo.getMessage());
                     }
-                }
 
-                @Override
-                public void onFailure(String msg) {
-                    callback.onFailure(SDKConstant.ERROR, msg);
-                    System.out.println(msg);
-                }
-            });
+                    @Override
+                    public void onFailure(String msg) {
+                        callback.onFailure(SDKConstant.ERROR, msg);
+                        System.out.println(msg);
+                    }
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

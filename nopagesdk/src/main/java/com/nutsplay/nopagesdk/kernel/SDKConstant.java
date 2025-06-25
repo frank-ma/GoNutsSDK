@@ -17,7 +17,7 @@ public class SDKConstant {
     public static final String TYPE_ACCOUNT = "account";
     public static final String TYPE_FACEBOOK = "facebook";
     public static final String TYPE_GOOGLE = "google";
-    public static final String TYPE_DOUBLE = "double";//google 和 facebook 都绑定了
+//    public static final String TYPE_DOUBLE = "double";//google 和 facebook 都绑定了
 
 
     public static final int SUCCESS = 1;//成功

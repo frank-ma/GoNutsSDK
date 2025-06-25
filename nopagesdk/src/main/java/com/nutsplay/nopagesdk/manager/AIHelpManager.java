@@ -33,6 +33,11 @@ public class AIHelpManager {
     }
 
     public static void initAiHelp(Activity activity, InitParameter initParameter) {
+        if (initParameter.getAihelpAppID().isEmpty() ||
+                initParameter.getAihelpAppkey().isEmpty() ||
+                initParameter.getAihelpDomain().isEmpty()) {
+            return;
+        }
         AIHelpSupport.init(activity,
                 initParameter.getAihelpAppkey(),
                 initParameter.getAihelpDomain(),
@@ -50,7 +55,11 @@ public class AIHelpManager {
      * E001默认的入口模板ID
      */
     public void show() {
-        AIHelpSupport.show("E001");
+        try {
+            AIHelpSupport.show("E001");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -59,7 +68,11 @@ public class AIHelpManager {
      * @param entranceId
      */
     public void show(String entranceId) {
-        AIHelpSupport.show(entranceId);
+        try {
+            AIHelpSupport.show(entranceId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

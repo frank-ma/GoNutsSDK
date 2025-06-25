@@ -75,6 +75,7 @@ public class FBLoginActivity extends BaseActivity {
             String facebookId = accessToken.getUserId();
             LogUtils.e("FacebookID",facebookId);
             getFacebookUserInfo();
+//            NutsLoginManager.getInstance().getFBLoginListener().onSuccess(facebookId);
             finish();
         }else {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL));//"public_profile","user_friends"
@@ -111,7 +112,10 @@ public class FBLoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         //登录成功
+                        String fbUserId = loginResult.getAccessToken().getUserId();
+                        LogUtils.e("",fbUserId);
                         getFacebookUserInfo();
+//                        NutsLoginManager.getInstance().getFBLoginListener().onSuccess(fbUserId);
                         finish();
                     }
 
@@ -146,7 +150,7 @@ public class FBLoginActivity extends BaseActivity {
                     JSONObject userObj = response.getJSONObject();
                     if (userObj == null) {
                         if (NutsLoginManager.getInstance().getFBLoginListener() != null) {
-                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(SDKConstant.fb_login_error,"getFacebookUserInfo():userObj is null");
+                            NutsLoginManager.getInstance().getFBLoginListener().onFailure(SDKConstant.fb_login_error,"getFacebookUserInfo():userObj is null" + response.toString());
                         }
                         return;
                     }
