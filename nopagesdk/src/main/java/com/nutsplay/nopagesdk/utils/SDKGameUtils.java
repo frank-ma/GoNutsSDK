@@ -185,12 +185,12 @@ public class SDKGameUtils {
      */
     public static boolean matchAccount(String account) {
         if (StringUtils.isBlank(account)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("nuts_username_null"), 3);
             return false;
         }
         boolean isMatch = account.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38"), 3);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("38"), 3);
             return false;
         }
         return true;
@@ -363,13 +363,13 @@ public class SDKGameUtils {
 
     public static boolean matchPw(String pw) {
         if (StringUtils.isBlank(pw)) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("33"), 3);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("33"), 3);
             return false;
         }
 
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");//旧的正则\\w{6,24}
         if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
+//            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
             return false;
         }
         return true;

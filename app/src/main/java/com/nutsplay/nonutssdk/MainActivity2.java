@@ -145,7 +145,7 @@ public class MainActivity2 extends SDKBaseActivity {
             @Override
             public void onSuccess(String ticket,String sdkMemberType) {
                 //ticket传给游戏服务器做登录校验
-                showLog("登录成功：" + ticket);
+                showLog("登录成功：" + ticket +" sdkMemberType:"+ sdkMemberType);
                 //判断用户的登录类型
                 if (SDKConstant.TYPE_GUEST.equals(sdkMemberType)){
                     //游客
@@ -841,7 +841,7 @@ public class MainActivity2 extends SDKBaseActivity {
         SDK.getInstance().LoginByNuts(this, "frankma", "qqqqqq", new LoginCallBack() {
             @Override
             public void onSuccess(String ticket, String sdkMemberType) {
-                showLog("坚果账号登录成功："+sdkMemberType+":"+ticket);
+                showLog("坚果账号登录成功：sdkMemberType："+sdkMemberType+"   ticket:"+ticket);
             }
 
             @Override

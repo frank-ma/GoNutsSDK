@@ -631,11 +631,21 @@ public class SDKManager {
 //                        openUserAgreement(activity, initCallBackListener);
                     } else if (initgoBean.getCode() == SDKConstant.STATUS_TICKET_INVALID) {
                         //STATUS_TICKET_INVALID,可能封号或修改密码或另一台手机登录或绑定账号成功，ticket重新生成了
-                        LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
+//                        LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
+//                        handleLogout(activity);
+//                        SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
+//                        initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
+//                        doCallback(initCallBackListener);
+//                        sdkUploadLog("23", "SDKInitGo_epsilon " + "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
+
+
+                        //其实是初始化成功的
+                        sdkUploadLog("22", "SDKInitGo_epsilon code == 1");
+                        LogUtils.d(TAG, "SDKInitGo成功 " + initgoBean.getMessage());
+                        setInitData(initgoBean);
+                        doCallback(initCallBackListener);
+                        //重新生成ticket
                         handleLogout(activity);
-                        SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
-                        initCallBackListener.onFailure(initgoBean.getCode(), initgoBean.getMessage());
-                        sdkUploadLog("23", "SDKInitGo_epsilon " + "resultCode-" + initgoBean.getCode() + " msg:" + initgoBean.getMessage());
                     } else {
                         LogUtils.d(TAG, "code:" + initgoBean.getCode() + "  msg:" + initgoBean.getMessage());
                         SDKGameUtils.showServiceInfo(initgoBean.getCode(), initgoBean.getMessage());
@@ -1315,11 +1325,10 @@ public class SDKManager {
             String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
             String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
 
-//            showProgress(activity);
             ApiManager.getInstance().SDKLoginGo(aesKey, ivParameter, aesKey16byRSA, userName, pwd, new NetCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    hideProgress();
+
 
                     LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + result);
                     if (result == null || result.isEmpty()) {
@@ -1340,7 +1349,6 @@ public class SDKManager {
                         User user = new User();
                         user.setUserId(loginModel.getData().getPassportId());
                         user.setTicket(loginModel.getData().getTicket());
-                        user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
                         user.setUserName(userName);
                         user.setPwd(pwd);
                         user.setBindEmail(loginModel.getData().getBindEmail());
@@ -1358,9 +1366,8 @@ public class SDKManager {
 
                         //登录追踪
                         TrackingManager.loginTracking(user);
-                        loginCallBack.onSuccess(user.getTicket(), user.getSdkmemberType());
-                        resultCallBack.onSuccess();
 
+                        handleLoginSuccess(activity,SDKConstant.TYPE_ACCOUNT,loginCallBack,resultCallBack);
                     } else {
                         LogUtils.e(TAG, "SDKLoginGo---onSuccess:" + loginModel.getMessage());
                         SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -1371,7 +1378,6 @@ public class SDKManager {
 
                 @Override
                 public void onFailure(String errorMsg) {
-                    hideProgress();
                     LogUtils.e(TAG, "SDKLoginGo---onFailure:" + errorMsg);
                     loginCallBack.onFailure(SDKConstant.network_error, errorMsg);
                     resultCallBack.onFailure(errorMsg);
@@ -1379,7 +1385,6 @@ public class SDKManager {
             });
 
         } catch (Exception e) {
-            hideProgress();
             e.printStackTrace();
             if (resultCallBack != null) resultCallBack.onFailure(e.getMessage());
         }
@@ -1547,21 +1552,14 @@ public class SDKManager {
                             User user = new User();
                             user.setUserId(loginModel.getData().getPassportId());
                             user.setTicket(loginModel.getData().getTicket());
-                            user.setSdkmemberType(oauthSource);
-                            LogUtils.e(TAG, "nutsId:" + loginModel.getData().getPassportId());
                             user.setUserName(thirdName.isEmpty() ? "" : thirdName);
                             setUser(user);
-                            loginCallBack.onSuccess(user.getTicket(), user.getSdkmemberType());
-
-                            if (resultCallBack != null) resultCallBack.onSuccess();
-
                             //游客登录追踪
                             TrackingManager.loginTracking(user);
-
+                            handleLoginSuccess(activity,SDKConstant.TYPE_GUEST,loginCallBack,resultCallBack);
                         } else {
                             LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
-                            //应该自己处理，不用返回给CP
                             loginCallBack.onFailure(loginModel.getCode(), loginModel.getMessage());
                         }
                     } catch (Exception e) {
@@ -1586,6 +1584,37 @@ public class SDKManager {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 处理回调前用户类型查询
+     * @param activity
+     * @param defaultMemberType
+     * @param loginCallBack
+     * @param resultCallBack
+     */
+    private void handleLoginSuccess(Activity activity, String defaultMemberType, LoginCallBack loginCallBack, ResultCallBack resultCallBack) {
+        QueryBindStatus(activity, new BindStatusCallBack() {
+            @Override
+            public void onSuccess(boolean isBind, String BindType) {
+                String memberType = defaultMemberType;
+                if (isBind){
+                    memberType = BindType;
+                }
+                User user = getUser();
+                user.setSdkmemberType(memberType);
+                setUser(user);
+                loginCallBack.onSuccess(user.getTicket(), user.getSdkmemberType());
+                if (resultCallBack != null) resultCallBack.onSuccess();
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if (resultCallBack != null) resultCallBack.onFailure(msg);
+                loginCallBack.onFailure(code,msg);
+            }
+        });
+    }
+
 
     /**
      * SDK三方账户登录接口
@@ -3578,22 +3607,30 @@ public class SDKManager {
      * @param loginCallBack
      */
     public void LoginByNuts(Activity activity, String userName, String pwd, LoginCallBack loginCallBack) {
-        if (activity == null || userName == null || pwd == null || loginCallBack == null) return;
-
-        if (!SDKGameUtils.matchAccount(userName) || !SDKGameUtils.matchPw(pwd)) {
+        if (loginCallBack == null) return;
+        if (activity == null || userName == null || pwd == null) {
+            loginCallBack.onFailure(SDKConstant.STATUS_PARAMETER_ERROR,"STATUS_PARAMETER_ERROR");
+            return;
+        }
+        if (!SDKGameUtils.matchAccount(userName)) {
+            loginCallBack.onFailure(SDKConstant.STATUS_PARAMETER_ERROR,"用户名必须是6-14位字母或数字");
+            return;
+        }
+        if (!SDKGameUtils.matchPw(pwd)){
+            loginCallBack.onFailure(SDKConstant.STATUS_PARAMETER_ERROR,"密码必须是6-14位字母或数字");
             return;
         }
         //坚果账号登录
-        SDKManager.getInstance().showEmptyProgress(activity);
+//        SDKManager.getInstance().showEmptyProgress(activity);
         SDKManager.getInstance().sdkLogin2Dialog(activity, userName, pwd, loginCallBack, new ResultCallBack() {
             @Override
             public void onSuccess() {
-                SDKManager.getInstance().hideEmptyProgress();
+//                SDKManager.getInstance().hideEmptyProgress();
             }
 
             @Override
             public void onFailure(String msg) {
-                SDKManager.getInstance().hideEmptyProgress();
+//                SDKManager.getInstance().hideEmptyProgress();
             }
         });
 
