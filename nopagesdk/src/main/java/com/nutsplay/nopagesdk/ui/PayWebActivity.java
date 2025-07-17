@@ -1,5 +1,6 @@
 package com.nutsplay.nopagesdk.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -34,7 +35,12 @@ import org.xutils.common.util.LogUtil;
 /**
  * Created by frankma on 2019-09-24 16:19
  * Email: frankma9103@gmail.com
- * Desc:
+ * Desc: 第三方网页支付，Xsolla等
+ * 流程是这样：
+ * 你先在后台找一个测试的游戏, 配置充值方法为webpay
+ * 调用下单接口
+ * 服务器端这里会返回给你一个url, 这个是appcharge的url, 通过webview打开.
+ * 充值完成后他会回调回去, 但这个你不做验证, 他只会告诉你是成功或者失败, 你按照提示就行了, 实际上的回调是他发到我服务器的
  */
 public class PayWebActivity extends BaseActivity {
 
@@ -57,6 +63,7 @@ public class PayWebActivity extends BaseActivity {
         initWebView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
         if (webView == null) return;
         webView.setWebViewClient(new WebViewClient() {

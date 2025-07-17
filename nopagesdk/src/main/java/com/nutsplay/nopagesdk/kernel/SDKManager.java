@@ -399,6 +399,8 @@ public class SDKManager {
                 initCallBack.onFailure(SDKConstant.ERROR, "activity == null || initParameter == null");
                 return;
             }
+            //初始化Firebase
+//            FirebaseManager.getInstance().init(activity);
             //设置参数
             setActivity(activity);
             setInitParameter(initParameter);
@@ -750,7 +752,7 @@ public class SDKManager {
                             SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
 
                             //注册追踪
-                            TrackingManager.registerTracking(loginModel.getData().getPassportId());
+                            TrackingManager.registerTracking(user);
                         } else {
                             LogUtils.e(TAG, "SDKRegisterAccount---onSuccess:" + loginModel.getMessage());
                             SDKGameUtils.showServiceInfo(loginModel.getCode(), loginModel.getMessage());
@@ -834,18 +836,18 @@ public class SDKManager {
                         }
                         if (loginModel.getCode() == 1) {
                             //保存用户信息
-//                            User user = new User();
-//                            user.setUserId(loginModel.getData().getPassportId());
-//                            user.setTicket(loginModel.getData().getTicket());
-//                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
-//                            user.setUserName(userName);
-//                            //记住账号密码
-//                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
-//                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
+                            User user = new User();
+                            user.setUserId(loginModel.getData().getPassportId());
+                            user.setTicket(loginModel.getData().getTicket());
+                            user.setSdkmemberType(SDKConstant.TYPE_ACCOUNT);
+                            user.setUserName(userName);
+                            //记住账号密码
+                            SPManager.getInstance(activity).putString(SPKey.key_user_name_last_login, userName);
+                            SPManager.getInstance(activity).putString(SPKey.key_pwd_last_login, pwd);
 
 
                             //注册追踪
-                            TrackingManager.registerTracking(loginModel.getData().getPassportId());
+                            TrackingManager.registerTracking(user);
 //                            //注册成功的新账号，第一次不弹出绑定提示
                             SDKGameUtils.getInstance().setFirstAccountLogin(activity, true);
                             //用注册成功的账号自动登录
@@ -884,7 +886,7 @@ public class SDKManager {
      * @param activity
      * @param loginCallBack
      */
-    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack, final boolean isLogin) {
+    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack) {
 
         try {
             if (activity == null) {
@@ -901,11 +903,10 @@ public class SDKManager {
 
             //未初始化则重新初始化一次
             if (!isInitStatus()) {
-                Log.e(TAG, "The SDK is not initialized.");
                 initSDK(activity, getInitParameter(), new InitCallBack() {
                     @Override
                     public void onSuccess() {
-                        sdkLogin(activity, loginCallBack, isLogin);
+                        sdkLogin(activity, loginCallBack);
                     }
 
                     @Override
@@ -916,37 +917,84 @@ public class SDKManager {
                 return;
             }
 
-            //新用户第一次安装
-            if (AppManager.isFirstRun(activity)) {
+            //判断本地是否存有用户信息
+            if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
+                //有用户信息，自动登录
+                loginCallBack.onSuccess(getUser().getTicket(), getUser().getSdkmemberType());
+                TrackingManager.loginTracking(getUser());
+            }else {
+                //本地没有保存用户信息，默认游客登录
                 NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
-            } else {
-                //否则自动登录
-                if (isAutoLogin()) {
-                    if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
-                        //对游客账号进行绑定提醒
-                        //guestTip(activity, getUser());
-                        //有登录信息，直接登录
-                        loginCallBack.onSuccess(getUser().getTicket(), getUser().getSdkmemberType());
-                        TrackingManager.loginTracking(getUser());
-                    } else {
-                        //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
-//                        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
-//                        builder.create().show();
-                        NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
-                    }
-                } else {
-                    //不是自动登录，即退出登录状态，重新选择登录方式
-//                    LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
-//                    builder.create().show();
-                    //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
-                    NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
-                }
             }
         } catch (Exception e) {
-            hideProgress();
             e.printStackTrace();
         }
     }
+
+
+//    public void sdkLogin(final Activity activity, final LoginCallBack loginCallBack, final boolean isLogin) {
+//
+//        try {
+//            if (activity == null) {
+//                System.out.println("sdkLogin failed:Activity is null.");
+//                return;
+//            }
+//            setActivity(activity);
+//
+//            if (loginCallBack == null) {
+//                System.out.println("sdkLogin failed:loginCallBack is null.");
+//                return;
+//            }
+//            SDKManager.getInstance().setLoginCallBack(loginCallBack);
+//
+//            //未初始化则重新初始化一次
+//            if (!isInitStatus()) {
+//                Log.e(TAG, "The SDK is not initialized.");
+//                initSDK(activity, getInitParameter(), new InitCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        sdkLogin(activity, loginCallBack, isLogin);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int code, String msg) {
+//                        loginCallBack.onFailure(code, msg);
+//                    }
+//                });
+//                return;
+//            }
+//
+//            //新用户第一次安装
+//            if (AppManager.isFirstRun(activity)) {
+//                NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
+//            } else {
+//                //否则自动登录
+//                if (isAutoLogin()) {
+//                    if (getUser() != null && StringUtils.isNotBlank(getUser().getTicket())) {
+//                        //对游客账号进行绑定提醒
+//                        //guestTip(activity, getUser());
+//                        //有登录信息，直接登录
+//                        loginCallBack.onSuccess(getUser().getTicket(), getUser().getSdkmemberType());
+//                        TrackingManager.loginTracking(getUser());
+//                    } else {
+//                        //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
+////                        LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
+////                        builder.create().show();
+//                        NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
+//                    }
+//                } else {
+//                    //不是自动登录，即退出登录状态，重新选择登录方式
+////                    LoginOptionsDialog.Builder builder = new LoginOptionsDialog.Builder(activity, loginCallBack, isLogin);
+////                    builder.create().show();
+//                    //ToDo 修改逻辑：休闲类游戏默认游客登录，让玩家无感进入游戏状态
+//                    NutsLoginManager.getInstance().visitorLogin(activity, loginCallBack, null);
+//                }
+//            }
+//        } catch (Exception e) {
+//            hideProgress();
+//            e.printStackTrace();
+//        }
+//    }
 
 
     private void guestTip(Activity activity, User user) {
@@ -1410,6 +1458,7 @@ public class SDKManager {
 
         if (!isInitStatus()) {
             SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+            loginCallBack.onFailure(SDKConstant.developer_error,"The SDK is not initialized.");
             return;
         }
 
@@ -1518,7 +1567,7 @@ public class SDKManager {
 
             if (!isInitStatus()) {
                 SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
-                resultCallBack.onFailure("The SDK is not initialized.");
+                if (resultCallBack != null) resultCallBack.onFailure("The SDK is not initialized.");
                 return;
             }
 
@@ -1533,8 +1582,7 @@ public class SDKManager {
 
 //                    LogUtils.e(TAG, "sdkLoginThirdAccount---onSuccess:" + aesKey + "|" + result);
                     if (result == null || result.isEmpty()) {
-                        if (resultCallBack != null)
-                            resultCallBack.onFailure("SDKLoginThird:result is null");
+                        if (resultCallBack != null) resultCallBack.onFailure("SDKLoginThird:result is null");
                         return;
                     }
                     try {
@@ -1544,8 +1592,7 @@ public class SDKManager {
                             SDKGameUtils.showServiceInfo(SDKConstant.model_is_null, "SDKLoginThird:loginModel is null");
                             //应该自己处理，不用返回给CP
                             SDKToast.getInstance().ToastShow("SDKLoginThird:loginModel is null", 3);
-                            if (resultCallBack != null)
-                                resultCallBack.onFailure("SDKLoginThird:loginModel is null");
+                            if (resultCallBack != null) resultCallBack.onFailure("SDKLoginThird:loginModel is null");
                             return;
                         }
                         if (loginModel.getCode() == 1) {

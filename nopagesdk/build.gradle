@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 35
     defaultConfig {
-        versionName "7.0.5"
+        versionName "7.0.7"
         minSdkVersion 21//16
         targetSdkVersion 35
         multiDexEnabled true
@@ -109,7 +109,9 @@ dependencies {
     implementation "androidx.credentials:credentials-play-services-auth:1.5.0"
     implementation "com.google.android.libraries.identity.googleid:googleid:1.1.1"
     //Google评价用到核心库
-    api 'com.google.android.play:core:1.9.0'
+    implementation 'com.google.android.play:review:2.0.2'//1.9.0' //1.10.3'//1.9.0
+
+//    implementation 'com.google.android.play:core:1.9.0' //1.9.0' //1.10.3'//1.9.0
     // Facebook Android SDK (everything)
 //    api 'com.facebook.android:facebook-android-sdk:16.2.0'//16.2fb登录闪退//13.0.0//11.1.1//7.1.0
     api 'com.facebook.android:facebook-android-sdk:18.0.2'//13.1.0//13.0.0//11.1.1//7.1.0
@@ -146,9 +148,13 @@ dependencies {
 
     //AIhelp
     api 'net.aihelp:android-aihelp-aar:4.4.+'
+//    api 'net.aihelp:android-aihelp-aar:5.5.+'
 
     //热云三方追踪
 //    api 'com.reyun.solar.engine.oversea:solar-engine-core:1.2.9.3'
+
+    //firebase
+//    api 'com.google.firebase:firebase-analytics:22.5.0'
 }
 
 

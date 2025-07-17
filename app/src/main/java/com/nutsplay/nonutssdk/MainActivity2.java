@@ -25,7 +25,6 @@ import com.nutsplay.nopagesdk.callback.BindResultCallBack;
 import com.nutsplay.nopagesdk.callback.BindStatusCallBack;
 import com.nutsplay.nopagesdk.callback.InitCallBack;
 import com.nutsplay.nopagesdk.callback.InstallCallBack;
-import com.nutsplay.nopagesdk.callback.LogOutCallBack;
 import com.nutsplay.nopagesdk.callback.LoginCallBack;
 import com.nutsplay.nopagesdk.callback.PurchaseCallBack;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
@@ -193,17 +192,19 @@ public class MainActivity2 extends SDKBaseActivity {
 
     public void logout(View view) {
 
-        SDK.getInstance().sdkLogout(this, new LogOutCallBack() {
-            @Override
-            public void onSuccess() {
-                showLog("注销成功");
-            }
+//        SDK.getInstance().sdkLogout(this, new LogOutCallBack() {
+//            @Override
+//            public void onSuccess() {
+//                showLog("注销成功");
+//            }
+//
+//            @Override
+//            public void onFailure(int code,String msg) {
+//                showLog("注销失败：" + msg);
+//            }
+//        });
 
-            @Override
-            public void onFailure(int code,String msg) {
-                showLog("注销失败：" + msg);
-            }
-        });
+        SDK.getInstance().customerSupport();
 
     }
 
@@ -867,7 +868,7 @@ public class MainActivity2 extends SDKBaseActivity {
             public void onFailure(int code, String msg) {
                 if (code == SDKConstant.CONFLICT){
                     //该社交平台账号已经绑定过其他账号了
-                    showLog("绑定Google冲突:"+msg);
+                    showLog("绑定Google冲突:"+code+":"+msg);
                     //弹出选项框供玩家选择
                     //选择1.登录其他社交账号：调用 SDK.getInstance().BindBySocial(this, SDKConstant.TYPE_GOOGLE,true, new SocialBindCallBack()
                     //选择2.登录该已绑定的社交账号：调用 LoginBySocial(SDKConstant.TYPE_GOOGLE)
@@ -950,7 +951,7 @@ public class MainActivity2 extends SDKBaseActivity {
         SDK.getInstance().QueryBindStatus(this, new BindStatusCallBack() {
             @Override
             public void onSuccess(boolean isBind, String type) {
-                showLog("查询绑定状态成功："+isBind+" type:"+type);
+                showLog("查询绑定状态成功：isBind:"+isBind+" type:"+type);
             }
 
             @Override

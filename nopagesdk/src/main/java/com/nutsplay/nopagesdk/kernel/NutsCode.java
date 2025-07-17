@@ -1,24 +1,7 @@
 package com.nutsplay.nopagesdk.kernel;
 
-/**
- * Created by frank-ma on 2018/12/28 下午8:33
- * Email: frankma9103@gmail.com
- * Desc:
- */
-public class SDKConstant {
 
-    public static final int LANDSCAPE = 0;//横屏
-    public static final int PORTRAIT = 1;//竖屏
-    public static final String Login = "login";
-    public static final String Bind = "bind";
-    public static final String android = "android";
-
-    public static final String TYPE_GUEST = "android";
-    public static final String TYPE_ACCOUNT = "account";
-    public static final String TYPE_FACEBOOK = "facebook";
-    public static final String TYPE_GOOGLE = "google";
-//    public static final String TYPE_DOUBLE = "double";//google 和 facebook 都绑定了
-
+public class NutsCode {
 
     public static final int SUCCESS = 1;//成功
     public static final int CONFLICT = 0;//冲突
@@ -27,7 +10,7 @@ public class SDKConstant {
     public static final int STATUS_ACCOUNT_EXIST = -21;                //账号已存在
     public static final int STATUS_FAIL = -1;                //其他错误
     public static final int STATUS_ACCOUNT_DO_NOT_EXIST = -2;         //游客账号并不存在
-    public static final int STATUS_PASSWORD_ERROR = -3;               //账号或密码错误
+    public static final int STATUS_PASSWORD_ERROR = -3;               //密码错误
     public static final int STATUS_EMAIL_EXIST = -4;                  //email已存在
     public static final int STATUS_EMAIL_NOT_EXIST = -41;             //email不存在
     public static final int STATUS_PARAMETER_ERROR = -5;              //参数错误
@@ -45,22 +28,12 @@ public class SDKConstant {
     public static final int STATUS_PRODUCTION_DO_NOT_EXIST = -26;     //购买商品未配置
     public static final int STATUS_THIRD_ACCOUNT_USED = -29;          //第三方账号已被占用，想要绑定到的社交账号已经被占用
     public static final int STATUS_ANTIADDICTIVE_ALREADY_EXIST = -32; //防沉迷资料已存在
-
     public static final int STATUS_TEMPEMAILBIND_NOT_EXIST = -33;      //临时绑定记录不存在
     public static final int STATUS_TEMPEMAILBIND_CODE_INVALID = -34;    //临时绑定验证码不正确
     public static final int STATUS_TEMPEMAILBIND_EMAIL_NOT_MATCH = -35; //邮箱不一致
     public static final int STATUS_TEMPEMAILBIND_SEND_EMAIL_FAIL = -36; //往邮箱发送邮件失败
     public static final int STATUS_ACCOUNT_NOT_BOUND = -37;             //此ID尚未绑定过自定义账号(用于申请email绑定时)
     public static final int STATUS_TEMPEMAILBIND_ALREADY_EXIST = -38;   //临时绑定记录已存在
-    public static final String INAPP = "inapp";
-    public static final String SUBS = "subs";
-    public static final String share_url = "share_url";
-    public static final String openType="open_type";//Facebook页面的打开类型
-    public static final int SHARE_PHOTO_REQUEST_CODE = 0x101;
-    public static final String NUTS_BIND_NUTS="NUTS_BIND_NUTS";
-    public static final String NUTS_BIND_EMAIL = "NUTS_BIND_EMAIL";
-
-
 
     //Google官方支付错误码
     static int SERVICE_TIMEOUT = -3;
@@ -75,49 +48,6 @@ public class SDKConstant {
     static int ERROR = 6;
     static int ITEM_ALREADY_OWNED = 7;
     static int ITEM_NOT_OWNED = 8;
-//    12500:"A non-recoverable sign in failure occurred";
-//    12501:"Sign in action cancelled";
-//    12502:"Sign-in in progress";
-//    switch(var0) {
-//        case -1:
-//            return "SUCCESS_CACHE";
-//        case 0:
-//            return "SUCCESS";
-//        case 1:
-//        case 9:
-//        case 11:
-//        case 12:
-//        default:
-//            return (new StringBuilder(32)).append("unknown status code: ").append(var0).toString();
-//        case 2:
-//            return "SERVICE_VERSION_UPDATE_REQUIRED";
-//        case 3:
-//            return "SERVICE_DISABLED";
-//        case 4:
-//            return "SIGN_IN_REQUIRED";
-//        case 5:
-//            return "INVALID_ACCOUNT";
-//        case 6:
-//            return "RESOLUTION_REQUIRED";
-//        case 7:
-//            return "NETWORK_ERROR";
-//        case 8:
-//            return "INTERNAL_ERROR";
-//        case 10:
-//            return "DEVELOPER_ERROR";
-//        case 13:
-//            return "ERROR";
-//        case 14:
-//            return "INTERRUPTED";
-//        case 15:
-//            return "TIMEOUT";
-//        case 16:
-//            return "CANCELED";
-//        case 17:
-//            return "API_NOT_CONNECTED";
-//        case 18:
-//            return "DEAD_CLIENT";
-//    }
 
     public static final int result_is_null = 111; //接口返回数据为空
     public static final int model_is_null = 112;//接口返回的json数据格式化异常
@@ -143,7 +73,6 @@ public class SDKConstant {
     public static final int init_response_null = 127; //初始化接口失败：接口返回信息为空
     public static final int init_other_code = 128; //初始化接口失败，其他错误码
     public static final int init_other_code_6 = 129; //初始化接口失败，-6：ticket无效
-
     //登录失败错误码
     public static int developer_error = 130;//开发者错误：查不到商品，检查是否上传到商店，或者商品id是否配置成功
     public static int fb_share_error = 131;//facebook分享失败
@@ -151,62 +80,7 @@ public class SDKConstant {
     public static int google_login_error = 133;//google登录失败
     public static int init_error = 134;//初始化错误
 
-
-    //小米支付响应代码
-    public @interface BillingResponseCode {
-        int NET_NOT_WORK = -4;
-        int SERVICE_TIMEOUT = -3;
-        int FEATURE_NOT_SUPPORTED = -2;
-        int SERVICE_DISCONNECTED = -1;
-        int OK = 0;
-        int USER_CANCELED = 1;
-        int SERVICE_UNAVAILABLE = 2;
-        int BILLING_UNAVAILABLE = 3;
-        int ITEM_UNAVAILABLE = 4;
-        int DEVELOPER_ERROR = 5;
-        int ERROR = 6;
-        int ITEM_ALREADY_OWNED = 7;
-        int ITEM_NOT_OWNED = 8;
-        int PAYMENT_UNKNOWN = 9;
-        int PAYMENT_SHOW_DIALOG = 10;
-    }
-
-//    eg:
-//            0 OK
-//    Success.
-//    1 USER_CANCELED
-//    User pressed back or canceled a dialog.
-//    2 SERVICE_UNAVAILABLE
-//    Network connection is down.
-//            3 BILLING_UNAVAILABLE
-//    Billing API version is not supported for the type requested.
-//    4 ITEM_UNAVAILABLE
-//    Requested product is not available for purchase.
-//    5 DEVELOPER_ERROR
-//    Invalid arguments provided to the API. This error can also indicate that the application was not correctly signed or properly set up for In-app Billing in GetApps, or does not have the necessary permissions in its manifest.
-//    6 ERROR
-//    Fatal error during the net.aihelp.common.API action.
-//            7 ITEM_ALREADY_OWNED
-//    Failure to purchase since item is already owned.
-//            8 ITEM_NOT_OWNED
-//    Failure to consume since item is not owned.
-//            9 PAYMENT_UNKNOWN
-//    Payment result unknown.
-//   10 PAYMENT_SHOW_DIALOG
-//    Payment show dialog.
-//    -1 SERVICE_DISCONNECTED
-//    GetApps service is not connected now - potentially transient state.
-//    E.g. GetApps could have been updated in the background while your app was still running. So feel free to introduce your retry policy for such use case. It should lead to a call to BillingClient.startConnection(BillingClientStateListener) right after or in some time after you received this code.
-//    -2 FEATURE_NOT_SUPPORTED
-//    Requested feature is not supported by GetApps on the current device.
-//    -3 SERVICE_TIMEOUT
-//    The request has reached the maximum timeout before GetApps responds.
-//            -4 NET_NOT_WORK
-//    Network Unavailable
-
-
-
-//    谷歌登录错误码
+//    以下是谷歌登录错误码
 //switch (statusCode) {
 //        case 12500:
 //            return "A non-recoverable sign in failure occurred";
@@ -265,5 +139,4 @@ public class SDKConstant {
 //            var10000.append(statusCode);
 //            return var10000.toString();
 //    }
-
 }

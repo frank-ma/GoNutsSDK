@@ -1,4 +1,62 @@
 ****************************************************************
+
+1.更新客服Aihelp系统到5.5.+
+更新依赖库即可：
+implementation 'net.aihelp:android-aihelp-aar:5.5.+'
+2.更新支付库到7.0.0：
+implementation 'com.android.billingclient:billing:7.0.0'
+3.加上firebase
+ //firebase
+ implementation 'com.google.firebase:firebase-analytics:22.5.0'
+  调用事件上报接口：
+ FirebaseManager.getInstance().logEvent(name,bundle);
+
+
+****************************************************************
+
+1.更新客服Aihelp系统到5.5.+
+   implementation 'net.aihelp:android-aihelp-aar:5.5.+'
+2.更新支付库到7.0.0：
+   implementation 'com.android.billingclient:billing:7.0.0'
+3.加上firebase
+ //firebase
+   implementation 'com.google.firebase:firebase-analytics:22.5.0'
+  在合适的地方调用事件上报接口：
+ FirebaseManager.getInstance().logEvent(name,bundle);
+4.修复LEGO游戏上传GP时报错：
+  你的套件以 SDK 34 為目標版本，但使用的 Play Core 程式庫不適用於該版本。你目前的 com.google.android.play:core:1.9.0 媒體庫與 targetSdkVersion 34 (Android 14) 不兼容，因為後者對廣播接收器進行向下不兼容的變更，並可能會導致應用程式當機。
+  把依赖库
+  implementation 'com.google.android.play:core:1.9.0'
+  换成：
+  implementation 'com.google.android.play:review:2.0.2'
+5.修复BUG：
+修复前：覆盖安装apk后以游客身份登录
+修复后：覆盖安装apk后仍然以覆盖安装前登录的账号登录
+****************************************************************
+（陈志佳）（内部代号：FT）
+gosdk_v7.0.7(For FT)(20250717)
+1.修复BUG：
+修复前：覆盖安装apk后以游客身份登录
+修复后：覆盖安装apk后仍然以覆盖安装前登录的账号登录
+
+
+
+
+
+
+****************************************************************
+（孙震）LeGo1
+gosdk_v7.0.6(For LeGo1)(20250630)
+1.修复上传GP时报错：
+你的套件以 SDK 34 為目標版本，但使用的 Play Core 程式庫不適用於該版本。你目前的 com.google.android.play:core:1.9.0 媒體庫與 targetSdkVersion 34 (Android 14) 不兼容，因為後者對廣播接收器進行向下不兼容的變更，並可能會導致應用程式當機。
+更新步骤
+1.替换aar文件7.0.6
+2.把依赖库
+implementation 'com.google.android.play:core:1.9.0'
+换成：
+implementation 'com.google.android.play:review:2.0.2'
+
+****************************************************************
 （陈志佳团队）Family Go!  Lifetime Sim game（内部代号：FT）
 gosdk_v7.0.5(For FG)(20250626)
 1.登录时增加一个查询，返回正确的用户类型。之前返回的类型不正确

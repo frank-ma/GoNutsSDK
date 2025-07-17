@@ -3,11 +3,11 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.OnCompleteListener;
-import com.google.android.play.core.tasks.Task;
 import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
 
@@ -25,6 +25,9 @@ import org.xutils.common.util.LogUtil;
  * 在短时间内（例如，不到一个月内）多次调用 launchReviewFlow 方法时可能不会始终显示对话框。
  * 由于配额可能会发生变化，因此请务必应用自己的逻辑并瞄准最佳时机申请审核。例如，您不得采用旨在触发 API 的号召性用语选项（例如按钮），
  * 因为用户可能已经达到其配额，而该流程无法显示，这会导致无法向用户提供流畅的体验。对于此使用场景，请将用户重定向到 Play 商店。
+ *
+ * 文档地址：
+ * https://developer.android.com/guide/playcore?hl=zh-cn#groovy
  */
 public class GoogleAPI {
 

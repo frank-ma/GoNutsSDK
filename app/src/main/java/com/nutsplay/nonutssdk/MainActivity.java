@@ -57,7 +57,8 @@ public class MainActivity extends SDKBaseActivity {
 //    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "36386748bb";
 //    String referenceId = "com.nutspower.nutsgamesdk.sub2";
-    String referenceId = "com.nuts.sm.android.googleplay.1";
+//    String referenceId = "com.nuts.sm.android.googleplay.1";
+    String referenceId = "com.nutsplay.ccgg.payment01";
 
 
     private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）     635f680c95b526b99391e7e7
@@ -80,8 +81,7 @@ public class MainActivity extends SDKBaseActivity {
 //    private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
 
     //Dragon Home
-    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_a84456e0-2d9b-4c65-8e83-0f49630aa2d2";
-    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_a070e2a9a3bf4259bcb19301bdc33a4e";
+    private String AIHelpAppID = "nutspoweronlineentertainmentlimited_platform_628e81c45fff46230a4146eb8c353765";
     private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setHasUI(true);
         initParameter.setPushLogUrl("");//为空则不走游戏的日志上报地址
         initParameter.setShowUserAgreement(true);
-        initParameter.setAihelpAppkey(AIHelpAppKey);
+//        initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setReyunAppID(reyunAppId);
@@ -234,8 +234,8 @@ public class MainActivity extends SDKBaseActivity {
 
     public void purchase(View view) {
 //        String referenceId = "com.dyhd.game.seawar3d.pay00991";
-        String skuId = "nuts_product_1";
-        SDK.getInstance().sdkPurchase(this, "0", skuId, "", new PurchaseCallBack() {
+//        String skuId = "nuts_product_1";
+        SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 if (payResult == null) return;
@@ -1002,6 +1002,21 @@ public class MainActivity extends SDKBaseActivity {
 //                Log.d(TAG, "设备Token:"+token);
 //            }
 //        });
+    }
+
+    public void test(){
+//            double revenue = impressionData.getRevenue(); // In USD
+//            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//            Bundle params = new Bundle();
+//            params.putString(FirebaseAnalytics.Param.AD_PLATFORM, "appLovin");
+//            params.putString(FirebaseAnalytics.Param.AD_SOURCE, impressionData.getNetworkName());
+//            params.putString(FirebaseAnalytics.Param.AD_FORMAT, impressionData.getFormat().getLabel());
+//            params.putString(FirebaseAnalytics.Param.AD_UNIT_NAME, impressionData.getAdUnitId());
+//            params.putDouble(FirebaseAnalytics.Param.VALUE, revenue);
+//            params.putString(FirebaseAnalytics.Param.CURRENCY, "USD"); // All Applovin revenue is sent in USD
+//            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, params);
+
+
     }
 
 

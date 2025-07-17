@@ -65,9 +65,9 @@ public class TrackingManager {
     /**
      * 注册账号追踪
      *
-     * @param accountId
+     * @param user
      */
-    public static void registerTracking(String accountId) {
+    public static void registerTracking(User user) {
         SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("registerok"), 1);
 
 //        Map<String, Object> eventValue = new HashMap<>();
@@ -80,6 +80,8 @@ public class TrackingManager {
         AdjustTraceManager.getInstance().adjustRegister(SDKManager.getInstance().getActivity());
         //热云追踪
 //        ReYunTraceManager.getInstance().registerTrack(SDKConstant.TYPE_ACCOUNT,"success");
+        //注册追踪
+//        FirebaseManager.getInstance().registerEvent(user);
     }
 
     /**
@@ -110,6 +112,10 @@ public class TrackingManager {
                     .setUserTags("login")
                     .build();
             AIHelpManager.getInstance().updateUserInfo(userConfig);
+
+            //Firebase追踪
+//            FirebaseManager.getInstance().setUserID(user.getUserId());
+//            FirebaseManager.getInstance().loginEvent(user);
 
             //登录成功之后检查掉单
             new Handler().postDelayed(new Runnable() {
@@ -212,5 +218,7 @@ public class TrackingManager {
     //登出，注销用户 ID
     public static void logout() {
         ReYunTraceManager.getInstance().logout();
+        //客服系统退出登录
+//        AIHelpSupport.logout();
     }
 }

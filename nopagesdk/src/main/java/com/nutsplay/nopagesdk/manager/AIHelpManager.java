@@ -10,6 +10,8 @@ import net.aihelp.init.AIHelpSupport;
 import net.aihelp.ui.listener.OnAIHelpInitializedCallback;
 import net.aihelp.ui.listener.OnMessageCountArrivedCallback;
 
+import java.io.Serializable;
+
 /**
  * Created by frankma on 2023/10/24 9:36 PM
  * Email: frankma9103@gmail.com
@@ -34,10 +36,14 @@ public class AIHelpManager {
 
     public static void initAiHelp(Activity activity, InitParameter initParameter) {
         if (initParameter.getAihelpAppID().isEmpty() ||
-                initParameter.getAihelpAppkey().isEmpty() ||
                 initParameter.getAihelpDomain().isEmpty()) {
             return;
         }
+//        AIHelpSupport.initialize(activity,
+//                initParameter.getAihelpDomain(),
+//                initParameter.getAihelpAppID(),
+//                SDKGameUtils.getAIHelpLanguage(initParameter.getLanguage()));
+
         AIHelpSupport.init(activity,
                 initParameter.getAihelpAppkey(),
                 initParameter.getAihelpDomain(),
@@ -49,6 +55,46 @@ public class AIHelpManager {
                 System.out.println("AIHelp初始化结果:" + isSuccess + message);
             }
         });
+
+//        AIHelpSupport.registerAsyncEventListener(EventType.INITIALIZATION,
+//                new AsyncEventListener() {
+//                    @Override
+//                    public void onAsyncEventReceived(String jsonData, Acknowledgment ignored) {
+//                         When init job is done, you can get callback here
+//                         `jsonData`: { "isSuccess": true, "message": "Success" }
+//                        AiHelpInitBean aiHelpInitBean = (AiHelpInitBean) GsonUtils.json2Bean(jsonData, AiHelpInitBean.class);
+//                        if (aiHelpInitBean == null) return;
+//                        System.out.println("AIHelp初始化结果:" + aiHelpInitBean.isSuccess() +aiHelpInitBean.getMessage());
+//                    }
+//                }
+//        );
+    }
+
+    private class AiHelpInitBean implements Serializable {
+
+        /**
+         * isSuccess : true
+         * message : Success
+         */
+
+        private boolean isSuccess;
+        private String message;
+
+        public boolean isSuccess() {
+            return isSuccess;
+        }
+
+        public void setSuccess(boolean success) {
+            isSuccess = success;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 
     /**
@@ -87,6 +133,7 @@ public class AIHelpManager {
      */
     public void updateUserInfo(UserConfig userConfig) {
         AIHelpSupport.updateUserInfo(userConfig);
+//        AIHelpSupport.login(userId);
     }
 
     /**

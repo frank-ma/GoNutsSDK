@@ -280,6 +280,42 @@ public class ApiManager {
 
     }
 
+    /**
+     * Xsolla
+     * 第三方支付充值-下单
+     * @param aesKey16
+     * @param aesKey16byRSA
+     * @param callBack
+     */
+    public void SDKXsollaMakeOrder(String aesKey16,String ivParameter, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
+        try {
+            String url = getDomainName() + "/delta";
+
+            MakeOrder makeOrder = new MakeOrder();
+            makeOrder.setClientID(getClientID());
+            makeOrder.setServerID(serverId);
+            makeOrder.setUserID(SDKManager.getInstance().getUser().getUserId());
+            makeOrder.setDevice(DEVICE_TYPE);
+            makeOrder.setReferenceId(referenceId);
+            makeOrder.setGameExt(gameExt);
+            String jsonData = GsonUtils.tojsonString(makeOrder);
+
+            String encryptJsonData = AESUtils.encrypt(jsonData, aesKey16,ivParameter);
+            Map<String, String> data = new TreeMap<>();
+            data.put("asong", encryptJsonData);
+
+            Map<String, String> headerMap = new TreeMap<>();
+            headerMap.put("uniqueid", getDeviceID());
+            headerMap.put("rak",aesKey16byRSA);
+            headerMap.put("siv",ivParameter);
+            NetClient.getInstance().clientPost(url, data, headerMap,callBack);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * 充值-回调接口
@@ -896,6 +932,8 @@ public class ApiManager {
             e.printStackTrace();
         }
     }
+
+
 
 /**
  * **************************************************************************************************
