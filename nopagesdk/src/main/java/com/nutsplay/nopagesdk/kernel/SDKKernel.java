@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.nutsplay.nopagesdk.beans.InitParameter;
-import com.nutsplay.nopagesdk.beans.SDKInitModel;
 import com.nutsplay.nopagesdk.beans.User;
 import com.nutsplay.nopagesdk.utils.Installations;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
@@ -165,13 +164,7 @@ public class SDKKernel {
         return Installations.id(getActivity());
     }
 
-    public void setInitData(SDKInitModel sdkInitModel) {
-        SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_init, sdkInitModel);
-    }
 
-    public SDKInitModel getInitData(){
-        return (SDKInitModel) SPManager.getInstance(getActivity()).getBean(SPKey.key_bean_data_init);
-    }
 
     public String getPayUrl() {
         return mPayUrl;

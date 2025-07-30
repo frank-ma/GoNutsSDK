@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.LogLevel;
-import com.facebook.stetho.Stetho;
+
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class App extends SDKApplication {
         super.onCreate();
 
 //        LeakCanary.install(this);
-        Stetho.initializeWithDefaults(this);
+//        Stetho.initializeWithDefaults(this);
         initAdjust();
         initHelpShift();
 

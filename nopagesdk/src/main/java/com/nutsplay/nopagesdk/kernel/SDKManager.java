@@ -678,10 +678,12 @@ public class SDKManager {
     }
 
     private void setInitData(SDKInitModel initGoBean) {
-
         if (initGoBean == null) return;
-
         SPManager.getInstance(getActivity()).putBean(SPKey.key_bean_data_init, initGoBean);
+    }
+
+    public SDKInitModel getInitData(){
+        return (SDKInitModel) SPManager.getInstance(getActivity()).getBean(SPKey.key_bean_data_init);
     }
 
     /**

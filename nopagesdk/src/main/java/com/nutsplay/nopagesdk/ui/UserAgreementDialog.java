@@ -105,7 +105,7 @@ public class UserAgreementDialog extends Dialog {
             //协议内容
             try {
                 SDKKernel.getInstance().setActivity((Activity) context);
-                String userProtocol = SDKKernel.getInstance().getInitData().getData().getPolicy_txt();
+                String userProtocol = SDKManager.getInstance().getInitData().getData().getPolicy_txt();
                 if (userProtocol == null || userProtocol.isEmpty()) userProtocol = "No Policy";
 //                protocolContent.setText(userProtocol);
             } catch (Exception e) {
