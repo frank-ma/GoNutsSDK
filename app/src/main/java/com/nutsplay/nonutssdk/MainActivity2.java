@@ -204,7 +204,7 @@ public class MainActivity2 extends SDKBaseActivity {
 //            }
 //        });
 
-        SDK.getInstance().customerSupport();
+
 
     }
 

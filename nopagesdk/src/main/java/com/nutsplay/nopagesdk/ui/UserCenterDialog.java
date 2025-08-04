@@ -201,7 +201,7 @@ public class UserCenterDialog extends Dialog {
             customServiceTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AIHelpManager.getInstance().show();
+                    AIHelpManager.getInstance().show(null);
                 }
             });
 

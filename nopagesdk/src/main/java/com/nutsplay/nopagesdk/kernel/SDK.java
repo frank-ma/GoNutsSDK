@@ -24,6 +24,8 @@ import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
+import net.aihelp.config.UserConfig;
+
 import java.util.List;
 
 /**
@@ -397,11 +399,11 @@ public class SDK {
      * @param customData 自定义数据
      * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
-    public void customerSupport() {
-        AIHelpManager.getInstance().show();
+    public void customerSupport(UserConfig userConfig) {
+        AIHelpManager.getInstance().show(userConfig);
     }
-    public void customerSupport(String entranceId) {
-        AIHelpManager.getInstance().show(entranceId);
+    public void customerSupport(String entranceId,UserConfig userConfig) {
+        AIHelpManager.getInstance().show(entranceId,userConfig);
     }
 
     /**

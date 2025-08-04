@@ -22,7 +22,7 @@
             android:value="unused" />
 
         <activity
-            android:name="com.nutsplay.nonutssdk.MainActivity2"
+            android:name="com.nutsplay.nonutssdk.MainActivity"
             android:configChanges="orientation|screenLayout|screenSize|layoutDirection|keyboardHidden|keyboard"
             android:screenOrientation="sensorPortrait"
             android:exported="true">

@@ -16,7 +16,8 @@ import java.io.Serializable;
  * Created by frankma on 2023/10/24 9:36 PM
  * Email: frankma9103@gmail.com
  * Desc:  AiHelp客服系统
- * 文档：https://aihelp.net/FAQ/#/AIhelp-Support/app/zh-CN/EB5AE263D8AB85A4/0B9CFFA02F4F21FD/14D0F99762615284
+ * 文档：
+ * https://aihelp.net/FAQ/#/AIhelp-Support/app/zh-CN/EB5AE263D8AB85A4/0B9CFFA02F4F21FD/14D0F99762615284
  */
 public class AIHelpManager {
 
@@ -100,21 +101,24 @@ public class AIHelpManager {
     /**
      * E001默认的入口模板ID
      */
-    public void show() {
+    public void show(UserConfig userConfig) {
         try {
+            if (userConfig != null) AIHelpSupport.updateUserInfo(userConfig);
             AIHelpSupport.show("E001");
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
+
     /**
      * 你可以通过在 AIHelp 后台自定义「帮助中心」入口，用相应的入口 ID 拉起 AIHelp 帮助中心页面：
      *
      * @param entranceId
      */
-    public void show(String entranceId) {
+    public void show(String entranceId,UserConfig userConfig) {
         try {
+            if (userConfig != null) AIHelpSupport.updateUserInfo(userConfig);
             AIHelpSupport.show(entranceId);
         }catch (Exception e){
             e.printStackTrace();

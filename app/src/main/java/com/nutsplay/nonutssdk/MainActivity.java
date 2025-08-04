@@ -41,6 +41,8 @@ import com.nutsplay.nopagesdk.utils.DeviceUtils;
 import com.nutsplay.nopagesdk.utils.FileUtils;
 import com.nutspower.commonlibrary.utils.LogUtils;
 
+import net.aihelp.config.UserConfig;
+
 import org.json.JSONObject;
 
 import java.net.InetAddress;
@@ -58,10 +60,12 @@ public class MainActivity extends SDKBaseActivity {
 //    private String buglyId = "36386748bb";
 //    String referenceId = "com.nutspower.nutsgamesdk.sub2";
 //    String referenceId = "com.nuts.sm.android.googleplay.1";
-    String referenceId = "com.nutsplay.ccgg.payment01";
+//    String referenceId = "com.nutsplay.ccgg.payment01";
+    String referenceId = "com.lucky.ps.farming.android.gem1";
 
 
-    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）     635f680c95b526b99391e7e7
+    private String clientId = "64e3342d95b526d070bf82c9";//PSII     635f680c95b526b99391e7e7
+//    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）     635f680c95b526b99391e7e7
 //    private String clientId = "64e3342d95b526d070bf82c9";//测试应用      635f680c95b526b99391e7e7
 //    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
 //    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
@@ -75,13 +79,9 @@ public class MainActivity extends SDKBaseActivity {
     private Button initB,defaultLogin;
     private String reyunAppId="c48e4cf4e8f80a2b";
 
-    //poly
-//    private String AIHelpAppID = "NutsPowerOnlineEntertainmentLimited_platform_18d51c55-b1e5-43f4-bcbe-daad1b7381a8";
-//    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_b372655fc824460d8add46957ae8739c";
-//    private String AIHelpDomain = "NutsPowerOnlineEntertainmentLimited@aihelp.net";
-
-    //Dragon Home
+    //FT
     private String AIHelpAppID = "nutspoweronlineentertainmentlimited_platform_628e81c45fff46230a4146eb8c353765";
+    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_7a7e9ffd590e4eb98887b95983b984d1";
     private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
     @Override
@@ -118,11 +118,11 @@ public class MainActivity extends SDKBaseActivity {
         initParameter.setHasUI(true);
         initParameter.setPushLogUrl("");//为空则不走游戏的日志上报地址
         initParameter.setShowUserAgreement(true);
-//        initParameter.setAihelpAppkey(AIHelpAppKey);
+        initParameter.setAihelpAppkey(AIHelpAppKey);
         initParameter.setAihelpAppID(AIHelpAppID);
         initParameter.setAihelpDomain(AIHelpDomain);
         initParameter.setReyunAppID(reyunAppId);
-        initParameter.setUIVersion(SDKConstant.LANDSCAPE);//0：新UI横版  1：新UI竖版   其他：老UI
+        initParameter.setUIVersion(SDKConstant.PORTRAIT);//0：新UI横版  1：新UI竖版   其他：老UI
 
         SDK.getInstance().initSDK(this, initParameter, new InitCallBack() {
             @Override
@@ -892,7 +892,13 @@ public class MainActivity extends SDKBaseActivity {
         //customerSupport(String userName, String serverId,String userTags, JSONObject customData)
         //参数分别为:用户名，服务器id,用户标签，自定义数据
         try {
-            SDK.getInstance().customerSupport();
+            UserConfig userConfig = new UserConfig.Builder()
+                    .setUserName("rename99a5")
+                    .setServerId("1")
+                    .setUserTags("svip")
+                    .setCustomData("{'name':'testName','age':'18','level':100}")
+                    .build();
+            SDK.getInstance().customerSupport(userConfig);
         }catch (Exception e){
             e.printStackTrace();
         }

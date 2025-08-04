@@ -1,10 +1,4 @@
 ****************************************************************
-
-1.更新客服Aihelp系统到5.5.+
-更新依赖库即可：
-implementation 'net.aihelp:android-aihelp-aar:5.5.+'
-2.更新支付库到7.0.0：
-implementation 'com.android.billingclient:billing:7.0.0'
 3.加上firebase
  //firebase
  implementation 'com.google.firebase:firebase-analytics:22.5.0'
@@ -13,32 +7,29 @@ implementation 'com.android.billingclient:billing:7.0.0'
 
 
 ****************************************************************
-
-1.更新客服Aihelp系统到5.5.+
-   implementation 'net.aihelp:android-aihelp-aar:5.5.+'
-2.更新支付库到7.0.0：
-   implementation 'com.android.billingclient:billing:7.0.0'
-3.加上firebase
- //firebase
-   implementation 'com.google.firebase:firebase-analytics:22.5.0'
-  在合适的地方调用事件上报接口：
- FirebaseManager.getInstance().logEvent(name,bundle);
-4.修复LEGO游戏上传GP时报错：
-  你的套件以 SDK 34 為目標版本，但使用的 Play Core 程式庫不適用於該版本。你目前的 com.google.android.play:core:1.9.0 媒體庫與 targetSdkVersion 34 (Android 14) 不兼容，因為後者對廣播接收器進行向下不兼容的變更，並可能會導致應用程式當機。
-  把依赖库
-  implementation 'com.google.android.play:core:1.9.0'
-  换成：
-  implementation 'com.google.android.play:review:2.0.2'
-5.修复BUG：
-修复前：覆盖安装apk后以游客身份登录
-修复后：覆盖安装apk后仍然以覆盖安装前登录的账号登录
+（陈志佳）（内部代号：FT）
+gosdk_v7.0.8(For FT)(20250804)
+新增：aihelp客服系统传用户参数：修改customerSupport接口
+代码示例：
+            UserConfig userConfig = new UserConfig.Builder()
+                    .setUserName("rename99a5")//用户名
+                    .setServerId("1")//服务器 ID
+                    .setUserTags("svip")//用户标签
+                    .setCustomData("{'name':'testName','age':'18','level':100}")//传入 json 格式的自定义数据
+                    .build();
+            SDK.getInstance().customerSupport(userConfig);
 ****************************************************************
 （陈志佳）（内部代号：FT）
 gosdk_v7.0.7(For FT)(20250717)
 1.修复BUG：
 修复前：覆盖安装apk后以游客身份登录
 修复后：覆盖安装apk后仍然以覆盖安装前登录的账号登录
-
+2.修复LEGO游戏上传GP时报错：
+  你的套件以 SDK 34 為目標版本，但使用的 Play Core 程式庫不適用於該版本。你目前的 com.google.android.play:core:1.9.0 媒體庫與 targetSdkVersion 34 (Android 14) 不兼容，因為後者對廣播接收器進行向下不兼容的變更，並可能會導致應用程式當機。
+  把依赖库
+  implementation 'com.google.android.play:core:1.9.0'
+  换成：
+  implementation 'com.google.android.play:review:2.0.2'
 
 
 

@@ -7,7 +7,7 @@ android {
     namespace 'com.nuts.test'
     compileSdk 35
     defaultConfig {
-        applicationId "com.nuts.test"
+//        applicationId "com.nuts.test"
 //        applicationId "com.nutsplay.nonutssdk"
         minSdkVersion 21//19
         targetSdkVersion 35
