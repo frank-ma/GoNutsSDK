@@ -3,18 +3,19 @@ package com.nutsplay.nopagesdk.manager;
 import android.app.Activity;
 
 import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustAdRevenue;
 import com.adjust.sdk.AdjustEvent;
 import com.adjust.sdk.AdjustPlayStoreSubscription;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
-
-import org.json.JSONObject;
 
 /**
  * Created by frankma on 2021/6/9 3:13 PM
  * Email: frankma9103@gmail.com
  * Desc: Adjust追踪管理类,事件Token要随不同的游戏而重新进行配置
  *
+ * 文档：
+ * https://dev.adjust.com/zh/sdk/android/v4/configuration
  */
 public class AdjustTraceManager {
 
@@ -42,7 +43,10 @@ public class AdjustTraceManager {
             AdjustEvent adjustEvent = new AdjustEvent(eventToken);
             adjustEvent.setRevenue(revenue, currency);
             adjustEvent.setOrderId(orderId);
+            //收入事件去重
+            adjustEvent.setDeduplicationId(orderId);
             Adjust.trackEvent(adjustEvent);
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -57,6 +61,9 @@ public class AdjustTraceManager {
             String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_login", "string"));
             AdjustEvent adjustEvent = new AdjustEvent(eventToken);
             Adjust.trackEvent(adjustEvent);
+
+            // 设置用户标签
+            // Adjust.setPushToken("token",context);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -94,13 +101,22 @@ public class AdjustTraceManager {
 
     /**
      * 广告收入跟踪
+     *
+     * 文档地址：
+     * https://dev.adjust.com/zh/sdk/android/features/ad-revenue#send-ad-revenue
+     *
      * @param source - 表明广告收入来源信息的 String 对象。
-     * @param payload - 包含广告收入 JSON 的 JSONObject 对象。
+     * @param revenue - 收入额
+     * @param currency- 币种的 ISO 4217 代码，由 3 个字符组成
+     *
      */
-    public void adjustTrackAdRevenue(String source, JSONObject payload){
+    // TODO: 2025/12/19 接口修改
+    public void adjustTrackAdRevenue(String source,double revenue,String currency){
         try{
-            if (StringUtils.isEmpty(source) || payload == null) return;
-            Adjust.trackAdRevenue(source,payload);
+            if (StringUtils.isEmpty(source)) return;
+            AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(source);
+            adjustAdRevenue.setRevenue(revenue,currency);
+            Adjust.trackAdRevenue(adjustAdRevenue);
         }catch (Exception e){
             e.printStackTrace();
         }

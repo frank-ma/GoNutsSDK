@@ -151,6 +151,26 @@ public class SDKConstant {
     public static int google_login_error = 133;//google登录失败
     public static int init_error = 134;//初始化错误
 
+    //谷歌支付错误码
+//    @Retention(RetentionPolicy.SOURCE)
+//    public @interface BillingResponseCode {
+//        /** @deprecated */
+//        @Deprecated
+//        int SERVICE_TIMEOUT = -3;
+//        int FEATURE_NOT_SUPPORTED = -2;
+//        int SERVICE_DISCONNECTED = -1;
+//        int OK = 0;
+//        int USER_CANCELED = 1;
+//        int SERVICE_UNAVAILABLE = 2;
+//        int BILLING_UNAVAILABLE = 3;
+//        int ITEM_UNAVAILABLE = 4;
+//        int DEVELOPER_ERROR = 5;
+//        int ERROR = 6;
+//        int ITEM_ALREADY_OWNED = 7;
+//        int ITEM_NOT_OWNED = 8;
+//        int NETWORK_ERROR = 12;
+//    }
+
 
     //小米支付响应代码
     public @interface BillingResponseCode {
@@ -265,5 +285,9 @@ public class SDKConstant {
 //            var10000.append(statusCode);
 //            return var10000.toString();
 //    }
+
+    //重要：
+    //24坚果后台支付验证错误
+    //28补单报错：谷歌错误码 2：待处理（0成功 1取消）
 
 }

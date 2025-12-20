@@ -5,6 +5,38 @@
   调用事件上报接口：
  FirebaseManager.getInstance().logEvent(name,bundle);
 
+****************************************************************
+（陈志佳）（内部代号：FT）
+gosdk_v7.1(For FT)(20251220)
+更新内容：
+升级 adjust 版本到5.4.6+
+
+更新步骤：
+1.升级adjust依赖库
+    //adjust
+    implementation 'com.adjust.sdk:adjust-android:5.5.0'   //4.28.1---》5.5.0
+    implementation 'com.android.installreferrer:installreferrer:2.2'   //不变
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'   //17.0.0---》18.0.1
+
+2.将自定义 Application 中的 initAdjust()方法换成以下内容：
+
+    /**
+     * 初始化Adjust统计平台
+     */
+    public void initAdjust(){
+        String appToken = "sdgp7wh1c4qo";//""{YourAppToken}";
+        // ENVIRONMENT_SANDBOX 沙盒模式； ENVIRONMENT_PRODUCTION 生产模式；自己视情况切换
+        String environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+        config.setLogLevel(LogLevel.VERBOSE);
+        //设置外部设备标识符
+        config.setExternalDeviceId(Installations.id(this));
+        Adjust.initSdk(config);
+    }
+
+3.接口修改
+//广告收入跟踪
+adjustTrackAdRevenue(String source,double revenue,String currency)
 
 ****************************************************************
 （陈志佳）（内部代号：FT）

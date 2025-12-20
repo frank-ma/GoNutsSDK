@@ -12,6 +12,7 @@ import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.LogLevel;
 
 import com.nutsplay.nopagesdk.kernel.SDKApplication;
+import com.nutsplay.nopagesdk.utils.Installations;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,23 +70,37 @@ public class App extends SDKApplication {
         }
     }
 
+
     /**
      * 初始化Adjust统计平台
      */
-    public void initAdjust() {
+    public void initAdjust(){
+        String appToken = "sdgp7wh1c4qo";//""{YourAppToken}";
+        // ENVIRONMENT_SANDBOX 沙盒模式； ENVIRONMENT_PRODUCTION 生产模式；自己视情况切换
+        String environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+        config.setLogLevel(LogLevel.VERBOSE);
+        //设置外部设备标识符
+        config.setExternalDeviceId(Installations.id(this));
+        Adjust.initSdk(config);
+    }
+
+    /**
+     * 初始化Adjust统计平台
+     */
+    public void initAdjust1() {
         String appToken = "7bwy6y88uhhc";
 //        ENVIRONMENT_SANDBOX 沙盒模式； ENVIRONMENT_PRODUCTION 生产模式；自己视情况切换
         String environment = AdjustConfig.ENVIRONMENT_SANDBOX;
         AdjustConfig config = new AdjustConfig(this, appToken, environment);
-//        config.setLogLevel(LogLevel.DEBUG);//可以更改日志的级别
         config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-//        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
-//        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
-//        config.setLogLevel(LogLevel.WARN); // disable info logs
-//        config.setLogLevel(LogLevel.ERROR); // disable warning logs
-//        config.setLogLevel(LogLevel.ASSERT); // disable error logs
-//        config.setLogLevel(LogLevel.SUPRESS); // disable all logs
-        Adjust.onCreate(config);
+//        config.setNeedsCost(true);
+//        Adjust.onCreate(config);
+
+
+
+
+
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
