@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -12,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Base64;
 import android.util.Log;
@@ -27,11 +29,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nutsplay.nopagesdk.R;
+import com.nutsplay.nopagesdk.callback.isUSACallBack;
+import com.nutsplay.nopagesdk.kernel.NutsCode;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.sputil.SPKey;
 import com.nutsplay.nopagesdk.utils.sputil.SPManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
+import com.nutspower.commonlibrary.utils.LogUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -858,5 +863,58 @@ public class SDKGameUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 判断谷歌商店是否安装
+     * @param context
+     * @return
+     */
+    public static boolean isGooglePlayStoreInstalled(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo googlePlayStoreInfo = packageManager.getApplicationInfo("com.android.vending", 128);
+            return googlePlayStoreInfo.enabled;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 判断是不是美区
+     * @param context
+     * @param callBack
+     */
+    public static void isUSAArea(Activity context, isUSACallBack callBack) {
+
+        if (!isGooglePlayStoreInstalled(context)){
+            callBack.onFailure(NutsCode.Error,"Google Play Store not Installed");
+            return;
+        }
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String simCountryIso = telephonyManager.getSimCountryIso();
+        if (StringUtils.isEmpty(simCountryIso)){
+            // 获取不到 SIM 卡
+            String country = Locale.getDefault().getCountry();
+            if (StringUtils.isEmpty(country)){
+                callBack.onSuccess(false);
+            }else {
+                if (country.toLowerCase().contains("us")){
+                    callBack.onSuccess(true);
+                }else {
+                    callBack.onSuccess(false);
+                }
+            }
+        } else {
+            //能获取到 SIM 卡
+            System.out.println("simCountryIso:"+simCountryIso);
+            LogUtils.e("simCountryIso",simCountryIso);
+
+            if (simCountryIso.toLowerCase().contains("us")){
+                callBack.onSuccess(true);
+            }else {
+                callBack.onSuccess(false);
+            }
+        }
     }
 }

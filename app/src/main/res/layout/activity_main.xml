@@ -222,6 +222,24 @@
             android:text="Google登录"
             android:visibility="visible"
             android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="thirdPay"
+            android:text="第三方支付"
+            android:visibility="visible"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="isUSAArea"
+            android:text="是否美区"
+            android:visibility="visible"
+            android:textColor="@color/white" />
     </LinearLayout>
 
         <View

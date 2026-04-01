@@ -289,7 +289,7 @@ public class ApiManager {
      */
     public void SDKXsollaMakeOrder(String aesKey16,String ivParameter, String aesKey16byRSA,String serverId,String referenceId,String gameExt, NetCallBack callBack){
         try {
-            String url = getDomainName() + "/delta";
+            String url = getDomainName() + "/alps";
 
             MakeOrder makeOrder = new MakeOrder();
             makeOrder.setClientID(getClientID());

@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
@@ -47,6 +48,7 @@ public class PayWebActivity extends BaseActivity {
     private String TAG = "PayWebActivity";
     private WebView webView;
     private ProgressBar progressBar;
+    private ImageView closeView;
     private String transactionId="";
 
     @Override
@@ -60,6 +62,7 @@ public class PayWebActivity extends BaseActivity {
     private void initView() {
         webView = findViewById(SDKResUtils.getResId(this, "web", "id"));
         progressBar = findViewById(SDKResUtils.getResId(this, "progress", "id"));
+        closeView = findViewById(SDKResUtils.getResId(this, "close", "id"));
         initWebView();
     }
 
@@ -97,26 +100,36 @@ public class PayWebActivity extends BaseActivity {
             webView.loadUrl(payUrl);
         }
         transactionId = getIntent().getStringExtra("OpenData1");
-    }
 
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            queryOrderStatus(transactionId);
-            super.onBackPressed();
-        }
+        //关闭按钮
+        closeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 //    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        queryOrderStatus();
+//    public void onBackPressed() {
+//        if (webView.canGoBack()) {
+//            webView.goBack();
+//        } else {
+//            queryOrderStatus(transactionId);
+//            super.onBackPressed();
+//        }
 //    }
 
+    @Override
+    protected void onDestroy() {
+        //查询订单支付状态
+        queryOrderStatus(transactionId);
+        super.onDestroy();
+    }
+
     /**
-     * 页面关闭的时候，查询订单支付状态，以免玩家非常规操作直接关闭支付成功的页面，统计不到数据
+     * 页面关闭的时候，查询订单支付状态，
+     * 以免玩家非常规操作直接关闭支付成功的页面，统计不到数据
      */
     private void queryOrderStatus(String transactionId) {
         try {

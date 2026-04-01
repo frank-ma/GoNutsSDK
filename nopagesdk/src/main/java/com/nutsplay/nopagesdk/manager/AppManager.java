@@ -26,8 +26,13 @@ public class AppManager {
     public static void startActivityWithData(Class activity, String... data){
         Activity currActivity= SDKManager.getInstance().getActivity();
         Intent intent=new Intent(currActivity,activity);
-        intent.putExtra("OpenData0",data[0]);
-        intent.putExtra("OpenData1",data[1]);
+        if (data.length == 1){
+            intent.putExtra("OpenData0",data[0]);
+        }
+        if (data.length == 2){
+            intent.putExtra("OpenData0",data[0]);
+            intent.putExtra("OpenData1",data[1]);
+        }
         currActivity.startActivity(intent);
         currActivity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }

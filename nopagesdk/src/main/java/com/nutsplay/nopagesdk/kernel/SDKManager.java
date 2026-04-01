@@ -2005,7 +2005,7 @@ public class SDKManager {
                             String payUrl = orderModel.getData().getPayUrl();
                             String channelCode = orderModel.getData().getChannelCode();
                             LogUtils.d(TAG, "payurl:" + payUrl + "    " + channelCode);
-                            if (channelCode != null && "WEBPAY".equals(channelCode) && StringUtils.isNotBlank(payUrl)) {
+                            if ("WEBPAY".equals(channelCode) && StringUtils.isNotBlank(payUrl)) {
                                 //使用WebPay
                                 AppManager.startActivityWithData(PayWebActivity.class, payUrl, transactionId);
                             } else {
@@ -2024,6 +2024,109 @@ public class SDKManager {
                         }
 
 
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    hideProgress();
+                    LogUtils.e(TAG, "sdkMakeOrder---onFailure:" + errorMsg);
+                    purchaseCallBack.onFailure(SDKConstant.network_error, errorMsg);
+                }
+            });
+
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * SDK Xsolla下单接口
+     *
+     * @param activity
+     * @param purchaseCallBack
+     */
+    public void payByXsolla(final Activity activity, String serverId, final String referenceId, String gameExt, final PurchaseCallBack purchaseCallBack) {
+
+        try {
+            if (activity == null) {
+                System.out.println("sdkMakeOrder failed:Activity is null.");
+                return;
+            }
+            setActivity(activity);
+
+            if (purchaseCallBack == null) {
+                System.out.println("sdkMakeOrder failed:purchaseCallBack is null.");
+                return;
+            }
+
+            setPurchaseCallBack(purchaseCallBack);
+
+            if (serverId == null || referenceId == null || gameExt == null) {
+                purchaseCallBack.onFailure(SDKConstant.parameter_is_null, "serverId or referenceId or gameExt is null");
+                return;
+            }
+
+            if (!isInitStatus()) {
+                SDKToast.getInstance().ToastShow("The SDK is not initialized.", 3);
+                return;
+            }
+
+            if (getUser() == null || StringUtils.isBlank(getUser().getTicket())) {
+                SDKToast.getInstance().ToastShow("Please login first.", 3);
+                return;
+            }
+
+            final String aesKey = AESUtils.generate16SecretKey();
+            final String ivParameter = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+
+            showProgress(activity);
+            ApiManager.getInstance().SDKXsollaMakeOrder(aesKey, ivParameter, aesKey16byRSA, serverId, referenceId, gameExt, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + aesKey + "|" + result);
+                    if (result == null || result.isEmpty()) {
+                        purchaseCallBack.onFailure(SDKConstant.result_is_null, "Make Order:result is null.");
+                        return;
+                    }
+                    try {
+                        String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
+                        LogUtils.d(TAG, "下单:" + decodeData);
+                        SDKOrderModel orderModel = (SDKOrderModel) GsonUtils.json2Bean(decodeData, SDKOrderModel.class);
+                        if (orderModel == null) {
+                            purchaseCallBack.onFailure(SDKConstant.model_is_null, "Make Order:orderModel is null.");
+                            return;
+                        }
+                        if (orderModel.getCode() == 1) {
+                            //创建订单成功
+                            String transactionId = orderModel.getData().getTransactionId();//订单号
+
+                            //下单追踪
+                            TrackingManager.makeOrderTrack(orderModel.getData().getPrice(), "USD", transactionId, "success");
+
+                            String payUrl = orderModel.getData().getPayUrl();
+                            String channelCode = orderModel.getData().getChannelCode();
+                            LogUtils.d(TAG, "payurl:" + payUrl + "    " + channelCode);
+                            if (StringUtils.isNotBlank(payUrl)) {
+                                //使用WebPay
+                                AppManager.startActivityWithData(PayWebActivity.class, payUrl, transactionId);
+                            } else {
+                                purchaseCallBack.onFailure(NutsCode.ERROR, "Xsolla payUrl is empty");
+                            }
+
+                        } else {
+                            hideProgress();
+                            LogUtils.e(TAG, "sdkMakeOrder---onSuccess:" + orderModel.getMessage());
+                            SDKGameUtils.showServiceInfo(orderModel.getCode(), orderModel.getMessage());
+                            purchaseCallBack.onFailure(orderModel.getCode(), orderModel.getMessage());
+                        }
                     } catch (Exception e) {
                         hideProgress();
                         e.printStackTrace();

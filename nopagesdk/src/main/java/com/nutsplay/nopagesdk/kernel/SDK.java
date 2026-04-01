@@ -19,9 +19,11 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
+import com.nutsplay.nopagesdk.callback.isUSACallBack;
 import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
+import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
 
 import net.aihelp.config.UserConfig;
@@ -236,6 +238,16 @@ public class SDK {
     }
 
     /**
+     * 第三方支付接口
+     *  Xsolla
+     * @param activity
+     * @param purchaseCallBack
+     */
+    public void payByXsolla(final Activity activity, String serverId, final String referenceId, String gameExt, final PurchaseCallBack purchaseCallBack) {
+        SDKManager.getInstance().payByXsolla(activity, serverId, referenceId, gameExt, purchaseCallBack);
+    }
+
+    /**
      * SDK订阅商品接口
      *
      * @param activity
@@ -393,11 +405,6 @@ public class SDK {
     /**
      * 直接进入AiHelp客服聊天界面
      *
-     * @param playerName 玩家昵称
-     * @param serverId 服务器ID
-     * @param userTags 玩家标签
-     * @param customData 自定义数据
-     * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
     public void customerSupport(UserConfig userConfig) {
         AIHelpManager.getInstance().show(userConfig);
@@ -408,11 +415,6 @@ public class SDK {
 
     /**
      * FAQ
-     * @param userName 玩家昵称
-     * @param serverId 服务器ID
-     * @param userTags 玩家标签
-     * @param customData 自定义数据
-     * @param showRobot 是否显示机器人按钮 VIP用户传false直接开启人工客服
      */
 //    public void showFAQs(String userName, String serverId, String userTags, JSONObject customData, boolean showRobot){
 //        SDKManager.getInstance().showFAQs(userName,serverId,userTags,customData,showRobot);
@@ -494,6 +496,15 @@ public class SDK {
         if (StringUtils.isNotBlank(eventID)){
             AdjustTraceManager.getInstance().adjustCustomEvent(eventID);
         }
+    }
+
+    /**
+     * 判断是不是美区
+     * @param context
+     * @param callBack
+     */
+    public void isUSAArea(Activity context, isUSACallBack callBack){
+        SDKGameUtils.isUSAArea(context,callBack);
     }
 
     /**

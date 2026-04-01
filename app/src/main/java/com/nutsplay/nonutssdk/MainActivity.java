@@ -32,6 +32,7 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
+import com.nutsplay.nopagesdk.callback.isUSACallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
@@ -54,27 +55,14 @@ import java.util.Map;
 
 public class MainActivity extends SDKBaseActivity {
     private static final String TAG = "MainActivity";
-
-
 //    private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
 //    private String buglyId = "36386748bb";
-//    String referenceId = "com.nutspower.nutsgamesdk.sub2";
-//    String referenceId = "com.nuts.sm.android.googleplay.1";
-//    String referenceId = "com.nutsplay.ccgg.payment01";
-    String referenceId = "com.lucky.ps.farming.android.gem1";
 
+    String referenceId = "com.familygo.simgame.android.googleplay.1";
+    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）
 
-    private String clientId = "64e3342d95b526d070bf82c9";//PSII     635f680c95b526b99391e7e7
-//    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）     635f680c95b526b99391e7e7
-//    private String clientId = "64e3342d95b526d070bf82c9";//测试应用      635f680c95b526b99391e7e7
-//    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
-//    private String clientId = "64e2e7ae95b526d070bf817f";//wvb
-//    private String clientId = "6449d80495b526d070beff5a";//MiPay
-//    private String clientId = "64aed91995b526d070bf580c";//viking
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
-//    String referenceId = "gem_0001";
-
     private TextView logTv,webTv,login;
     private Button initB,defaultLogin;
     private String reyunAppId="c48e4cf4e8f80a2b";
@@ -100,9 +88,7 @@ public class MainActivity extends SDKBaseActivity {
 
         initB.callOnClick();
 
-
         //startActivity(new Intent(this,AdsActivity.class));
-
     }
 
 
@@ -128,6 +114,7 @@ public class MainActivity extends SDKBaseActivity {
             @Override
             public void onSuccess() {
                 showLog("初始化成功");
+                login();
             }
 
             @Override
@@ -235,7 +222,7 @@ public class MainActivity extends SDKBaseActivity {
     public void purchase(View view) {
 //        String referenceId = "com.dyhd.game.seawar3d.pay00991";
 //        String skuId = "nuts_product_1";
-        SDK.getInstance().sdkPurchase(this, "0", referenceId, "", new PurchaseCallBack() {
+        SDK.getInstance().sdkPurchase(this, "0", referenceId, "testGooglePay", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 if (payResult == null) return;
@@ -254,6 +241,30 @@ public class MainActivity extends SDKBaseActivity {
             }
         });
 
+    }
+
+    /**
+     * 第三方支付
+     */
+    public void thirdPay(View view){
+         SDK.getInstance().payByXsolla(this, "0", referenceId, "testXsolla", new PurchaseCallBack() {
+            @Override
+            public void onSuccess(PayResult payResult) {
+                if (payResult == null) return;
+                String orderid= payResult.getOrderid();
+                showLog("Xsolla支付成功" + payResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("Xsolla支付取消");
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                showLog("Xsolla支付失败：code-" +code+ ",  msg-"+msg);
+            }
+        });
     }
 
 
@@ -903,6 +914,25 @@ public class MainActivity extends SDKBaseActivity {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 判断是不是美区
+     */
+    public void isUSAArea(View view){
+        SDK.getInstance().isUSAArea(this, new isUSACallBack() {
+            @Override
+            public void onSuccess(boolean isUSA) {
+                showLog("是否是美区：" + isUSA);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                showLog("是否是美区：code-" + code + " ,msg:"+msg);
+            }
+        });
+    }
+
+
 
 
     /**

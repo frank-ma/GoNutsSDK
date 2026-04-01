@@ -6,6 +6,32 @@
  FirebaseManager.getInstance().logEvent(name,bundle);
 
 ****************************************************************
+陈志佳
+gosdk_v7.2(For FT)(20260401)
+更新内容：第三方支付Xsolla接入,新增两个接口
+1.判断是不是美区
+
+SDK.getInstance().isUSAArea(this, new isUSACallBack() {
+            @Override
+            public void onSuccess(boolean isUSA) {
+                //showLog("是否是美区：" + isUSA);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                //showLog("是否是美区：code-" + code + " ,msg:"+msg);
+            }
+        });
+
+2.Xsolla支付
+  新增接口：SDK.getInstance().payByXsolla(Activity context, String serverId, String skuId, String gameExt, PurchaseCallBack callback)
+  和谷歌官方支付接口 SDK.getInstance().sdkPurchase()并行存在，游戏方自行决定在适当的时候调用相应接口（例如低等级玩家只显示谷歌官方支付，达到一定条件才调用第三方支付，这样
+  可以规避审核时候显示第三方支付的风险。）
+
+****************************************************************
+
+
+
 （陈志佳）（内部代号：FT）
 gosdk_v7.1(For FT)(20251220)
 更新内容：
