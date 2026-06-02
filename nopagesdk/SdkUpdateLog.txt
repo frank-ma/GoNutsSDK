@@ -1,13 +1,57 @@
-****************************************************************
-3.加上firebase
- //firebase
- implementation 'com.google.firebase:firebase-analytics:22.5.0'
-  调用事件上报接口：
- FirebaseManager.getInstance().logEvent(name,bundle);
 
 ****************************************************************
 陈志佳
-gosdk_v7.2(For FT)(20260401)
+gosdk_v7.3(For FT)(20260602)
+1.新增：Adjust 追踪时，区分谷歌内购和 web 支付，分别追踪
+2.添加土耳其语适配，语言代码 tr；添加菲律宾语适配，语言代码 tl
+SDK.getInstance().sdkUpdateLanguage("tr");
+或者初始化时传入语言代码 tr
+  InitParameter initParameter = new InitParameter();
+     ...
+  initParameter.setLanguage("tr");
+
+
+更新步骤：
+1.替换 aar文件
+2.在 values/strings.xml文件添加：
+<string name="adjust_webStore_checkout">4cmk7l</string>
+
+------------------------------------------------------------------------------------------------
+3.新增接口：判断当前区域是否支持第三方支付Xsolla
+示例：
+        SDK.getInstance().isSupportThirdPay(this, new isThirdPaySupportCallBack() {
+            @Override
+            public void onSuccess(boolean support) {
+                showLog("当前地区是否支持三方支付：" + support);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                showLog("当前地区是否支持三方支付：code-" + code + " ,msg:"+msg);
+            }
+        });
+4.第三方支付接口：比谷歌支付接口多传入一个参数 payType，payType 传入"Xsolla"则进入第三方支付，不传或者传其他字符串则进入谷歌支付
+示例：  SDK.getInstance().sdkPurchase(this, "0", referenceId, "testXsolla","Xsolla", new PurchaseCallBack() {
+            @Override
+            public void onSuccess(PayResult payResult) {
+                if (payResult == null) return;
+                String orderid= payResult.getOrderid();
+                showLog("Xsolla支付成功" + payResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                showLog("Xsolla支付取消");
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                showLog("Xsolla支付失败：code-" +code+ ",  msg-"+msg);
+            }
+        });
+****************************************************************
+陈志佳
+gosdk_v7.2(For FT)(20260402)
 更新内容：第三方支付Xsolla接入,新增两个接口
 1.判断是不是美区
 
@@ -25,7 +69,7 @@ SDK.getInstance().isUSAArea(this, new isUSACallBack() {
 
 2.Xsolla支付
   新增接口：SDK.getInstance().payByXsolla(Activity context, String serverId, String skuId, String gameExt, PurchaseCallBack callback)
-  和谷歌官方支付接口 SDK.getInstance().sdkPurchase()并行存在，游戏方自行决定在适当的时候调用相应接口（例如低等级玩家只显示谷歌官方支付，达到一定条件才调用第三方支付，这样
+  和谷歌官方支付接口 SDK.getInstance().sdkPurchase()并行存在，请自行决定在合适的时机调用相应接口（例如低等级玩家只显示谷歌官方支付，达到一定条件才调用第三方支付，这样
   可以规避审核时候显示第三方支付的风险。）
 
 ****************************************************************

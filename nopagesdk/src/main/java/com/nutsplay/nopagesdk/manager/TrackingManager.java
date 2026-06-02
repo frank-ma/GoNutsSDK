@@ -190,6 +190,8 @@ public class TrackingManager {
 //        Adjust
         if (itemType.equals(SDKConstant.INAPP)) {
             AdjustTraceManager.getInstance().googleIap((Activity) context, currencyAmount, currencyType, orderId);
+        } else if (itemType.equalsIgnoreCase("web")){
+            AdjustTraceManager.getInstance().webStoreCheckOut((Activity) context, currencyAmount, currencyType, orderId);
         }
         //热云追踪
 //        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");

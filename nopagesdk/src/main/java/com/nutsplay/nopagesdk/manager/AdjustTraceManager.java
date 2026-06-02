@@ -52,6 +52,32 @@ public class AdjustTraceManager {
         }
     }
 
+
+    /**
+     * 第三方支付追踪
+     * 这里指 Xsolla 网页版支付
+     * @param context
+     * @param revenue 金额
+     * @param currency 货币
+     * @param orderId
+     */
+    public void webStoreCheckOut(Activity context, double revenue, String currency, String orderId) {
+        try {
+            String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_webStore_checkout", "string"));
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            adjustEvent.setRevenue(revenue, currency);
+            adjustEvent.setOrderId(orderId);
+
+            //adjustEvent.addCallbackParameter();
+//            收入事件去重
+            adjustEvent.setDeduplicationId(orderId);
+            Adjust.trackEvent(adjustEvent);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 登录
      * ockst9

@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="faq"
-                android:text="showFAO"
+                android:text="showFAQ"
                 android:visibility="visible"
                 android:textColor="@color/white" />
             <Button
@@ -446,8 +446,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:onClick="zh_TW"
-                android:text="繁中"
+                android:onClick="tr"
+                android:text="土耳其"
                 android:textColor="@color/colorAccent" />
             <TextView
                 android:layout_width="wrap_content"
@@ -484,7 +484,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:onClick="fr"
-                android:text="法语"
+                android:text="菲律宾"
                 android:textColor="@color/colorAccent" />
             <TextView
                 android:layout_width="wrap_content"

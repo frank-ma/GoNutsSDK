@@ -32,7 +32,7 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
-import com.nutsplay.nopagesdk.callback.isUSACallBack;
+import com.nutsplay.nopagesdk.callback.isThirdPaySupportCallBack;
 import com.nutsplay.nopagesdk.facebook.FacebookUser;
 import com.nutsplay.nopagesdk.kernel.SDK;
 import com.nutsplay.nopagesdk.kernel.SDKConstant;
@@ -68,8 +68,8 @@ public class MainActivity extends SDKBaseActivity {
     private String reyunAppId="c48e4cf4e8f80a2b";
 
     //FT
-    private String AIHelpAppID = "nutspoweronlineentertainmentlimited_platform_628e81c45fff46230a4146eb8c353765";
-    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_7a7e9ffd590e4eb98887b95983b984d1";
+    private String AIHelpAppID = "nutspoweronlineentertainmentlimited_platform_7e211d0d269b04004e794e6a6a8173d2";
+    private String AIHelpAppKey = "NUTSPOWERONLINEENTERTAINMENTLIMITED_app_eac69df12cf74a56a83647c4c7137570";
     private String AIHelpDomain = "nutspoweronlineentertainmentlimited.aihelp.net";
 
     @Override
@@ -99,7 +99,7 @@ public class MainActivity extends SDKBaseActivity {
     public void initSDK(View view) {
         InitParameter initParameter = new InitParameter();
         initParameter.setClientId(clientId);
-        initParameter.setLanguage("zh_cn");
+        initParameter.setLanguage("tr");
         initParameter.setDebug(true);
         initParameter.setHasUI(true);
         initParameter.setPushLogUrl("");//为空则不走游戏的日志上报地址
@@ -247,7 +247,7 @@ public class MainActivity extends SDKBaseActivity {
      * 第三方支付
      */
     public void thirdPay(View view){
-         SDK.getInstance().payByXsolla(this, "0", referenceId, "testXsolla", new PurchaseCallBack() {
+         SDK.getInstance().sdkPurchase(this, "0", referenceId, "testXsolla","Xsolla", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
                 if (payResult == null) return;
@@ -411,6 +411,7 @@ public class MainActivity extends SDKBaseActivity {
      * ja，日语
      * id，印度尼西亚语
      * ru:俄语
+     * tr:土耳其语
      *
      *
      * 荷兰af
@@ -443,8 +444,8 @@ public class MainActivity extends SDKBaseActivity {
     public void zh_CN(View view){
         SDK.getInstance().sdkUpdateLanguage("zh_CN");
     }
-    public void zh_TW(View view){
-        SDK.getInstance().sdkUpdateLanguage("zh_HK");
+    public void tr(View view){
+        SDK.getInstance().sdkUpdateLanguage("tr");
     }
     public void es(View view){
         SDK.getInstance().sdkUpdateLanguage("es");
@@ -456,7 +457,7 @@ public class MainActivity extends SDKBaseActivity {
         SDK.getInstance().sdkUpdateLanguage("ar");
     }
     public void fr(View view){
-        SDK.getInstance().sdkUpdateLanguage("fr");
+        SDK.getInstance().sdkUpdateLanguage("tl");
     }
     public void vi(View view){
         SDK.getInstance().sdkUpdateLanguage("vi");
@@ -916,18 +917,18 @@ public class MainActivity extends SDKBaseActivity {
     }
 
     /**
-     * 判断是不是美区
+     * 判断当前国家是不是支持第三方支付
      */
     public void isUSAArea(View view){
-        SDK.getInstance().isUSAArea(this, new isUSACallBack() {
+        SDK.getInstance().isSupportThirdPay(this, new isThirdPaySupportCallBack() {
             @Override
-            public void onSuccess(boolean isUSA) {
-                showLog("是否是美区：" + isUSA);
+            public void onSuccess(boolean support) {
+                showLog("当前地区是否支持三方支付：" + support);
             }
 
             @Override
             public void onFailure(int code, String msg) {
-                showLog("是否是美区：code-" + code + " ,msg:"+msg);
+                showLog("当前地区是否支持三方支付：code-" + code + " ,msg:"+msg);
             }
         });
     }

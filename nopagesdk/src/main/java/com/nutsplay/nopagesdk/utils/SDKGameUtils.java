@@ -29,6 +29,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nutsplay.nopagesdk.R;
+import com.nutsplay.nopagesdk.callback.isThirdPaySupportCallBack;
 import com.nutsplay.nopagesdk.callback.isUSACallBack;
 import com.nutsplay.nopagesdk.kernel.NutsCode;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
@@ -552,6 +553,10 @@ public class SDKGameUtils {
             lan = 14;
         } else if (language.contains("ru") || language.contains("by")) {
             lan = 15;
+        } else if (language.contains("tr")){
+            lan = 16;
+        } else if (language.contains("tl")){//菲律宾语
+            lan = 17;
         } else {
             lan = 2;
         }
@@ -565,8 +570,8 @@ public class SDKGameUtils {
      */
     public static String getAIHelpLanguage(String lang){
         int index = getLanguage(lang)-1;
-        if (index < 0 || index > 14) index = 1;
-        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru"};
+        if (index < 0 || index > 16) index = 1;
+        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru","tr","tl"};
         return aihelpLang[index];
     }
 
@@ -613,7 +618,7 @@ public class SDKGameUtils {
         } else if (language.contains("tr")) {
             return "tr";
         } else {
-            return "en";
+            return language;
         }
     }
 
@@ -660,7 +665,7 @@ public class SDKGameUtils {
         } else if (language.contains("tr")) {
             return "tr";
         } else {
-            return "en";
+            return language;
         }
     }
 
@@ -915,6 +920,43 @@ public class SDKGameUtils {
             }else {
                 callBack.onSuccess(false);
             }
+        }
+    }
+
+    /**
+     * 判断该地区是否支持 Xsolla 第三方支付
+     * @param context 上下文
+     * @param areas 坚果后台配置的已支持三方支付的国家代码组合
+     * @param callBack 回调接口
+     *
+     *  测试注意大小写
+     */
+    public static void isXsollaSupport(Activity context, String areas, isThirdPaySupportCallBack callBack) {
+        try {
+            areas = areas.toUpperCase(); //转成大写
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String country = Locale.getDefault().getCountry().toUpperCase(Locale.ROOT); //都转成大写
+            if (telephonyManager == null ) {
+                //平板/无 SIM 设备：getSystemService 可能返回 null
+                callBack.onSuccess(areas.contains(country));
+                return;
+            }
+            String simCountryIso = telephonyManager.getSimCountryIso().toUpperCase(Locale.ROOT); //都转成大写
+            if (StringUtils.isEmpty(simCountryIso)){
+                // 获取不到 SIM 卡
+                if (StringUtils.isEmpty(country)){
+                    callBack.onSuccess(false);
+                }else {
+                    callBack.onSuccess(areas.contains(country));
+                }
+            } else {
+                //能获取到 SIM 卡
+                LogUtils.e("simCountryIso",simCountryIso);
+                callBack.onSuccess(areas.contains(simCountryIso));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            callBack.onSuccess(false);
         }
     }
 }

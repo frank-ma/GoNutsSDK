@@ -46,7 +46,8 @@ public class SDKInitModel implements Serializable {
 
     public static class DataBean implements Serializable {
         /**
-         * "ID":"5d7f63a6e73f2146c4b1e731","code":"Goblin","name":"Goblin's very busy","icon":"","debug_mark":0,"story_mark":0,"policy_txt":"NO POLICY"
+         * "ID":"5d7f63a6e73f2146c4b1e731","code":"Goblin","name":"Goblin's very busy","icon":"","debug_mark":0,"story_mark":0,"policy_txt":"NO POLICY", "third_pay_area":"TW,UA,US,ZA",
+         *         "bundle_id":"com.nuts.test"
          */
 
         private String ID;
@@ -55,7 +56,17 @@ public class SDKInitModel implements Serializable {
         private String icon;
         private int debug_mark;
         private int story_mark;
-        private String policy_txt;
+        private String policy_txt="";
+
+        private String third_pay_area = "";
+
+        public String getThird_pay_area() {
+            return third_pay_area;
+        }
+
+        public void setThird_pay_area(String third_pay_area) {
+            this.third_pay_area = third_pay_area;
+        }
 
         public String getID() {
             return ID;

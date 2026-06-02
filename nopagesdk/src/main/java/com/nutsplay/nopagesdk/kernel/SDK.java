@@ -19,6 +19,7 @@ import com.nutsplay.nopagesdk.callback.ResultCallBack;
 import com.nutsplay.nopagesdk.callback.SDKGetSkuDetailsCallback;
 import com.nutsplay.nopagesdk.callback.ShareResultCallBack;
 import com.nutsplay.nopagesdk.callback.SocialBindCallBack;
+import com.nutsplay.nopagesdk.callback.isThirdPaySupportCallBack;
 import com.nutsplay.nopagesdk.callback.isUSACallBack;
 import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
@@ -237,13 +238,21 @@ public class SDK {
         SDKManager.getInstance().sdkPurchase(activity, serverId, referenceId, gameExt, purchaseCallBack);
     }
 
+    public void sdkPurchase(final Activity activity, String serverId, final String referenceId, String gameExt, String payType,final PurchaseCallBack purchaseCallBack) {
+        if (StringUtils.isNotBlank(payType) && payType.equalsIgnoreCase("Xsolla")){
+            SDKManager.getInstance().payByXsolla(activity, serverId, referenceId, gameExt, purchaseCallBack);
+        }else {
+            SDKManager.getInstance().sdkPurchase(activity, serverId, referenceId, gameExt, purchaseCallBack);
+        }
+    }
+
     /**
      * 第三方支付接口
      *  Xsolla
      * @param activity
      * @param purchaseCallBack
      */
-    public void payByXsolla(final Activity activity, String serverId, final String referenceId, String gameExt, final PurchaseCallBack purchaseCallBack) {
+    private void payByXsolla(final Activity activity, String serverId, final String referenceId, String gameExt, final PurchaseCallBack purchaseCallBack) {
         SDKManager.getInstance().payByXsolla(activity, serverId, referenceId, gameExt, purchaseCallBack);
     }
 
@@ -505,6 +514,16 @@ public class SDK {
      */
     public void isUSAArea(Activity context, isUSACallBack callBack){
         SDKGameUtils.isUSAArea(context,callBack);
+    }
+
+    /**
+     * 判断当前国家是否支持第三方支付
+     * @param context
+     * @param callBack
+     */
+    public void isSupportThirdPay(Activity context, isThirdPaySupportCallBack callBack){
+        String areas = SDKManager.getInstance().getInitData().getData().getThird_pay_area();
+        SDKGameUtils.isXsollaSupport(context,areas,callBack);
     }
 
     /**
