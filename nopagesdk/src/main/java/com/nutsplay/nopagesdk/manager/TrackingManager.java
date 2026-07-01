@@ -1,12 +1,10 @@
 package com.nutsplay.nopagesdk.manager;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
 import com.nutsplay.nopagesdk.beans.User;
-import com.nutsplay.nopagesdk.kernel.SDKConstant;
 import com.nutsplay.nopagesdk.kernel.SDKLangConfig;
 import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.utils.toast.SDKToast;
@@ -187,14 +185,18 @@ public class TrackingManager {
 //        AppsFlyerLib.getInstance().trackEvent(context, "NutsGooglePay", eventValues);
         //dataEye追踪
 //        DCTrackingPoint.paymentSuccess(accountId, orderId, currencyAmount, currencyType, payType);
-//        Adjust
-        if (itemType.equals(SDKConstant.INAPP)) {
-            AdjustTraceManager.getInstance().googleIap((Activity) context, currencyAmount, currencyType, orderId);
-        } else if (itemType.equalsIgnoreCase("web")){
-            AdjustTraceManager.getInstance().webStoreCheckOut((Activity) context, currencyAmount, currencyType, orderId);
-        }
         //热云追踪
 //        ReYunTraceManager.getInstance().googleIapTrack(currencyAmount,currencyType,orderId,"","");
+
+
+
+        //Adjust追踪，注释掉 SDK 内部的追踪，改为暴露接口让游戏方调用的方式
+//        if (itemType.equals(SDKConstant.INAPP)) {
+//            AdjustTraceManager.getInstance().googleIap((Activity) context, currencyAmount, currencyType, orderId);
+//        } else if (itemType.equalsIgnoreCase("web")){
+//            AdjustTraceManager.getInstance().webStoreCheckOut((Activity) context, currencyAmount, currencyType, orderId);
+//        }
+
     }
 
     /**

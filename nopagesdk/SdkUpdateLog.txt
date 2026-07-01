@@ -1,6 +1,25 @@
 
 ****************************************************************
 陈志佳
+&&注意这个版本没有 Adjust 支付追踪，由游戏方自己调用 Adjust 追踪接口&&
+gosdk_v7.4(For FT)(20260701)
+1.注释掉 SDK 内 Adjust 的统计代码,暴露接口给游戏方调用:
+    /**
+     * Adjust 充值上报事件
+     * @param context
+     * @param revenue   美元金额
+     * @param currency  固定传 "USD"
+     * @param isThirdPay 是否第三方支付， true or false
+     */
+public void adjustPurchaseEvent(Activity activity,double revenue,String currency,boolean isThirdPay)
+代码示例：
+SDK.getInstance().adjustPurchaseEvent(this,1.99,"USD",false);
+注意检查：
+在 values/strings.xml文件添加：
+    <string name="adjust_webStore_checkout">4cmk7l</string>是否已添加，已添加忽略
+
+****************************************************************
+陈志佳
 gosdk_v7.3(For FT)(20260602)
 1.新增：Adjust 追踪时，区分谷歌内购和 web 支付，分别追踪
 2.添加土耳其语适配，语言代码 tr；添加菲律宾语适配，语言代码 tl

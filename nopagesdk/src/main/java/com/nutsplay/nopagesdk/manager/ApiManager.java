@@ -118,6 +118,7 @@ public class ApiManager {
 
             Init initBean = new Init();
             initBean.setClientID(getClientID());
+//            initBean.setDevice(DEVICE_TYPE);
             if (SDKManager.getInstance() != null && SDKManager.getInstance().getUser() != null) {
                 initBean.setTicket(SDKManager.getInstance().getUser().getTicket()); //当前用户的ticket
             } else {
@@ -960,9 +961,14 @@ public class ApiManager {
     private class Init extends Bean implements Serializable{
 
         private String ticket = "";
+        private String device = "";
 
         public void setTicket(String ticket) {
             this.ticket = ticket;
+        }
+
+        public void setDevice(String device) {
+            this.device = device;
         }
     }
 

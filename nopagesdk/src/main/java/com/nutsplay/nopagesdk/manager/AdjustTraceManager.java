@@ -51,6 +51,22 @@ public class AdjustTraceManager {
             e.printStackTrace();
         }
     }
+    /**
+     * Google内购追踪
+     * 84d7kd
+     * @param revenue
+     */
+    public void googleIap(Activity context, double revenue, String currency) {
+        try {
+            String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_google_iap", "string"));
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            adjustEvent.setRevenue(revenue, currency);
+            Adjust.trackEvent(adjustEvent);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -71,6 +87,18 @@ public class AdjustTraceManager {
             //adjustEvent.addCallbackParameter();
 //            收入事件去重
             adjustEvent.setDeduplicationId(orderId);
+            Adjust.trackEvent(adjustEvent);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void webStoreCheckOut(Activity context, double revenue, String currency) {
+        try {
+            String eventToken = context.getResources().getString(SDKResUtils.getResId(context, "adjust_webStore_checkout", "string"));
+            AdjustEvent adjustEvent = new AdjustEvent(eventToken);
+            adjustEvent.setRevenue(revenue, currency);
             Adjust.trackEvent(adjustEvent);
 
         }catch (Exception e){

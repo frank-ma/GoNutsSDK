@@ -1012,7 +1012,12 @@ public class MainActivity extends SDKBaseActivity {
      * 参数为：定义好的事件id
      */
     public void other(View view){
-        SDK.getInstance().adjustCustomEvent("eventID");
+//        SDK.getInstance().adjustCustomEvent("eventID");
+
+
+        SDK.getInstance().adjustPurchaseEvent(this,1.99,"USD",true);
+
+
 
         /**
          * 获取客服未读消息数

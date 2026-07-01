@@ -508,6 +508,28 @@ public class SDK {
     }
 
     /**
+     * Adjust 充值上报事件
+     * @param context
+     * @param revenue   美元金额
+     * @param currency  固定传 "USD"
+     * @param isThirdPay 是否第三方支付， true or false
+     */
+    public void adjustPurchaseEvent(Activity context,double revenue,String currency,boolean isThirdPay){
+        if (isThirdPay){
+            AdjustTraceManager.getInstance().webStoreCheckOut(context,revenue,currency);
+        }else {
+            AdjustTraceManager.getInstance().googleIap(context,revenue,currency);
+        }
+    }
+
+    public void adjustIapEvent(Activity context,double revenue,String currency){
+        AdjustTraceManager.getInstance().googleIap(context,revenue,currency);
+    }
+    public void adjustThirdEvent(Activity context,double revenue,String currency){
+        AdjustTraceManager.getInstance().webStoreCheckOut(context,revenue,currency);
+    }
+
+    /**
      * 判断是不是美区
      * @param context
      * @param callBack
