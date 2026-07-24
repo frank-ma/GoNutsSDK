@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-//apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android'//顶部增加 kotlin 插件
 
 afterEvaluate {
     publishing {
@@ -48,13 +48,23 @@ static def releaseTime() {
 
 android {
     namespace 'com.nutsplay.nopagesdk'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
-        versionName "7.4"
-        minSdkVersion 21//16
-        targetSdkVersion 35
+        versionName "7.4.1"
+        minSdkVersion 23//21//16
+        targetSdkVersion 36
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        // Java 8 支持（必须，否则kt与java互调用报错）
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // 新增Kotlin编译配置
+    kotlinOptions {
+        jvmTarget = "1.8" // 和上面Java版本保持一致
     }
 
     buildTypes {
@@ -92,7 +102,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Google内购
-    api 'com.android.billingclient:billing:7.0.0'//2.0.3//2.2.1//3.0.3//4.0.0//6.0.0
+//    api 'com.android.billingclient:billing:7.0.0'//2.0.3//2.2.1//3.0.3//4.0.0//6.0.0
+    api 'com.android.billingclient:billing:9.1.0'//2.0.3//2.2.1//3.0.3//4.0.0//6.0.0
 //    implementation 'com.google.guava:guava:21.0'
     implementation 'com.google.guava:guava:27.0.1-android'
 //    implementation ('com.google.guava:guava:21.0'){//18.0
@@ -156,6 +167,11 @@ dependencies {
 
     //firebase
 //    api 'com.google.firebase:firebase-analytics:22.5.0'
+
+    //三方支付库 Aghanim
+//    api 'com.aghanim.android:checkout-web:1.13.0'
+    // kotlin核心依赖，运行第三方kt库必备
+    api 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
 }
 
 

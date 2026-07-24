@@ -4,13 +4,13 @@ plugins {
 
 
 android {
-    namespace 'com.nuts.test'
-    compileSdk 35
+    namespace 'com.nutspower.nutsgamesdk'
+    compileSdk 36
     defaultConfig {
 //        applicationId "com.nuts.test"
 //        applicationId "com.nutsplay.nonutssdk"
-        minSdkVersion 21//19
-        targetSdkVersion 35
+        minSdkVersion 23//21//19
+        targetSdkVersion 36
         multiDexEnabled true
         versionCode 9
         versionName "4.1.4"

@@ -3,7 +3,7 @@
 buildscript {
     ext {
         agp_version = '8.1.1'
-        kotlin_version = '1.5.21'
+        kotlin_version = '1.9.0'//1.5.21
     }
     repositories {
         mavenCentral()
@@ -19,6 +19,9 @@ buildscript {
         maven { url "https://maven-android.solar-engine.com/repository/se_sdk_for_android/" }
         maven { url "https://developer.huawei.com/repo/" }
         maven { url "https://developer.hihonor.com/repo/" }
+
+        //三方支付库 Aghanim
+        //maven { url "https://us-central1-maven.pkg.dev/ag-registry/android-sdk" }
     }
     dependencies {
         //noinspection AndroidGradlePluginVersion
@@ -31,8 +34,8 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 //        classpath "com.applovin.quality:AppLovinQualityServiceGradlePlugin:3.+"
-
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        //新增 kotlin 编译插件
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -50,6 +53,9 @@ allprojects {
         maven { url "https://maven-android.solar-engine.com/repository/se_sdk_for_android/" }
         maven { url "https://developer.huawei.com/repo/" }
         maven { url "https://developer.hihonor.com/repo/" }
+
+        //三方支付库 Aghanim
+       // maven { url "https://us-central1-maven.pkg.dev/ag-registry/android-sdk" }
     }
 }
 

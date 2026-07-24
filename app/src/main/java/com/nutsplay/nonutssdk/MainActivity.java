@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.android.billingclient.api.ProductDetails;
-import com.nuts.test.R;
+import com.nutspower.nutsgamesdk.R;
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
 import com.nutsplay.nopagesdk.beans.PayResult;
@@ -221,7 +221,7 @@ public class MainActivity extends SDKBaseActivity {
 
     public void purchase(View view) {
 //        String referenceId = "com.dyhd.game.seawar3d.pay00991";
-//        String skuId = "nuts_product_1";
+        referenceId = "nuts_product_1";
         SDK.getInstance().sdkPurchase(this, "0", referenceId, "testGooglePay", new PurchaseCallBack() {
             @Override
             public void onSuccess(PayResult payResult) {
@@ -237,7 +237,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code, String msg) {
-                showLog("支付失败：code-" +code+ ",  msg-"+msg);
+                showLog("支付失败：code:" +code+ ",  msg:"+msg);
             }
         });
 
@@ -262,7 +262,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code, String msg) {
-                showLog("Xsolla支付失败：code-" +code+ ",  msg-"+msg);
+                showLog("Xsolla支付失败：code:" +code+ ",  msg:"+msg);
             }
         });
     }
@@ -288,7 +288,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String msg) {
-                showLog("订阅失败：code-" +code+"  msg-"+ msg);
+                showLog("订阅失败：code:" +code+"  msg:"+ msg);
             }
         });
 
@@ -343,12 +343,18 @@ public class MainActivity extends SDKBaseActivity {
         skuList.add("nuts_product_1");
         skuList.add("nuts_product_2");
         skuList.add("nuts_product_3");
+        skuList.add("com.nutspower.nutsgamesdk.test1");
+        skuList.add("com.nutspower.nutsgamesdk.test2");
+
+        skuList.add("nuts_product_4");
+        skuList.add("nuts_product_5");
 
 
+        showLog("查询商品详情：" + skuList.size()+"条");
         SDK.getInstance().sdkQuerySkuLocalPrice(this, skuList, SDKConstant.INAPP,new SDKGetSkuDetailsCallback() {
             @Override
             public void onSuccess(List<ProductDetails> skuDetails) {
-                showLog("查询本地价格成功：" + skuDetails.size()+"条");
+                showLog("查询商品详情成功：" + skuDetails.size()+"条,未成功的在日志输出");
                 if (skuDetails.size() == 0) return;
                 for (ProductDetails product : skuDetails) {
                     String skuId = product.getProductId();
@@ -359,7 +365,7 @@ public class MainActivity extends SDKBaseActivity {
 
             @Override
             public void onFailure(int code,String msg) {
-                showLog("查询本地价格失败：" + code + msg);
+                showLog("查询本地价格失败：" + code +" : "+ msg);
             }
         });
     }
@@ -462,8 +468,8 @@ public class MainActivity extends SDKBaseActivity {
     public void vi(View view){
         SDK.getInstance().sdkUpdateLanguage("vi");
     }
-    public void idn(View view){
-        SDK.getInstance().sdkUpdateLanguage("idn");
+    public void ms(View view){
+        SDK.getInstance().sdkUpdateLanguage("ms");
     }
 
     public void saveShot(View view) {

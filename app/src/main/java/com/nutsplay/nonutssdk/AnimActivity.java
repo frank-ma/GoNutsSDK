@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.nuts.test.R;
+import com.nutspower.nutsgamesdk.R;
 
 
 public class AnimActivity extends AppCompatActivity {

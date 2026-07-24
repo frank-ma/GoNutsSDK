@@ -65,9 +65,6 @@ import java.util.Random;
 
 public class SDKGameUtils {
 
-
-    private static int lan;
-
     private static SDKGameUtils gameutils;
 
 
@@ -177,7 +174,7 @@ public class SDKGameUtils {
 
         boolean isMatch = pw.matches("^[A-Za-z0-9]{6,14}$");
         if (!isMatch) {
-            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("regspw"), 3);
+            SDKToast.getInstance().ToastShow(SDKLangConfig.getInstance().findMessage("41"), 3);
 
             return false;
         }
@@ -519,46 +516,47 @@ public class SDKGameUtils {
 
     }
 
-    public synchronized static int getLanguage(String language) {
+    public synchronized static int getLanguageIndex(String language) {
+        int lan = 1;
 
         if (language == null || language.isEmpty()) {
-            lan = 2;
+            return lan;
         } else if (language.contains("cn") || language.contains("CN")) {
-            lan = 1;
+            lan = 0;
         } else if (language.contains("en")) {
-            lan = 2;
+            lan = 1;
         } else if (language.contains("th")) {
-            lan = 3;
-        } else if (language.contains("vi") || language.contains("vn")) {
-            lan = 4;
-        } else if (language.contains("ar")) {
-            lan = 5;
-        } else if (language.contains("kr") || language.contains("ko")) {
-            lan = 6;
-        } else if (language.contains("hk") || language.contains("HK")) {
-            lan = 7;
-        } else if (language.contains("fr") || language.contains("fo")) {
-            lan = 8;
-        } else if (language.contains("br") || language.contains("pt")) {
-            lan = 9;//葡萄牙
-        } else if (language.contains("de") || language.contains("deu")) {
-            lan = 10;
-        } else if (language.contains("sp") || language.contains("es")) {
-            lan = 11;
-        } else if (language.contains("it")) {
-            lan = 12;
-        } else if (language.contains("ja") || language.contains("jp")) {
-            lan = 13;
-        } else if (language.contains("id") || language.contains("idn")) {
-            lan = 14;
-        } else if (language.contains("ru") || language.contains("by")) {
-            lan = 15;
-        } else if (language.contains("tr")){
-            lan = 16;
-        } else if (language.contains("tl")){//菲律宾语
-            lan = 17;
-        } else {
             lan = 2;
+        } else if (language.contains("vi") || language.contains("vn")) {
+            lan = 3;
+        } else if (language.contains("ar")) {
+            lan = 4;
+        } else if (language.contains("kr") || language.contains("ko")) {
+            lan = 5;
+        } else if (language.contains("hk") || language.contains("HK")) {
+            lan = 6;
+        } else if (language.contains("fr") || language.contains("fo")) {
+            lan = 7;
+        } else if (language.contains("br") || language.contains("pt")) {
+            lan = 8;//葡萄牙
+        } else if (language.contains("de") || language.contains("deu")) {
+            lan = 9;
+        } else if (language.contains("sp") || language.contains("es")) {
+            lan = 10;
+        } else if (language.contains("it")) {
+            lan = 11;
+        } else if (language.contains("ja") || language.contains("jp")) {
+            lan = 12;
+        } else if (language.contains("id") || language.contains("idn")) {
+            lan = 13;
+        } else if (language.contains("ru") || language.contains("by")) {
+            lan = 14;
+        } else if (language.contains("tr")){
+            lan = 15;
+        } else if (language.contains("tl")){//菲律宾语
+            lan = 16;
+        } else if (language.contains("ms")){//马来语
+            lan = 17;
         }
         return lan;
     }
@@ -569,9 +567,9 @@ public class SDKGameUtils {
      * @return
      */
     public static String getAIHelpLanguage(String lang){
-        int index = getLanguage(lang)-1;
-        if (index < 0 || index > 16) index = 1;
-        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru","tr","tl"};
+        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru","tr","tl","ms"};
+        int index = getLanguageIndex(lang);
+        if (index < 0 || index > aihelpLang.length-1) index = 1;
         return aihelpLang[index];
     }
 
