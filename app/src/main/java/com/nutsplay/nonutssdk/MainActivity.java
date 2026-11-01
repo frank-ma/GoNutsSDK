@@ -59,7 +59,8 @@ public class MainActivity extends SDKBaseActivity {
 //    private String buglyId = "36386748bb";
 
     String referenceId = "com.familygo.simgame.android.googleplay.1";
-    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）
+//    private String clientId = "5dad5c14e73f210d548bf491";//海战（sdk测试）
+    private String clientId = "67fd2b2395b52694179f8ffb";//FT2
 
     private String appsflyerId = "VBmCBKvNg5uvd4iiLZSx7J";
     private String buglyId = "36386748bb";
@@ -937,6 +938,24 @@ public class MainActivity extends SDKBaseActivity {
                 showLog("当前地区是否支持三方支付：code-" + code + " ,msg:"+msg);
             }
         });
+    }
+
+    /**
+     * facebook 打点事件
+     * @param view
+     */
+    public void fbLogEvent(View view){
+//        SDK.getInstance().fbLogEvent(this,"view3");
+//        showLog("view3打点成功");
+//
+//        SDK.getInstance().fbLogEvent(this,"view5",5);
+//        showLog("view5打点成功");
+
+        Bundle params = new Bundle();
+        params.putString("name","jack");
+        params.putString("userid","123456");
+        SDK.getInstance().fbLogEvent(this,"view10",10,params);
+        showLog("view10打点成功");
     }
 
 

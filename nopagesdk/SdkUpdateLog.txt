@@ -1,8 +1,19 @@
 
-
-
-
 //1.接入新的三方支付Aghanim,暂定有原始接入的方式
+****************************************************************
+陈志佳
+gosdk_v7.5(For FT)(20261101)
+1.新增 FB 打点事件接口，直接替换 aar 文件即可
+（广告那边需要新增 4 个 FB 打点事件：看激励视频次数 view1，view3，view5，view10）
+    public void fbLogEvent(Context context,String eventName)
+    public void fbLogEvent(Context context, String eventName, Bundle parameters)
+示例：
+SDK.getInstance().fbLogEvent(this,"view3");
+或者需要传更多参数时可以用下面这个：
+Bundle params = new Bundle();
+params.putString("name","jack");
+params.putString("userid","123456");
+SDK.getInstance().fbLogEvent(this,"view10",params);
 ****************************************************************
 陈志佳
 gosdk_v7.4.1(For FT)(20260724)

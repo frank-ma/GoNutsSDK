@@ -50,7 +50,7 @@ android {
     namespace 'com.nutsplay.nopagesdk'
     compileSdk 36
     defaultConfig {
-        versionName "7.4.1"
+        versionName "7.5"
         minSdkVersion 23//21//16
         targetSdkVersion 36
         multiDexEnabled true

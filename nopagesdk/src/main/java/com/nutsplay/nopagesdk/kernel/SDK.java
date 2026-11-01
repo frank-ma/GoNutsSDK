@@ -1,7 +1,9 @@
 package com.nutsplay.nopagesdk.kernel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.nutsplay.nopagesdk.api.FbLoginListener;
 import com.nutsplay.nopagesdk.beans.InitParameter;
@@ -23,6 +25,7 @@ import com.nutsplay.nopagesdk.callback.isThirdPaySupportCallBack;
 import com.nutsplay.nopagesdk.callback.isUSACallBack;
 import com.nutsplay.nopagesdk.manager.AIHelpManager;
 import com.nutsplay.nopagesdk.manager.AdjustTraceManager;
+import com.nutsplay.nopagesdk.manager.FacebookManager;
 import com.nutsplay.nopagesdk.manager.GoogleAPI;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutspower.commonlibrary.utils.StringUtils;
@@ -536,6 +539,24 @@ public class SDK {
      */
     public void isUSAArea(Activity context, isUSACallBack callBack){
         SDKGameUtils.isUSAArea(context,callBack);
+    }
+
+    /**
+     * facebook打点事件
+     * @param context
+     * @param eventName
+     */
+    public void fbLogEvent(Context context,String eventName){
+        FacebookManager.getInstance().logEvent(context,eventName);
+    }
+    public void fbLogEvent(Context context,String eventName,double valueToSum){
+        FacebookManager.getInstance().logEvent(context,eventName,valueToSum);
+    }
+    public void fbLogEvent(Context context, String eventName, Bundle parameters){
+        FacebookManager.getInstance().logEvent(context,eventName,parameters);
+    }
+    public void fbLogEvent(Context context,String eventName,double valueToSum,Bundle parameters){
+        FacebookManager.getInstance().logEvent(context,eventName,valueToSum,parameters);
     }
 
     /**

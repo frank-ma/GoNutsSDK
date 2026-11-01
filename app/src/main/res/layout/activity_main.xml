@@ -240,6 +240,15 @@
             android:text="是否美区"
             android:visibility="visible"
             android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="fbLogEvent"
+            android:text="FB 打点事件"
+            android:visibility="visible"
+            android:textColor="@color/white" />
     </LinearLayout>
 
         <View
