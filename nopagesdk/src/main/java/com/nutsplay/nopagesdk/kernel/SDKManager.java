@@ -3562,45 +3562,47 @@ public class SDKManager {
         }
         try {
             User user = SDKManager.getInstance().getUser();
-            if (user == null || user.getTicket().isEmpty()) {
+            if (user == null || StringUtils.isBlank(user.getTicket())) {
                 callback.onFail(SDKConstant.ERROR, "Please Login first.");
                 return;
             }
-            if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)) {
-                callback.onSuccess(true);
-            } else {
-                String ticket = user.getTicket();
-                if (StringUtils.isEmpty(ticket)) return;
-                String aesKey = AESUtils.generate16SecretKey();
-                String ivParameter = AESUtils.generate16SecretKey();
-                String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
-                String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-                ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
-                    @Override
-                    public void onSuccess(String result) {
-                        if (StringUtils.isEmpty(result)) return;
-                        String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
-                        if (StringUtils.isEmpty(decodeData)) return;
-                        UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
-                        System.out.println(userBindInfo.toString());
+//            if (user.getSdkmemberType().equals(SDKConstant.TYPE_FACEBOOK)) {
+//                callback.onSuccess(true);
+//            } else {
+            //修复一个 bug：
+            //修复在坚果后台给账号解绑Google，客户端仍然显示已绑定状态，状态没有更新的 bug
+            //每次调用接口都去服务器端查询一次
+            String ticket = user.getTicket();
+            String aesKey = AESUtils.generate16SecretKey();
+            String ivParameter = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+            ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    if (StringUtils.isEmpty(result)) return;
+                    String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
+                    if (StringUtils.isEmpty(decodeData)) return;
+                    UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
+                    System.out.println(userBindInfo.toString());
 
-                        if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
-                            UserBindInfo.DataBean data = userBindInfo.getData();
-                            if (data == null) return;
-                            callback.onSuccess(data.isBindFacebook());
-                        } else {
-                            callback.onFail(userBindInfo.getCode(), userBindInfo.getMessage());
-                            SDKGameUtils.showServiceInfo(userBindInfo.getCode(), userBindInfo.getMessage());
-                        }
+                    if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
+                        UserBindInfo.DataBean data = userBindInfo.getData();
+                        if (data == null) return;
+                        callback.onSuccess(data.isBindFacebook());
+                    } else {
+                        callback.onFail(userBindInfo.getCode(), userBindInfo.getMessage());
+                        SDKGameUtils.showServiceInfo(userBindInfo.getCode(), userBindInfo.getMessage());
                     }
+                }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        callback.onFail(SDKConstant.ERROR, msg);
-                        System.out.println(msg);
-                    }
-                });
-            }
+                @Override
+                public void onFailure(String msg) {
+                    callback.onFail(SDKConstant.ERROR, msg);
+                    System.out.println(msg);
+                }
+            });
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3620,45 +3622,45 @@ public class SDKManager {
         }
         try {
             User user = SDKManager.getInstance().getUser();
-            if (user == null || user.getTicket().isEmpty()) {
+            if (user == null || StringUtils.isBlank(user.getTicket())) {
                 callback.onFail(SDKConstant.ERROR, "Please Login first.");
                 return;
             }
-            if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)) {
-                callback.onSuccess(true);
-            } else {
-                String ticket = user.getTicket();
-                if (StringUtils.isEmpty(ticket)) return;
-                String aesKey = AESUtils.generate16SecretKey();
-                String ivParameter = AESUtils.generate16SecretKey();
-                String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
-                String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
-                ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
-                    @Override
-                    public void onSuccess(String result) {
-                        if (StringUtils.isEmpty(result)) return;
-                        String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
-                        if (StringUtils.isEmpty(decodeData)) return;
-                        UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
-                        System.out.println(userBindInfo.toString());
+//            if (user.getSdkmemberType().equals(SDKConstant.TYPE_GOOGLE)) {
+//                callback.onSuccess(true);
+//            } else {
+            //直接去坚果服务器查询，有一种情况是服务器端直接解绑，需要同步服务器端状态
+            String ticket = user.getTicket();
+            String aesKey = AESUtils.generate16SecretKey();
+            String ivParameter = AESUtils.generate16SecretKey();
+            String publicKey = SPManager.getInstance(activity).getString(SPKey.PUBLIC_KEY);
+            String aesKey16byRSA = RSAUtils.encryptData(aesKey.getBytes(), RSAUtils.loadPublicKey(publicKey));
+            ApiManager.getInstance().queryUserInfo(aesKey, ivParameter, aesKey16byRSA, ticket, new NetCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    if (StringUtils.isEmpty(result)) return;
+                    String decodeData = AESUtils.decrypt(result, aesKey, ivParameter);
+                    if (StringUtils.isEmpty(decodeData)) return;
+                    UserBindInfo userBindInfo = (UserBindInfo) GsonUtils.json2Bean(decodeData, UserBindInfo.class);
+                    System.out.println(userBindInfo.toString());
 
-                        if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
-                            UserBindInfo.DataBean data = userBindInfo.getData();
-                            if (data == null) return;
-                            callback.onSuccess(data.isBindGoogle());
-                        } else {
-                            callback.onFail(userBindInfo.getCode(), userBindInfo.getMessage());
-                            SDKGameUtils.showServiceInfo(userBindInfo.getCode(), userBindInfo.getMessage());
-                        }
+                    if (userBindInfo.getCode() == SDKConstant.SUCCESS) {
+                        UserBindInfo.DataBean data = userBindInfo.getData();
+                        if (data == null) return;
+                        callback.onSuccess(data.isBindGoogle());
+                    } else {
+                        callback.onFail(userBindInfo.getCode(), userBindInfo.getMessage());
+                        SDKGameUtils.showServiceInfo(userBindInfo.getCode(), userBindInfo.getMessage());
                     }
+                }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        callback.onFail(SDKConstant.ERROR, msg);
-                        System.out.println(msg);
-                    }
-                });
-            }
+                @Override
+                public void onFailure(String msg) {
+                    callback.onFail(SDKConstant.ERROR, msg);
+                    System.out.println(msg);
+                }
+            });
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

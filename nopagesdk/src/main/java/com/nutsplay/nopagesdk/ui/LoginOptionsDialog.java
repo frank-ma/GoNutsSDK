@@ -19,6 +19,7 @@ import com.nutsplay.nopagesdk.kernel.SDKManager;
 import com.nutsplay.nopagesdk.manager.NutsLoginManager;
 import com.nutsplay.nopagesdk.utils.SDKGameUtils;
 import com.nutsplay.nopagesdk.utils.SDKResUtils;
+import com.nutspower.commonlibrary.utils.StringUtils;
 
 /**
  * Created by frankma on 2019-10-09 18:22
@@ -81,6 +82,9 @@ public class LoginOptionsDialog extends Dialog {
             View llLogin = layout.findViewById(SDKResUtils.getResId(context,"ll_login","id"));
             View llRegister = layout.findViewById(SDKResUtils.getResId(context,"ll_register","id"));
 
+            TextView welcomeTv = layout.findViewById(SDKResUtils.getResId(context,"welcome_tv","id"));
+            TextView otherLoginMethodsTv = layout.findViewById(SDKResUtils.getResId(context,"other_login_methods_tv","id"));
+
 
             //切换账号时显示Close按钮
             closeImg.setVisibility(isLogin ? View.INVISIBLE:View.VISIBLE);
@@ -91,9 +95,12 @@ public class LoginOptionsDialog extends Dialog {
             SDKGameUtils.setTypeFaceBold(context,accountRegister);
             SDKGameUtils.setTypeFaceBold(context,fbLogin);
 
-            visitorLogin.setText(SDKLangConfig.getInstance().findMessage("guest_login"));
-            accountLogin.setText(SDKLangConfig.getInstance().findMessage("sign_in"));
-            accountRegister.setText(SDKLangConfig.getInstance().findMessage("sign_up"));
+            setTextString(visitorLogin,SDKLangConfig.getInstance().findMessage("guest_login"));
+            setTextString(accountLogin,SDKLangConfig.getInstance().findMessage("sign_in"));
+            setTextString(accountRegister,SDKLangConfig.getInstance().findMessage("sign_up"));
+            setTextString(welcomeTv,SDKLangConfig.getInstance().findMessage("welcome"));
+            setTextString(otherLoginMethodsTv,SDKLangConfig.getInstance().findMessage("other_login_methods"));
+
 
             //游客登录
             visitorLogin.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +235,12 @@ public class LoginOptionsDialog extends Dialog {
             dialog.setCancelable(false);
             return dialog;
         }
+    }
+
+    public static void setTextString(TextView textView,String text){
+        if (textView == null) return;
+        if (StringUtils.isBlank(text)) return;
+        textView.setText(text);
     }
 
 

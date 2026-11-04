@@ -565,6 +565,52 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="nl"
+                android:text="荷兰语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="pl"
+                android:text="波兰语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="sv"
+                android:text="瑞典语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="cs"
+                android:text="捷克语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="uz"
+                android:text="乌兹别克斯坦"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="nb"
+                android:text="挪威语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+
+
+            <TextView
                 android:id="@+id/webUrl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -572,6 +618,33 @@
                 android:visibility="gone"
                 android:autoLink="web"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="da"
+                android:text="丹麦语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="ro"
+                android:text="罗马尼亚语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="hu"
+                android:text="匈牙利语"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
 

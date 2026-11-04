@@ -557,9 +557,28 @@ public class SDKGameUtils {
             lan = 16;
         } else if (language.contains("ms")){//马来语
             lan = 17;
+        } else if (language.contains("nl")){//---荷兰语---
+            lan = 18;
+        } else if (language.contains("pl")){//波兰语
+            lan = 19;
+        } else if (language.contains("sv")){//瑞典语
+            lan = 20;
+        } else if (language.contains("cs")){//捷克语
+            lan = 21;
+        } else if (language.contains("uz")){//乌兹别克语
+            lan = 22;
+        } else if (language.contains("nb")){//挪威语
+            lan = 23;
+        } else if (language.contains("da")){//丹麦语
+            lan = 24;
+        } else if (language.contains("ro")){//罗马尼亚语
+            lan = 25;
+        } else if (language.contains("hu")){//匈牙利语
+            lan = 26;
         }
         return lan;
     }
+
 
     /**
      * 获取AIhelp的语言代码
@@ -567,7 +586,8 @@ public class SDKGameUtils {
      * @return
      */
     public static String getAIHelpLanguage(String lang){
-        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru","tr","tl","ms"};
+        String[] aihelpLang={"zh_CN","en","th","vi","ar","ko","zh_TW","fr","pt","de","es","it","ja","id","ru","tr","tl","ms",
+        "nl","pl","sv","cs","uz","nb","da","ro","hu"};
         int index = getLanguageIndex(lang);
         if (index < 0 || index > aihelpLang.length-1) index = 1;
         return aihelpLang[index];
@@ -802,6 +822,7 @@ public class SDKGameUtils {
      * @param textView
      */
     public static void setTypeFaceBold(Context context,TextView textView){
+        if (textView == null) return;
         textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica Bold.ttf"));
     }
 
@@ -810,6 +831,7 @@ public class SDKGameUtils {
      * @param textView
      */
     public static void setTypeFace(Context context,TextView textView){
+        if (textView == null) return;
         textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Helvetica.ttf"));
     }
 

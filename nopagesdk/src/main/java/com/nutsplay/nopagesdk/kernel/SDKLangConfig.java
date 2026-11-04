@@ -65,10 +65,20 @@ public class SDKLangConfig {
         Properties tl = new Properties();//菲律宾语（即塔加路语）
         Properties ms = new Properties();//马来语
 
+        Properties nl = new Properties();//荷兰语
+        Properties pl = new Properties();//波兰语
+        Properties sv = new Properties();//瑞典语
+        Properties cs = new Properties();//捷克语
+        Properties uz = new Properties();//乌兹别克语
+        Properties nb = new Properties();//挪威语
+        Properties da = new Properties();//丹麦语
+        Properties ro = new Properties();//罗马尼亚语
+        Properties hu = new Properties();//匈牙利语
 
-        array = new Properties[]{zh_CN, en, th, vi, ar, ko, zh_HK, fr, pt, de, es, it, ja, id,ru,tr,tl,ms};
 
 
+        array = new Properties[]{zh_CN, en, th, vi, ar, ko, zh_HK, fr, pt, de, es, it, ja, id,ru,tr,tl,ms,
+        nl,pl,sv,cs,uz,nb,da,ro,hu};
 
 
         zh_CN.setProperty("switchAccount", "切换账户");
@@ -89,6 +99,17 @@ public class SDKLangConfig {
         tr.setProperty("switchAccount", "Hesap değiştir");
         tl.setProperty("switchAccount", "Lumipat ng account");
         ms.setProperty("switchAccount", "Tukar akaun");
+        // 1. switchAccount 切换账户
+        nl.setProperty("switchAccount","Wisselen van account");
+        pl.setProperty("switchAccount","Przełącz konto");
+        sv.setProperty("switchAccount","Byt konto");
+        cs.setProperty("switchAccount","Přepnout účet");
+        uz.setProperty("switchAccount","Hisobni almashtirish");
+        nb.setProperty("switchAccount","Bytt konto");
+        da.setProperty("switchAccount","Skift konto");
+        ro.setProperty("switchAccount","Schimbă contul");
+        hu.setProperty("switchAccount","Fiókváltás");
+
 
         zh_CN.setProperty("bindSucess", "绑定成功");
         th.setProperty("bindSucess", "ผูกมัดสำเร็จ");
@@ -108,6 +129,16 @@ public class SDKLangConfig {
         tr.setProperty("bindSucess","Bağlama başarılı");
         tl.setProperty("bindSucess", "Matagumpay ang pagbubuklod");
         ms.setProperty("bindSucess", "Kejayaan yang mengikat");
+        // 2. bindSucess 绑定成功
+        nl.setProperty("bindSucess","Koppelen geslaagd");
+        pl.setProperty("bindSucess","Pomyślnie powiązano");
+        sv.setProperty("bindSucess","Länkning lyckades");
+        cs.setProperty("bindSucess","Propojení proběhlo úspěšně");
+        uz.setProperty("bindSucess","Muvaffaqiyatli bog'landi");
+        nb.setProperty("bindSucess","Vellykket tilkobling");
+        da.setProperty("bindSucess","Tilknytning lykkedes");
+        ro.setProperty("bindSucess","Asociere reușită");
+        hu.setProperty("bindSucess","Sikeres összekapcsolás");
 
         zh_CN.setProperty("exit", "退出");
         th.setProperty("exit", "ออก");
@@ -127,6 +158,16 @@ public class SDKLangConfig {
         tr.setProperty("exit", "çıkış yapmak");
         tl.setProperty("exit", "Lumabas");
         ms.setProperty("exit", "Keluar");
+        // 3. exit 退出
+        nl.setProperty("exit","Afsluiten");
+        pl.setProperty("exit","Wyjdź");
+        sv.setProperty("exit","Avsluta");
+        cs.setProperty("exit","Ukončit");
+        uz.setProperty("exit","Chiqish");
+        nb.setProperty("exit","Avslutt");
+        da.setProperty("exit","Afslut");
+        ro.setProperty("exit","Ieșire");
+        hu.setProperty("exit","Kilépés");
 
         zh_CN.setProperty("exitmessage", "您想要退出游戏吗?");
         th.setProperty("exitmessage", "ต้องการออกเกมหรือไม่?");
@@ -146,6 +187,17 @@ public class SDKLangConfig {
         tr.setProperty("exitmessage", "Oyunu bırakmak ister misin?");
         tl.setProperty("exitmessage", "Gusto mo bang umalis sa laro?");
         ms.setProperty("exitmessage", "Adakah anda mahu berhenti permainan?");
+        // 4. exitmessage 您想要退出游戏吗?
+        nl.setProperty("exitmessage","Wil je het spel verlaten?");
+        pl.setProperty("exitmessage","Czy chcesz wyjść z gry?");
+        sv.setProperty("exitmessage","Vill du avsluta spelet?");
+        cs.setProperty("exitmessage","Chcete ukončit hru?");
+        uz.setProperty("exitmessage","O'yindan chiqmoqchimisiz?");
+        nb.setProperty("exitmessage","Vil du avslutte spillet?");
+        da.setProperty("exitmessage","Vil du afslutte spillet?");
+        ro.setProperty("exitmessage","Doriți să ieșiți din joc?");
+        hu.setProperty("exitmessage","Ki szeretne lépni a játékból?");
+
 
         zh_CN.setProperty("cancel", "取消");
         th.setProperty("cancel", "ยกเลิก");
@@ -165,6 +217,16 @@ public class SDKLangConfig {
         tr.setProperty("cancel", "iptal etmek");
         tl.setProperty("cancel", "Kanselahin");
         ms.setProperty("cancel", "Batal");
+        // 5. cancel 取消
+        nl.setProperty("cancel","Annuleren");
+        pl.setProperty("cancel","Anuluj");
+        sv.setProperty("cancel","Avbryt");
+        cs.setProperty("cancel","Zrušit");
+        uz.setProperty("cancel","Bekor qilish");
+        nb.setProperty("cancel","Avbryt");
+        da.setProperty("cancel","Annuller");
+        ro.setProperty("cancel","Anulează");
+        hu.setProperty("cancel","Mégse");
 
 
         zh_CN.setProperty("50", "正在绑定...");
@@ -185,6 +247,16 @@ public class SDKLangConfig {
         tr.setProperty("50", "Hesap bağlanıyor...");
         tl.setProperty("50", "Nagbubuklod...");
         ms.setProperty("50", "Mengikat...");
+        // 6. 50 正在绑定...
+        nl.setProperty("50","Koppelen...");
+        pl.setProperty("50","Powiązywanie...");
+        sv.setProperty("50","Länkar...");
+        cs.setProperty("50","Propojování...");
+        uz.setProperty("50","Bog'lanmoqda...");
+        nb.setProperty("50","Kobler til...");
+        da.setProperty("50","Tilknytter...");
+        ro.setProperty("50","Se asociază...");
+        hu.setProperty("50","Összekapcsolás...");
 
 
         zh_CN.setProperty("51", "该账户已经被绑定");
@@ -205,6 +277,16 @@ public class SDKLangConfig {
         tr.setProperty("51", "Hesap bağlantısı kuruldu.");
         tl.setProperty("51", "Ang account ay nakatali");
         ms.setProperty("51", "Akaun telah terikat");
+        // 7. 51 该账户已经被绑定
+        nl.setProperty("51","Dit account is al gekoppeld");
+        pl.setProperty("51","To konto jest już powiązane");
+        sv.setProperty("51","Det här kontot är redan länkat");
+        cs.setProperty("51","Tento účet je již propojen");
+        uz.setProperty("51","Bu hisob allaqachon bog'langan");
+        nb.setProperty("51","Denne kontoen er allerede tilkoblet");
+        da.setProperty("51","Denne konto er allerede tilknyttet");
+        ro.setProperty("51","Acest cont este deja asociat");
+        hu.setProperty("51","Ez a fiók már össze van kapcsolva");
 
         zh_CN.setProperty("nutsplay_viewstring_ResetPassword", "找回密码？");
         th.setProperty("nutsplay_viewstring_ResetPassword", "ลืมรหัสผ่าน？");
@@ -224,6 +306,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_ResetPassword", "Parolanızı mı unuttunuz?");
         tl.setProperty("nutsplay_viewstring_ResetPassword", "Kunin ang password?");
         ms.setProperty("nutsplay_viewstring_ResetPassword", "Lupa kata laluan？");
+        // 8. nutsplay_viewstring_ResetPassword 找回密码？
+        nl.setProperty("nutsplay_viewstring_ResetPassword","Wachtwoord vergeten?");
+        pl.setProperty("nutsplay_viewstring_ResetPassword","Odzyskać hasło?");
+        sv.setProperty("nutsplay_viewstring_ResetPassword","Glömt lösenordet?");
+        cs.setProperty("nutsplay_viewstring_ResetPassword","Zapomenuté heslo?");
+        uz.setProperty("nutsplay_viewstring_ResetPassword","Parolni tiklash?");
+        nb.setProperty("nutsplay_viewstring_ResetPassword","Glemt passord?");
+        da.setProperty("nutsplay_viewstring_ResetPassword","Glemt adgangskode?");
+        ro.setProperty("nutsplay_viewstring_ResetPassword","Ai uitat parola?");
+        hu.setProperty("nutsplay_viewstring_ResetPassword","Elfelejtett jelszó?");
 
         zh_CN.setProperty("nutsplay_viewstring_confirm", "确定");
         th.setProperty("nutsplay_viewstring_confirm", "ยืนยัน");
@@ -243,6 +335,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_confirm", "Elbette");
         tl.setProperty("nutsplay_viewstring_confirm", "Oo naman");
         ms.setProperty("nutsplay_viewstring_confirm", "Tentukan");
+        // 9. nutsplay_viewstring_confirm 确定
+        nl.setProperty("nutsplay_viewstring_confirm","Bevestigen");
+        pl.setProperty("nutsplay_viewstring_confirm","Potwierdź");
+        sv.setProperty("nutsplay_viewstring_confirm","Bekräfta");
+        cs.setProperty("nutsplay_viewstring_confirm","Potvrdit");
+        uz.setProperty("nutsplay_viewstring_confirm","Tasdiqlash");
+        nb.setProperty("nutsplay_viewstring_confirm","Bekreft");
+        da.setProperty("nutsplay_viewstring_confirm","Bekræft");
+        ro.setProperty("nutsplay_viewstring_confirm","Confirmă");
+        hu.setProperty("nutsplay_viewstring_confirm","Megerősítés");
 
 
         zh_CN.setProperty("nutsplay_viewstring_usercenter", "用户中心");
@@ -263,6 +365,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_usercenter", "Kullanıcı Merkezi");
         tl.setProperty("nutsplay_viewstring_usercenter", "User Center");
         ms.setProperty("nutsplay_viewstring_usercenter", "Pusat Pengguna");
+        // 10. nutsplay_viewstring_usercenter 用户中心
+        nl.setProperty("nutsplay_viewstring_usercenter","Gebruikerscentrum");
+        pl.setProperty("nutsplay_viewstring_usercenter","Centrum użytkownika");
+        sv.setProperty("nutsplay_viewstring_usercenter","Användarcenter");
+        cs.setProperty("nutsplay_viewstring_usercenter","Uživatelské centrum");
+        uz.setProperty("nutsplay_viewstring_usercenter","Foydalanuvchi markazi");
+        nb.setProperty("nutsplay_viewstring_usercenter","Brukersenter");
+        da.setProperty("nutsplay_viewstring_usercenter","Brugercenter");
+        ro.setProperty("nutsplay_viewstring_usercenter","Centrul utilizatorului");
+        hu.setProperty("nutsplay_viewstring_usercenter","Felhasználói központ");
 
 
         zh_CN.setProperty("nutsplay_viewstring_signining_fb", "Facebook 登录中...");
@@ -283,6 +395,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_signining_fb", "Facebook oturum açma işlemi devam ediyor...");
         tl.setProperty("nutsplay_viewstring_signining_fb", "Nagla-log in sa Facebook...");
         ms.setProperty("nutsplay_viewstring_signining_fb", "Log masuk Facebook sedang berjalan...");
+        // 11. nutsplay_viewstring_signining_fb Facebook 登录中...（Facebook 原样保留）
+        nl.setProperty("nutsplay_viewstring_signining_fb","Inloggen met Facebook...");
+        pl.setProperty("nutsplay_viewstring_signining_fb","Logowanie przez Facebook...");
+        sv.setProperty("nutsplay_viewstring_signining_fb","Loggar in med Facebook...");
+        cs.setProperty("nutsplay_viewstring_signining_fb","Přihlašování přes Facebook...");
+        uz.setProperty("nutsplay_viewstring_signining_fb","Facebook orqali kirish...");
+        nb.setProperty("nutsplay_viewstring_signining_fb","Logger inn med Facebook...");
+        da.setProperty("nutsplay_viewstring_signining_fb","Logger ind med Facebook...");
+        ro.setProperty("nutsplay_viewstring_signining_fb","Conectare prin Facebook...");
+        hu.setProperty("nutsplay_viewstring_signining_fb","Bejelentkezés Facebookkal...");
 
 
         zh_CN.setProperty("tourist_signin_tips", "提示");
@@ -303,6 +425,17 @@ public class SDKLangConfig {
         tr.setProperty("tourist_signin_tips", "İpuçları");
         tl.setProperty("tourist_signin_tips", "pahiwatig");
         ms.setProperty("tourist_signin_tips", "Petua");
+        // 12. tourist_signin_tips 提示
+        nl.setProperty("tourist_signin_tips","Melding");
+        pl.setProperty("tourist_signin_tips","Komunikat");
+        sv.setProperty("tourist_signin_tips","Meddelande");
+        cs.setProperty("tourist_signin_tips","Oznámení");
+        uz.setProperty("tourist_signin_tips","Xabar");
+        nb.setProperty("tourist_signin_tips","Melding");
+        da.setProperty("tourist_signin_tips","Meddelelse");
+        ro.setProperty("tourist_signin_tips","Notificare");
+        hu.setProperty("tourist_signin_tips","Értesítés");
+
 
         zh_CN.setProperty("tourist_signin_alert", "游客账号仅供体验，为了您的账户安全，请及时绑定一个新账号");
         vi.setProperty("tourist_signin_alert", "Vì an toàn, hãy cố định tài khoản");
@@ -322,6 +455,16 @@ public class SDKLangConfig {
         tr.setProperty("tourist_signin_alert", "Misafir hesapları yalnızca deneme amaçlıdır. Hesap güvenliğiniz için lütfen en kısa sürede yeni bir hesap oluşturun.");
         tl.setProperty("tourist_signin_alert", "Ang guest account ay para lamang sa karanasan. Para sa seguridad ng iyong account, mangyaring magbigkis ng bagong account sa tamang oras.");
         ms.setProperty("tourist_signin_alert", "Akaun tetamu hanya untuk pengalaman, untuk keselamatan akaun anda, sila ikat akaun baharu.");
+        // 13. tourist_signin_alert 游客账号仅供体验，为了您的账户安全，请及时绑定一个新账号
+        nl.setProperty("tourist_signin_alert","Gastaccount is alleen voor kennismaking, koppel voor de veiligheid van uw account tijdig een nieuw account");
+        pl.setProperty("tourist_signin_alert","Konto gościa służy tylko do wypróbowania, ze względu na bezpieczeństwo konta powiąż na czas nowe konto");
+        sv.setProperty("tourist_signin_alert","Gästkontot är endast för att prova, för din kontosäkerhet, länka ett nytt konto i tid");
+        cs.setProperty("tourist_signin_alert","Účet hosta je pouze pro vyzkoušení, pro bezpečnost vašeho účtu včas propojte nový účet");
+        uz.setProperty("tourist_signin_alert","Mehmon hisobi faqat sinab ko'rish uchun, hisobingiz xavfsizligi uchun o'z vaqtida yangi hisob bog'lang");
+        nb.setProperty("tourist_signin_alert","Gjestekontoen er kun for å prøve, for sikkerheten til kontoen din, koble til en ny konto i tide");
+        da.setProperty("tourist_signin_alert","Gæstekontoen er kun til at prøve, for din kontos sikkerhed skal du tilknytte en ny konto i tide");
+        ro.setProperty("tourist_signin_alert","Contul de oaspete este doar pentru încercare, pentru securitatea contului dvs. asociați la timp un cont nou");
+        hu.setProperty("tourist_signin_alert","A vendégfiók csak kipróbálásra szolgál, fiókja biztonsága érdekében időben kapcsoljon össze egy új fiókot");
 
 
         zh_CN.setProperty("viewstring_enter_game", "进入游戏");
@@ -342,6 +485,16 @@ public class SDKLangConfig {
         tr.setProperty("viewstring_enter_game", "Oyuna girin");
         tl.setProperty("viewstring_enter_game", "Ipasok ang laro");
         ms.setProperty("viewstring_enter_game", "Masukkan permainan");
+        // 14. viewstring_enter_game 进入游戏
+        nl.setProperty("viewstring_enter_game","Spel betreden");
+        pl.setProperty("viewstring_enter_game","Wejdź do gry");
+        sv.setProperty("viewstring_enter_game","Gå in i spelet");
+        cs.setProperty("viewstring_enter_game","Vstoupit do hry");
+        uz.setProperty("viewstring_enter_game","O'yinga kirish");
+        nb.setProperty("viewstring_enter_game","Gå inn i spillet");
+        da.setProperty("viewstring_enter_game","Gå ind i spillet");
+        ro.setProperty("viewstring_enter_game","Intră în joc");
+        hu.setProperty("viewstring_enter_game","Belépés a játékba");
 
         zh_CN.setProperty("viewstring_Bind_Account", "绑定账号");
         vi.setProperty("viewstring_Bind_Account", "Cố định TK");
@@ -361,6 +514,17 @@ public class SDKLangConfig {
         tr.setProperty("viewstring_Bind_Account", "Hesabı bağla");
         tl.setProperty("viewstring_Bind_Account", "I-bind ang account");
         ms.setProperty("viewstring_Bind_Account", "Ikat akaun");
+        // 15. viewstring_Bind_Account 绑定账号
+        nl.setProperty("viewstring_Bind_Account","Account koppelen");
+        pl.setProperty("viewstring_Bind_Account","Powiąż konto");
+        sv.setProperty("viewstring_Bind_Account","Länka konto");
+        cs.setProperty("viewstring_Bind_Account","Propojit účet");
+        uz.setProperty("viewstring_Bind_Account","Hisobni bog'lash");
+        nb.setProperty("viewstring_Bind_Account","Koble til konto");
+        da.setProperty("viewstring_Bind_Account","Tilknyt konto");
+        ro.setProperty("viewstring_Bind_Account","Asociază cont");
+        hu.setProperty("viewstring_Bind_Account","Fiók összekapcsolása");
+
 
         zh_CN.setProperty("nutsplay_viewstring_account_id", "账号ID:");
         vi.setProperty("nutsplay_viewstring_account_id", "TK ID:");
@@ -380,6 +544,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_account_id", "Hesap Kimliği:");
         tl.setProperty("nutsplay_viewstring_account_id", "ID ng Account");
         ms.setProperty("nutsplay_viewstring_account_id", "ID Akaun:");
+        // 16. nutsplay_viewstring_account_id 账号ID:
+        nl.setProperty("nutsplay_viewstring_account_id","Account-ID:");
+        pl.setProperty("nutsplay_viewstring_account_id","ID konta:");
+        sv.setProperty("nutsplay_viewstring_account_id","Konto-ID:");
+        cs.setProperty("nutsplay_viewstring_account_id","ID účtu:");
+        uz.setProperty("nutsplay_viewstring_account_id","Hisob ID:");
+        nb.setProperty("nutsplay_viewstring_account_id","Konto-ID:");
+        da.setProperty("nutsplay_viewstring_account_id","Konto-ID:");
+        ro.setProperty("nutsplay_viewstring_account_id","ID cont:");
+        hu.setProperty("nutsplay_viewstring_account_id","Fiók ID:");
 
 
         zh_CN.setProperty("nutsplay_viewstring_bindemail", "绑定邮箱");
@@ -400,6 +574,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_bindemail", "E-posta bağlantısı");
         tl.setProperty("nutsplay_viewstring_bindemail", "I-bind ang email");
         ms.setProperty("nutsplay_viewstring_bindemail", "Ikat E-mel");
+        // 17. nutsplay_viewstring_bindemail 绑定邮箱
+        nl.setProperty("nutsplay_viewstring_bindemail","E-mail koppelen");
+        pl.setProperty("nutsplay_viewstring_bindemail","Powiąż e-mail");
+        sv.setProperty("nutsplay_viewstring_bindemail","Länka e-post");
+        cs.setProperty("nutsplay_viewstring_bindemail","Propojit e-mail");
+        uz.setProperty("nutsplay_viewstring_bindemail","Elektron pochta bog'lash");
+        nb.setProperty("nutsplay_viewstring_bindemail","Koble til e-post");
+        da.setProperty("nutsplay_viewstring_bindemail","Tilknyt e-mail");
+        ro.setProperty("nutsplay_viewstring_bindemail","Asociază e-mail");
+        hu.setProperty("nutsplay_viewstring_bindemail","E-mail összekapcsolása");
 
         zh_CN.setProperty("nutsplay_viewstring_cscenter", "客服中心");
         vi.setProperty("nutsplay_viewstring_cscenter", "CSKH");
@@ -419,6 +603,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_cscenter", "Müşteri Hizmetleri Merkezi");
         tl.setProperty("nutsplay_viewstring_cscenter", "Customer service center");
         ms.setProperty("nutsplay_viewstring_cscenter", "Perkhidmatan Pelanggan");
+        // 18. nutsplay_viewstring_cscenter 客服中心
+        nl.setProperty("nutsplay_viewstring_cscenter","Klantenservice");
+        pl.setProperty("nutsplay_viewstring_cscenter","Centrum obsługi klienta");
+        sv.setProperty("nutsplay_viewstring_cscenter","Kundtjänst");
+        cs.setProperty("nutsplay_viewstring_cscenter","Centrum podpory zákazníků");
+        uz.setProperty("nutsplay_viewstring_cscenter","Mijozlarga xizmat markazi");
+        nb.setProperty("nutsplay_viewstring_cscenter","Kundesenter");
+        da.setProperty("nutsplay_viewstring_cscenter","Kundecenter");
+        ro.setProperty("nutsplay_viewstring_cscenter","Centrul de asistență clienți");
+        hu.setProperty("nutsplay_viewstring_cscenter","Ügyfélszolgálati központ");
 
 
         ar.setProperty("nutsplay_viewstring_account_tips", "اسم المستخدم (6-14)");
@@ -439,6 +633,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_account_tips", "Kullanıcı adı (6-14)");
         tl.setProperty("nutsplay_viewstring_account_tips", "Pangalan ng Gumagamit (6-14)");
         ms.setProperty("nutsplay_viewstring_account_tips", "Nama pengguna(6-14)");
+        // 19. nutsplay_viewstring_account_tips 用户名（6-14）
+        nl.setProperty("nutsplay_viewstring_account_tips","Gebruikersnaam (6-14)");
+        pl.setProperty("nutsplay_viewstring_account_tips","Nazwa użytkownika (6-14)");
+        sv.setProperty("nutsplay_viewstring_account_tips","Användarnamn (6-14)");
+        cs.setProperty("nutsplay_viewstring_account_tips","Uživatelské jméno (6-14)");
+        uz.setProperty("nutsplay_viewstring_account_tips","Foydalanuvchi nomi (6-14)");
+        nb.setProperty("nutsplay_viewstring_account_tips","Brukernavn (6-14)");
+        da.setProperty("nutsplay_viewstring_account_tips","Brugernavn (6-14)");
+        ro.setProperty("nutsplay_viewstring_account_tips","Nume de utilizator (6-14)");
+        hu.setProperty("nutsplay_viewstring_account_tips","Felhasználónév (6-14)");
 
         ar.setProperty("nutsplay_viewstring_password_tips", "كلمه السر");
         de.setProperty("nutsplay_viewstring_password_tips", "Passwort");
@@ -458,6 +662,17 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_password_tips", "şifre");
         tl.setProperty("nutsplay_viewstring_password_tips", "password");
         ms.setProperty("nutsplay_viewstring_password_tips", "Kata laluan");
+        // 20. nutsplay_viewstring_password_tips 密码
+        nl.setProperty("nutsplay_viewstring_password_tips","Wachtwoord");
+        pl.setProperty("nutsplay_viewstring_password_tips","Hasło");
+        sv.setProperty("nutsplay_viewstring_password_tips","Lösenord");
+        cs.setProperty("nutsplay_viewstring_password_tips","Heslo");
+        uz.setProperty("nutsplay_viewstring_password_tips","Parol");
+        nb.setProperty("nutsplay_viewstring_password_tips","Passord");
+        da.setProperty("nutsplay_viewstring_password_tips","Adgangskode");
+        ro.setProperty("nutsplay_viewstring_password_tips","Parolă");
+        hu.setProperty("nutsplay_viewstring_password_tips","Jelszó");
+
 
         ar.setProperty("nuts_email", "البريد الإلكتروني");
         de.setProperty("nuts_email", "Email");
@@ -477,6 +692,17 @@ public class SDKLangConfig {
         tr.setProperty("nuts_email", "e-posta");
         tl.setProperty("nuts_email", "email");
         ms.setProperty("nuts_email", "E-mel");
+        // 21. nuts_email 电子邮件
+        nl.setProperty("nuts_email","E-mail");
+        pl.setProperty("nuts_email","E-mail");
+        sv.setProperty("nuts_email","E-post");
+        cs.setProperty("nuts_email","E-mail");
+        uz.setProperty("nuts_email","Elektron pochta");
+        nb.setProperty("nuts_email","E-post");
+        da.setProperty("nuts_email","E-mail");
+        ro.setProperty("nuts_email","E-mail");
+        hu.setProperty("nuts_email","E-mail");
+
 
         zh_CN.setProperty("nuts_username_null", "用户名不能为空");
         vi.setProperty("nuts_username_null", "Tên người dùng không thể trống");
@@ -496,6 +722,17 @@ public class SDKLangConfig {
         tr.setProperty("nuts_username_null", "Kullanıcı adı boş bırakılamaz.");
         tl.setProperty("nuts_username_null", "Hindi maaaring walang laman ang username");
         ms.setProperty("nuts_username_null", "Masukkan akaun dan kata laluan yang betul");
+        // 22. nuts_username_null 用户名不能为空
+        nl.setProperty("nuts_username_null","Gebruikersnaam mag niet leeg zijn");
+        pl.setProperty("nuts_username_null","Nazwa użytkownika nie może być pusta");
+        sv.setProperty("nuts_username_null","Användarnamnet får inte vara tomt");
+        cs.setProperty("nuts_username_null","Uživatelské jméno nesmí být prázdné");
+        uz.setProperty("nuts_username_null","Foydalanuvchi nomi bo'sh bo'lmasligi kerak");
+        nb.setProperty("nuts_username_null","Brukernavn kan ikke være tomt");
+        da.setProperty("nuts_username_null","Brugernavn må ikke være tomt");
+        ro.setProperty("nuts_username_null","Numele de utilizator nu poate fi gol");
+        hu.setProperty("nuts_username_null","A felhasználónév nem lehet üres");
+
 
         zh_CN.setProperty("nuts_service_err", "服务器数据解析错误");
         vi.setProperty("nuts_service_err", "Dữ liệu lỗi, hãy thử lại");
@@ -515,6 +752,17 @@ public class SDKLangConfig {
         tr.setProperty("nuts_service_err", "Sunucu veri ayrıştırma hatası");
         tl.setProperty("nuts_service_err", "Error sa data ng server");
         ms.setProperty("nuts_service_err", "Ralat data pelayan");
+        // 23. nuts_service_err 服务器数据解析错误
+        nl.setProperty("nuts_service_err","Fout bij het verwerken van servergegevens");
+        pl.setProperty("nuts_service_err","Błąd analizy danych serwera");
+        sv.setProperty("nuts_service_err","Fel vid tolkning av serverdata");
+        cs.setProperty("nuts_service_err","Chyba při zpracování dat serveru");
+        uz.setProperty("nuts_service_err","Server ma'lumotlarini tahlil qilishda xatolik");
+        nb.setProperty("nuts_service_err","Feil ved behandling av serverdata");
+        da.setProperty("nuts_service_err","Fejl ved behandling af serverdata");
+        ro.setProperty("nuts_service_err","Eroare la procesarea datelor serverului");
+        hu.setProperty("nuts_service_err","Hiba a szerveradatok feldolgozásakor");
+
 
         zh_CN.setProperty("welcom_guest", "欢迎使用游客账户");
         vi.setProperty("welcom_guest", "Dùng tài khoản chơi thử");
@@ -534,6 +782,16 @@ public class SDKLangConfig {
         tr.setProperty("welcom_guest", "Misafir hesabına hoş geldiniz");
         tl.setProperty("welcom_guest", "Maligayang pagdating sa account ng bisita!");
         ms.setProperty("welcom_guest", "Selamat datang akaun tetamu!");
+        // 24. welcom_guest 欢迎使用游客账户
+        nl.setProperty("welcom_guest","Welkom bij het gastaccount");
+        pl.setProperty("welcom_guest","Witamy w koncie gościa");
+        sv.setProperty("welcom_guest","Välkommen till gästkontot");
+        cs.setProperty("welcom_guest","Vítejte u účtu hosta");
+        uz.setProperty("welcom_guest","Mehmon hisobingizga xush kelibsiz");
+        nb.setProperty("welcom_guest","Velkommen til gjestekontoen");
+        da.setProperty("welcom_guest","Velkommen til gæstekontoen");
+        ro.setProperty("welcom_guest","Bine ați venit la contul de oaspete");
+        hu.setProperty("welcom_guest","Üdvözöljük a vendégfiókban");
 
 
         zh_CN.setProperty("loginok", "登录成功，我们将会给您带来很棒的游戏体验");
@@ -554,6 +812,17 @@ public class SDKLangConfig {
         tr.setProperty("loginok", "Giriş başarılı. Size harika bir oyun deneyimi sunacağız.");
         tl.setProperty("loginok", "Matagumpay na naka-log in, ang Game ay magdadala sa iyo ng magandang karanasan sa paglalaro");
         ms.setProperty("loginok", "Berjaya melog masuk, Game akan membawakan anda pengalaman permainan yang hebat");
+        // 25. loginok 登录成功，我们将会给您带来很棒的游戏体验
+        nl.setProperty("loginok","Inloggen geslaagd, we bezorgen u een geweldige speelervaring");
+        pl.setProperty("loginok","Zalogowano pomyślnie, zapewnimy Ci świetne wrażenia z gry");
+        sv.setProperty("loginok","Inloggningen lyckades, vi ger dig en fantastisk spelupplevelse");
+        cs.setProperty("loginok","Přihlášení proběhlo úspěšně, přineseme vám skvělý herní zážitek");
+        uz.setProperty("loginok","Muvaffaqiyatli kirdingiz, sizga ajoyib o'yin tajribasini taqdim etamiz");
+        nb.setProperty("loginok","Innlogging vellykket, vi gir deg en flott spillopplevelse");
+        da.setProperty("loginok","Log ind lykkedes, vi giver dig en fantastisk spiloplevelse");
+        ro.setProperty("loginok","Conectare reușită, vă vom oferi o experiență de joc excelentă");
+        hu.setProperty("loginok","Sikeres bejelentkezés, kiváló játékélményt nyújtunk");
+
 
 
         ar.setProperty("registerok", "تم تسجيل الحساب بنجاح");
@@ -574,6 +843,16 @@ public class SDKLangConfig {
         tr.setProperty("registerok", "Kayıt işlemi başarılı.");
         tl.setProperty("registerok", "Matagumpay ang pagpaparehistro ng account");
         ms.setProperty("registerok", "Pendaftaran akaun berjaya");
+        // 26. registerok 注册成功
+        nl.setProperty("registerok","Registratie geslaagd");
+        pl.setProperty("registerok","Rejestracja zakończona pomyślnie");
+        sv.setProperty("registerok","Registreringen lyckades");
+        cs.setProperty("registerok","Registrace proběhla úspěšně");
+        uz.setProperty("registerok","Muvaffaqiyatli ro'yxatdan o'tdingiz");
+        nb.setProperty("registerok","Registrering vellykket");
+        da.setProperty("registerok","Registrering lykkedes");
+        ro.setProperty("registerok","Înregistrare reușită");
+        hu.setProperty("registerok","Sikeres regisztráció");
 
 
         zh_CN.setProperty("email_null", "邮箱不能为空");
@@ -594,6 +873,16 @@ public class SDKLangConfig {
         tr.setProperty("email_null", "E-posta adresi boş bırakılamaz.");
         tl.setProperty("email_null", "Hindi maaaring blangko ang Email");
         ms.setProperty("email_null", "E-mel tidak boleh kosong");
+        // 27. email_null 邮箱不能为空
+        nl.setProperty("email_null","E-mail mag niet leeg zijn");
+        pl.setProperty("email_null","E-mail nie może być pusty");
+        sv.setProperty("email_null","E-post får inte vara tomt");
+        cs.setProperty("email_null","E-mail nesmí být prázdný");
+        uz.setProperty("email_null","Elektron pochta bo'sh bo'lmasligi kerak");
+        nb.setProperty("email_null","E-post kan ikke være tom");
+        da.setProperty("email_null","E-mail må ikke være tom");
+        ro.setProperty("email_null","E-mailul nu poate fi gol");
+        hu.setProperty("email_null","Az e-mail nem lehet üres");
 
 
         zh_CN.setProperty("please_input_email", "请输入邮箱");
@@ -614,6 +903,17 @@ public class SDKLangConfig {
         tr.setProperty("please_input_email", "Lütfen e-posta adresinizi girin.");
         tl.setProperty("please_input_email", "mangyaring ilagay ang iyong email");
         ms.setProperty("please_input_email", "sila masukkan email anda");
+        // 28. please_input_email 请输入邮箱
+        nl.setProperty("please_input_email","Voer uw e-mail in");
+        pl.setProperty("please_input_email","Podaj e-mail");
+        sv.setProperty("please_input_email","Ange din e-post");
+        cs.setProperty("please_input_email","Zadejte e-mail");
+        uz.setProperty("please_input_email","Elektron pochtangizni kiriting");
+        nb.setProperty("please_input_email","Skriv inn e-post");
+        da.setProperty("please_input_email","Indtast e-mail");
+        ro.setProperty("please_input_email","Introduceți e-mailul");
+        hu.setProperty("please_input_email","Adja meg az e-mailt");
+
 
         zh_CN.setProperty("please_register", "请先注册账户");
         vi.setProperty("please_register", "Hãy đăng ký tài khoản");
@@ -633,6 +933,16 @@ public class SDKLangConfig {
         tr.setProperty("please_register", "Lütfen önce bir hesap oluşturun.");
         tl.setProperty("please_register", "Pakirehistro muna ang iyong account");
         ms.setProperty("please_register", "Sila daftar akaun anda dahulu");
+        // 29. please_register 请先注册账户
+        nl.setProperty("please_register","Registreer eerst een account");
+        pl.setProperty("please_register","Najpierw zarejestruj konto");
+        sv.setProperty("please_register","Registrera ett konto först");
+        cs.setProperty("please_register","Nejprve zaregistrujte účet");
+        uz.setProperty("please_register","Avval hisob yarating");
+        nb.setProperty("please_register","Registrer en konto først");
+        da.setProperty("please_register","Registrer en konto først");
+        ro.setProperty("please_register","Înregistrați mai întâi un cont");
+        hu.setProperty("please_register","Először regisztráljon egy fiókot");
 
 
         zh_CN.setProperty("please_bind_email", "请先绑定您的邮箱");
@@ -653,6 +963,17 @@ public class SDKLangConfig {
         tr.setProperty("please_bind_email", "Lütfen öncelikle e-posta adresinizi bağlayın.");
         tl.setProperty("please_bind_email", "Pakibigkis muna ang iyong email");
         ms.setProperty("please_bind_email", "Sila ikat e-mel anda dahulu");
+        // 30. please_bind_email 请先绑定您的邮箱
+        nl.setProperty("please_bind_email","Koppel eerst uw e-mail");
+        pl.setProperty("please_bind_email","Najpierw powiąż swój e-mail");
+        sv.setProperty("please_bind_email","Länka din e-post först");
+        cs.setProperty("please_bind_email","Nejprve propojte svůj e-mail");
+        uz.setProperty("please_bind_email","Avval elektron pochtangizni bog'lang");
+        nb.setProperty("please_bind_email","Koble til e-posten din først");
+        da.setProperty("please_bind_email","Tilknyt din e-mail først");
+        ro.setProperty("please_bind_email","Asociați mai întâi e-mailul dvs.");
+        hu.setProperty("please_bind_email","Először kapcsolja össze az e-mailjét");
+
 
         zh_CN.setProperty("nutsplay_viewstring_repeatpassword", "重复密码");
         vi.setProperty("nutsplay_viewstring_repeatpassword", "Xác nhận mật khẩu");
@@ -672,6 +993,16 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_repeatpassword", "Şifreyi tekrar girin");
         tl.setProperty("nutsplay_viewstring_repeatpassword", "Ulitin ang password");
         ms.setProperty("nutsplay_viewstring_repeatpassword", "Ulang kata laluan");
+        // 31. nutsplay_viewstring_repeatpassword 重复密码
+        nl.setProperty("nutsplay_viewstring_repeatpassword","Wachtwoord herhalen");
+        pl.setProperty("nutsplay_viewstring_repeatpassword","Powtórz hasło");
+        sv.setProperty("nutsplay_viewstring_repeatpassword","Upprepa lösenord");
+        cs.setProperty("nutsplay_viewstring_repeatpassword","Zopakujte heslo");
+        uz.setProperty("nutsplay_viewstring_repeatpassword","Parolni takrorlang");
+        nb.setProperty("nutsplay_viewstring_repeatpassword","Gjenta passord");
+        da.setProperty("nutsplay_viewstring_repeatpassword","Gentag adgangskode");
+        ro.setProperty("nutsplay_viewstring_repeatpassword","Repetați parola");
+        hu.setProperty("nutsplay_viewstring_repeatpassword","Jelszó ismétlése");
 
 
         zh_CN.setProperty("nutsplay_viewstring_signout", "注销");
@@ -692,6 +1023,17 @@ public class SDKLangConfig {
         tr.setProperty("nutsplay_viewstring_signout", "Çıkış yap");
         tl.setProperty("nutsplay_viewstring_signout", "Mag-log out");
         ms.setProperty("nutsplay_viewstring_signout", "Log keluar");
+        // 32. nutsplay_viewstring_signout 注销
+        nl.setProperty("nutsplay_viewstring_signout","Afmelden");
+        pl.setProperty("nutsplay_viewstring_signout","Wyloguj");
+        sv.setProperty("nutsplay_viewstring_signout","Logga ut");
+        cs.setProperty("nutsplay_viewstring_signout","Odhlásit");
+        uz.setProperty("nutsplay_viewstring_signout","Chiqish");
+        nb.setProperty("nutsplay_viewstring_signout","Logg ut");
+        da.setProperty("nutsplay_viewstring_signout","Log ud");
+        ro.setProperty("nutsplay_viewstring_signout","Deconectare");
+        hu.setProperty("nutsplay_viewstring_signout","Kijelentkezés");
+
 
         zh_CN.setProperty("gameview.pay.user.cannel", "用户取消交易");
         th.setProperty("gameview.pay.user.cannel", " ผู้เล่นยกเลิกการดำเนินการ ");
@@ -711,6 +1053,16 @@ public class SDKLangConfig {
         tr.setProperty("gameview.pay.user.cannel", "Kullanıcı işlemi iptal etti.");
         tl.setProperty("gameview.pay.user.cannel", "Kinansela ng user ang transaksyon");
         ms.setProperty("gameview.pay.user.cannel", "Pengguna membatalkan transaksi");
+        // 33. gameview.pay.user.cannel 用户取消交易
+        nl.setProperty("gameview.pay.user.cannel","Gebruiker heeft de transactie geannuleerd");
+        pl.setProperty("gameview.pay.user.cannel","Użytkownik anulował transakcję");
+        sv.setProperty("gameview.pay.user.cannel","Användaren avbröt transaktionen");
+        cs.setProperty("gameview.pay.user.cannel","Uživatel zrušil transakci");
+        uz.setProperty("gameview.pay.user.cannel","Foydalanuvchi tranzaksiyani bekor qildi");
+        nb.setProperty("gameview.pay.user.cannel","Brukeren avbrøt transaksjonen");
+        da.setProperty("gameview.pay.user.cannel","Brugeren annullerede transaktionen");
+        ro.setProperty("gameview.pay.user.cannel","Utilizatorul a anulat tranzacția");
+        hu.setProperty("gameview.pay.user.cannel","A felhasználó megszakította a tranzakciót");
 
         zh_CN.setProperty("1", "账户已存在");
         vi.setProperty("1", "Tài khoản Đã có người dùng");
@@ -730,6 +1082,16 @@ public class SDKLangConfig {
         tr.setProperty("1", "Hesap zaten mevcut.");
         tl.setProperty("1", "Umiiral na ang account");
         ms.setProperty("1", "Akaun sudah wujud");
+        // 34. 1 账户已存在
+        nl.setProperty("1","Account bestaat al");
+        pl.setProperty("1","Konto już istnieje");
+        sv.setProperty("1","Kontot finns redan");
+        cs.setProperty("1","Účet již existuje");
+        uz.setProperty("1","Hisob allaqachon mavjud");
+        nb.setProperty("1","Kontoen finnes allerede");
+        da.setProperty("1","Kontoen findes allerede");
+        ro.setProperty("1","Contul există deja");
+        hu.setProperty("1","A fiók már létezik");
 
 
         zh_CN.setProperty("2", "账户不存在");
@@ -750,6 +1112,16 @@ public class SDKLangConfig {
         tr.setProperty("2", "Hesap mevcut değil.");
         tl.setProperty("2", "Walang account");
         ms.setProperty("2", "Akaun tidak wujud");
+        // 35. 2 账户不存在
+        nl.setProperty("2","Account bestaat niet");
+        pl.setProperty("2","Konto nie istnieje");
+        sv.setProperty("2","Kontot finns inte");
+        cs.setProperty("2","Účet neexistuje");
+        uz.setProperty("2","Hisob mavjud emas");
+        nb.setProperty("2","Kontoen finnes ikke");
+        da.setProperty("2","Kontoen findes ikke");
+        ro.setProperty("2","Contul nu există");
+        hu.setProperty("2","A fiók nem létezik");
 
         zh_CN.setProperty("3", "账户或密码错误");
         vi.setProperty("3", "Sai mật khẩu");
@@ -769,6 +1141,16 @@ public class SDKLangConfig {
         tr.setProperty("3", "Yanlış hesap veya şifre");
         tl.setProperty("3", "Error sa account o password");
         ms.setProperty("3", "Ralat akaun atau kata laluan");
+        // 36. 3 账户或密码错误
+        nl.setProperty("3","Onjuist account of wachtwoord");
+        pl.setProperty("3","Błędne konto lub hasło");
+        sv.setProperty("3","Fel konto eller lösenord");
+        cs.setProperty("3","Nesprávný účet nebo heslo");
+        uz.setProperty("3","Hisob yoki parol xato");
+        nb.setProperty("3","Feil konto eller passord");
+        da.setProperty("3","Forkert konto eller adgangskode");
+        ro.setProperty("3","Cont sau parolă incorectă");
+        hu.setProperty("3","Hibás fiók vagy jelszó");
 
         zh_CN.setProperty("4", "邮箱不存在");
         vi.setProperty("4", "Email không tồn tại");
@@ -788,6 +1170,16 @@ public class SDKLangConfig {
         tr.setProperty("4", "E-posta adresi mevcut değil.");
         tl.setProperty("4", "Ang email ay wala");
         ms.setProperty("4", "E-mel tidak wujud");
+        // 37. 4 邮箱不存在
+        nl.setProperty("4","E-mail bestaat niet");
+        pl.setProperty("4","E-mail nie istnieje");
+        sv.setProperty("4","E-posten finns inte");
+        cs.setProperty("4","E-mail neexistuje");
+        uz.setProperty("4","Elektron pochta mavjud emas");
+        nb.setProperty("4","E-posten finnes ikke");
+        da.setProperty("4","E-mailen findes ikke");
+        ro.setProperty("4","E-mailul nu există");
+        hu.setProperty("4","Az e-mail nem létezik");
 
         zh_CN.setProperty("5", "邮箱已存在");
         vi.setProperty("5", "Email đã tồn tại");
@@ -807,6 +1199,16 @@ public class SDKLangConfig {
         tr.setProperty("5", "E-posta adresi zaten mevcut.");
         tl.setProperty("5", "Umiiral na ang email");
         ms.setProperty("5", "E-mel sudah wujud");
+        // 38. 5 邮箱已存在
+        nl.setProperty("5","E-mail bestaat al");
+        pl.setProperty("5","E-mail już istnieje");
+        sv.setProperty("5","E-posten finns redan");
+        cs.setProperty("5","E-mail již existuje");
+        uz.setProperty("5","Elektron pochta allaqachon mavjud");
+        nb.setProperty("5","E-posten finnes allerede");
+        da.setProperty("5","E-mailen findes allerede");
+        ro.setProperty("5","E-mailul există deja");
+        hu.setProperty("5","Az e-mail már létezik");
 
 
         zh_CN.setProperty("6", "身份验证无效");
@@ -827,6 +1229,17 @@ public class SDKLangConfig {
         tr.setProperty("6", "Geçersiz kimlik doğrulama");
         tl.setProperty("6", "Di-wastong pagpapatotoo");
         ms.setProperty("6", "Pengesahan tidak sah");
+        // 39. 6 身份验证无效
+        nl.setProperty("6","Ongeldige verificatie");
+        pl.setProperty("6","Nieprawidłowa weryfikacja");
+        sv.setProperty("6","Ogiltig verifiering");
+        cs.setProperty("6","Neplatné ověření");
+        uz.setProperty("6","Tasdiqlash haqiqiy emas");
+        nb.setProperty("6","Ugyldig verifisering");
+        da.setProperty("6","Ugyldig verifikation");
+        ro.setProperty("6","Verificare nevalidă");
+        hu.setProperty("6","Érvénytelen ellenőrzés");
+
 
         zh_CN.setProperty("7", "账户已绑定");
         vi.setProperty("7", "Tài khoản đã cố định");
@@ -846,6 +1259,16 @@ public class SDKLangConfig {
         tr.setProperty("7", "Hesap zaten bağlı.");
         tl.setProperty("7", "Ang account ay nakatali");
         ms.setProperty("7", "Akaun telah terikat");
+        // 40. 7 账户已绑定
+        nl.setProperty("7","Account is al gekoppeld");
+        pl.setProperty("7","Konto jest już powiązane");
+        sv.setProperty("7","Kontot är redan länkat");
+        cs.setProperty("7","Účet je již propojen");
+        uz.setProperty("7","Hisob allaqachon bog'langan");
+        nb.setProperty("7","Kontoen er allerede tilkoblet");
+        da.setProperty("7","Kontoen er allerede tilknyttet");
+        ro.setProperty("7","Contul este deja asociat");
+        hu.setProperty("7","A fiók már össze van kapcsolva");
 
 
         zh_CN.setProperty("8", "游戏状态无效");
@@ -866,6 +1289,16 @@ public class SDKLangConfig {
         tr.setProperty("8", "Oyun durumu geçersiz");
         tl.setProperty("8", "Di-wasto ang status ng laro");
         ms.setProperty("8", "Status permainan tidak sah");
+        // 41. 8 游戏状态无效
+        nl.setProperty("8","Ongeldige spelstatus");
+        pl.setProperty("8","Nieprawidłowy stan gry");
+        sv.setProperty("8","Ogiltig spelstatus");
+        cs.setProperty("8","Neplatný stav hry");
+        uz.setProperty("8","O'yin holati haqiqiy emas");
+        nb.setProperty("8","Ugyldig spillstatus");
+        da.setProperty("8","Ugyldig spilstatus");
+        ro.setProperty("8","Stare de joc nevalidă");
+        hu.setProperty("8","Érvénytelen játékállapot");
 
 
         zh_CN.setProperty("9", "账号被冻结");
@@ -886,6 +1319,17 @@ public class SDKLangConfig {
         tr.setProperty("9", "Hesap donduruldu");
         tl.setProperty("9", "Naka-freeze ang account");
         ms.setProperty("9", "Akaun dibekukan");
+        // 42. 9 账号被冻结
+        nl.setProperty("9","Account is bevroren");
+        pl.setProperty("9","Konto zostało zablokowane");
+        sv.setProperty("9","Kontot är fryst");
+        cs.setProperty("9","Účet je zmrazen");
+        uz.setProperty("9","Hisob muzlatilgan");
+        nb.setProperty("9","Kontoen er frosset");
+        da.setProperty("9","Kontoen er frosset");
+        ro.setProperty("9","Contul este înghețat");
+        hu.setProperty("9","A fiók befagyasztva");
+
 
         zh_CN.setProperty("10", "账户错误");
         vi.setProperty("10", "Tài khoản lỗi");
@@ -905,6 +1349,17 @@ public class SDKLangConfig {
         tr.setProperty("10", "Hesap hatası");
         tl.setProperty("10", "Error sa account");
         ms.setProperty("10", "Ralat akaun");
+        // 43. 10 账户错误
+        nl.setProperty("10","Accountfout");
+        pl.setProperty("10","Błąd konta");
+        sv.setProperty("10","Kontofel");
+        cs.setProperty("10","Chyba účtu");
+        uz.setProperty("10","Hisob xatosi");
+        nb.setProperty("10","Kontofeil");
+        da.setProperty("10","Kontofejl");
+        ro.setProperty("10","Eroare de cont");
+        hu.setProperty("10","Fiókhiba");
+
 
         zh_CN.setProperty("11", "不是原本的邮箱");
         vi.setProperty("11", "Email cố định không đúng");
@@ -924,6 +1379,17 @@ public class SDKLangConfig {
         tr.setProperty("11", "Orijinal olmayan e-posta adresi");
         tl.setProperty("11", "Hindi isang nakapirming mailbox");
         ms.setProperty("11", "Bukan peti mel tetap");
+        // 44. 11 不是原本的邮箱
+        nl.setProperty("11","Niet het oorspronkelijke e-mailadres");
+        pl.setProperty("11","To nie jest oryginalny e-mail");
+        sv.setProperty("11","Inte den ursprungliga e-postadressen");
+        cs.setProperty("11","Není původní e-mail");
+        uz.setProperty("11","Asl elektron pochta emas");
+        nb.setProperty("11","Ikke den opprinnelige e-posten");
+        da.setProperty("11","Ikke den oprindelige e-mail");
+        ro.setProperty("11","Nu este e-mailul original");
+        hu.setProperty("11","Nem az eredeti e-mail");
+
 
         zh_CN.setProperty("12", "邮箱格式无效");
         vi.setProperty("12", "Định dạng Email không hợp lệ");
@@ -943,6 +1409,16 @@ public class SDKLangConfig {
         tr.setProperty("12", "Geçersiz e-posta formatı");
         tl.setProperty("12", "Di-wastong format ng Email");
         ms.setProperty("12", "Format E-mel tidak sah");
+        // 45. 12 邮箱格式无效
+        nl.setProperty("12","Ongeldige e-mailindeling");
+        pl.setProperty("12","Nieprawidłowy format e-mail");
+        sv.setProperty("12","Ogiltigt e-postformat");
+        cs.setProperty("12","Neplatný formát e-mailu");
+        uz.setProperty("12","Elektron pochta formati haqiqiy emas");
+        nb.setProperty("12","Ugyldig e-postformat");
+        da.setProperty("12","Ugyldigt e-mailformat");
+        ro.setProperty("12","Format de e-mail nevalid");
+        hu.setProperty("12","Érvénytelen e-mail-formátum");
 
 
         zh_CN.setProperty("13", "账户格式无效");
@@ -963,6 +1439,16 @@ public class SDKLangConfig {
         tr.setProperty("13", "Geçersiz hesap formatı");
         tl.setProperty("13", "Ang account ay dapat na 6-14 na character Mga Letra o Numero");
         ms.setProperty("13", "Akaun mestilah 6-14 aksara Huruf atau Nombor");
+        // 46. 13 账户格式无效
+        nl.setProperty("13","Ongeldige accountindeling");
+        pl.setProperty("13","Nieprawidłowy format konta");
+        sv.setProperty("13","Ogiltigt kontoformat");
+        cs.setProperty("13","Neplatný formát účtu");
+        uz.setProperty("13","Hisob formati haqiqiy emas");
+        nb.setProperty("13","Ugyldig kontoformat");
+        da.setProperty("13","Ugyldigt kontoformat");
+        ro.setProperty("13","Format de cont nevalid");
+        hu.setProperty("13","Érvénytelen fiókformátum");
 
         zh_CN.setProperty("14", "支付失败");
         vi.setProperty("14", "Thanh toán thất bại");
@@ -982,6 +1468,17 @@ public class SDKLangConfig {
         tr.setProperty("14", "Ödeme başarısız oldu");
         tl.setProperty("14", "Nabigo ang pagbabayad");
         ms.setProperty("14", "Pembayaran gagal");
+        // 47. 14 支付失败
+        nl.setProperty("14","Betaling mislukt");
+        pl.setProperty("14","Płatność nie powiodła się");
+        sv.setProperty("14","Betalningen misslyckades");
+        cs.setProperty("14","Platba se nezdařila");
+        uz.setProperty("14","To'lov amalga oshmadi");
+        nb.setProperty("14","Betalingen mislyktes");
+        da.setProperty("14","Betaling mislykkedes");
+        ro.setProperty("14","Plata a eșuat");
+        hu.setProperty("14","A fizetés sikertelen");
+
 
         zh_CN.setProperty("15", "密码必须是 6-14位字母或数字");
         vi.setProperty("15", "Mã thẻ không hợp lệ");
@@ -1001,6 +1498,17 @@ public class SDKLangConfig {
         tr.setProperty("15", "Geçersiz parola formatı");
         tl.setProperty("15", "Ang password ay dapat na 6-14 na character Mga Letra o Numero");
         ms.setProperty("15", "Kata laluan mestilah 6-14 aksara Huruf atau Nombor");
+        // 48. 15 密码必须是 6-14位字母或数字
+        nl.setProperty("15","Wachtwoord moet 6-14 letters of cijfers bevatten");
+        pl.setProperty("15","Hasło musi składać się z 6-14 liter lub cyfr");
+        sv.setProperty("15","Lösenordet måste bestå av 6-14 bokstäver eller siffror");
+        cs.setProperty("15","Heslo musí obsahovat 6-14 písmen nebo číslic");
+        uz.setProperty("15","Parol 6-14 ta harf yoki raqamdan iborat bo'lishi kerak");
+        nb.setProperty("15","Passordet må bestå av 6-14 bokstaver eller sifre");
+        da.setProperty("15","Adgangskoden skal bestå af 6-14 bogstaver eller tal");
+        ro.setProperty("15","Parola trebuie să conțină 6-14 litere sau cifre");
+        hu.setProperty("15","A jelszónak 6-14 betűből vagy számjegyből kell állnia");
+
 
         zh_CN.setProperty("19", "支付成功,如果长时间未到账,请重启游戏或者联系客服");
         vi.setProperty("19", "Thanh toán thành công, nếu chưa nhận được, hãy khởi động lại game hoặc liên hệ CSKH");
@@ -1020,6 +1528,16 @@ public class SDKLangConfig {
         tr.setProperty("19", "Ödeme başarılı. Eğer uzun bir süre geçmesine rağmen para gelmediyse, lütfen oyunu yeniden başlatın veya müşteri hizmetleriyle iletişime geçin.");
         tl.setProperty("19", "Naging matagumpay ang pagbabayad. Kung ang pagbabayad ay hindi natanggap nang mahabang panahon, mangyaring i-restart ang laro o makipag-ugnayan sa customer service.");
         ms.setProperty("19", "Pembayaran berjaya. Jika pembayaran telah lama tidak diterima, sila mulakan semula permainan atau hubungi perkhidmatan pelanggan.");
+        // 49. 19 支付成功,如果长时间未到账,请重启游戏或者联系客服
+        nl.setProperty("19","Betaling geslaagd, als deze na lange tijd niet is bijgeschreven, herstart dan het spel of neem contact op met de klantenservice");
+        pl.setProperty("19","Płatność zakończona powodzeniem, jeśli środki nie wpłyną przez długi czas, uruchom ponownie grę lub skontaktuj się z obsługą klienta");
+        sv.setProperty("19","Betalningen lyckades, om den inte har registrerats efter lång tid, starta om spelet eller kontakta kundtjänst");
+        cs.setProperty("19","Platba proběhla úspěšně, pokud se po dlouhé době nepřipíše, restartujte hru nebo kontaktujte podporu zákazníků");
+        uz.setProperty("19","To'lov muvaffaqiyatli, agar uzoq vaqt davomida hisobingizga tushmasa, o'yinni qayta ishga tushiring yoki mijozlarga xizmatga murojaat qiling");
+        nb.setProperty("19","Betalingen var vellykket, hvis den ikke er registrert etter lang tid, start spillet på nytt eller kontakt kundeservice");
+        da.setProperty("19","Betalingen lykkedes, hvis den ikke er registreret efter lang tid, genstart spillet eller kontakt kundeservice");
+        ro.setProperty("19","Plata a reușit, dacă nu este înregistrată după mult timp, reporniți jocul sau contactați serviciul clienți");
+        hu.setProperty("19","A fizetés sikeres volt, ha hosszú idő után sem jelenik meg, indítsa újra a játékot, vagy lépjen kapcsolatba az ügyfélszolgálattal");
 
 
         zh_CN.setProperty("20", "游客账户");
@@ -1040,6 +1558,16 @@ public class SDKLangConfig {
         tr.setProperty("20", "Misafir hesabı");
         tl.setProperty("20", "Account ng turista");
         ms.setProperty("20", "Akaun pelancong");
+        // 50. 20 游客账户
+        nl.setProperty("20","Gastaccount");
+        pl.setProperty("20","Konto gościa");
+        sv.setProperty("20","Gästkonto");
+        cs.setProperty("20","Účet hosta");
+        uz.setProperty("20","Mehmon hisobi");
+        nb.setProperty("20","Gjestekonto");
+        da.setProperty("20","Gæstekonto");
+        ro.setProperty("20","Cont de oaspete");
+        hu.setProperty("20","Vendégfiók");
 
 
         zh_CN.setProperty("21", "正在发送验证码...");
@@ -1060,6 +1588,17 @@ public class SDKLangConfig {
         tr.setProperty("21", "Doğrulama kodu gönderiliyor...");
         tl.setProperty("21", "Nagpapadala ng verification code...");
         ms.setProperty("21", "Menghantar kod pengesahan...");
+        // 51. 21 正在发送验证码...
+        nl.setProperty("21","Verificatiecode wordt verzonden...");
+        pl.setProperty("21","Wysyłanie kodu weryfikacyjnego...");
+        sv.setProperty("21","Skickar verifieringskod...");
+        cs.setProperty("21","Odesílání ověřovacího kódu...");
+        uz.setProperty("21","Tasdiqlash kodi yuborilmoqda...");
+        nb.setProperty("21","Sender bekreftelseskode...");
+        da.setProperty("21","Sender bekræftelseskode...");
+        ro.setProperty("21","Se trimite codul de verificare...");
+        hu.setProperty("21","Ellenőrző kód küldése...");
+
 
         zh_CN.setProperty("22", "验证码发送成功!");
         vi.setProperty("22", "Gửi mã xác nhận thành công!");
@@ -1079,6 +1618,17 @@ public class SDKLangConfig {
         tr.setProperty("22", "Doğrulama kodu başarıyla gönderildi.");
         tl.setProperty("22", "Matagumpay na naipadala ang verification code!");
         ms.setProperty("22", "Kod pengesahan berjaya dihantar!");
+        // 52. 22 验证码发送成功!
+        nl.setProperty("22","Verificatiecode succesvol verzonden!");
+        pl.setProperty("22","Kod weryfikacyjny został wysłany!");
+        sv.setProperty("22","Verifieringskoden har skickats!");
+        cs.setProperty("22","Ověřovací kód byl odeslán!");
+        uz.setProperty("22","Tasdiqlash kodi yuborildi!");
+        nb.setProperty("22","Bekreftelseskoden er sendt!");
+        da.setProperty("22","Bekræftelseskoden er sendt!");
+        ro.setProperty("22","Codul de verificare a fost trimis!");
+        hu.setProperty("22","Az ellenőrző kód elküldve!");
+
 
         zh_CN.setProperty("23", "关闭");
         vi.setProperty("23", "Đóng");
@@ -1098,6 +1648,16 @@ public class SDKLangConfig {
         tr.setProperty("23", "kapalı");
         tl.setProperty("23", "Isara");
         ms.setProperty("23", "tutup");
+        // 53. 23 关闭
+        nl.setProperty("23","Sluiten");
+        pl.setProperty("23","Zamknij");
+        sv.setProperty("23","Stäng");
+        cs.setProperty("23","Zavřít");
+        uz.setProperty("23","Yopish");
+        nb.setProperty("23","Lukk");
+        da.setProperty("23","Luk");
+        ro.setProperty("23","Închide");
+        hu.setProperty("23","Bezárás");
 
 
         zh_CN.setProperty("24", "验证码发送失败!");
@@ -1118,6 +1678,17 @@ public class SDKLangConfig {
         tr.setProperty("24", "Doğrulama kodu gönderilemedi");
         tl.setProperty("24", "Nabigong ipadala ang verification code!");
         ms.setProperty("24", "Kod pengesahan gagal dihantar!");
+        // 54. 24 验证码发送失败!
+        nl.setProperty("24","Verzenden van verificatiecode mislukt!");
+        pl.setProperty("24","Nie udało się wysłać kodu weryfikacyjnego!");
+        sv.setProperty("24","Det gick inte att skicka verifieringskoden!");
+        cs.setProperty("24","Odeslání ověřovacího kódu se nezdařilo!");
+        uz.setProperty("24","Tasdiqlash kodini yuborish amalga oshmadi!");
+        nb.setProperty("24","Sending av bekreftelseskode mislyktes!");
+        da.setProperty("24","Afsendelse af bekræftelseskode mislykkedes!");
+        ro.setProperty("24","Trimiterea codului de verificare a eșuat!");
+        hu.setProperty("24","Az ellenőrző kód küldése sikertelen!");
+
 
         zh_CN.setProperty("25", "验证中...");
         vi.setProperty("25", "Đang xác nhận…");
@@ -1137,6 +1708,16 @@ public class SDKLangConfig {
         tr.setProperty("25", "Doğrulama ...");
         tl.setProperty("25", "Bine-verify...");
         ms.setProperty("25", "Mengesahkan...");
+        // 55. 25 验证中...
+        nl.setProperty("25","Verifiëren...");
+        pl.setProperty("25","Weryfikacja...");
+        sv.setProperty("25","Verifierar...");
+        cs.setProperty("25","Ověřování...");
+        uz.setProperty("25","Tasdiqlanmoqda...");
+        nb.setProperty("25","Verifiserer...");
+        da.setProperty("25","Verificerer...");
+        ro.setProperty("25","Se verifică...");
+        hu.setProperty("25","Ellenőrzés...");
 
 
         zh_CN.setProperty("26", "发送验证码");
@@ -1157,6 +1738,16 @@ public class SDKLangConfig {
         tr.setProperty("26", "Doğrulama kodunu gönder");
         tl.setProperty("26", "Magpadala ng verification code");
         ms.setProperty("26", "Hantar kod pengesahan");
+        // 56. 26 发送验证码
+        nl.setProperty("26","Verificatiecode verzenden");
+        pl.setProperty("26","Wyślij kod weryfikacyjny");
+        sv.setProperty("26","Skicka verifieringskod");
+        cs.setProperty("26","Odeslat ověřovací kód");
+        uz.setProperty("26","Tasdiqlash kodini yuborish");
+        nb.setProperty("26","Send bekreftelseskode");
+        da.setProperty("26","Send bekræftelseskode");
+        ro.setProperty("26","Trimite codul de verificare");
+        hu.setProperty("26","Ellenőrző kód küldése");
 
         zh_CN.setProperty("27", "正在领取...");
         vi.setProperty("27", "Đang nhận…");
@@ -1176,6 +1767,16 @@ public class SDKLangConfig {
         tr.setProperty("27", "Teslim alma...");
         tl.setProperty("27", "Tumatanggap...");
         ms.setProperty("27", "Menerima...");
+        // 57. 27 正在领取...
+        nl.setProperty("27","Ophalen...");
+        pl.setProperty("27","Odbieranie...");
+        sv.setProperty("27","Hämtar...");
+        cs.setProperty("27","Přijímání...");
+        uz.setProperty("27","Qabul qilinmoqda...");
+        nb.setProperty("27","Henter...");
+        da.setProperty("27","Henter...");
+        ro.setProperty("27","Se preia...");
+        hu.setProperty("27","Átvétel...");
 
 //        zh_CN.setProperty("28", "领取成功，请到游戏内查看");
 //        vi.setProperty("28", "Nhận thành công, hãy vào game kiểm tra");
@@ -1213,6 +1814,17 @@ public class SDKLangConfig {
         tr.setProperty("29", "Talep başarısız oldu, lütfen tekrar deneyin.");
         tl.setProperty("29", "Nabigong matanggap. Pakisubukang muli");
         ms.setProperty("29", "Gagal terima. Sila cuba lagi");
+        // 58. 29 领取失败，请重试
+        nl.setProperty("29","Ophalen mislukt, probeer het opnieuw");
+        pl.setProperty("29","Odbieranie nie powiodło się, spróbuj ponownie");
+        sv.setProperty("29","Det gick inte att hämta, försök igen");
+        cs.setProperty("29","Přijetí se nezdařilo, zkuste to znovu");
+        uz.setProperty("29","Qabul qilish amalga oshmadi, qayta urinib ko'ring");
+        nb.setProperty("29","Henting mislyktes, prøv igjen");
+        da.setProperty("29","Henting mislykkedes, prøv igen");
+        ro.setProperty("29","Preluarea a eșuat, încercați din nou");
+        hu.setProperty("29","Az átvétel sikertelen, próbálja újra");
+
 
         zh_CN.setProperty("30", "游客用户需要绑定平台账户才能使用此功能");
         vi.setProperty("30", "Người dùng chơi thử cần cố định tài khoản mới có thể dùng chức năng này");
@@ -1232,6 +1844,16 @@ public class SDKLangConfig {
         tr.setProperty("30", "Bu özelliği kullanmak için ziyaretçilerin platform hesaplarını birbirine bağlamaları gerekmektedir.");
         tl.setProperty("30", "Kakailanganin ng mga bisitang user na i-bind ang kanilang platform account para magamit ang feature na ito");
         ms.setProperty("30", "Pengguna tetamu perlu mengikat akaun platform untuk menggunakan ciri ini");
+        // 59. 30 游客用户需要绑定平台账户才能使用此功能
+        nl.setProperty("30","Gastgebruikers moeten een platformaccount koppelen om deze functie te gebruiken");
+        pl.setProperty("30","Użytkownicy-goście muszą powiązać konto platformy, aby korzystać z tej funkcji");
+        sv.setProperty("30","Gästanvändare måste länka ett plattformskonto för att kunna använda den här funktionen");
+        cs.setProperty("30","Uživatelé hosta musí propojit účet platformy, aby mohli tuto funkci používat");
+        uz.setProperty("30","Mehmon foydalanuvchilar ushbu funksiyadan foydalanish uchun platforma hisobini bog'lashi kerak");
+        nb.setProperty("30","Gjestebrukere må koble til en plattformkonto for å bruke denne funksjonen");
+        da.setProperty("30","Gæstebrugere skal tilknytte en platformskonto for at bruge denne funktion");
+        ro.setProperty("30","Utilizatorii oaspeți trebuie să asocieze un cont de platformă pentru a folosi această funcție");
+        hu.setProperty("30","A vendégfelhasználóknak össze kell kapcsolniuk egy platformfiókot a funkció használatához");
 
 
         zh_CN.setProperty("31", "Facebook用户需要绑定平台账户才能使用此功能");
@@ -1252,6 +1874,16 @@ public class SDKLangConfig {
         tr.setProperty("31", "Facebook kullanıcılarının bu özelliği kullanabilmek için Facebook hesaplarını bağlamaları gerekmektedir.");
         tl.setProperty("31", "Kailangang itali ng mga user ng Facebook ang platform account para magamit ang feature na ito");
         ms.setProperty("31", "Pengguna Facebook perlu mengikat akaun platform untuk menggunakan ciri ini");
+        // 60. 31 Facebook用户需要绑定平台账户才能使用此功能
+        nl.setProperty("31","Facebook-gebruikers moeten een platformaccount koppelen om deze functie te gebruiken");
+        pl.setProperty("31","Użytkownicy Facebooka muszą powiązać konto platformy, aby korzystać z tej funkcji");
+        sv.setProperty("31","Facebook-användare måste länka ett plattformskonto för att kunna använda den här funktionen");
+        cs.setProperty("31","Uživatelé Facebooku musí propojit účet platformy, aby mohli tuto funkci používat");
+        uz.setProperty("31","Facebook foydalanuvchilari ushbu funksiyadan foydalanish uchun platforma hisobini bog'lashi kerak");
+        nb.setProperty("31","Facebook-brukere må koble til en plattformkonto for å bruke denne funksjonen");
+        da.setProperty("31","Facebook-brugere skal tilknytte en platformskonto for at bruge denne funktion");
+        ro.setProperty("31","Utilizatorii Facebook trebuie să asocieze un cont de platformă pentru a folosi această funcție");
+        hu.setProperty("31","A Facebook-felhasználóknak össze kell kapcsolniuk egy platformfiókot a funkció használatához");
 
 
         zh_CN.setProperty("32", "当前没有绑定邮箱!需要先绑定邮箱才能使用找回密码");
@@ -1272,6 +1904,16 @@ public class SDKLangConfig {
         tr.setProperty("32", "Şu anda hiçbir e-posta adresi bağlı değil! Şifre kurtarma işlevini kullanabilmek için önce bir e-posta adresi bağlamanız gerekiyor");
         tl.setProperty("32", "Walang umiiral na mailbox sa kasalukuyan! I-bind ang mailbox upang magamit ang pagkuha ng password");
         ms.setProperty("32", "Pada masa ini tiada e-mel terikat! Anda perlu mengikat e-mel anda terlebih dahulu sebelum anda boleh menggunakan kaedah untuk mendapatkan kata laluan anda.");
+        // 61. 32 当前没有绑定邮箱!需要先绑定邮箱才能使用找回密码
+        nl.setProperty("32","Momenteel is er geen e-mail gekoppeld! Koppel eerst een e-mail om wachtwoordherstel te gebruiken");
+        pl.setProperty("32","Obecnie nie powiązano e-maila! Najpierw powiąż e-mail, aby korzystać z odzyskiwania hasła");
+        sv.setProperty("32","Ingen e-post är för närvarande länkad! Länka en e-post först för att kunna återställa lösenordet");
+        cs.setProperty("32","Momentálně není propojen žádný e-mail! Nejprve propojte e-mail, abyste mohli použít obnovení hesla");
+        uz.setProperty("32","Hozirda elektron pochta bog'lanmagan! Parolni tiklashdan foydalanish uchun avval elektron pochta bog'lang");
+        nb.setProperty("32","Ingen e-post er tilkoblet for øyeblikket! Koble til en e-post først for å kunne bruke tilbakestilling av passord");
+        da.setProperty("32","Der er i øjeblikket ingen e-mail tilknyttet! Tilknyt en e-mail først for at bruge gendannelse af adgangskode");
+        ro.setProperty("32","Momentan nu este asociat niciun e-mail! Asociați mai întâi un e-mail pentru a folosi recuperarea parolei");
+        hu.setProperty("32","Jelenleg nincs összekapcsolt e-mail! A jelszó-visszaállítás használatához először kapcsoljon össze egy e-mailt");
 
 
         zh_CN.setProperty("33", "密码不能为空");
@@ -1292,6 +1934,16 @@ public class SDKLangConfig {
         tr.setProperty("33", "Parola boş bırakılamaz");
         tl.setProperty("33", "Ilagay ang tamang account at password");
         ms.setProperty("33", "Kata laluan tidak boleh kosong");
+        // 62. 33 密码不能为空
+        nl.setProperty("33","Wachtwoord mag niet leeg zijn");
+        pl.setProperty("33","Hasło nie może być puste");
+        sv.setProperty("33","Lösenordet får inte vara tomt");
+        cs.setProperty("33","Heslo nesmí být prázdné");
+        uz.setProperty("33","Parol bo'sh bo'lmasligi kerak");
+        nb.setProperty("33","Passord kan ikke være tomt");
+        da.setProperty("33","Adgangskode må ikke være tom");
+        ro.setProperty("33","Parola nu poate fi goală");
+        hu.setProperty("33","A jelszó nem lehet üres");
 
 
         zh_CN.setProperty("34", "正在注册...");
@@ -1312,6 +1964,16 @@ public class SDKLangConfig {
         tr.setProperty("34", "Kayıt olma ...");
         tl.setProperty("34", "pag-sign up");
         ms.setProperty("34", "Mendaftar...");
+        // 63. 34 正在注册...
+        nl.setProperty("34","Registreren...");
+        pl.setProperty("34","Rejestrowanie...");
+        sv.setProperty("34","Registrerar...");
+        cs.setProperty("34","Probíhá registrace...");
+        uz.setProperty("34","Ro'yxatdan o'tilmoqda...");
+        nb.setProperty("34","Registrerer...");
+        da.setProperty("34","Registrerer...");
+        ro.setProperty("34","Se înregistrează...");
+        hu.setProperty("34","Regisztráció...");
 
 
         zh_CN.setProperty("35", "注册失败");
@@ -1332,6 +1994,17 @@ public class SDKLangConfig {
         tr.setProperty("35", "Kayıt işlemi başarısız oldu");
         tl.setProperty("35", "Nabigo ang pagpaparehistro");
         ms.setProperty("35", "Pendaftaran gagal");
+        // 64. 35 注册失败
+        nl.setProperty("35","Registratie mislukt");
+        pl.setProperty("35","Rejestracja nie powiodła się");
+        sv.setProperty("35","Registreringen misslyckades");
+        cs.setProperty("35","Registrace se nezdařila");
+        uz.setProperty("35","Ro'yxatdan o'tish amalga oshmadi");
+        nb.setProperty("35","Registreringen mislyktes");
+        da.setProperty("35","Registrering mislykkedes");
+        ro.setProperty("35","Înregistrarea a eșuat");
+        hu.setProperty("35","A regisztráció sikertelen");
+
 
         zh_CN.setProperty("36", "邮箱格式不正确");
         vi.setProperty("36", "Định dạng Email không đúng");
@@ -1351,6 +2024,17 @@ public class SDKLangConfig {
         tr.setProperty("36", "Yanlış e-posta formatı");
         tl.setProperty("36", "Mali ang format ng email");
         ms.setProperty("36", "Format e-mel tidak betul");
+        // 65. 36 邮箱格式不正确
+        nl.setProperty("36","Onjuiste e-mailindeling");
+        pl.setProperty("36","Nieprawidłowy format e-mail");
+        sv.setProperty("36","Felaktigt e-postformat");
+        cs.setProperty("36","Nesprávný formát e-mailu");
+        uz.setProperty("36","Elektron pochta formati noto'g'ri");
+        nb.setProperty("36","Feil e-postformat");
+        da.setProperty("36","Forkert e-mailformat");
+        ro.setProperty("36","Format de e-mail incorect");
+        hu.setProperty("36","Helytelen e-mail-formátum");
+
 
         zh_CN.setProperty("37", "邮箱不能为空");
         vi.setProperty("37", "Email không thể trống");
@@ -1370,6 +2054,17 @@ public class SDKLangConfig {
         tr.setProperty("37", "E-posta adresi boş bırakılamaz");
         tl.setProperty("37", "Hindi maaaring walang laman ang email");
         ms.setProperty("37", "E-mel tidak boleh kosong");
+        // 66. 37 邮箱不能为空
+        nl.setProperty("37","E-mail mag niet leeg zijn");
+        pl.setProperty("37","E-mail nie może być pusty");
+        sv.setProperty("37","E-post får inte vara tomt");
+        cs.setProperty("37","E-mail nesmí být prázdný");
+        uz.setProperty("37","Elektron pochta bo'sh bo'lmasligi kerak");
+        nb.setProperty("37","E-post kan ikke være tom");
+        da.setProperty("37","E-mail må ikke være tom");
+        ro.setProperty("37","E-mailul nu poate fi gol");
+        hu.setProperty("37","Az e-mail nem lehet üres");
+
 
         zh_CN.setProperty("39", "验证码不能为空");
         vi.setProperty("39", "Mã xác nhận không thể trống");
@@ -1389,6 +2084,16 @@ public class SDKLangConfig {
         tr.setProperty("39", "Doğrulama kodu boş bırakılamaz.");
         tl.setProperty("39", "Hindi maaaring walang laman ang verification code");
         ms.setProperty("39", "Kod pengesahan tidak boleh kosong");
+        // 67. 39 验证码不能为空
+        nl.setProperty("39","Verificatiecode mag niet leeg zijn");
+        pl.setProperty("39","Kod weryfikacyjny nie może być pusty");
+        sv.setProperty("39","Verifieringskoden får inte vara tom");
+        cs.setProperty("39","Ověřovací kód nesmí být prázdný");
+        uz.setProperty("39","Tasdiqlash kodi bo'sh bo'lmasligi kerak");
+        nb.setProperty("39","Bekreftelseskoden kan ikke være tom");
+        da.setProperty("39","Bekræftelseskoden må ikke være tom");
+        ro.setProperty("39","Codul de verificare nu poate fi gol");
+        hu.setProperty("39","Az ellenőrző kód nem lehet üres");
 
 //        zh_CN.setProperty("38Reg", "用户名必须是6-14位字母或数字");
 //        vi.setProperty("38Reg", "Định dạng người dùng không hợp lệ");
@@ -1427,6 +2132,16 @@ public class SDKLangConfig {
         tr.setProperty("38", "Kullanıcı adı 6-14 karakter uzunluğunda olmalı ve harf veya rakamlardan oluşmalıdır.");
         tl.setProperty("38", "Ang username ay dapat 6-14 na titik o numero");
         ms.setProperty("38", "Nama pengguna mestilah 6-14 huruf atau nombor");
+        // 68. 38 用户名必须是6-14位字母或数字
+        nl.setProperty("38","Gebruikersnaam moet 6-14 letters of cijfers bevatten");
+        pl.setProperty("38","Nazwa użytkownika musi składać się z 6-14 liter lub cyfr");
+        sv.setProperty("38","Användarnamnet måste bestå av 6-14 bokstäver eller siffror");
+        cs.setProperty("38","Uživatelské jméno musí obsahovat 6-14 písmen nebo číslic");
+        uz.setProperty("38","Foydalanuvchi nomi 6-14 ta harf yoki raqamdan iborat bo'lishi kerak");
+        nb.setProperty("38","Brukernavnet må bestå av 6-14 bokstaver eller sifre");
+        da.setProperty("38","Brugernavnet skal bestå af 6-14 bogstaver eller tal");
+        ro.setProperty("38","Numele de utilizator trebuie să conțină 6-14 litere sau cifre");
+        hu.setProperty("38","A felhasználónévnek 6-14 betűből vagy számjegyből kell állnia");
 
 
         zh_CN.setProperty("40", "验证码格式不正确");
@@ -1447,6 +2162,16 @@ public class SDKLangConfig {
         tr.setProperty("40", "Yanlış doğrulama kodu formatı");
         tl.setProperty("40", "Mali ang format ng verification code");
         ms.setProperty("40", "Format kod pengesahan tidak betul");
+        // 69. 40 验证码格式不正确
+        nl.setProperty("40","Onjuiste indeling van de verificatiecode");
+        pl.setProperty("40","Nieprawidłowy format kodu weryfikacyjnego");
+        sv.setProperty("40","Felaktigt format på verifieringskoden");
+        cs.setProperty("40","Nesprávný formát ověřovacího kódu");
+        uz.setProperty("40","Tasdiqlash kodi formati noto'g'ri");
+        nb.setProperty("40","Feil format på bekreftelseskoden");
+        da.setProperty("40","Forkert format på bekræftelseskoden");
+        ro.setProperty("40","Format incorect al codului de verificare");
+        hu.setProperty("40","Helytelen ellenőrző kód formátum");
 
 //============================================================================
 
@@ -1487,6 +2212,17 @@ public class SDKLangConfig {
         tr.setProperty("41", "Parola 6-14 karakter uzunluğunda olmalı ve harf veya rakamlardan oluşmalıdır.");
         tl.setProperty("41", "Ang password ay dapat na 6-14 na titik o numero");
         ms.setProperty("41", "Kata laluan mestilah 6-14 huruf atau nombor");
+        // 70. 41 密码必须是6-14位字母或数字
+        nl.setProperty("41","Wachtwoord moet 6-14 letters of cijfers bevatten");
+        pl.setProperty("41","Hasło musi składać się z 6-14 liter lub cyfr");
+        sv.setProperty("41","Lösenordet måste bestå av 6-14 bokstäver eller siffror");
+        cs.setProperty("41","Heslo musí obsahovat 6-14 písmen nebo číslic");
+        uz.setProperty("41","Parol 6-14 ta harf yoki raqamdan iborat bo'lishi kerak");
+        nb.setProperty("41","Passordet må bestå av 6-14 bokstaver eller sifre");
+        da.setProperty("41","Adgangskoden skal bestå af 6-14 bogstaver eller tal");
+        ro.setProperty("41","Parola trebuie să conțină 6-14 litere sau cifre");
+        hu.setProperty("41","A jelszónak 6-14 betűből vagy számjegyből kell állnia");
+
 
         zh_CN.setProperty("42", "正在开启支付");
         vi.setProperty("42", "Đang mở thanh toán");
@@ -1506,6 +2242,17 @@ public class SDKLangConfig {
         tr.setProperty("42", "Ödeme işlemi başlatılıyor.");
         tl.setProperty("42", "Pagbubukas ng pagbabayad");
         ms.setProperty("42", "Memulakan pembayaran");
+        // 71. 42 正在开启支付
+        nl.setProperty("42","Betaling wordt gestart");
+        pl.setProperty("42","Uruchamianie płatności");
+        sv.setProperty("42","Startar betalning");
+        cs.setProperty("42","Zahajování platby");
+        uz.setProperty("42","To'lov boshlanmoqda");
+        nb.setProperty("42","Starter betaling");
+        da.setProperty("42","Starter betaling");
+        ro.setProperty("42","Se inițiază plata");
+        hu.setProperty("42","Fizetés indítása");
+
 
         zh_CN.setProperty("43", "关闭");
         vi.setProperty("43", "Đóng");
@@ -1525,6 +2272,16 @@ public class SDKLangConfig {
         tr.setProperty("43", "kapalı");
         tl.setProperty("43", "isara");
         ms.setProperty("43", "tutup");
+        // 72. 43 关闭
+        nl.setProperty("43","Sluiten");
+        pl.setProperty("43","Zamknij");
+        sv.setProperty("43","Stäng");
+        cs.setProperty("43","Zavřít");
+        uz.setProperty("43","Yopish");
+        nb.setProperty("43","Lukk");
+        da.setProperty("43","Luk");
+        ro.setProperty("43","Închide");
+        hu.setProperty("43","Bezárás");
 
 
         ar.setProperty("44", "رمز التحقق");
@@ -1545,6 +2302,16 @@ public class SDKLangConfig {
         tr.setProperty("44", "Doğrulama kodu");
         tl.setProperty("44", "Code ng Beripikasyon");
         ms.setProperty("44", "Kod pengesahan");
+        // 73. 44 验证码
+        nl.setProperty("44","Verificatiecode");
+        pl.setProperty("44","Kod weryfikacyjny");
+        sv.setProperty("44","Verifieringskod");
+        cs.setProperty("44","Ověřovací kód");
+        uz.setProperty("44","Tasdiqlash kodi");
+        nb.setProperty("44","Bekreftelseskode");
+        da.setProperty("44","Bekræftelseskode");
+        ro.setProperty("44","Cod de verificare");
+        hu.setProperty("44","Ellenőrző kód");
 
 
         zh_CN.setProperty("45", "Facebook");
@@ -1565,6 +2332,17 @@ public class SDKLangConfig {
         tr.setProperty("45", "Facebook");
         tl.setProperty("45", "Facebook");
         ms.setProperty("45", "Facebook");
+        // 74. 45 Facebook
+        nl.setProperty("45","Facebook");
+        pl.setProperty("45","Facebook");
+        sv.setProperty("45","Facebook");
+        cs.setProperty("45","Facebook");
+        uz.setProperty("45","Facebook");
+        nb.setProperty("45","Facebook");
+        da.setProperty("45","Facebook");
+        ro.setProperty("45","Facebook");
+        hu.setProperty("45","Facebook");
+
 
         zh_CN.setProperty("46", "绑定 Facebook");
         vi.setProperty("46", "Cố định Facebook");
@@ -1584,6 +2362,16 @@ public class SDKLangConfig {
         tr.setProperty("46", "Facebook bağlantısı");
         tl.setProperty("46", "Itali ang Facebook");
         ms.setProperty("46", "Ikat ke Facebook");
+        // 75. 46 绑定 Facebook
+        nl.setProperty("46","Facebook koppelen");
+        pl.setProperty("46","Powiąż Facebooka");
+        sv.setProperty("46","Länka Facebook");
+        cs.setProperty("46","Propojit Facebook");
+        uz.setProperty("46","Facebookni bog'lash");
+        nb.setProperty("46","Koble til Facebook");
+        da.setProperty("46","Tilknyt Facebook");
+        ro.setProperty("46","Asociază Facebook");
+        hu.setProperty("46","Facebook összekapcsolása");
 
 
         zh_CN.setProperty("autoLogin", "默认此账户为下次登录账户");
@@ -1604,6 +2392,16 @@ public class SDKLangConfig {
         tr.setProperty("autoLogin", "Bu hesabı bir sonraki giriş hesabınız olarak ayarlayın");
         tl.setProperty("autoLogin", "Itakda ang account na ito bilang default na user account");
         ms.setProperty("autoLogin", "Secara lalai, akaun ini akan menjadi akaun log masuk seterusnya");
+        // 76. autoLogin 默认此账户为下次登录账户
+        nl.setProperty("autoLogin","Dit account als standaard instellen voor de volgende keer inloggen");
+        pl.setProperty("autoLogin","Ustaw to konto jako domyślne przy następnym logowaniu");
+        sv.setProperty("autoLogin","Ange det här kontot som standard för nästa inloggning");
+        cs.setProperty("autoLogin","Nastavit tento účet jako výchozí pro příští přihlášení");
+        uz.setProperty("autoLogin","Bu hisobni keyingi kirish uchun standart qilib belgilash");
+        nb.setProperty("autoLogin","Angi denne kontoen som standard for neste innlogging");
+        da.setProperty("autoLogin","Angiv denne konto som standard til næste login");
+        ro.setProperty("autoLogin","Setați acest cont ca implicit pentru următoarea conectare");
+        hu.setProperty("autoLogin","Állítsa be ezt a fiókot alapértelmezettként a következő bejelentkezéshez");
 
 
         ar.setProperty("nuts_pleaseloginfirst", "الرجاء تسجيل الدخول أولا");
@@ -1624,6 +2422,16 @@ public class SDKLangConfig {
         tr.setProperty("nuts_pleaseloginfirst", "Lütfen önce giriş yapın");
         tl.setProperty("nuts_pleaseloginfirst", "paki login muna");
         ms.setProperty("nuts_pleaseloginfirst", "sila login dahulu");
+        // 77. nuts_pleaseloginfirst 请先登录
+        nl.setProperty("nuts_pleaseloginfirst","Log eerst in");
+        pl.setProperty("nuts_pleaseloginfirst","Najpierw się zaloguj");
+        sv.setProperty("nuts_pleaseloginfirst","Logga in först");
+        cs.setProperty("nuts_pleaseloginfirst","Nejprve se přihlaste");
+        uz.setProperty("nuts_pleaseloginfirst","Avval tizimga kiring");
+        nb.setProperty("nuts_pleaseloginfirst","Logg inn først");
+        da.setProperty("nuts_pleaseloginfirst","Log ind først");
+        ro.setProperty("nuts_pleaseloginfirst","Conectați-vă mai întâi");
+        hu.setProperty("nuts_pleaseloginfirst","Először jelentkezzen be");
 
 
 //     ===================================新增====================================
@@ -1646,6 +2454,16 @@ public class SDKLangConfig {
         tr.setProperty("resetPwdOk", "Şifre sıfırlama işlemi başarıyla tamamlandı.");
         tl.setProperty("resetPwdOk", "Matagumpay na na-reset ang password");
         ms.setProperty("resetPwdOk", "Penetapan semula kata laluan berjaya");
+        // 78. resetPwdOk 重置密码成功
+        nl.setProperty("resetPwdOk","Wachtwoord succesvol gereset");
+        pl.setProperty("resetPwdOk","Pomyślnie zresetowano hasło");
+        sv.setProperty("resetPwdOk","Lösenordet har återställts");
+        cs.setProperty("resetPwdOk","Heslo bylo úspěšně obnoveno");
+        uz.setProperty("resetPwdOk","Parol muvaffaqiyatli tiklandi");
+        nb.setProperty("resetPwdOk","Passordet er tilbakestilt");
+        da.setProperty("resetPwdOk","Adgangskoden er nulstillet");
+        ro.setProperty("resetPwdOk","Parola a fost resetată cu succes");
+        hu.setProperty("resetPwdOk","A jelszó sikeresen visszaállítva");
 
 
         zh_CN.setProperty("str_login_tips","请选择一种方式登录:");
@@ -1666,6 +2484,16 @@ public class SDKLangConfig {
         tr.setProperty("str_login_tips", "Lütfen bir giriş yöntemi seçin:");
         tl.setProperty("str_login_tips", "Pumili ng paraan para mag-log in:");
         ms.setProperty("str_login_tips", "Sila pilih cara untuk log masuk:");
+        // 79. str_login_tips 请选择一种方式登录:
+        nl.setProperty("str_login_tips","Kies een manier om in te loggen:");
+        pl.setProperty("str_login_tips","Wybierz sposób logowania:");
+        sv.setProperty("str_login_tips","Välj ett sätt att logga in:");
+        cs.setProperty("str_login_tips","Vyberte způsob přihlášení:");
+        uz.setProperty("str_login_tips","Kirish usulini tanlang:");
+        nb.setProperty("str_login_tips","Velg en måte å logge inn på:");
+        da.setProperty("str_login_tips","Vælg en måde at logge ind på:");
+        ro.setProperty("str_login_tips","Alegeți o metodă de conectare:");
+        hu.setProperty("str_login_tips","Válasszon bejelentkezési módot:");
 
 
         zh_CN.setProperty("guest_login","游客登录");
@@ -1686,6 +2514,16 @@ public class SDKLangConfig {
         tr.setProperty("guest_login", "Misafir Girişi");
         tl.setProperty("guest_login", "Pag-login ng bisita");
         ms.setProperty("guest_login", "Log masuk tetamu");
+        // 80. guest_login 游客登录
+        nl.setProperty("guest_login","Inloggen als gast");
+        pl.setProperty("guest_login","Zaloguj jako gość");
+        sv.setProperty("guest_login","Logga in som gäst");
+        cs.setProperty("guest_login","Přihlásit jako host");
+        uz.setProperty("guest_login","Mehmon sifatida kirish");
+        nb.setProperty("guest_login","Logg inn som gjest");
+        da.setProperty("guest_login","Log ind som gæst");
+        ro.setProperty("guest_login","Conectare ca oaspete");
+        hu.setProperty("guest_login","Bejelentkezés vendégként");
 
 
         zh_CN.setProperty("str_bind_tips","创建一个你要绑定的新账号:");
@@ -1706,6 +2544,16 @@ public class SDKLangConfig {
         tr.setProperty("str_bind_tips", "Bağlamak istediğiniz yeni bir hesap oluşturun:");
         tl.setProperty("str_bind_tips", "Gumawa ng bagong account na gusto mong itali:");
         ms.setProperty("str_bind_tips", "Buat akaun baharu yang ingin anda ikat:");
+        // 81. str_bind_tips 创建一个你要绑定的新账号:
+        nl.setProperty("str_bind_tips","Maak een nieuw account aan om te koppelen:");
+        pl.setProperty("str_bind_tips","Utwórz nowe konto do powiązania:");
+        sv.setProperty("str_bind_tips","Skapa ett nytt konto att länka:");
+        cs.setProperty("str_bind_tips","Vytvořte nový účet k propojení:");
+        uz.setProperty("str_bind_tips","Bog'lamoqchi bo'lgan yangi hisob yarating:");
+        nb.setProperty("str_bind_tips","Opprett en ny konto å koble til:");
+        da.setProperty("str_bind_tips","Opret en ny konto, der skal tilknyttes:");
+        ro.setProperty("str_bind_tips","Creați un cont nou pe care să îl asociați:");
+        hu.setProperty("str_bind_tips","Hozzon létre egy új fiókot az összekapcsoláshoz:");
 
         zh_CN.setProperty("bind","绑定");
         en.setProperty("bind","Bind");
@@ -1725,6 +2573,16 @@ public class SDKLangConfig {
         tr.setProperty("bind", "Bağlama");
         tl.setProperty("bind", "Magbigkis");
         ms.setProperty("bind", "ikat");
+        // 82. bind 绑定
+        nl.setProperty("bind","Koppelen");
+        pl.setProperty("bind","Powiąż");
+        sv.setProperty("bind","Länka");
+        cs.setProperty("bind","Propojit");
+        uz.setProperty("bind","Bog'lash");
+        nb.setProperty("bind","Koble til");
+        da.setProperty("bind","Tilknyt");
+        ro.setProperty("bind","Asociază");
+        hu.setProperty("bind","Összekapcsolás");
 
         zh_CN.setProperty("sign_in","登录");
         en.setProperty("sign_in","Account Login");
@@ -1744,6 +2602,16 @@ public class SDKLangConfig {
         tr.setProperty("sign_in", "Giriş yapmak");
         tl.setProperty("sign_in", "Pag-login sa Account");
         ms.setProperty("sign_in", "Log masuk");
+        // 83. sign_in 登录
+        nl.setProperty("sign_in","Inloggen");
+        pl.setProperty("sign_in","Zaloguj");
+        sv.setProperty("sign_in","Logga in");
+        cs.setProperty("sign_in","Přihlásit");
+        uz.setProperty("sign_in","Kirish");
+        nb.setProperty("sign_in","Logg inn");
+        da.setProperty("sign_in","Log ind");
+        ro.setProperty("sign_in","Conectare");
+        hu.setProperty("sign_in","Bejelentkezés");
 
         zh_CN.setProperty("reset","重置");
         en.setProperty("reset","Reset");
@@ -1763,6 +2631,16 @@ public class SDKLangConfig {
         tr.setProperty("reset", "Sıfırla");
         tl.setProperty("reset", "I-reset");
         ms.setProperty("reset", "Tetapkan semula");
+        // 84. reset 重置
+        nl.setProperty("reset","Resetten");
+        pl.setProperty("reset","Resetuj");
+        sv.setProperty("reset","Återställ");
+        cs.setProperty("reset","Obnovit");
+        uz.setProperty("reset","Tiklash");
+        nb.setProperty("reset","Tilbakestill");
+        da.setProperty("reset","Nulstil");
+        ro.setProperty("reset","Resetează");
+        hu.setProperty("reset","Visszaállítás");
 
         zh_CN.setProperty("sign_up","注册");
         en.setProperty("sign_up","Register Account");
@@ -1782,6 +2660,17 @@ public class SDKLangConfig {
         tr.setProperty("sign_up", "kayıt olmak");
         tl.setProperty("sign_up", "Magrehistro ng Account");
         ms.setProperty("sign_up", "mendaftar");
+        // 85. sign_up 注册
+        nl.setProperty("sign_up","Registreren");
+        pl.setProperty("sign_up","Zarejestruj");
+        sv.setProperty("sign_up","Registrera");
+        cs.setProperty("sign_up","Registrovat");
+        uz.setProperty("sign_up","Ro'yxatdan o'tish");
+        nb.setProperty("sign_up","Registrer");
+        da.setProperty("sign_up","Registrer");
+        ro.setProperty("sign_up","Înregistrare");
+        hu.setProperty("sign_up","Regisztráció");
+
 
         zh_CN.setProperty("new_password","新密码");
         en.setProperty("new_password","New password");
@@ -1801,6 +2690,16 @@ public class SDKLangConfig {
         tr.setProperty("new_password", "Yeni Şifre");
         tl.setProperty("new_password", "Bagong password");
         ms.setProperty("new_password", "Kata laluan baharu");
+        // 86. new_password 新密码
+        nl.setProperty("new_password","Nieuw wachtwoord");
+        pl.setProperty("new_password","Nowe hasło");
+        sv.setProperty("new_password","Nytt lösenord");
+        cs.setProperty("new_password","Nové heslo");
+        uz.setProperty("new_password","Yangi parol");
+        nb.setProperty("new_password","Nytt passord");
+        da.setProperty("new_password","Ny adgangskode");
+        ro.setProperty("new_password","Parolă nouă");
+        hu.setProperty("new_password","Új jelszó");
 
 
         zh_CN.setProperty("repeat_password","重复密码");
@@ -1821,6 +2720,16 @@ public class SDKLangConfig {
         tr.setProperty("repeat_password", "Şifreyi tekrar girin");
         tl.setProperty("repeat_password", "Ulitin ang password");
         ms.setProperty("repeat_password", "Ulang kata laluan");
+        // 87. repeat_password 重复密码
+        nl.setProperty("repeat_password","Wachtwoord herhalen");
+        pl.setProperty("repeat_password","Powtórz hasło");
+        sv.setProperty("repeat_password","Upprepa lösenord");
+        cs.setProperty("repeat_password","Zopakujte heslo");
+        uz.setProperty("repeat_password","Parolni takrorlang");
+        nb.setProperty("repeat_password","Gjenta passord");
+        da.setProperty("repeat_password","Gentag adgangskode");
+        ro.setProperty("repeat_password","Repetați parola");
+        hu.setProperty("repeat_password","Jelszó ismétlése");
 
         zh_CN.setProperty("str_create_account","创建账户");
         en.setProperty("str_create_account","Create an account");
@@ -1840,6 +2749,16 @@ public class SDKLangConfig {
         tr.setProperty("str_create_account", "hesap oluşturmak");
         tl.setProperty("str_create_account", "Gumawa ng account");
         ms.setProperty("str_create_account", "Buat akaun");
+        // 88. str_create_account 创建账户
+        nl.setProperty("str_create_account","Account aanmaken");
+        pl.setProperty("str_create_account","Utwórz konto");
+        sv.setProperty("str_create_account","Skapa konto");
+        cs.setProperty("str_create_account","Vytvořit účet");
+        uz.setProperty("str_create_account","Hisob yaratish");
+        nb.setProperty("str_create_account","Opprett konto");
+        da.setProperty("str_create_account","Opret konto");
+        ro.setProperty("str_create_account","Creează cont");
+        hu.setProperty("str_create_account","Fiók létrehozása");
 
         zh_CN.setProperty("str_reset_password","重置密码");
         en.setProperty("str_reset_password","Reset password");
@@ -1859,6 +2778,16 @@ public class SDKLangConfig {
         tr.setProperty("str_reset_password", "Şifreyi sıfırla");
         tl.setProperty("str_reset_password", "I-reset ang password");
         ms.setProperty("str_reset_password", "Tetapkan semula kata laluan");
+        // 89. str_reset_password 重置密码
+        nl.setProperty("str_reset_password","Wachtwoord resetten");
+        pl.setProperty("str_reset_password","Zresetuj hasło");
+        sv.setProperty("str_reset_password","Återställ lösenord");
+        cs.setProperty("str_reset_password","Obnovit heslo");
+        uz.setProperty("str_reset_password","Parolni tiklash");
+        nb.setProperty("str_reset_password","Tilbakestill passord");
+        da.setProperty("str_reset_password","Nulstil adgangskode");
+        ro.setProperty("str_reset_password","Resetează parola");
+        hu.setProperty("str_reset_password","Jelszó visszaállítása");
 
 
         zh_CN.setProperty("str_save_account","保存你的账号到本地相册，方便日后找回:");
@@ -1879,6 +2808,16 @@ public class SDKLangConfig {
         tr.setProperty("str_save_account", "Hesabınızı daha sonra kolayca erişebilmek için yerel fotoğraf albümünüze kaydedin.");
         tl.setProperty("str_save_account", "I-save ang iyong account sa isang lokal na album upang makuha mo ito sa ibang pagkakataon:");
         ms.setProperty("str_save_account", "Simpan akaun anda ke album foto setempat untuk mudah diperoleh kemudian:");
+        // 90. str_save_account 保存你的账号到本地相册，方便日后找回:
+        nl.setProperty("str_save_account","Sla uw account op in uw lokale fotoalbum, zodat u deze later kunt terugvinden:");
+        pl.setProperty("str_save_account","Zapisz swoje konto w lokalnym albumie zdjęć, aby móc je później odzyskać:");
+        sv.setProperty("str_save_account","Spara ditt konto i det lokala fotoalbumet så att du kan hitta det igen senare:");
+        cs.setProperty("str_save_account","Uložte svůj účet do místního fotoalba, abyste jej mohli později obnovit:");
+        uz.setProperty("str_save_account","Hisobingizni keyinchalik tiklash uchun mahalliy fotoalbomga saqlang:");
+        nb.setProperty("str_save_account","Lagre kontoen din i det lokale fotoalbumet slik at du kan finne den igjen senere:");
+        da.setProperty("str_save_account","Gem din konto i det lokale fotoalbum, så du kan finde den igen senere:");
+        ro.setProperty("str_save_account","Salvați contul în albumul foto local, pentru a-l putea recupera mai târziu:");
+        hu.setProperty("str_save_account","Mentse el fiókját a helyi fotóalbumába, hogy később visszakereshesse:");
 
 
         //用户中心
@@ -1900,6 +2839,16 @@ public class SDKLangConfig {
         tr.setProperty("str_bind_email", "E-posta bağlantısı");
         tl.setProperty("str_bind_email", "I - bind ang Email");
         ms.setProperty("str_bind_email", "Ikat E-mel");
+        // 91. str_bind_email 绑定邮箱
+        nl.setProperty("str_bind_email","E-mail koppelen");
+        pl.setProperty("str_bind_email","Powiąż e-mail");
+        sv.setProperty("str_bind_email","Länka e-post");
+        cs.setProperty("str_bind_email","Propojit e-mail");
+        uz.setProperty("str_bind_email","Elektron pochta bog'lash");
+        nb.setProperty("str_bind_email","Koble til e-post");
+        da.setProperty("str_bind_email","Tilknyt e-mail");
+        ro.setProperty("str_bind_email","Asociază e-mail");
+        hu.setProperty("str_bind_email","E-mail összekapcsolása");
 
 
         zh_CN.setProperty("str_bind_facebook","绑定Facebook");
@@ -1920,6 +2869,16 @@ public class SDKLangConfig {
         tr.setProperty("str_bind_facebook", "Facebook bağlantısı");
         tl.setProperty("str_bind_facebook", "Itali ang Facebook");
         ms.setProperty("str_bind_facebook", "Ikat Facebook");
+        // 92. str_bind_facebook 绑定Facebook
+        nl.setProperty("str_bind_facebook","Facebook koppelen");
+        pl.setProperty("str_bind_facebook","Powiąż Facebooka");
+        sv.setProperty("str_bind_facebook","Länka Facebook");
+        cs.setProperty("str_bind_facebook","Propojit Facebook");
+        uz.setProperty("str_bind_facebook","Facebookni bog'lash");
+        nb.setProperty("str_bind_facebook","Koble til Facebook");
+        da.setProperty("str_bind_facebook","Tilknyt Facebook");
+        ro.setProperty("str_bind_facebook","Asociază Facebook");
+        hu.setProperty("str_bind_facebook","Facebook összekapcsolása");
 
         ar.setProperty("str_reset_pwd", "إعادة تعيين كلمة المرور");
         de.setProperty("str_reset_pwd", "Passwort zurücksetzen");
@@ -1939,6 +2898,16 @@ public class SDKLangConfig {
         tr.setProperty("str_reset_pwd", "Şifreyi Sıfırla");
         tl.setProperty("str_reset_pwd", "I-reset ang Password");
         ms.setProperty("str_reset_pwd", "Tetapkan Semula Kata Laluan");
+        // 93. str_reset_pwd 重设密码
+        nl.setProperty("str_reset_pwd","Wachtwoord opnieuw instellen");
+        pl.setProperty("str_reset_pwd","Zresetuj hasło");
+        sv.setProperty("str_reset_pwd","Återställ lösenord");
+        cs.setProperty("str_reset_pwd","Obnovit heslo");
+        uz.setProperty("str_reset_pwd","Parolni qayta o'rnatish");
+        nb.setProperty("str_reset_pwd","Tilbakestill passord");
+        da.setProperty("str_reset_pwd","Nulstil adgangskode");
+        ro.setProperty("str_reset_pwd","Resetează parola");
+        hu.setProperty("str_reset_pwd","Jelszó visszaállítása");
 
 
         //发送邮箱验证码成功
@@ -1961,6 +2930,16 @@ public class SDKLangConfig {
         tr.setProperty("sendVerifySuccess", "Başarıyla gönderildi. Doğrulama kodunu kontrol etmek için lütfen e-postanıza bakın.");
         tl.setProperty("sendVerifySuccess", "Matagumpay na magpadala, mangyaring pumunta sa iyong mailbox upang suriin ang verification code.");
         ms.setProperty("sendVerifySuccess", "Berjaya dihantar, sila pergi ke e-mel anda untuk menyemak kod pengesahan.");
+        // 94. sendVerifySuccess 发送成功，请转到您的邮箱以检查验证码。
+        nl.setProperty("sendVerifySuccess","Succesvol verzonden, ga naar uw e-mail om de verificatiecode te controleren.");
+        pl.setProperty("sendVerifySuccess","Wysłano pomyślnie, przejdź do swojego e-maila, aby sprawdzić kod weryfikacyjny.");
+        sv.setProperty("sendVerifySuccess","Skickat, gå till din e-post för att kontrollera verifieringskoden.");
+        cs.setProperty("sendVerifySuccess","Úspěšně odesláno, přejděte do svého e-mailu a zkontrolujte ověřovací kód.");
+        uz.setProperty("sendVerifySuccess","Muvaffaqiyatli yuborildi, tasdiqlash kodini tekshirish uchun elektron pochtangizga o'ting.");
+        nb.setProperty("sendVerifySuccess","Sendt, gå til e-posten din for å sjekke bekreftelseskoden.");
+        da.setProperty("sendVerifySuccess","Sendt, gå til din e-mail for at tjekke bekræftelseskoden.");
+        ro.setProperty("sendVerifySuccess","Trimis cu succes, accesați e-mailul pentru a verifica codul de verificare.");
+        hu.setProperty("sendVerifySuccess","Sikeresen elküldve, kérjük, lépjen az e-mailjeihez az ellenőrző kód ellenőrzéséhez.");
 
 
         //绑定邮箱成功
@@ -1981,6 +2960,16 @@ public class SDKLangConfig {
         ru.setProperty("bindEmailSuccess", "Привязать почтовый ящик успешно");
         tr.setProperty("bindEmailSuccess", "E-posta adresi başarıyla bağlandı.");
         tl.setProperty("bindEmailSuccess", "Matagumpay na itali ang mailbox");
+        // 95. bindEmailSuccess 成功绑定邮箱
+        nl.setProperty("bindEmailSuccess","E-mail succesvol gekoppeld");
+        pl.setProperty("bindEmailSuccess","Pomyślnie powiązano e-mail");
+        sv.setProperty("bindEmailSuccess","E-posten har länkats");
+        cs.setProperty("bindEmailSuccess","E-mail byl úspěšně propojen");
+        uz.setProperty("bindEmailSuccess","Elektron pochta muvaffaqiyatli bog'landi");
+        nb.setProperty("bindEmailSuccess","E-posten er tilkoblet");
+        da.setProperty("bindEmailSuccess","E-mailen er tilknyttet");
+        ro.setProperty("bindEmailSuccess","E-mail asociat cu succes");
+        hu.setProperty("bindEmailSuccess","Az e-mail sikeresen összekapcsolva");
 
         //重置密码成功
         ar.setProperty("resetPwdSuccess", "إعادة تعيين كلمة المرور بنجاح");
@@ -2001,6 +2990,16 @@ public class SDKLangConfig {
         tr.setProperty("resetPwdSuccess", "Şifre sıfırlama işlemi başarıyla tamamlandı.");
         tl.setProperty("resetPwdSuccess", "Matagumpay na na-reset ang password");
         ms.setProperty("resetPwdSuccess", "Berjaya menetapkan semula kata laluan");
+        // 96. resetPwdSuccess 成功重置密码
+        nl.setProperty("resetPwdSuccess","Wachtwoord succesvol gereset");
+        pl.setProperty("resetPwdSuccess","Pomyślnie zresetowano hasło");
+        sv.setProperty("resetPwdSuccess","Lösenordet har återställts");
+        cs.setProperty("resetPwdSuccess","Heslo bylo úspěšně obnoveno");
+        uz.setProperty("resetPwdSuccess","Parol muvaffaqiyatli tiklandi");
+        nb.setProperty("resetPwdSuccess","Passordet er tilbakestilt");
+        da.setProperty("resetPwdSuccess","Adgangskoden er nulstillet");
+        ro.setProperty("resetPwdSuccess","Parola a fost resetată cu succes");
+        hu.setProperty("resetPwdSuccess","A jelszó sikeresen visszaállítva");
 
 
         //提醒用户绑定邮箱
@@ -2022,6 +3021,16 @@ public class SDKLangConfig {
         tr.setProperty("bind_email_tips", "Hesabınızı ve e-posta adresinizi en kısa sürede kullanıcı merkezinde bağlayın, böylece ileride şifrenizi kolayca kurtarabilirsiniz.");
         tl.setProperty("bind_email_tips", "Itali ang iyong account at mailbox sa lalong madaling panahon sa user center upang makuha mo ang iyong password sa hinaharap.");
         ms.setProperty("bind_email_tips", "Ikat akaun dan e-mel anda dalam Pusat Pengguna secepat mungkin supaya anda boleh mendapatkan semula kata laluan anda pada masa hadapan.");
+        // 97. bind_email_tips 尽快在用户中心将您的帐户和邮箱绑定，以便将来可以取回密码。
+        nl.setProperty("bind_email_tips","Koppel zo snel mogelijk uw account en e-mail in het gebruikerscentrum, zodat u in de toekomst uw wachtwoord kunt herstellen.");
+        pl.setProperty("bind_email_tips","Jak najszybciej powiąż swoje konto i e-mail w centrum użytkownika, aby w przyszłości móc odzyskać hasło.");
+        sv.setProperty("bind_email_tips","Länka ditt konto och din e-post i användarcentret så snart som möjligt, så att du kan återställa ditt lösenord i framtiden.");
+        cs.setProperty("bind_email_tips","Co nejdříve propojte svůj účet a e-mail v uživatelském centru, abyste mohli v budoucnu obnovit heslo.");
+        uz.setProperty("bind_email_tips","Kelajakda parolingizni tiklashingiz uchun hisobingiz va elektron pochtangizni imkon qadar tezroq foydalanuvchi markazida bog'lang.");
+        nb.setProperty("bind_email_tips","Koble kontoen din og e-posten din i brukersenteret så snart som mulig, slik at du kan gjenopprette passordet ditt i fremtiden.");
+        da.setProperty("bind_email_tips","Tilknyt din konto og e-mail i brugercenteret hurtigst muligt, så du senere kan gendanne din adgangskode.");
+        ro.setProperty("bind_email_tips","Asociați cât mai curând posibil contul și e-mailul în centrul utilizatorului, pentru a vă putea recupera parola în viitor.");
+        hu.setProperty("bind_email_tips","A lehető leghamarabb kapcsolja össze fiókját és e-mailjét a felhasználói központban, hogy a jövőben visszakereshesse jelszavát.");
 
 
         //密码输入的密码不一致
@@ -2043,6 +3052,17 @@ public class SDKLangConfig {
         tr.setProperty("pwd_different", "Parola uyuşmazlığı");
         tl.setProperty("pwd_different", "Hindi pare-pareho ang mga password.");
         ms.setProperty("pwd_different", "Kata laluan tidak konsisten.");
+        // 98. pwd_different 密码不一致。
+        nl.setProperty("pwd_different","Wachtwoorden komen niet overeen.");
+        pl.setProperty("pwd_different","Hasła nie są zgodne.");
+        sv.setProperty("pwd_different","Lösenorden stämmer inte överens.");
+        cs.setProperty("pwd_different","Hesla se neshodují.");
+        uz.setProperty("pwd_different","Parollar mos kelmaydi.");
+        nb.setProperty("pwd_different","Passordene stemmer ikke overens.");
+        da.setProperty("pwd_different","Adgangskoderne stemmer ikke overens.");
+        ro.setProperty("pwd_different","Parolele nu se potrivesc.");
+        hu.setProperty("pwd_different","A jelszavak nem egyeznek.");
+
 
         //接受（协议）
         ar.setProperty("accept", "يوافق على");
@@ -2063,6 +3083,16 @@ public class SDKLangConfig {
         tr.setProperty("accept", "kabul etmek");
         tl.setProperty("accept", "Sumang-ayon");
         ms.setProperty("accept", "Setuju");
+        // 99. accept 同意
+        nl.setProperty("accept","Akkoord");
+        pl.setProperty("accept","Akceptuj");
+        sv.setProperty("accept","Godkänn");
+        cs.setProperty("accept","Souhlasit");
+        uz.setProperty("accept","Roziman");
+        nb.setProperty("accept","Godta");
+        da.setProperty("accept","Accepter");
+        ro.setProperty("accept","Accept");
+        hu.setProperty("accept","Elfogadás");
 
 
         ar.setProperty("account_which_bind_email", "اسم المستخدم");
@@ -2083,6 +3113,16 @@ public class SDKLangConfig {
         tr.setProperty("account_which_bind_email","kullanıcı adı");
         tl.setProperty("account_which_bind_email","Pangalan ng Gumagamit");
         ms.setProperty("account_which_bind_email", "Nama pengguna");
+        // 100. account_which_bind_email 用户名
+        nl.setProperty("account_which_bind_email","Gebruikersnaam");
+        pl.setProperty("account_which_bind_email","Nazwa użytkownika");
+        sv.setProperty("account_which_bind_email","Användarnamn");
+        cs.setProperty("account_which_bind_email","Uživatelské jméno");
+        uz.setProperty("account_which_bind_email","Foydalanuvchi nomi");
+        nb.setProperty("account_which_bind_email","Brukernavn");
+        da.setProperty("account_which_bind_email","Brugernavn");
+        ro.setProperty("account_which_bind_email","Nume de utilizator");
+        hu.setProperty("account_which_bind_email","Felhasználónév");
 
         //绑定的邮箱：
         ar.setProperty("nuts_BoundEmail", "بريد إلكتروني منضم:");
@@ -2103,6 +3143,17 @@ public class SDKLangConfig {
         tr.setProperty("nuts_BoundEmail","Bağlantılı e-posta adresi:");
         tl.setProperty("nuts_BoundEmail","Nakatali na Email:");
         ms.setProperty("nuts_BoundEmail", "E-mel Terikat:");
+        // 101. nuts_BoundEmail 绑定的邮箱:
+        nl.setProperty("nuts_BoundEmail","Gekoppeld e-mailadres:");
+        pl.setProperty("nuts_BoundEmail","Powiązany e-mail:");
+        sv.setProperty("nuts_BoundEmail","Länkad e-post:");
+        cs.setProperty("nuts_BoundEmail","Propojený e-mail:");
+        uz.setProperty("nuts_BoundEmail","Bog'langan elektron pochta:");
+        nb.setProperty("nuts_BoundEmail","Tilkoblet e-post:");
+        da.setProperty("nuts_BoundEmail","Tilknyttet e-mail:");
+        ro.setProperty("nuts_BoundEmail","E-mail asociat:");
+        hu.setProperty("nuts_BoundEmail","Összekapcsolt e-mail:");
+
 
         //注册账号
         ar.setProperty("nuts_Createaccount", "إصنع حساب");
@@ -2123,6 +3174,16 @@ public class SDKLangConfig {
         tr.setProperty("nuts_Createaccount","Bir hesap oluşturun");
         tl.setProperty("nuts_Createaccount","Gumawa ng account");
         ms.setProperty("nuts_Createaccount", "Buat akaun");
+        // 102. nuts_Createaccount 创建帐号
+        nl.setProperty("nuts_Createaccount","Account aanmaken");
+        pl.setProperty("nuts_Createaccount","Utwórz konto");
+        sv.setProperty("nuts_Createaccount","Skapa konto");
+        cs.setProperty("nuts_Createaccount","Vytvořit účet");
+        uz.setProperty("nuts_Createaccount","Hisob yaratish");
+        nb.setProperty("nuts_Createaccount","Opprett konto");
+        da.setProperty("nuts_Createaccount","Opret konto");
+        ro.setProperty("nuts_Createaccount","Creează cont");
+        hu.setProperty("nuts_Createaccount","Fiók létrehozása");
 
 
 
@@ -2145,6 +3206,17 @@ public class SDKLangConfig {
         tr.setProperty("nuts_Emailhasbeenbound","Lütfen sık sık göndermeyin. Lütfen 10 dakika sonra tekrar deneyin.");
         tl.setProperty("nuts_Emailhasbeenbound","Huwag magpadala nang madalas. Pakisubukang muli sa loob ng 10 minuto.");
         ms.setProperty("nuts_Emailhasbeenbound", "Sila jangan hantar dengan kerap dan cuba lagi selepas 10 minit.");
+        // 103. nuts_Emailhasbeenbound 请勿频繁发送，10分钟后重试
+        nl.setProperty("nuts_Emailhasbeenbound","Verstuur niet te vaak, probeer het over 10 minuten opnieuw");
+        pl.setProperty("nuts_Emailhasbeenbound","Nie wysyłaj zbyt często, spróbuj ponownie po 10 minutach");
+        sv.setProperty("nuts_Emailhasbeenbound","Skicka inte för ofta, försök igen om 10 minuter");
+        cs.setProperty("nuts_Emailhasbeenbound","Neodesílejte příliš často, zkuste to znovu za 10 minut");
+        uz.setProperty("nuts_Emailhasbeenbound","Tez-tez yubormang, 10 daqiqadan so'ng qayta urinib ko'ring");
+        nb.setProperty("nuts_Emailhasbeenbound","Ikke send for ofte, prøv igjen om 10 minutter");
+        da.setProperty("nuts_Emailhasbeenbound","Send ikke for ofte, prøv igen om 10 minutter");
+        ro.setProperty("nuts_Emailhasbeenbound","Nu trimiteți prea des, încercați din nou după 10 minute");
+        hu.setProperty("nuts_Emailhasbeenbound","Ne küldje túl gyakran, próbálja újra 10 perc múlva");
+
 
         //网络错误
         ar.setProperty("network_error", "خطأ في الشبكة");
@@ -2165,6 +3237,16 @@ public class SDKLangConfig {
         tr.setProperty("network_error","Ağ hatası");
         tl.setProperty("network_error","Error sa Network");
         ms.setProperty("network_error", "ralat rangkaian");
+        // 104. network_error 网络错误
+        nl.setProperty("network_error","Netwerkfout");
+        pl.setProperty("network_error","Błąd sieci");
+        sv.setProperty("network_error","Nätverksfel");
+        cs.setProperty("network_error","Chyba sítě");
+        uz.setProperty("network_error","Tarmoq xatosi");
+        nb.setProperty("network_error","Nettverksfeil");
+        da.setProperty("network_error","Netværksfejl");
+        ro.setProperty("network_error","Eroare de rețea");
+        hu.setProperty("network_error","Hálózati hiba");
 
 
         ar.setProperty("email_no_bind", "حسابك ليس مرتبطًا بالبريد الإلكتروني ، يرجى ربط البريد الإلكتروني في مركز المستخدم أولاً");
@@ -2185,6 +3267,16 @@ public class SDKLangConfig {
         tr.setProperty("email_no_bind", "Hesabınız bir e-posta adresine bağlı değil. Lütfen öncelikle kullanıcı merkezinden e-posta adresinizi bağlayın.");
         tl.setProperty("email_no_bind", "Hindi nakatali ang iyong account sa isang email, paki-bind muna ang email sa user center.");
         ms.setProperty("email_no_bind", "Akaun anda tidak terikat pada alamat e-mel. Sila ikat alamat e-mel anda di pusat pengguna dahulu.");
+        // 105. email_no_bind 您的账号未绑定邮箱,请先在用户中心绑定邮箱
+        nl.setProperty("email_no_bind","Uw account heeft geen gekoppeld e-mailadres, koppel er eerst een in het gebruikerscentrum");
+        pl.setProperty("email_no_bind","Twoje konto nie ma powiązanego e-maila, najpierw powiąż e-mail w centrum użytkownika");
+        sv.setProperty("email_no_bind","Ditt konto har ingen länkad e-post, länka en e-post i användarcentret först");
+        cs.setProperty("email_no_bind","Váš účet nemá propojený e-mail, nejprve propojte e-mail v uživatelském centru");
+        uz.setProperty("email_no_bind","Hisobingizga elektron pochta bog'lanmagan, avval foydalanuvchi markazida elektron pochta bog'lang");
+        nb.setProperty("email_no_bind","Kontoen din har ingen tilkoblet e-post, koble til e-post i brukersenteret først");
+        da.setProperty("email_no_bind","Din konto har ingen tilknyttet e-mail, tilknyt en e-mail i brugercenteret først");
+        ro.setProperty("email_no_bind","Contul dvs. nu are un e-mail asociat, asociați mai întâi un e-mail în centrul utilizatorului");
+        hu.setProperty("email_no_bind","A fiókjához nincs összekapcsolt e-mail, először kapcsoljon össze egy e-mailt a felhasználói központban");
 
 
         //Don't have an account?
@@ -2206,6 +3298,16 @@ public class SDKLangConfig {
         tr.setProperty("sign_up_tip","Hesabınız yok mu?");
         tl.setProperty("sign_up_tip","Wala kang account?");
         ms.setProperty("sign_up_tip", "Tiada akaun?");
+        // 106. sign_up_tip 没有帐户？
+        nl.setProperty("sign_up_tip","Nog geen account?");
+        pl.setProperty("sign_up_tip","Nie masz konta?");
+        sv.setProperty("sign_up_tip","Har du inget konto?");
+        cs.setProperty("sign_up_tip","Nemáte účet?");
+        uz.setProperty("sign_up_tip","Hisobingiz yo'qmi?");
+        nb.setProperty("sign_up_tip","Har du ingen konto?");
+        da.setProperty("sign_up_tip","Har du ingen konto?");
+        ro.setProperty("sign_up_tip","Nu aveți un cont?");
+        hu.setProperty("sign_up_tip","Nincs fiókja?");
 
 
 
@@ -2228,6 +3330,16 @@ public class SDKLangConfig {
         tr.setProperty("sign_in_tip","Zaten bir hesabınız var mı?");
         tl.setProperty("sign_in_tip","Mayroon ka nang account?");
         ms.setProperty("sign_in_tip", "Sudah mempunyai akaun?");
+        // 107. sign_in_tip 已经有一个帐户？
+        nl.setProperty("sign_in_tip","Heb je al een account?");
+        pl.setProperty("sign_in_tip","Masz już konto?");
+        sv.setProperty("sign_in_tip","Har du redan ett konto?");
+        cs.setProperty("sign_in_tip","Máte již účet?");
+        uz.setProperty("sign_in_tip","Hisobingiz bormi?");
+        nb.setProperty("sign_in_tip","Har du allerede en konto?");
+        da.setProperty("sign_in_tip","Har du allerede en konto?");
+        ro.setProperty("sign_in_tip","Aveți deja un cont?");
+        hu.setProperty("sign_in_tip","Már van fiókja?");
 
         //用户协议
         ar.setProperty("userAgreement","اتفاقية المستخدم");
@@ -2248,6 +3360,16 @@ public class SDKLangConfig {
         tr.setProperty("userAgreement","Kullanıcı Sözleşmesi");
         tl.setProperty("userAgreement","Kasunduan ng Gumagamit");
         ms.setProperty("userAgreement", "Perjanjian Pengguna");
+        // 108. userAgreement 用户协议
+        nl.setProperty("userAgreement","Gebruikersovereenkomst");
+        pl.setProperty("userAgreement","Umowa użytkownika");
+        sv.setProperty("userAgreement","Användaravtal");
+        cs.setProperty("userAgreement","Uživatelská smlouva");
+        uz.setProperty("userAgreement","Foydalanuvchi shartnomasi");
+        nb.setProperty("userAgreement","Brukeravtale");
+        da.setProperty("userAgreement","Brugeraftale");
+        ro.setProperty("userAgreement","Acord de utilizare");
+        hu.setProperty("userAgreement","Felhasználói szerződés");
 
 
         //客服
@@ -2269,6 +3391,76 @@ public class SDKLangConfig {
         tr.setProperty("str_customer_service","müşteri hizmetleri");
         tl.setProperty("str_customer_service","Serbisyo sa Kustomer");
         ms.setProperty("str_customer_service", "perkhidmatan pelanggan");
+        // 109. str_customer_service 客服
+        nl.setProperty("str_customer_service","Klantenservice");
+        pl.setProperty("str_customer_service","Obsługa klienta");
+        sv.setProperty("str_customer_service","Kundservice");
+        cs.setProperty("str_customer_service","Zákaznická podpora");
+        uz.setProperty("str_customer_service","Mijozlarga xizmat");
+        nb.setProperty("str_customer_service","Kundeservice");
+        da.setProperty("str_customer_service","Kundeservice");
+        ro.setProperty("str_customer_service","Serviciu clienți");
+        hu.setProperty("str_customer_service","Ügyfélszolgálat");
+
+        //欢迎文本： welcome
+        ar.setProperty("welcome","مرحباً");
+        de.setProperty("welcome","Willkommen");
+        en.setProperty("welcome","Welcome");
+        fr.setProperty("welcome","Bienvenue");
+        id.setProperty("welcome","Selamat datang");
+        ja.setProperty("welcome","ようこそ");
+        ko.setProperty("welcome","환영합니다");
+        th.setProperty("welcome","ยินดีต้อนรับ");
+        zh_CN.setProperty("welcome","欢迎");
+        ru.setProperty("welcome","Добро пожаловать");
+        vi.setProperty("welcome","Chào mừng");
+        zh_HK.setProperty("welcome","歡迎");
+        es.setProperty("welcome","Bienvenido");
+        it.setProperty("welcome","Benvenuto");
+        pt.setProperty("welcome","Bem-vindo");
+        tr.setProperty("welcome","Hoş geldiniz");
+        tl.setProperty("welcome","Maligayang pagdating");
+        ms.setProperty("welcome", "Selamat datang");
+        nl.setProperty("welcome","Welkom");
+        pl.setProperty("welcome","Witamy");
+        sv.setProperty("welcome","Välkommen");
+        cs.setProperty("welcome","Vítejte");
+        uz.setProperty("welcome","Xush kelibsiz");
+        nb.setProperty("welcome","Velkommen");
+        da.setProperty("welcome","Velkommen");
+        ro.setProperty("welcome","Bine ați venit");
+        hu.setProperty("welcome","Üdvözöljük");
+
+
+        //文本：其他登录方式Other Login methods
+        ar.setProperty("other_login_methods","طرق تسجيل الدخول الأخرى");
+        de.setProperty("other_login_methods","Andere Anmeldemethoden");
+        en.setProperty("other_login_methods","Other Login Methods");
+        fr.setProperty("other_login_methods","Autres méthodes de connexion");
+        id.setProperty("other_login_methods","Metode Login Lainnya");
+        ja.setProperty("other_login_methods","その他のログイン方法");
+        ko.setProperty("other_login_methods","기타 로그인 방법");
+        th.setProperty("other_login_methods","วิธีการเข้าสู่ระบบอื่น ๆ");
+        zh_CN.setProperty("other_login_methods","其他登录方式");
+        ru.setProperty("other_login_methods","Другие способы входа");
+        vi.setProperty("other_login_methods","Phương thức đăng nhập khác");
+        zh_HK.setProperty("other_login_methods","其他登入方式");
+        es.setProperty("other_login_methods","Otros métodos de inicio de sesión");
+        it.setProperty("other_login_methods","Altri metodi di accesso");
+        pt.setProperty("other_login_methods","Outros métodos de login");
+        tr.setProperty("other_login_methods","Diğer giriş yöntemleri");
+        tl.setProperty("other_login_methods","Iba pang paraan ng pag-login");
+        ms.setProperty("other_login_methods", "Kaedah log masuk lain");
+        nl.setProperty("other_login_methods","Andere inlogmethoden");
+        pl.setProperty("other_login_methods","Inne metody logowania");
+        sv.setProperty("other_login_methods","Andra inloggningsmetoder");
+        cs.setProperty("other_login_methods","Jiné způsoby přihlášení");
+        uz.setProperty("other_login_methods","Boshqa kirish usullari");
+        nb.setProperty("other_login_methods","Andre påloggingsmetoder");
+        da.setProperty("other_login_methods","Andre loginmetoder");
+        ro.setProperty("other_login_methods","Alte metode de conectare");
+        hu.setProperty("other_login_methods","Egyéb bejelentkezési módok");
+
 
     }
 }

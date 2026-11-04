@@ -23,6 +23,7 @@
             android:src="@drawable/button_close_white" />
 
         <TextView
+            android:id="@+id/welcome_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome!"
@@ -113,6 +114,7 @@
                 android:background="@color/color_ABC4F0" />
 
             <TextView
+                android:id="@+id/other_login_methods_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="27dp"

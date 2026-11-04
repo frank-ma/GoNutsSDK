@@ -473,6 +473,40 @@ public class MainActivity extends SDKBaseActivity {
         SDK.getInstance().sdkUpdateLanguage("ms");
     }
 
+    // "nl","pl","sv","cs","uz","nb","da","ro","hu"
+    public void nl(View view){
+        SDK.getInstance().sdkUpdateLanguage("nl");
+    }
+
+    public void pl(View view){
+        SDK.getInstance().sdkUpdateLanguage("pl");
+    }
+
+    public void sv(View view){
+        SDK.getInstance().sdkUpdateLanguage("sv");
+    }
+
+    public void cs(View view){
+        SDK.getInstance().sdkUpdateLanguage("cs");
+    }
+    public void uz(View view){
+        SDK.getInstance().sdkUpdateLanguage("uz");
+    }
+    public void nb(View view){
+        SDK.getInstance().sdkUpdateLanguage("nb");
+    }
+    public void da(View view){
+        SDK.getInstance().sdkUpdateLanguage("da");
+    }
+    public void ro(View view){
+        SDK.getInstance().sdkUpdateLanguage("ro");
+    }
+    public void hu(View view){
+        SDK.getInstance().sdkUpdateLanguage("hu");
+    }
+
+
+
     public void saveShot(View view) {
         //截图保存
 
